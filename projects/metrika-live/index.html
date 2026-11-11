@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Метрика LIVE — дашборд аналитики | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#0B0E17', panel:'#141926', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D', pink:'#FF5CA8' },
+  fontFamily: { man:['Manrope','system-ui','sans-serif'], mono:['JetBrains Mono','monospace'] }
+}}};
+</script>
+<style>
+  html{-webkit-tap-highlight-color:transparent}
+  .kpi{transition:border-color .3s}
+  canvas{display:block;width:100%}
+  #tip{position:absolute;pointer-events:none;background:#0B0E17;border:1px solid rgba(124,92,255,.5);
+    border-radius:8px;padding:4px 8px;font-size:11px;white-space:nowrap;transform:translate(-50%,-115%);z-index:5}
+</style>
+</head>
+<body class="bg-ink text-white font-man min-h-screen flex flex-col">
+<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
+  <h1 class="text-lg md:text-xl font-extrabold tracking-wide">Метрика <span class="text-lime">LIVE</span></h1>
+  <div class="flex items-center gap-2 text-[11px] text-white/40">
+    <span id="liveDot" class="w-2 h-2 rounded-full bg-lime inline-block animate-pulse"></span>
+    <span id="liveTxt">обновлено только что</span>
+  </div>
+</header>
+
+<main id="dash" class="flex-1 w-full max-w-6xl mx-auto px-3 py-5 space-y-4">
+
+  <!-- KPI -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
+      <div class="text-[11px] uppercase tracking-wider text-white/50">Визиты</div>
+      <div id="kVisits" class="font-mono font-extrabold text-2xl text-blu mt-1">0</div>
+      <div id="kVisitsD" class="text-[11px] text-lime mt-1">+2,4% за сутки</div>
+    </div>
+    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
+      <div class="text-[11px] uppercase tracking-wider text-white/50">Конверсия</div>
+      <div id="kConv" class="font-mono font-extrabold text-2xl text-lime mt-1">0%</div>
+      <div id="kConvD" class="text-[11px] text-lime mt-1">+0,3 п.п.</div>
+    </div>
+    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
+      <div class="text-[11px] uppercase tracking-wider text-white/50">Средний чек</div>
+      <div id="kCheck" class="font-mono font-extrabold text-2xl text-vio mt-1">0 ₽</div>
+      <div id="kCheckD" class="text-[11px] text-pink mt-1">−410 ₽</div>
+    </div>
+    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
+      <div class="text-[11px] uppercase tracking-wider text-white/50">Отток</div>
+      <div id="kChurn" class="font-mono font-extrabold text-2xl text-pink mt-1">0%</div>
+      <div id="kChurnD" class="text-[11px] text-lime mt-1">−0,8 п.п.</div>
+    </div>
+  </div>
+
+  <!-- графики -->
+  <div class="grid lg:grid-cols-3 gap-3">
+    <div class="rounded-2xl bg-panel border border-white/10 p-4 lg:col-span-2 relative">
+      <div class="flex justify-between items-baseline mb-2">
+        <h2 class="text-sm font-bold">Визиты за 14 дней</h2>
+        <div class="flex gap-3 text-[11px] text-white/50">
+          <span><i class="inline-block w-2.5 h-2.5 rounded-full bg-blu align-middle mr-1"></i>визиты</span>
+          <span><i class="inline-block w-2.5 h-2.5 rounded-full bg-vio align-middle mr-1"></i>заказы</span>
+        </div>
+      </div>
+      <div class="relative"><canvas id="line" height="220"></canvas><div id="tip" class="hidden"></div></div>
+    </div>
+    <div class="rounded-2xl bg-panel border border-white/10 p-4">
+      <h2 class="text-sm font-bold mb-2">Визиты по дням недели</h2>
+      <canvas id="bars" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- донат + таблица -->
+  <div class="grid lg:grid-cols-3 gap-3">
+    <div class="rounded-2xl bg-panel border border-white/10 p-4">
+      <h2 class="text-sm font-bold mb-3">Источники трафика</h2>
+      <div class="flex items-center gap-4">
+        <svg id="donut" viewBox="0 0 140 140" class="w-32 h-32 shrink-0">
+          <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="18"/>
+          <g id="donutSegs" transform="rotate(-90 70 70)"></g>
+          <text id="donutCtr" x="70" y="75" text-anchor="middle" class="fill-white font-mono" font-size="17" font-weight="800">100%</text>
+        </svg>
+        <div id="donutLegend" class="text-xs space-y-1.5 flex-1"></div>
+      </div>
+    </div>
+    <div class="rounded-2xl bg-panel border border-white/10 p-4 lg:col-span-2">
+      <h2 class="text-sm font-bold mb-3">Топ страниц</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm min-w-[420px]">
+          <thead><tr class="text-left text-[11px] uppercase tracking-wider text-white/40 border-b border-white/10">
+            <th class="py-2">Страница</th><th class="py-2 text-right">Визиты</th>
+            <th class="py-2 text-right">Конверсия</th><th class="py-2 text-right">Доход</th>
+          </tr></thead>
+          <tbody id="pages"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center text-[11px] text-white/30">Данные демонстрационные и обновляются автоматически каждые 3 секунды.</p>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
+  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  // ---------- данные ----------
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  const DAYS=14;
+  const dayLabels=[], visits=[], orders=[];
+  for(let i=DAYS-1;i>=0;i--){
+    const d=new Date(Date.now()-i*864e5);
+    dayLabels.push(String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'));
+    const base=rnd(1200,2200)*(i<DAYS-2?1:1.06);
+    visits.push(Math.round(base));
+    orders.push(Math.round(base*rnd(0.03,0.06)));
+  }
+  const KPI={
+    visits:{el:'kVisits',val:visits.reduce((a,b)=>a+b,0),shown:0,f:v=>Math.round(v).toLocaleString('ru-RU'),fmt:'int'},
+    conv:{el:'kConv',val:3.7,shown:0,f:v=>v.toFixed(1)+'%',fmt:'f1'},
+    check:{el:'kCheck',val:4280,shown:0,f:v=>Math.round(v).toLocaleString('ru-RU')+' ₽',fmt:'int'},
+    churn:{el:'kChurn',val:5.2,shown:0,f:v=>v.toFixed(1)+'%',fmt:'f1'}
+  };
+  const week=[{d:'Пн',v:1620},{d:'Вт',v:1780},{d:'Ср',v:1930},{d:'Чт',v:1710},{d:'Пт',v:2240},{d:'Сб',v:1380},{d:'Вс',v:1150}];
+  let sources=[{n:'Поиск',v:42,c:'#5B8CFF'},{n:'Соцсети',v:23,c:'#7C5CFF'},{n:'Прямые',v:20,c:'#C6FF4D'},{n:'Рассылка',v:15,c:'#FF5CA8'}];
+  let pages=[
+    {p:'/catalog',v:8420,c:'2,8%',r:'96 400 ₽'},
+    {p:'/promo/osen',v:5310,c:'4,1%',r:'142 100 ₽'},
+    {p:'/product/top-12',v:3980,c:'3,3%',r:'88 900 ₽'},
+    {p:'/blog/guide',v:2760,c:'1,2%',r:'21 500 ₽'},
+    {p:'/cart',v:1930,c:'9,4%',r:'201 800 ₽'}
+  ];
+
+  // ---------- KPI анимация ----------
+  for(const k in KPI) KPI[k].shown=KPI[k].val*rnd(0.75,0.9);
+  function paintKPI(){
+    for(const k in KPI){
+      const o=KPI[k];
+      o.shown+=(o.val-o.shown)*0.12;
+      if(Math.abs(o.val-o.shown)<0.05) o.shown=o.val;
+      document.getElementById(o.el).textContent=o.f(o.shown);
+    }
+  }
+
+  // ---------- линейный график ----------
+  const lineCv=document.getElementById('line'), lctx=lineCv.getContext('2d'),
+        tip=document.getElementById('tip'), lineBox=lineCv.parentElement;
+  function fitCanvas(cv){
+    const DPR=Math.min(2,devicePixelRatio||1), w=cv.parentElement.clientWidth;
+    cv.width=w*DPR; cv.height=220*DPR; cv.style.height='220px';
+    cv.getContext('2d').setTransform(DPR,0,0,DPR,0,0);
+    return w;
+  }
+  function drawLine(){
+    const w=fitCanvas(lineCv), h=220, padL=44, padR=10, padT=14, padB=26;
+    lctx.clearRect(0,0,w,h);
+    const all=visits.concat(orders), max=Math.max.apply(null,all)*1.15, min=0;
+    const X=i=>padL+(w-padL-padR)*i/(DAYS-1), Y=v=>h-padB-(h-padB-padT)*(v-min)/(max-min);
+    lctx.strokeStyle='rgba(255,255,255,.08)'; lctx.fillStyle='rgba(255,255,255,.4)'; lctx.font='10px Manrope';
+    lctx.beginPath();
+    for(let g=0;g<=4;g++){
+      const v=max*g/4, y=Y(v);
+      lctx.moveTo(padL,y); lctx.lineTo(w-padR,y);
+      lctx.fillText(Math.round(v/1000)+'к', 4, y+3);
+    }
+    lctx.stroke();
+    lctx.textAlign='center';
+    for(let i=0;i<DAYS;i+=2) lctx.fillText(dayLabels[i], X(i), h-8);
+    lctx.textAlign='left';
+    const series=(data,color,glow)=>{
+      lctx.beginPath();
+      for(let i=0;i<DAYS;i++){
+        const x=X(i), y=Y(data[i]);
+        if(i===0) lctx.moveTo(x,y);
+        else{
+          const px=X(i-1), py=Y(data[i-1]), cx=(px+x)/2;
+          lctx.bezierCurveTo(cx,py,cx,y,x,y);
+        }
+      }
+      const grad=lctx.createLinearGradient(0,padT,0,h);
+      grad.addColorStop(0,color+'55'); grad.addColorStop(1,color+'00');
+      lctx.save();
+      lctx.lineTo(X(DAYS-1),h-padB); lctx.lineTo(padL,h-padB); lctx.closePath();
+      lctx.fillStyle=grad; lctx.fill(); lctx.restore();
+      lctx.beginPath();
+      for(let i=0;i<DAYS;i++){
+        const x=X(i), y=Y(data[i]);
+        if(i===0) lctx.moveTo(x,y);
+        else{ const px=X(i-1),py=Y(data[i-1]),cx=(px+x)/2; lctx.bezierCurveTo(cx,py,cx,y,x,y); }
+      }
+      lctx.strokeStyle=color; lctx.lineWidth=2; lctx.shadowColor=color; lctx.shadowBlur=glow; lctx.stroke(); lctx.shadowBlur=0;
+    };
+    series(visits,'#5B8CFF',10);
+    series(orders,'#7C5CFF',8);
+  }
+  lineCv.addEventListener('mousemove',e=>{
+    const r=lineCv.getBoundingClientRect(), x=e.clientX-r.left;
+    const padL=44, padR=10;
+    const i=Math.max(0,Math.min(DAYS-1, Math.round((x-padL)/((r.width-padL-padR)/(DAYS-1)))));
+    const px=padL+(r.width-padL-padR)*i/(DAYS-1);
+    tip.classList.remove('hidden');
+    tip.style.left=px+'px';
+    tip.style.top=(40)+'px';
+    tip.innerHTML='<b>'+dayLabels[i]+'</b> · визиты: <b class="text-blu">'+visits[i].toLocaleString('ru-RU')+'</b> · заказы: <b class="text-vio">'+orders[i]+'</b>';
+  });
+  lineCv.addEventListener('mouseleave',()=>tip.classList.add('hidden'));
+
+  // ---------- столбчатый график ----------
+  const barCv=document.getElementById('bars'), bctx=barCv.getContext('2d');
+  function drawBars(){
+    const w=fitCanvas(barCv), h=220, padB=24, padT=10;
+    bctx.clearRect(0,0,w,h);
+    const max=Math.max.apply(null,week.map(w2=>w2.v))*1.15;
+    const bw=w/7;
+    week.forEach((d,i)=>{
+      const bh=(h-padB-padT)*d.v/max;
+      const x=i*bw+bw*0.18, y=h-padB-bh, rw=bw*0.64;
+      const grad=bctx.createLinearGradient(0,y,0,h-padB);
+      grad.addColorStop(0,'#5B8CFF'); grad.addColorStop(1,'rgba(124,92,255,.25)');
+      bctx.fillStyle=grad;
+      bctx.beginPath();
+      if(bctx.roundRect) bctx.roundRect(x,y,rw,bh,5); else bctx.rect(x,y,rw,bh);
+      bctx.fill();
+      bctx.fillStyle='rgba(255,255,255,.5)'; bctx.font='10px Manrope'; bctx.textAlign='center';
+      bctx.fillText(d.d, i*bw+bw/2, h-7);
+      bctx.fillStyle='rgba(255,255,255,.75)';
+      bctx.fillText(d.v.toLocaleString('ru-RU'), i*bw+bw/2, y-4);
+    });
+  }
+
+  // ---------- донат ----------
+  const segsG=document.getElementById('donutSegs'), legend=document.getElementById('donutLegend'),
+        donutCtr=document.getElementById('donutCtr');
+  const CIRC=2*Math.PI*54;
+  function drawDonut(){
+    segsG.innerHTML=''; legend.innerHTML='';
+    let off=0;
+    for(const s of sources){
+      const len=CIRC*s.v/100;
+      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',70); c.setAttribute('cy',70); c.setAttribute('r',54);
+      c.setAttribute('fill','none'); c.setAttribute('stroke',s.c); c.setAttribute('stroke-width',18);
+      c.setAttribute('stroke-dasharray',Math.max(0,len-3)+' '+(CIRC-Math.max(0,len-3)));
+      c.setAttribute('stroke-dashoffset',-off);
+      c.style.transition='stroke-dasharray .6s, stroke-dashoffset .6s';
+      const t=document.createElementNS('http://www.w3.org/2000/svg','title');
+      t.textContent=s.n+': '+s.v.toFixed(0)+'%'; c.appendChild(t);
+      segsG.appendChild(c);
+      off+=len;
+      const li=document.createElement('div');
+      li.innerHTML='<span class="inline-block w-2.5 h-2.5 rounded-sm align-middle mr-1.5" style="background:'+s.c+'"></span>'+s.n+' <b class="font-mono">'+s.v.toFixed(0)+'%</b>';
+      legend.appendChild(li);
+    }
+    donutCtr.textContent=sources.reduce((a,s)=>a+s.v,0).toFixed(0)+'%';
+  }
+
+  // ---------- таблица ----------
+  const pagesEl=document.getElementById('pages');
+  function drawPages(){
+    pagesEl.innerHTML='';
+    for(const p of pages){
+      const tr=document.createElement('tr');
+      tr.className='border-b border-white/5 last:border-0';
+      tr.innerHTML='<td class="py-2 font-mono text-blu text-xs">'+p.p+'</td>'+
+        '<td class="py-2 text-right font-mono">'+p.v.toLocaleString('ru-RU')+'</td>'+
+        '<td class="py-2 text-right font-mono text-lime">'+p.c+'</td>'+
+        '<td class="py-2 text-right font-mono text-white/70">'+p.r+'</td>';
+      pagesEl.appendChild(tr);
+    }
+  }
+
+  // ---------- «живые» обновления ----------
+  let inView=true;
+  new IntersectionObserver(en=>{ inView=en[0].isIntersecting; },{threshold:0.1}).observe(document.getElementById('dash'));
+  const liveTxt=document.getElementById('liveTxt'), liveDot=document.getElementById('liveDot');
+  let lastUpd=Date.now();
+  setInterval(()=>{
+    liveTxt.textContent=Math.round((Date.now()-lastUpd)/1000)+' сек назад';
+    if(document.hidden||!inView) return;
+    lastUpd=Date.now();
+    // KPI лёгкий дрейф
+    KPI.conv.val=Math.max(2.5,Math.min(5.5,KPI.conv.val+rnd(-0.15,0.18)));
+    KPI.check.val=Math.max(3200,Math.min(5600,KPI.check.val+rnd(-90,110)));
+    KPI.churn.val=Math.max(3.8,Math.min(7,KPI.churn.val+rnd(-0.12,0.1)));
+    // линия: сдвиг на новый день
+    visits.shift(); orders.shift();
+    const nv=Math.round(visits[visits.length-1]*rnd(0.94,1.07));
+    visits.push(nv); orders.push(Math.round(nv*rnd(0.03,0.06)));
+    KPI.visits.val=visits.reduce((a,b)=>a+b,0);
+    const d=new Date(); dayLabels.shift();
+    dayLabels.push(String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'));
+    // дни недели
+    week.forEach(w2=>{ w2.v=Math.max(700,Math.round(w2.v*rnd(0.94,1.06))); });
+    // источники перенормируем
+    let sum=sources.reduce((a,s)=>a+s.v,0);
+    sources.forEach(s=>{ s.v=Math.max(6,s.v*rnd(0.92,1.08)); });
+    sum=sources.reduce((a,s)=>a+s.v,0);
+    sources.forEach(s=>{ s.v=s.v/sum*100; });
+    // страницы
+    pages.forEach(p=>{ p.v=Math.max(500,Math.round(p.v*rnd(0.95,1.05))); });
+    pages.sort((a,b)=>b.v-a.v);
+    drawLine(); drawBars(); drawDonut(); drawPages();
+    liveTxt.textContent='обновлено только что';
+  },3000);
+
+  addEventListener('resize',()=>{ drawLine(); drawBars(); });
+  drawLine(); drawBars(); drawDonut(); drawPages();
+  (function anim(){ paintKPI(); requestAnimationFrame(anim); })();
+})();
+</script>
+</body>
+</html>

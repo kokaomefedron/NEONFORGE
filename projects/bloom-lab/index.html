@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Bloom Lab — уходовая косметика</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        blush: '#FFF5F7',
+        rose: '#E8608A',
+        plum: '#5D2A42',
+        mist: '#F4E3E8'
+      },
+      fontFamily: {
+        playfair: ['"Playfair Display"', 'serif'],
+        jost: ['Jost', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#E8608A; color:#FFF5F7; }
+  .hairline { border: 1px solid rgba(93,42,66,.15); }
+</style>
+</head>
+<body class="bg-blush text-plum font-jost min-h-screen">
+
+<header class="sticky top-0 z-40 bg-blush/90 backdrop-blur border-b hairline">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
+    <a href="#" class="font-playfair text-2xl tracking-wide">Bloom <span class="font-light italic text-rose">Lab</span></a>
+    <input id="search" type="search" placeholder="Найти: сыворотка, SPF, ниацинамид…"
+      class="flex-1 min-w-0 bg-transparent border-b hairline px-2 py-2 text-sm outline-none focus:border-rose transition placeholder:text-plum/40">
+    <button id="cartBtn" class="relative shrink-0 border border-plum font-light tracking-widest uppercase text-xs px-5 py-2.5 hover:bg-plum hover:text-blush transition">
+      Корзина <span id="cartCount" class="absolute -top-2 -right-2 bg-rose text-white text-xs rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="border-b hairline bg-gradient-to-b from-blush to-mist/60">
+  <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+    <p class="text-xs tracking-[0.35em] uppercase text-rose mb-5">Уход, проверенный лабораторно</p>
+    <h1 class="font-playfair text-4xl md:text-6xl leading-tight max-w-3xl mx-auto">Кожа любит<br><span class="italic font-light">спокойствие</span> и ритм</h1>
+    <p class="mt-5 text-plum/70 max-w-lg mx-auto font-light">Сыворотки, кремы и SPF с активами в рабочих концентрациях. Без пафоса — только формула и результат.</p>
+    <a href="#catalog" class="inline-block mt-8 border-b border-rose text-rose tracking-widest uppercase text-sm pb-1 hover:text-plum hover:border-plum transition">К коллекции ↓</a>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex flex-wrap items-center gap-2 mb-10">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-transparent hairline rounded-full px-4 py-2 text-sm outline-none focus:border-rose">
+      <option value="pop">По умолчанию</option>
+      <option value="asc">Цена ↑</option>
+      <option value="desc">Цена ↓</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-6" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-plum/50 py-16 font-playfair italic">Пока не нашли — но уход в пути.</p>
+
+  <div class="mt-16 border-y hairline py-6 text-center font-playfair italic text-plum/70">
+    «Кожа — орган, а не презентация. Ухаживайте за ней системно.»
+  </div>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="hairline rounded-3xl p-6 md:p-10 bg-white/60">
+    <h2 class="font-playfair text-2xl mb-1">Оформить заказ</h2>
+    <p class="text-plum/60 text-sm mb-6 font-light">Бесплатная доставка от 3 000 ₽ · примерка и возврат 14 дней</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя" class="bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
+      <input required type="tel" placeholder="Телефон" class="bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
+      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
+      <button type="submit" class="sm:col-span-2 bg-plum text-blush tracking-widest uppercase text-sm py-4 rounded-full hover:bg-rose transition">Оформить</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-rose font-playfair text-center"></p>
+  </div>
+</section>
+
+<footer class="border-t hairline py-10">
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-plum/70 font-light">
+    <div>
+      <p class="font-playfair text-plum text-lg mb-2">Bloom Lab</p>
+      <p>Москва, Столешников пер., 7<br>Ежедневно 10:00–20:00</p>
+    </div>
+    <div>
+      <p class="text-plum font-normal mb-2">Контакты</p>
+      <p>+7 (495) 120-30-40<br>care@bloomlab.ru</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-plum/40 text-xs leading-relaxed">© 2026 Bloom Lab<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-rose underline hover:text-plum">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-plum/30 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-blush border-l hairline z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-5 border-b hairline">
+    <p class="font-playfair text-lg">Ваш ритуал</p>
+    <button id="cartClose" class="text-plum/50 hover:text-rose text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+  <div class="p-5 border-t hairline">
+    <div class="flex justify-between font-playfair text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-rose">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-plum text-blush tracking-widest uppercase text-sm py-3.5 rounded-full hover:bg-rose transition">К оформлению</button>
+  </div>
+</aside>
+
+<script>
+const products = [
+  { id:1, name:'Сыворотка с ниацинамидом 10%', cat:'Сыворотки', price:1890, vol:'30 мл', tags:['ниацинамид','цинк'], emoji:'💧', grad:'linear-gradient(135deg,#F4E3E8,#E8608A)' },
+  { id:2, name:'Сыворотка с ретинолом 0,3%', cat:'Сыворотки', price:2490, vol:'30 мл', tags:['ретинол','сквалан'], emoji:'🌙', grad:'linear-gradient(135deg,#5D2A42,#a04a6e)' },
+  { id:3, name:'Крем-барьер с керамидами', cat:'Кремы', price:2190, vol:'50 мл', tags:['керамиды','пантенол'], emoji:'🧴', grad:'linear-gradient(135deg,#FFF5F7,#d8a8b8)' },
+  { id:4, name:'Гель-крем с AHA-кислотами', cat:'Кремы', price:1690, vol:'50 мл', tags:['гликолевая','молочная'], emoji:'🍋', grad:'linear-gradient(135deg,#fdf0d5,#E8608A)' },
+  { id:5, name:'Ночная маска с центеллой', cat:'Маски', price:1390, vol:'75 мл', tags:['центелла','аллантоин'], emoji:'🌿', grad:'linear-gradient(135deg,#e3efe0,#8fbf8f)' },
+  { id:6, name:'Глиняная маска «Кларифай»', cat:'Маски', price:1190, vol:'60 мл', tags:['белая глина','салициловая'], emoji:'🌋', grad:'linear-gradient(135deg,#efe8e0,#b8a396)' },
+  { id:7, name:'SPF 50+ невидимая защита', cat:'SPF', price:1590, vol:'50 мл', tags:['SPF 50+','фотоупоры'], emoji:'☀️', grad:'linear-gradient(135deg,#fff9e3,#f2c94c)' },
+  { id:8, name:'SPF 30 флюид для города', cat:'SPF', price:1290, vol:'40 мл', tags:['SPF 30','витамин Е'], emoji:'🕶', grad:'linear-gradient(135deg,#e8f0fa,#7aa5d8)' },
+  { id:9, name:'Мицеллярная вода с ромашкой', cat:'Сыворотки', price:890, vol:'200 мл', tags:['ромашка','без спирта'], emoji:'🌼', grad:'linear-gradient(135deg,#FFF5F7,#f0d5dc)' },
+  { id:10, name:'Тоник-эссенция с PHA', cat:'Сыворотки', price:1450, vol:'150 мл', tags:['PHA','гиалурон'], emoji:'🪞', grad:'linear-gradient(135deg,#f3e8f5,#c9a0d8)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-5 py-1.5 rounded-full text-xs tracking-widest uppercase transition ${c===activeCat?'bg-rose text-white':'hairline text-plum/60 hover:text-rose hover:border-rose'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="hairline bg-white/50 rounded-2xl overflow-hidden hover:border-rose hover:bg-white transition flex flex-col group">
+      <div class="h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
+      </div>
+      <div class="p-5 flex flex-col flex-1">
+        <p class="text-[10px] tracking-[0.25em] uppercase text-plum/50 mb-1.5">${p.cat} · ${p.vol}</p>
+        <h3 class="font-playfair text-base leading-snug flex-1">${p.name}</h3>
+        <div class="flex flex-wrap gap-1 mt-2">
+          ${p.tags.map(t=>`<span class="text-[10px] text-rose border border-rose/30 rounded-full px-2 py-0.5">${t}</span>`).join('')}
+        </div>
+        <div class="mt-4 flex items-end justify-between gap-2">
+          <p class="font-playfair font-semibold text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="hairline text-xs tracking-widest uppercase px-4 py-2 hover:bg-rose hover:text-white hover:border-rose transition">+ В корзину</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  cart[id] = (cart[id]||0)+1; renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function removeItem(id){ delete cart[id]; renderCart(); }
+function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=>s+cart[id],0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
+    const p = products.find(x=>x.id==id);
+    return `<div class="flex items-center gap-3 hairline rounded-xl p-3 bg-white/70">
+      <div class="w-11 h-11 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm truncate">${p.name}</p>
+        <p class="text-xs text-rose">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec(${p.id})" class="w-7 h-7 hairline rounded-full hover:border-rose hover:text-rose">−</button>
+        <span class="w-6 text-center text-sm">${cart[id]}</span>
+        <button onclick="add(${p.id})" class="w-7 h-7 hairline rounded-full hover:border-rose hover:text-rose">+</button>
+      </div>
+      <button onclick="removeItem(${p.id})" class="text-plum/30 hover:text-rose ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-plum/40 py-10 text-sm font-playfair italic">Корзина ждёт первый ритуал.</p>';
+  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

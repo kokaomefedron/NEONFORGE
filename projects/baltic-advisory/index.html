@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Baltic Advisory — стратегический консалтинг, Калининград</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { bone:'#F8F7F4', navyb:'#16324F', gold:'#C5A55A' },
+    fontFamily: { disp:['"Cormorant Garamond"','serif'], sans:['Montserrat','sans-serif'] }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:Montserrat,sans-serif}
+  .goldline{height:1px;background:linear-gradient(90deg,#C5A55A,transparent)}
+  .phase{border-left:2px solid #C5A55A}
+</style>
+</head>
+<body class="bg-bone text-[#3A4A5A] antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-bone/95 backdrop-blur border-b border-navyb/15">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-3">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="1.5" y="1.5" width="27" height="27" rx="13.5" stroke="#16324F" stroke-width="1.5"/><path d="M15 6l2.5 6.2L24 13l-5 4.4L20.5 24 15 20.2 9.5 24 11 17.4 6 13l6.5-.8z" fill="#C5A55A"/></svg>
+      <span class="font-disp text-xl font-semibold text-navyb">Baltic Advisory</span>
+    </a>
+    <nav class="hidden md:flex gap-6 text-xs font-medium uppercase tracking-widest">
+      <a href="#about" class="hover:text-gold transition">О фирме</a>
+      <a href="#services" class="hover:text-gold transition">Услуги</a>
+      <a href="#projects" class="hover:text-gold transition">Кейсы</a>
+      <a href="#jobs" class="hover:text-gold transition">Вакансии</a>
+      <a href="#contacts" class="hover:text-gold transition">Контакты</a>
+    </nav>
+    <button id="burger" class="md:hidden p-2" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#16324F" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <nav id="mobnav" class="hidden md:hidden border-t border-navyb/10 bg-bone px-5 py-4 flex flex-col gap-4 text-xs font-medium uppercase tracking-widest">
+    <a href="#about">О фирме</a><a href="#services">Услуги</a><a href="#projects">Кейсы</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="about" class="py-24">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-5">Стратегический консалтинг · Калининград · с 2012 года</p>
+    <h1 class="font-disp text-4xl md:text-6xl font-semibold text-navyb leading-tight mb-6">Решения, за которые <span class="italic text-gold">отвечаем репутацией</span></h1>
+    <p class="max-w-xl text-sm leading-relaxed text-[#5A6A7A] mb-10">Консультируем собственников и топ-менеджмент: стратегия, финансовая архитектура, HR и операционная трансформация. 9 из 10 клиентов возвращаются с новой задачей.</p>
+    <div class="grid grid-cols-3 gap-6 max-w-xl">
+      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="14">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">лет практики</p></div>
+      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="260">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">проектов</p></div>
+      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="90">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">клиентов</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 bg-white border-y border-navyb/10">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Практики</p>
+    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Услуги</h2>
+    <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Стратегия</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Выход на новые рынки, стратегические сессии, реструктуризация бизнес-портфеля. Гарантия внедрения: работаем с командой до первых KPI.</p></div>
+      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Финансовый консалтинг</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Финмодель, управленческая отчётность, подготовка к due diligence и привлечению финансирования. Опыт сделок на 11 млрд ₽.</p></div>
+      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">HR-консалтинг</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Организационный дизайн, системы вознаграждения, развитие управленческого резерва. Средний срок закрытия ключевых вакансий клиентов — 34 дня.</p></div>
+      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Операционная трансформация</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Lean-программы, перестройка процессов, внедрение KPI-систем. Фокус на экономический эффект, а не на презентациях.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Методология</p>
+    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Четыре фазы проекта</h2>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">I</p><h3 class="font-semibold text-navyb text-sm mb-2">Диагностика</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">2–4 недели: интервью с менеджментом, анализ данных, карта узких мест.</p></div>
+      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">II</p><h3 class="font-semibold text-navyb text-sm mb-2">Гипотезы</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">3–5 недель: проверенные на данных гипотезы роста с оценкой эффекта.</p></div>
+      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">III</p><h3 class="font-semibold text-navyb text-sm mb-2">Внедрение</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">8–16 недель: работаем внутри команд клиента, еженедельные контроли.</p></div>
+      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">IV</p><h3 class="font-semibold text-navyb text-sm mb-2">Закрепление</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">Аудит эффекта через 6 месяцев. Часть гонорара — за результат.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="projects" class="py-20 bg-white border-y border-navyb/10">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Результаты</p>
+    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Кейсы</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">+38%</p><h3 class="text-navyb font-semibold text-sm mb-2">EBITDA производственного холдинга</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Перестройка продуктовой линейки и логистики за 11 месяцев. Гонорар на 30% привязан к результату.</p></div>
+      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">ROI 240%</p><h3 class="text-navyb font-semibold text-sm mb-2">Программа трансформации ритейлера</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Оптимизация складов и ассортимента: окупаемость проекта за 14 месяцев, оцифрованный эффект — 190 млн ₽/год.</p></div>
+      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">×2,1</p><h3 class="text-navyb font-semibold text-sm mb-2">Рост стоимости IT-компании перед сделкой</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Подготовка к продаже за 9 месяцев: финмодель, отчётность, org-структура. Сделка закрыта выше ожиданий собственника.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTS + PUBLICATIONS -->
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-14">
+    <div>
+      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Эксперты</p>
+      <h2 class="font-disp text-3xl font-semibold text-navyb mb-8">Кто ведёт проекты</h2>
+      <div class="space-y-5">
+        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-navyb text-gold flex items-center justify-center font-disp text-xl shrink-0">АГ</div><div><p class="text-navyb font-semibold">А. Гринёв</p><p class="text-xs text-[#5A6A7A] mt-1">Управляющий партнёр, ex-CFO федерального ритейлера. INSEAD.</p></div></div>
+        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-gold text-navyb flex items-center justify-center font-disp text-xl shrink-0">ИС</div><div><p class="text-navyb font-semibold">И. Северцев</p><p class="text-xs text-[#5A6A7A] mt-1">Партнёр, практика стратегии. 15 лет в промышленном консалтинге.</p></div></div>
+        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-navyb text-gold flex items-center justify-center font-disp text-xl shrink-0">ОЛ</div><div><p class="text-navyb font-semibold">О. Лазарева</p><p class="text-xs text-[#5A6A7A] mt-1">Партнёр, HR-практика. Бывший директор по персоналу группы компаний.</p></div></div>
+      </div>
+    </div>
+    <div>
+      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Публикации</p>
+      <h2 class="font-disp text-3xl font-semibold text-navyb mb-8">Мы пишем о том, что делаем</h2>
+      <div class="space-y-4">
+        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">14.09.2026 · Стратегия</p><h3 class="text-navyb font-semibold text-sm">Почему средние компании проигрывают в марже: три системные ошибки</h3></article>
+        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">02.07.2026 · Финансы</p><h3 class="text-navyb font-semibold text-sm">Финмодель, которую читает банк: чек-лист из 12 пунктов</h3></article>
+        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">19.04.2026 · HR</p><h3 class="text-navyb font-semibold text-sm">Матрица вознаграждения: как перестать переплачивать за лояльность</h3></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="py-14 bg-navyb">
+  <p class="text-center text-xs uppercase tracking-[0.3em] text-gold mb-6">Клиенты</p>
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-disp text-[#7E93A8] text-lg font-semibold">
+    <span>ЯнтарьПром</span><span>Балтийский Логистик</span><span>РегионЭнергоСбыт</span><span>КалКабель</span><span>Северная Птица</span>
+  </div>
+</section>
+
+<!-- VACANCIES -->
+<section id="jobs" class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Карьера</p>
+    <h2 class="font-disp text-3xl font-semibold text-navyb mb-12">Вакансии</h2>
+    <div class="space-y-4 max-w-4xl">
+      <div class="bg-white border border-navyb/10 rounded-lg">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Консультант (стратегия)</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 160 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Опыт в консалтинге или аналитике от 2 лет, продвинутое владение Excel и SQL. Командировки по РФ 30% времени.</div>
+      </div>
+      <div class="bg-white border border-navyb/10 rounded-lg">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Старший консультант (финансы)</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 230 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Финмоделирование, due diligence, опыт ведения проектных команд. CFA/ACCA — плюс. Офис в Калининграде, релокационный пакет.</div>
+      </div>
+      <div class="bg-white border border-navyb/10 rounded-lg">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Аналитик данных</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 130 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Power BI, Python, работа с клиентскими массивами. Перспектива роста в консультанты через 18 месяцев.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="py-20 bg-white border-t border-navyb/10">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
+    <div>
+      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Контакты</p>
+      <h2 class="font-disp text-3xl font-semibold text-navyb mb-6">Первая встреча — бесплатно</h2>
+      <p class="text-sm text-[#5A6A7A] leading-relaxed mb-6">Час разговоров о вашей задаче без презентаций. Если пользы не будет — так и скажем.</p>
+      <ul class="space-y-3 text-sm">
+        <li>📍 Калининград, пл. Победы, 10, БЦ «Меридиан», 6 этаж</li>
+        <li>📞 +7 (4012) 72-06-15</li>
+        <li>✉️ office@baltic-advisory.ru</li>
+        <li>🕘 Пн–Пт 9:00–19:00</li>
+      </ul>
+    </div>
+    <form id="cform" class="space-y-4">
+      <input required class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" placeholder="Имя">
+      <input required type="email" class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" placeholder="Корпоративная почта">
+      <textarea class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" rows="4" placeholder="Суть задачи"></textarea>
+      <button class="w-full py-3 bg-navyb text-white rounded font-semibold text-sm uppercase tracking-widest hover:bg-[#1E4266] transition">Запросить встречу</button>
+      <p id="cok" class="hidden text-gold text-sm text-center font-semibold">Спасибо! Мы свяжемся.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 bg-bone border-t border-navyb/10">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#8A97A5] leading-relaxed">
+    <div>
+      <p class="text-navyb font-disp font-semibold text-base mb-3">ООО «Балтик Адвайзори»</p>
+      <p>ИНН 3906234567 · КПП 390601001 · ОГРН 1123906234567</p>
+      <p>Р/с 40702810600000011223 в АО «Калиниградский Банк», БИК 041203601</p>
+      <p>Адрес: 236016, Калининград, пл. Победы, 10</p>
+    </div>
+    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-gold underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
+document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
+document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    const el = e.target, to = +el.dataset.to; let n = 0;
+    const step = Math.max(1, Math.round(to / 60));
+    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
+    io.unobserve(el);
+  }
+}), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(c => io.observe(c));
+document.getElementById('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('cok').classList.remove('hidden');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Поле — агрохолдинг, Краснодар</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { creamx:'#FBF9F4', green:'#3E7C3A', wheat:'#E3B448', soile:'#5C4A32' },
+    fontFamily: { disp:['Merriweather','serif'], body:['"Source Sans 3"','"Source Sans Pro"','sans-serif'] }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Source Sans 3','Source Sans Pro',sans-serif}
+</style>
+</head>
+<body class="bg-creamx text-soile antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-creamx/95 backdrop-blur border-b border-wheat/40">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-2">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M15 27V10" stroke="#3E7C3A" stroke-width="2"/><path d="M15 14c0-4 3-7 7-7 0 4-3 7-7 7zM15 14c0-4-3-7-7-7 0 4 3 7 7 7z" fill="#3E7C3A"/><path d="M15 20c0-3 2.5-5 5-5 0 3-2.5 5-5 5z" fill="#E3B448"/></svg>
+      <span class="font-disp font-bold text-xl text-green">Агрохолдинг «Поле»</span>
+    </a>
+    <nav class="hidden md:flex gap-6 text-sm font-semibold">
+      <a href="#about" class="hover:text-green transition">О холдинге</a>
+      <a href="#services" class="hover:text-green transition">Направления</a>
+      <a href="#projects" class="hover:text-green transition">Фермерам</a>
+      <a href="#jobs" class="hover:text-green transition">Вакансии</a>
+      <a href="#contacts" class="hover:text-green transition">Контакты</a>
+    </nav>
+    <button id="burger" class="md:hidden p-2" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#3E7C3A" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <nav id="mobnav" class="hidden md:hidden border-t border-wheat/30 bg-creamx px-5 py-4 flex flex-col gap-4 text-sm font-semibold">
+    <a href="#about">О холдинге</a><a href="#services">Направления</a><a href="#projects">Фермерам</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="about" class="relative pt-20 pb-0 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-10 items-end">
+    <div class="pb-16">
+      <p class="text-green font-bold uppercase tracking-[0.2em] text-xs mb-4">Агрохолдинг · Краснодар · с 2001 года</p>
+      <h1 class="font-disp text-3xl md:text-5xl font-bold text-soile leading-snug mb-6">Земля, техника, дисциплина — <span class="text-green">урожай в цифрах</span></h1>
+      <p class="max-w-lg text-[#7A6B54] leading-relaxed mb-8">Производство зерновых, собственная молочная линия и сеть элеваторов на Кубани. Полный цикл: от поля до отгрузки в порт.</p>
+      <div class="grid grid-cols-3 gap-4 max-w-lg">
+        <div class="bg-white border border-wheat/40 rounded-lg p-4 text-center"><div class="font-disp text-2xl md:text-3xl font-bold text-green"><span class="counter" data-to="25">0</span></div><p class="text-xs text-[#9A8A6E] mt-1">лет на рынке</p></div>
+        <div class="bg-white border border-wheat/40 rounded-lg p-4 text-center"><div class="font-disp text-2xl md:text-3xl font-bold text-green"><span class="counter" data-to="48">0</span></div><p class="text-xs text-[#9A8A6E] mt-1">тыс. га в обороте</p></div>
+        <div class="bg-white border border-wheat/40 rounded-lg p-4 text-center"><div class="font-disp text-2xl md:text-3xl font-bold text-green"><span class="counter" data-to="610">0</span></div><p class="text-xs text-[#9A8A6E] mt-1">работников</p></div>
+      </div>
+    </div>
+    <!-- SVG FIELDS -->
+    <div class="pb-16 lg:pb-20">
+      <svg viewBox="0 0 500 260" class="w-full">
+        <circle cx="430" cy="55" r="28" fill="#E3B448" opacity=".8"/>
+        <path d="M0 150 Q 80 110 170 135 T 350 130 T 500 140 V 260 H 0 Z" fill="#3E7C3A" opacity=".25"/>
+        <path d="M0 185 Q 100 150 200 170 T 400 165 T 500 175 V 260 H 0 Z" fill="#3E7C3A" opacity=".5"/>
+        <path d="M0 220 Q 120 195 240 210 T 500 210 V 260 H 0 Z" fill="#E3B448" opacity=".55"/>
+        <path d="M0 250 Q 150 235 300 242 T 500 245 V 260 H 0 Z" fill="#5C4A32" opacity=".6"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 bg-white border-y border-wheat/30">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl md:text-4xl font-bold mb-12">Направления</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="border border-wheat/40 rounded-xl p-7"><p class="text-wheat text-4xl mb-3">🌾</p><h3 class="font-disp font-bold text-lg mb-2">Зерновые</h3><p class="text-sm text-[#7A6B54] leading-relaxed">Пшеница, ячмень, кукуруза — 48 тыс. га, точное земледелие с дрон-мониторингом. Урожайность 2025 года — 68 ц/га.</p></div>
+      <div class="border border-wheat/40 rounded-xl p-7"><p class="text-wheat text-4xl mb-3">🥛</p><h3 class="font-disp font-bold text-lg mb-2">Молочная линия</h3><p class="text-sm text-[#7A6B54] leading-relaxed">Комплекс на 2 400 голов, цех розлива. Молоко «Утро Кубани» в сетях Краснодара и Ростова-на-Дону.</p></div>
+      <div class="border border-wheat/40 rounded-xl p-7"><p class="text-wheat text-4xl mb-3">🏭</p><h3 class="font-disp font-bold text-lg mb-2">Элеваторы</h3><p class="text-sm text-[#7A6B54] leading-relaxed">Три элеватора ёмкостью 310 тыс. тонн: сушка, очистка, хранение с контролем влажности онлайн.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FARMERS: GRAIN INTAKE -->
+<section id="projects" class="py-20">
+  <div class="max-w-4xl mx-auto px-5">
+    <h2 class="font-disp text-3xl font-bold mb-3">Фермерам: приём зерна урожая 2026</h2>
+    <p class="text-sm text-[#7A6B54] mb-8">Базисные цены на элеваторах холдинга. Лабораторный анализ при взвешивании, оплата в течение 3 рабочих дней. Цены за тонну III класса.</p>
+    <div class="bg-white rounded-xl border border-wheat/40 overflow-hidden">
+      <div class="grid grid-cols-3 bg-green text-white text-sm font-semibold px-5 py-3"><span>Культура</span><span>Цена, ₽/т</span><span>Элеватор</span></div>
+      <div class="grid grid-cols-3 px-5 py-3 text-sm border-b border-wheat/20"><span>Пшеница 3 кл.</span><span class="font-bold text-green">17 400</span><span>Красноармейский</span></div>
+      <div class="grid grid-cols-3 px-5 py-3 text-sm border-b border-wheat/20"><span>Пшеница 4 кл.</span><span class="font-bold text-green">15 900</span><span>Красноармейский</span></div>
+      <div class="grid grid-cols-3 px-5 py-3 text-sm border-b border-wheat/20"><span>Ячмень</span><span class="font-bold text-green">13 700</span><span>Тимашёвский</span></div>
+      <div class="grid grid-cols-3 px-5 py-3 text-sm"><span>Кукуруза</span><span class="font-bold text-green">12 800</span><span>Тимашёвский</span></div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-4 mt-6 text-sm">
+      <div class="bg-white border border-wheat/40 rounded-lg p-5"><p class="font-bold text-soile">Отчётность сезона 2025</p><p class="text-[#7A6B54] mt-1">Средняя урожайность по зерновому клину — 68 ц/га (+4 к 2024). Валовый сбор — 312 тыс. тонн.</p></div>
+      <div class="bg-white border border-wheat/40 rounded-lg p-5"><p class="font-bold text-soile">Сервис для партнёров</p><p class="text-[#7A6B54] mt-1">Личный кабинет фермера: квоты на приёмку, лабораторные протоколы, расчёты онлайн.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="py-14 bg-white border-y border-wheat/30">
+  <p class="text-center text-xs uppercase tracking-[0.2em] text-[#9A8A6E] mb-6">Покупатели и партнёры</p>
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-disp font-bold text-[#CBBE9F] text-lg">
+    <span>КубаньЗерноЭкспорт</span><span>МолКуб</span><span>Юг-Трейд</span><span>АгроНТ</span><span>Хлебный Дом</span>
+  </div>
+</section>
+
+<!-- VACANCIES -->
+<section id="jobs" class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl font-bold mb-12">Вакансии сезона</h2>
+    <div class="space-y-4 max-w-4xl">
+      <div class="bg-white border border-wheat/40 rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Агроном-агрономист производственного участка</span><span class="text-green font-bold whitespace-nowrap">от 110 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#7A6B54] leading-relaxed">Агрономическое образование, опыт планирования севооборота от 3 лет. Служебный автомобиль, жильё для иногородних.</div>
+      </div>
+      <div class="bg-white border border-wheat/40 rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Механизатор (комбайны Case, John Deere)</span><span class="text-green font-bold whitespace-nowrap">от 95 000 ₽ + выработка</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#7A6B54] leading-relaxed">Права кат. A1/A2 на комбайн, на сезон 2026 — техника 2022–2024 гг. Проживание в общежитии, трёхразовое питание в поле.</div>
+      </div>
+      <div class="bg-white border border-wheat/40 rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Лаборант зерновой лаборатории</span><span class="text-green font-bold whitespace-nowrap">от 60 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#7A6B54] leading-relaxed">Анализ клейковины, натуры, влажности. Опыт в зерновой лаборатории от 1 года. Элеватор в Тимашёвске, график 2/2.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="py-20 bg-white border-t border-wheat/30">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
+    <div>
+      <h2 class="font-disp text-3xl font-bold mb-6">Контакты</h2>
+      <p class="text-sm text-[#7A6B54] leading-relaxed mb-6">Заявки на приёмку зерна и вопросы партнёрства — по телефону или через форму. Элеваторы работают с 6:00 до 22:00 в сезон.</p>
+      <ul class="space-y-3 text-sm">
+        <li>📍 Краснодар, ул. Северная, 324, БЦ «Кубань-Сити»</li>
+        <li>📞 +7 (861) 210-77-40 (приёмная), зерно: +7 (861) 210-77-55</li>
+        <li>✉️ pole@agropole-kuban.ru</li>
+        <li>🕘 Пн–Пт 8:00–18:00</li>
+      </ul>
+    </div>
+    <form id="cform" class="space-y-4">
+      <input required class="w-full bg-creamx border border-wheat/50 rounded-lg px-4 py-3 text-sm outline-none focus:border-green" placeholder="Имя / хозяйство">
+      <input required type="tel" class="w-full bg-creamx border border-wheat/50 rounded-lg px-4 py-3 text-sm outline-none focus:border-green" placeholder="Телефон">
+      <textarea class="w-full bg-creamx border border-wheat/50 rounded-lg px-4 py-3 text-sm outline-none focus:border-green" rows="4" placeholder="Культура, тоннаж, вопрос"></textarea>
+      <button class="w-full py-3 bg-green text-white rounded-lg font-semibold hover:brightness-110 transition">Отправить</button>
+      <p id="cok" class="hidden text-green text-sm text-center font-semibold">Спасибо! Мы свяжемся.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 bg-green text-[#D8E8D6]">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs leading-relaxed">
+    <div>
+      <p class="font-disp font-bold text-white text-base mb-3">ООО «Агрохолдинг Поле»</p>
+      <p>ИНН 2310123456 · КПП 231001001 · ОГРН 1012310123456</p>
+      <p>Р/с 40702810400000076543 в Кубанском отделении Сбербанка, БИК 046015602</p>
+      <p>Адрес: 350015, Краснодар, ул. Северная, 324</p>
+    </div>
+    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-white underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
+document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
+document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    const el = e.target, to = +el.dataset.to; let n = 0;
+    const step = Math.max(1, Math.round(to / 60));
+    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
+    io.unobserve(el);
+  }
+}), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(c => io.observe(c));
+document.getElementById('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('cok').classList.remove('hidden');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

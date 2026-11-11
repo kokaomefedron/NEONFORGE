@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>БРИТВА — барбершоп в Казани</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#FFD500',
+        dark: '#111111',
+        darker: '#0B0B0B'
+      },
+      fontFamily: {
+        display: ['"Bebas Neue"', 'sans-serif'],
+        body: ['Oswald', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #111111; }
+  .hard { border: 4px solid #111; }
+  .price-row { transition: transform .15s ease, background .15s ease; }
+  .price-row:hover { transform: translateX(8px); background: #1C1C1C; }
+  .tape {
+    background: repeating-linear-gradient(-45deg, #FFD500 0 14px, #111 14px 28px);
+  }
+</style>
+</head>
+<body class="bg-dark text-white font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-dark border-b-4 border-primary">
+  <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+    <a href="#hero" class="font-display text-3xl text-primary tracking-wide">БРИТВА<span class="text-white">✂</span></a>
+    <nav class="hidden md:flex gap-6 text-sm uppercase tracking-widest font-medium">
+      <a href="#price" class="hover:text-primary transition">Прайс</a>
+      <a href="#masters" class="hover:text-primary transition">Мастера</a>
+      <a href="#works" class="hover:text-primary transition">Работы</a>
+      <a href="#book" class="hover:text-primary transition">Запись</a>
+    </nav>
+    <a href="#book" class="font-display bg-primary text-dark px-5 py-2 text-lg tracking-wide hover:bg-white transition">ЗАПИСАТЬСЯ</a>
+  </div>
+</header>
+
+<!-- HERO: split -->
+<section id="hero" class="grid lg:grid-cols-2">
+  <div class="px-6 py-20 md:py-32 lg:pr-12 flex flex-col justify-center">
+    <p class="uppercase tracking-[0.3em] text-xs text-gray-400 mb-6">Барбершоп · Казань · с 2016</p>
+    <h1 class="font-display leading-[0.9] text-6xl md:text-8xl mb-8">
+      <span class="block">ОСТРЫЕ СТРИЖКИ.</span>
+      <span class="block text-primary">ТУПОЙ БРИФИНГ</span>
+      <span class="block">НЕ ПРИГЛАШАЕМ.</span>
+    </h1>
+    <p class="text-gray-400 text-lg max-w-md mb-10">Садимся в кресло, дважды уточняем, что ты хочешь, и делаем так, что через неделю всё ещё лежит правильно.</p>
+    <div class="flex gap-4">
+      <a href="#book" class="font-display bg-primary text-dark px-8 py-4 text-2xl hover:bg-white transition">ЗАПИСАТЬСЯ →</a>
+      <a href="#price" class="font-display border-4 border-white px-8 py-4 text-2xl hover:border-primary hover:text-primary transition">ПРАЙС</a>
+    </div>
+  </div>
+  <div class="relative bg-darker border-l-0 lg:border-l-4 border-primary min-h-[320px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background:repeating-linear-gradient(90deg,#FFD500 0 2px,transparent 2px 60px)"></div>
+    <div class="relative w-56 h-56 md:w-72 md:h-72 bg-primary rotate-12 flex items-center justify-center shadow-[16px_16px_0_#000]">
+      <div class="text-dark text-center rotate-[-4deg]">
+        <p class="font-display text-6xl md:text-7xl leading-none">★ 4.9</p>
+        <p class="font-medium uppercase tracking-widest text-sm mt-2">387 отзывов<br>на картах</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section id="price" class="max-w-4xl mx-auto px-4 py-20">
+  <h2 class="font-display text-6xl md:text-7xl mb-2 text-primary">ПРАЙС</h2>
+  <div class="h-1 bg-primary w-24 mb-10"></div>
+  <div class="divide-y-2 divide-gray-800 border-y-2 border-gray-800">
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">МУЖСКАЯ СТРИЖКА</span><span class="font-display text-3xl text-primary">900 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">СТРИЖКА + БОРОДА</span><span class="font-display text-3xl text-primary">1 500 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">КОРОЛЕВСКОЕ БРИТЬЁ</span><span class="font-display text-3xl text-primary">1 100 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">ОФОРМЛЕНИЕ БОРОДЫ</span><span class="font-display text-3xl text-primary">700 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">ДЕТСКАЯ СТРИЖКА (ДО 12)</span><span class="font-display text-3xl text-primary">700 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">КАМУФЛЯЖ СЕДИНЫ</span><span class="font-display text-3xl text-primary">600 ₽</span>
+    </div>
+    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
+      <span class="font-display text-3xl">COMBO: ВСЁ СРАЗУ</span><span class="font-display text-3xl text-primary">2 100 ₽</span>
+    </div>
+  </div>
+</section>
+
+<!-- MASTERS -->
+<section id="masters" class="max-w-6xl mx-auto px-4 py-20 bg-darker border-y-4 border-primary">
+  <h2 class="font-display text-6xl md:text-7xl mb-10 text-primary">МАСТЕРА</h2>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
+      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">РМ</div>
+      <h3 class="font-display text-3xl text-primary mb-1">РУСТАМ М.</h3>
+      <p class="text-gray-400 text-sm mb-3">Топ-барбер · 8 лет · ножницы и машинка — оба инструмента как продолжение руки. Любит фейды и классику 60-х.</p>
+      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Пн, Ср, Чт, Сб</p>
+    </div>
+    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
+      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">ИГ</div>
+      <h3 class="font-display text-3xl text-primary mb-1">ИЛЬНАЗ Г.</h3>
+      <p class="text-gray-400 text-sm mb-3">Барбер · 5 лет · король оформления бороды. Если борода должна «держать форму месяц» — это к нему.</p>
+      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Вт, Чт, Пт, Вс</p>
+    </div>
+    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
+      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">ДК</div>
+      <h3 class="font-display text-3xl text-primary mb-1">ДАМИР К.</h3>
+      <p class="text-gray-400 text-sm mb-3">Младший барбер · 2 года · король детских стрижек: не боится ни мультиков, ни слёз, ни копья из чипсов.</p>
+      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Ежедневно</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works" class="max-w-6xl mx-auto px-4 py-20">
+  <h2 class="font-display text-6xl md:text-7xl mb-10 text-primary">РАБОТЫ</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(135deg,#2B2B2B,#3D3D3D 55%,#191919)">
+      <p class="font-display text-xl text-primary">ФЕЙД 0.5</p>
+    </div>
+    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(200deg,#444,#222 60%,#111)">
+      <p class="font-display text-xl text-primary">АЙНЛИНЕР</p>
+    </div>
+    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(45deg,#1C1C1C,#333 50%,#2A2A2A)">
+      <p class="font-display text-xl text-primary">БОРДА + БРИТЬЁ</p>
+    </div>
+    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(160deg,#383838,#161616 70%)">
+      <p class="font-display text-xl text-primary">ПОМПАДУР</p>
+    </div>
+  </div>
+  <div class="tape h-3 mt-10"></div>
+</section>
+
+<!-- BOOKING -->
+<section id="book" class="max-w-2xl mx-auto px-4 py-20">
+  <h2 class="font-display text-6xl mb-6 text-primary">ЗАПИСЬ ОНЛАЙН</h2>
+  <form id="bookForm" class="hard bg-dark shadow-[12px_12px_0_#FFD500] p-8 space-y-4">
+    <input required placeholder="ИМЯ" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 uppercase tracking-wider placeholder:text-gray-500 focus:outline-none">
+    <input required type="tel" placeholder="ТЕЛЕФОН" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 uppercase tracking-wider placeholder:text-gray-500 focus:outline-none">
+    <div class="grid grid-cols-2 gap-4">
+      <select class="bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
+        <option>Рустам М.</option><option>Ильназ Г.</option><option>Дамир К.</option><option>Любой свободный</option>
+      </select>
+      <select class="bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
+        <option>Стрижка — 900 ₽</option><option>Стрижка + борода — 1500 ₽</option><option>Королевское бритьё — 1100 ₽</option><option>Combo — 2100 ₽</option>
+      </select>
+    </div>
+    <input type="date" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
+    <button type="submit" class="w-full font-display text-3xl bg-primary text-dark py-4 hover:bg-white transition">ЗАПИСАТЬСЯ ✂</button>
+    <p id="bookMsg" class="hidden text-center font-display text-2xl text-primary">Заявка отправлена!</p>
+  </form>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-6xl mx-auto px-4 pb-20">
+  <h2 class="font-display text-5xl md:text-6xl mb-8 text-primary">ГОВОРЯТ КЛИЕНТЫ</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
+      <p class="text-gray-300 mb-4">«Хожу к Рустаму два года. Ни разу не пришлось переделывать. Форма фейда держится неделю без вопроса.»</p>
+      <p class="font-display text-xl text-primary">Тимур А. ★★★★★</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
+      <p class="text-gray-300 mb-4">«Сына 6 лет стричь раньше было пыткой. Дамир включил мультики — стрижка за 20 минут, оба довольны.»</p>
+      <p class="font-display text-xl text-primary">Елена В. ★★★★★</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
+      <p class="text-gray-300 mb-4">«Королевское бритьё у Ильназа — это ритуал: горячее полотенце, опасная бритва, виски после. Мужик отдыхает.»</p>
+      <p class="font-display text-xl text-primary">Роман Ш. ★★★★★</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-3xl mx-auto px-4 pb-20">
+  <h2 class="font-display text-5xl md:text-6xl mb-8 text-primary">FAQ</h2>
+  <div class="divide-y-2 divide-gray-800 border-y-2 border-gray-800">
+    <div>
+      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">НУЖНА ЛИ ЗАПИСЬ ЗАРАНЕЕ?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Вечера пятницы и субботы забиты на неделю вперёд. В будни до 17:00 часто можно прийти и без записи, но лучше позвонить.</div>
+    </div>
+    <div>
+      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">СКОЛЬКО ДЛИТСЯ СТРИЖКА?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Стандарт — 45–60 минут со всем ритуалом: консультация, стрижка, мытьё, стайлинг. Торопимся, но не спешим.</div>
+    </div>
+    <div>
+      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">ЕСТЬ ЛИ ПАРКОВКА?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Да, свободная парковка во дворе и по соседней улице. Скажите мастеру, что вы на машине, — подскажем свободный ряд.</div>
+    </div>
+    <div>
+      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">ОПЛАТА КАРТОЙ?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Карта, наличные, СБП. Чаевые — на усмотрение, ящик для них у стойки, не под давлением.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t-4 border-primary bg-darker">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display text-3xl text-primary mb-2">БРИТВА ✂</p>
+      <p class="text-gray-400">Казань, ул. Баумана, 44<br>Ежедневно 10:00 — 21:00</p>
+    </div>
+    <div class="text-gray-400">
+      <p class="text-white font-medium mb-2 uppercase tracking-widest">Контакты</p>
+      <p>📞 <a href="tel:+78432254088" class="hover:text-primary">+7 843 225-40-88</a></p>
+      <p>✈️ <a href="https://t.me/britva_kzn" class="hover:text-primary">@britva_kzn</a></p>
+    </div>
+    <div class="text-gray-400">
+      <p class="text-white font-medium mb-2 uppercase tracking-widest">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('bookMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

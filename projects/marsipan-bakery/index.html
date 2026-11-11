@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Марципан — кондитерская в Москве</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#FF7BA9',
+        choco: '#6B3F2A',
+        cream: '#FFF6F0'
+      },
+      fontFamily: {
+        display: ['Pacifico', 'cursive'],
+        body: ['Nunito', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #FFF6F0; }
+  .confetti {
+    background-image:
+      radial-gradient(#FF7BA9 2px, transparent 2px),
+      radial-gradient(#FFD166 2px, transparent 2px),
+      radial-gradient(#8AD5C3 2px, transparent 2px);
+    background-size: 90px 90px, 120px 120px, 150px 150px;
+    background-position: 0 0, 30px 50px, 60px 20px;
+  }
+  .wobble { transition: transform .25s ease; }
+  .wobble:hover { transform: rotate(-2deg) scale(1.03); }
+</style>
+</head>
+<body class="bg-cream text-choco font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b-4 border-primary/40">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="font-display text-2xl text-primary">Марципан 🎂</a>
+    <nav class="hidden md:flex gap-7 font-bold text-sm">
+      <a href="#cakes" class="hover:text-primary transition">Торты</a>
+      <a href="#steps" class="hover:text-primary transition">Как заказать</a>
+      <a href="#calc" class="hover:text-primary transition">Калькулятор</a>
+      <a href="#delivery" class="hover:text-primary transition">Доставка</a>
+    </nav>
+    <a href="#calc" class="bg-primary text-white font-extrabold rounded-full px-5 py-2 text-sm hover:bg-choco transition">Рассчитать торт</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative confetti">
+  <div class="max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
+    <div class="text-6xl mb-6">🎂✨</div>
+    <h1 class="font-display text-5xl md:text-7xl text-primary mb-6 leading-snug">Торты, от которых<br> Ахают гости</h1>
+    <p class="text-lg md:text-xl font-semibold text-choco/80 max-w-xl mx-auto mb-10">Кондитерская «Марципан» — свадебные, детские и корпоративные торты под ключ. Готовим в день заказа, доставляем по Москве.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#calc" class="bg-primary text-white font-extrabold text-lg rounded-full px-10 py-4 shadow-lg shadow-primary/40 hover:bg-choco transition">Сколько мой торт? 🧮</a>
+      <a href="#cakes" class="bg-white text-choco font-extrabold text-lg rounded-full px-10 py-4 border-2 border-choco/20 hover:border-primary hover:text-primary transition">Смотреть торты</a>
+    </div>
+  </div>
+</section>
+
+<!-- CAKES -->
+<section id="cakes" class="max-w-5xl mx-auto px-4 py-20">
+  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Торты на заказ</h2>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
+      <div class="text-7xl mb-4">💍</div>
+      <h3 class="font-display text-3xl text-primary mb-3">Свадебные</h3>
+      <p class="font-semibold text-choco/70 mb-4">Многоярусные, с живыми цветами или макарунами. Шоколад-малина, ваниль-мусс, лимон-чиз.</p>
+      <p class="font-extrabold text-2xl">от 4 500 ₽/кг</p>
+    </div>
+    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
+      <div class="text-7xl mb-4">🦄</div>
+      <h3 class="font-display text-3xl text-primary mb-3">Детские</h3>
+      <p class="font-semibold text-choco/70 mb-4">Единороги, динозавры, дрип-торты с конфетти. Отдельное детское бисквитное тесто без орехов.</p>
+      <p class="font-extrabold text-2xl">от 3 200 ₽/кг</p>
+    </div>
+    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
+      <div class="text-7xl mb-4">🏢</div>
+      <h3 class="font-display text-3xl text-primary mb-3">Корпоративные</h3>
+      <p class="font-semibold text-choco/70 mb-4">С логотипом компании в ростерах, порционные капкейки и тарталетки на 50+ человек.</p>
+      <p class="font-extrabold text-2xl">от 2 800 ₽/кг</p>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="steps" class="py-20 bg-primary/10">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Как заказать — 3 шага</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
+        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">1</p>
+        <h3 class="font-extrabold text-xl mb-2">Пишете идею</h3>
+        <p class="text-sm font-semibold text-choco/70">Фото-референс, повод, дата и число гостей — в Telegram или по телефону.</p>
+      </div>
+      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
+        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">2</p>
+        <h3 class="font-extrabold text-xl mb-2">Дизайн и предоплата</h3>
+        <p class="text-sm font-semibold text-choco/70">За час присылаем эскиз и точную цену. Предоплата 50% закрепляет дату.</p>
+      </div>
+      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
+        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">3</p>
+        <h3 class="font-extrabold text-xl mb-3">Получаете торт</h3>
+        <p class="text-sm font-semibold text-choco/70">Курьер в день праздника или самовывоз с Садового. Оставшиеся 50% — при получении.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calc" class="max-w-2xl mx-auto px-4 py-20">
+  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-3">Калькулятор торта</h2>
+  <p class="text-center font-semibold text-choco/70 mb-10">Считаем вес и цену за 5 секунд 🍰</p>
+  <form id="calcForm" class="bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 space-y-6">
+    <div>
+      <label class="block font-extrabold mb-2" for="guests">Сколько гостей?</label>
+      <input id="guests" type="number" min="5" max="300" value="20" class="w-full border-2 border-choco/20 rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+    </div>
+    <div>
+      <label class="block font-extrabold mb-2" for="tier">Начинка</label>
+      <select id="tier" class="w-full border-2 border-choco/20 rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+        <option value="3200">Детская — 3 200 ₽/кг</option>
+        <option value="2800">Корпоративная — 2 800 ₽/кг</option>
+        <option value="4500">Свадебная — 4 500 ₽/кг</option>
+      </select>
+    </div>
+    <button type="submit" class="w-full bg-primary text-white font-extrabold text-lg rounded-full py-4 hover:bg-choco transition">Посчитать 🧁</button>
+    <div id="calcResult" class="hidden text-center bg-primary/10 rounded-[1.5rem] p-6">
+      <p class="font-extrabold text-2xl mb-1" id="calcWeight"></p>
+      <p class="font-extrabold text-3xl text-primary" id="calcPrice"></p>
+      <p class="text-sm font-semibold text-choco/60 mt-2">Расчёт ориентировочный: 150 г на гостя. Точная цена — после эскиза.</p>
+    </div>
+  </form>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-5xl mx-auto px-4 py-20 bg-white/70 rounded-t-[4rem]">
+  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Отзывы мам 💐</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
+      <p class="font-semibold text-choco/80 mb-4">«Заказывали единорога на 6 лет дочке — дети визжали от восторга, взрослые разобрали бисквит за 10 минут. Малина-шоколад, 10/10.»</p>
+      <p class="font-extrabold">— Оля, мама Веры 🦄</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
+      <p class="font-semibold text-choco/80 mb-4">«Свадебный торт на 60 человек: эскиз прислали за вечер, вес сошлись до грамма. Курьер привёз охлаждённым, ровно к банкету.»</p>
+      <p class="font-extrabold">— Настя и Сергей 💍</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
+      <p class="font-semibold text-choco/80 mb-4">«Корпоративный торт с нашим логотипом из ростеров — коллеги сначала фотографировали, потом ели. Улетело за обед.»</p>
+      <p class="font-extrabold">— Ирина, HR 🏢</p>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section id="delivery" class="max-w-5xl mx-auto px-4 py-20">
+  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-10">Доставка 🚚</h2>
+  <div class="grid md:grid-cols-3 gap-6 text-center">
+    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
+      <div class="text-4xl mb-3">🛵</div>
+      <h3 class="font-extrabold text-lg mb-2">Курьер по Москве</h3>
+      <p class="font-semibold text-sm text-choco/70">В пределах МКАД — 600 ₽, за МКАД — 600 ₽ + 30 ₽/км. Везём в термобоксе.</p>
+    </div>
+    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
+      <div class="text-4xl mb-3">⏰</div>
+      <h3 class="font-extrabold text-lg mb-2">Точно к сроку</h3>
+      <p class="font-semibold text-sm text-choco/70">Привозим за час до начала праздника. Ранний слот с 9:00 — по запросу.</p>
+    </div>
+    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
+      <div class="text-4xl mb-3">🏠</div>
+      <h3 class="font-extrabold text-lg mb-2">Самовывоз</h3>
+      <p class="font-semibold text-sm text-choco/70">Садовая-Спасская, 18 — бесплатно, ежедневно с 10:00 до 20:00. Торт уже в коробке!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-2xl mx-auto px-4 pb-20">
+  <h2 class="font-display text-4xl text-center text-primary mb-10">Вопросы</h2>
+  <div class="space-y-4">
+    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">За сколько дней заказывать торт?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Стандартно — за 3 дня. Свадебные многоярусные — за 7–10 дней. Есть «экспресс» за сутки (+20% к цене, если есть окно).</div>
+    </div>
+    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Можно без сахара или без глютена?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Да: делаем на эритрите, безглютеновые бисквиты и ореховое молоко вместо сливок. Уточните в заказе.</div>
+    </div>
+    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Сколько хранится торт?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">В холодильнике — 72 часа, муссовые — 48. Не замораживаем повторно: лучше съесть в первые дни 🙂</div>
+    </div>
+    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Точно ли попадёте в цвет по фото?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Подбираем оттенки по палитре и присылаем фото похожей работы. Бежевый «с фото в тёплом свете» всегда уточняем отдельно 😉</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-choco text-cream">
+  <div class="max-w-5xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display text-3xl text-primary mb-2">Марципан 🎂</p>
+      <p class="text-cream/80">Москва, Садовая-Спасская, 18<br>Ежедневно 10:00 — 20:00</p>
+    </div>
+    <div class="text-cream/80">
+      <p class="text-cream font-extrabold mb-2">Контакты</p>
+      <p>📞 <a href="tel:+74952831144" class="hover:text-primary">+7 495 283-11-44</a></p>
+      <p>✈️ <a href="https://t.me/marzipan_cake" class="hover:text-primary">@marzipan_cake</a></p>
+    </div>
+    <div class="text-cream/80">
+      <p class="text-cream font-extrabold mb-2">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('calcForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const guests = parseInt(document.getElementById('guests').value, 10) || 20;
+  const rate = parseInt(document.getElementById('tier').value, 10);
+  const kg = Math.max(1, Math.ceil(guests * 0.15 * 2) / 2); // округление к 0.5
+  const price = kg * rate;
+  document.getElementById('calcWeight').textContent = 'Вес торта: ~' + kg.toFixed(1).replace('.', ',') + ' кг';
+  document.getElementById('calcPrice').textContent = price.toLocaleString('ru-RU') + ' ₽';
+  document.getElementById('calcResult').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

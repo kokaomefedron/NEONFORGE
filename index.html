@@ -539,81 +539,533 @@ body { background: #05050A; overflow-x: hidden; }
         <button class="filter-btn glass rounded-full px-5 py-2.5 text-sm font-bold text-white/70 hover:text-white transition-all" data-filter="landing" data-cursor>Лендинги</button>
         <button class="filter-btn glass rounded-full px-5 py-2.5 text-sm font-bold text-white/70 hover:text-white transition-all" data-filter="corporate" data-cursor>Корпоративные</button>
         <button class="filter-btn glass rounded-full px-5 py-2.5 text-sm font-bold text-white/70 hover:text-white transition-all" data-filter="shop" data-cursor>Магазины</button>
+        <button class="filter-btn glass rounded-full px-5 py-2.5 text-sm font-bold text-white/70 hover:text-white transition-all" data-filter="custom" data-cursor>Custom</button>
       </div>
     </div>
 
-    <div class="mt-14 grid md:grid-cols-2 gap-7" id="casesGrid">
-      <!-- Кейс 1 -->
-      <article class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing" data-cursor>
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80&auto=format&fit=crop" alt="Финтех-платформа Finpeak" class="w-full h-full object-cover" loading="lazy">
+    <div class="mt-14 grid md:grid-cols-2 xl:grid-cols-3 gap-7" id="casesGrid">
+<a href="projects/respawn-bar/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/respawn-bar.png" alt="RESPAWN — киберспортивный бар" class="w-full h-full object-cover object-top" loading="lazy">
         </div>
-        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-8">
-          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2025</div>
-          <h3 class="font-display font-extrabold text-2xl mb-2">Finpeak — финтех-стартап</h3>
-          <p class="text-white/65 text-sm max-w-md">Конверсия заявки 12.4%, PageSpeed 99 на десктопе, интеграция с AmoCRM.</p>
-          <div class="flex gap-2 mt-4">
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">GSAP</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Figma</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Webflow→код</span>
-          </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">RESPAWN — киберспортивный бар</h3>
+          <p class="text-white/65 text-sm max-w-md">Неоновый глитч-стиль, таблица турниров, бронь столов онлайн.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Tailwind</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">GSAP-стиль</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Бронь</span></div>
         </div>
         <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
-      </article>
+      </a>
 
-      <!-- Кейс 2 -->
-      <article class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop" data-cursor>
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=1200&q=80&auto=format&fit=crop" alt="Интернет-магазин Vorlax" class="w-full h-full object-cover" loading="lazy">
+      <a href="projects/sattva-yoga/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/sattva-yoga.png" alt="Sattva — студия йоги" class="w-full h-full object-cover object-top" loading="lazy">
         </div>
-        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-8">
-          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">E-commerce · 2025</div>
-          <h3 class="font-display font-extrabold text-2xl mb-2">Vorlax — fashion-магазин</h3>
-          <p class="text-white/65 text-sm max-w-md">Средний чек +34%, выручка ×2.2 за квартал после редизайна.</p>
-          <div class="flex gap-2 mt-4">
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Next.js</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Stripe</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Tailwind</span>
-          </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Sattva — студия йоги</h3>
+          <p class="text-white/65 text-sm max-w-md">Светлый минимализм, расписание, абонементы, запись онлайн.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Минимализм</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Формы</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">A11y</span></div>
         </div>
-        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
-      </article>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
 
-      <!-- Кейс 3 -->
-      <article class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate" data-cursor>
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&auto=format&fit=crop" alt="Корпоративный сайт Stroyline" class="w-full h-full object-cover" loading="lazy">
+      <a href="projects/britva-barbershop/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/britva-barbershop.png" alt="Бритва — барбершоп" class="w-full h-full object-cover object-top" loading="lazy">
         </div>
-        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-8">
-          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2024</div>
-          <h3 class="font-display font-extrabold text-2xl mb-2">Stroyline — застройщик</h3>
-          <p class="text-white/65 text-sm max-w-md">Интерактивный выбор планировок, CRM-воронка, 40 000 визитов/мес.</p>
-          <div class="flex gap-2 mt-4">
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Vue</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Bitrix</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">3D-план</span>
-          </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Бритва — барбершоп</h3>
+          <p class="text-white/65 text-sm max-w-md">Брутализм, смелый прайс-лист, мастера и запись.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Брутализм</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Типографика</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/marsipan-bakery/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/marsipan-bakery.png" alt="Марципан — кондитерская" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Марципан — кондитерская</h3>
+          <p class="text-white/65 text-sm max-w-md">Торты на заказ + живой калькулятор веса и цены торта.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Калькулятор</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Playful</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/corkscrew-wine/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/corkscrew-wine.png" alt="Corkscrew — винный бар" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Corkscrew — винный бар</h3>
+          <p class="text-white/65 text-sm max-w-md">Тёмный люкс, винная карта, дегустации, резерв.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Люкс</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Меню</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/grom-crossfit/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/grom-crossfit.png" alt="ГРОМ — кроссфит-бокс" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">ГРОМ — кроссфит-бокс</h3>
+          <p class="text-white/65 text-sm max-w-md">Энергия: счётчики, WOD-расписание, бесплатная тренировка.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Счётчики</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Спорт</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/volna-surf/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/volna-surf.png" alt="Волна — школа сёрфинга" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Волна — школа сёрфинга</h3>
+          <p class="text-white/65 text-sm max-w-md">SVG-волны, программы для новичков и детей, инструкторы ISA.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">SVG</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Море</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/orbita-planetarium/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/orbita-planetarium.png" alt="Орбита — планетарий" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Орбита — планетарий</h3>
+          <p class="text-white/65 text-sm max-w-md">CSS-звёздное небо, афиша сеансов, билеты на купол.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Космос</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Афиша</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/zerno-coffee/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/zerno-coffee.png" alt="Зерно — кофейня-обжарщик" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Зерно — кофейня-обжарщик</h3>
+          <p class="text-white/65 text-sm max-w-md">Крафт-стиль, сорта зерна, подписка на свежую обжарку.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">E-com элемент</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Крафт</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/puls-clinic/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/puls-clinic.png" alt="Пульс — центр диагностики" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Пульс — центр диагностики</h3>
+          <p class="text-white/65 text-sm max-w-md">Медицинский чистый стиль, цены исследований, запись.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Мед</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Доверие</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/vektor-prava/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/vektor-prava.png" alt="Вектор Права — юрфирма" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Вектор Права — юрфирма</h3>
+          <p class="text-white/65 text-sm max-w-md">Консервативный люкс, практики, кейсы на млрд ₽, партнёры.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Serif</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Юристы</span></div>
         </div>
         <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
-      </article>
+      </a>
 
-      <!-- Кейс 4 -->
-      <article class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="landing" data-cursor>
-        <div class="aspect-[16/10] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1531297484001-80022131f81a?w=1200&q=80&auto=format&fit=crop" alt="Лендинг Neurobid" class="w-full h-full object-cover" loading="lazy">
+      <a href="projects/monolit-stroy/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/monolit-stroy.png" alt="МонолитСтрой — генподряд" class="w-full h-full object-cover object-top" loading="lazy">
         </div>
-        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-8">
-          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Лендинг · 2024</div>
-          <h3 class="font-display font-extrabold text-2xl mb-2">Neurobid — AI-сервис</h3>
-          <p class="text-white/65 text-sm max-w-md">Прототип за 5 дней, стоимость лида −53%, 4А/Б-теста головных блоков.</p>
-          <div class="flex gap-2 mt-4">
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Astro</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Lenis</span>
-            <span class="glass rounded-full px-3 py-1 text-[11px] font-bold">A/B</span>
-          </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">МонолитСтрой — генподряд</h3>
+          <p class="text-white/65 text-sm max-w-md">Индустриальный стиль, BIM, кейсы заводов, вакансии.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">B2B</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Индустрия</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/kodeks-it/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/kodeks-it.png" alt="Кодекс — ИТ-компания" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Кодекс — ИТ-компания</h3>
+          <p class="text-white/65 text-sm max-w-md">Тёмный техно-стиль, стек-бейджи, кейсы автоматизации.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">IT</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Карьера</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/transline-logistics/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/transline-logistics.png" alt="ТрансЛайн — логистика" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">ТрансЛайн — логистика</h3>
+          <p class="text-white/65 text-sm max-w-md">SVG-маршруты + работающий калькулятор стоимости доставки.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Калькулятор</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Fleet</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/massiv-furniture/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/massiv-furniture.png" alt="Массив — мебельная фабрика" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Массив — мебельная фабрика</h3>
+          <p class="text-white/65 text-sm max-w-md">Тёплый ремесленный стиль, материалы, HoReCa-проекты.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Мебель</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">B2C+B2B</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/labwest-medical/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/labwest-medical.png" alt="ЛабВест — лаборатория" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">ЛабВест — лаборатория</h3>
+          <p class="text-white/65 text-sm max-w-md">Каталог анализов с ценами, выезд на дом, результаты онлайн.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Мед</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Каталог</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/pole-agro/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/pole-agro.png" alt="Поле — агрохолдинг" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Поле — агрохолдинг</h3>
+          <p class="text-white/65 text-sm max-w-md">Природные SVG-волны, урожайность, приём зерна.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Агро</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Цифры</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/baltic-advisory/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/baltic-advisory.png" alt="Baltic Advisory — консалтинг" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Baltic Advisory — консалтинг</h3>
+          <p class="text-white/65 text-sm max-w-md">Премиум стиль, методология 4 фаз, публикации, ROI-кейсы.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Премиум</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">B2B</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/kadr-media/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/kadr-media.png" alt="Кадр — медиа-агентство" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Кадр — медиа-агентство</h3>
+          <p class="text-white/65 text-sm max-w-md">Editorial ч/б с красным акцентом, showreel-блок, портфолио.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Editorial</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Медиа</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/znanium-edu/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="corporate">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/znanium-edu.png" alt="Знаниум — образовательный центр" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-neon mb-2">Корпоративный · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Знаниум — образовательный центр</h3>
+          <p class="text-white/65 text-sm max-w-md">Дружелюбный стиль, программы ЕГЭ и кодинга, пробный урок.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">EdTech</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Родители</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(124,92,255,.45)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-neon"></i></div>
+      </a>
+
+      <a href="projects/drop-streetwear/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/drop-streetwear.png" alt="DROP — стритвир" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">DROP — стритвир</h3>
+          <p class="text-white/65 text-sm max-w-md">Кислотный неон, корзина, фильтры, живой поиск.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Фильтры</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/voltmarket/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/voltmarket.png" alt="VoltMarket — электроника" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">VoltMarket — электроника</h3>
+          <p class="text-white/65 text-sm max-w-md">Характеристики, сортировка, бейджи «Хит» и скидки.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Техника</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/svazhiy-pomol/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/svazhiy-pomol.png" alt="Свежий помол — кофе" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Свежий помол — кофе</h3>
+          <p class="text-white/65 text-sm max-w-md">Выбор помола меняет корзину, сорта и аксессуары.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Опции товара</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/bloom-lab/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/bloom-lab.png" alt="Bloom Lab — косметика" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Bloom Lab — косметика</h3>
+          <p class="text-white/65 text-sm max-w-md">Чистый fem-минимализм, состав-теги, объёмы.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Beauty</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/skandi-dom/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/skandi-dom.png" alt="СкандиДом — мебель" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">СкандиДом — мебель</h3>
+          <p class="text-white/65 text-sm max-w-md">Скандинавская палитра, размеры, комнаты-фильтры.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Мебель</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/hvost-lapa/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/hvost-lapa.png" alt="Хвост и Лапа — зоотовары" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Хвост и Лапа — зоотовары</h3>
+          <p class="text-white/65 text-sm max-w-md">Весёлый тон, категории по питомцам, одобрено хвостами.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Зоо</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/tipograf-books/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/tipograf-books.png" alt="Типографъ — книжный" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Типографъ — книжный</h3>
+          <p class="text-white/65 text-sm max-w-md">Типографская вёрстка, жанры, цитаты-вставки.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Книги</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/reps-nutrition/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/reps-nutrition.png" alt="Reps — спортпит" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Reps — спортпит</h3>
+          <p class="text-white/65 text-sm max-w-md">Выбор вкуса и граммовки, бейдж «0 сахара».</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Спорт</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/lukomorye-toys/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/lukomorye-toys.png" alt="Лукоморье — игрушки" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Лукоморье — игрушки</h3>
+          <p class="text-white/65 text-sm max-w-md">Мультивселенная цветов, возрастные фильтры 3+/6+/10+.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Детям</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Корзина</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/garage-parts/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="shop">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/garage-parts.png" alt="Гараж 55 — автозапчасти" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-voltage mb-2">Магазин · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Гараж 55 — автозапчасти</h3>
+          <p class="text-white/65 text-sm max-w-md">Подбор по марке авто, оригинал/аналог, масла и колодки.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Авто</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Подбор</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(91,140,255,.4)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-voltage"></i></div>
+      </a>
+
+      <a href="projects/neon-runner/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/neon-runner.png" alt="НЕОН-РАННЕР — аркада" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Игра · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">НЕОН-РАННЕР — аркада</h3>
+          <p class="text-white/65 text-sm max-w-md">Играбельный бесконечный раннер: прыжки, скорость, рекорды.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Canvas</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Touch</span></div>
         </div>
         <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
-      </article>
+      </a>
+
+      <a href="projects/cosmo-clicker/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/cosmo-clicker.png" alt="Космо-кликер" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Игра · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Космо-кликер</h3>
+          <p class="text-white/65 text-sm max-w-md">Idle-механика: планета, апгрейды, автосейв прогресса.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Idle</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Прогресс</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/neon-15/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/neon-15.png" alt="Пятнашки-неон" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Игра · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Пятнашки-неон</h3>
+          <p class="text-white/65 text-sm max-w-md">Головоломка 4×4 с таймером, ходами и конфетти победы.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Логика</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Puzzle</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/snake-forge/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/snake-forge.png" alt="Змейка NEONFORGE" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Игра · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Змейка NEONFORGE</h3>
+          <p class="text-white/65 text-sm max-w-md">Классика в неоне: клавиши + свайпы + D-pad, пауза.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Canvas</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Ретро</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/neo-pc-config/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/neo-pc-config.png" alt="NEO PC — сборка ПК" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Конфигуратор · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">NEO PC — сборка ПК</h3>
+          <p class="text-white/65 text-sm max-w-md">Живой конфигуратор: комплектующие, цена и FPS в реальном времени.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Конфигуратор</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">E-com</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/metrika-live/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/metrika-live.png" alt="Метрика LIVE" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Дашборд · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Метрика LIVE</h3>
+          <p class="text-white/65 text-sm max-w-md">Аналитика-концерт: KPI, графики на Canvas, живые данные.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Charts</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Data Viz</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/hronika-timeline/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/hronika-timeline.png" alt="Хроника «Атлант Групп»" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Интерактив · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Хроника «Атлант Групп»</h3>
+          <p class="text-white/65 text-sm max-w-md">Горизонтальный таймлайн 15 лет истории со snap-скроллом.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Timeline</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Story</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/svadba-invite/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/svadba-invite.png" alt="Аня + Максим — приглашение" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Интерактив · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Аня + Максим — приглашение</h3>
+          <p class="text-white/65 text-sm max-w-md">Открывающийся конверт, обратный отсчёт, RSVP-форма.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Анимация</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Event</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/sinesteziya-visual/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/sinesteziya-visual.png" alt="Синестезия" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Экспириенс · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">Синестезия</h3>
+          <p class="text-white/65 text-sm max-w-md">Звуковой пэдборд на Web Audio + живой визуализатор частот.</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Web Audio</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Viz</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+
+      <a href="projects/kviz-master/" class="reveal case-card group relative overflow-hidden rounded-3xl border border-white/10 cursor-pointer" data-tag="custom">
+        <div class="aspect-[16/10] overflow-hidden bg-abyss">
+          <img src="projects/previews/kviz-master.png" alt="КвизМастер" class="w-full h-full object-cover object-top" loading="lazy">
+        </div>
+        <div class="case-overlay absolute inset-0 bg-gradient-to-t from-abyss via-abyss/70 to-transparent flex flex-col justify-end p-6 md:p-8">
+          <div class="text-xs font-black uppercase tracking-widest text-lime mb-2">Игра · 2026</div>
+          <h3 class="font-display font-extrabold text-xl md:text-2xl mb-2">КвизМастер</h3>
+          <p class="text-white/65 text-sm max-w-md">Телеквиз: таймер, прогресс, звания от «Новичка» до «Гроссмейстера».</p>
+          <div class="flex flex-wrap gap-2 mt-4"><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Квиз</span><span class="glass rounded-full px-3 py-1 text-[11px] font-bold">Таймер</span></div>
+        </div>
+        <div class="case-nav absolute top-6 right-6 glass-strong rounded-xl p-3 shadow-[0_0_30px_rgba(198,255,77,.35)]"><i data-lucide="arrow-up-right" class="w-5 h-5 text-lime"></i></div>
+      </a>
+    </div>
+  </div>
+</section>
     </div>
   </div>
 </section>

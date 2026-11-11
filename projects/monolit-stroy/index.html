@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>МонолитСтрой — генподряд, Пермь</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { coal:'#1C1C1C', coal2:'#242424', orange:'#F97316', hazard:'#FACC15' },
+    fontFamily: { head:['Oswald','sans-serif'], body:['"Roboto Condensed"','sans-serif'] }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Roboto Condensed',sans-serif}
+  .hazard-tape{background:repeating-linear-gradient(45deg,#FACC15 0 16px,#1C1C1C 16px 32px)}
+  .hazard-tape-v{background:repeating-linear-gradient(90deg,#FACC15 0 12px,#1C1C1C 12px 24px)}
+  .steel{background:linear-gradient(120deg,#2A2A2A,#1C1C1C 60%)}
+  .case-img{background:linear-gradient(135deg,#333 0%,#1C1C1C 100%)}
+</style>
+</head>
+<body class="bg-coal text-[#D4D4D4] antialiased">
+
+<!-- TAPE -->
+<div class="hazard-tape h-3 w-full"></div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-coal/95 backdrop-blur border-b border-orange/40">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-3">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="2" y="2" width="26" height="26" fill="#F97316"/><path d="M8 22V10l7-5 7 5v12h-5v-7h-4v7z" fill="#1C1C1C"/></svg>
+      <span class="font-head text-xl tracking-wider text-white uppercase">МонолитСтрой</span>
+    </a>
+    <nav class="hidden md:flex gap-6 text-sm uppercase tracking-wide">
+      <a href="#about" class="hover:text-orange transition">О компании</a>
+      <a href="#services" class="hover:text-orange transition">Услуги</a>
+      <a href="#projects" class="hover:text-orange transition">Объекты</a>
+      <a href="#jobs" class="hover:text-orange transition">Вакансии</a>
+      <a href="#contacts" class="hover:text-orange transition">Контакты</a>
+    </nav>
+    <button id="burger" class="md:hidden p-2" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#F97316" stroke-width="2.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <nav id="mobnav" class="hidden md:hidden border-t border-orange/20 bg-coal px-5 py-4 flex flex-col gap-4 text-sm uppercase tracking-wide">
+    <a href="#about">О компании</a><a href="#services">Услуги</a><a href="#projects">Объекты</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="about" class="relative py-24 overflow-hidden">
+  <div class="absolute top-0 bottom-0 left-0 w-2 hazard-tape-v opacity-60 hidden md:block"></div>
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-orange font-head uppercase tracking-[0.25em] text-sm mb-4">Генподряд · Пермь · с 2005 года</p>
+    <h1 class="font-head text-4xl md:text-6xl uppercase text-white leading-tight mb-6">Строим промышленность.<br><span class="text-orange">В срок. По норме.</span></h1>
+    <p class="max-w-xl mb-8 text-[#A3A3A3] leading-relaxed">Генеральный подряд полного цикла: от нулевого цикла до сдачи в эксплуатацию. 62 построенных промышленных объекта, собственный парк техники и 380 специалистов в штате.</p>
+    <div class="grid grid-cols-3 gap-4 max-w-xl">
+      <div class="steel border-l-4 border-orange p-4"><div class="font-head text-3xl md:text-4xl text-white"><span class="counter" data-to="21">0</span></div><p class="text-xs uppercase text-[#8A8A8A] mt-1">лет на рынке</p></div>
+      <div class="steel border-l-4 border-orange p-4"><div class="font-head text-3xl md:text-4xl text-white"><span class="counter" data-to="62">0</span></div><p class="text-xs uppercase text-[#8A8A8A] mt-1">объектов</p></div>
+      <div class="steel border-l-4 border-orange p-4"><div class="font-head text-3xl md:text-4xl text-white"><span class="counter" data-to="380">0</span></div><p class="text-xs uppercase text-[#8A8A8A] mt-1">специалистов</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 bg-coal2 border-y border-[#333]">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-orange font-head uppercase tracking-[0.25em] text-sm mb-3">Услуги</p>
+    <h2 class="font-head text-3xl md:text-4xl uppercase text-white mb-12">Что мы строим</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="steel p-7 border border-[#3A3A3A]"><div class="font-head text-orange text-5xl mb-3">01</div><h3 class="font-head text-xl text-white uppercase mb-2">Промышленное строительство</h3><p class="text-sm text-[#A3A3A3] leading-relaxed">Производственные цеха, склады, заводские комплексы под ключ. Металлоконструкции, монолит, галереи. Сроки фиксируем в договоре.</p></div>
+      <div class="steel p-7 border border-[#3A3A3A]"><div class="font-head text-orange text-5xl mb-3">02</div><h3 class="font-head text-xl text-white uppercase mb-2">Реконструкция</h3><p class="text-sm text-[#A3A3A3] leading-relaxed">Модернизация действующих производств без остановки выпуска. Усиление конструкций, замена покрытий, инженерные сети.</p></div>
+      <div class="steel p-7 border border-[#3A3A3A]"><div class="font-head text-orange text-5xl mb-3">03</div><h3 class="font-head text-xl text-white uppercase mb-2">BIM-проектирование</h3><p class="text-sm text-[#A3A3A3] leading-relaxed">Цифровая модель объекта на всех стадиях: коллизии находим до стройплощадки, смета и график считаются автоматически.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section id="projects" class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-orange font-head uppercase tracking-[0.25em] text-sm mb-3">Объекты</p>
+    <h2 class="font-head text-3xl md:text-4xl uppercase text-white mb-12">Ключевые кейсы</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-[#3A3A3A]">
+        <div class="case-img h-44 relative flex items-end"><div class="hazard-tape h-2 w-full absolute top-0"></div><p class="m-4 font-head text-lg uppercase text-white">Завод ж/д крепежа</p></div>
+        <div class="p-6">
+          <p class="text-orange font-head text-2xl mb-2">24 500 м² · 14 месяцев</p>
+          <p class="text-sm text-[#A3A3A3] leading-relaxed">Комплекс цехов термической обработки в Чусовом. Сдан на 3 недели раньше контрактного срока, ноль предписаний Ростехнадзора.</p>
+        </div>
+      </div>
+      <div class="border border-[#3A3A3A]">
+        <div class="case-img h-44 relative flex items-end"><div class="hazard-tape h-2 w-full absolute top-0"></div><p class="m-4 font-head text-lg uppercase text-white">Логопарк «Пермь-Транзит»</p></div>
+        <div class="p-6">
+          <p class="text-orange font-head text-2xl mb-2">41 000 м² · 18 месяцев</p>
+          <p class="text-sm text-[#A3A3A3] leading-relaxed">Складской комплекс класса А с ж/д веткой: 3 доковых корпуса, администрация, отстой на 120 фур. Генподряд от свайного поля.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="py-14 border-y border-[#333] bg-coal2">
+  <p class="text-center text-xs uppercase tracking-[0.25em] text-[#8A8A8A] mb-6">Заказчики</p>
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-head uppercase tracking-widest text-[#6B6B6B] text-lg">
+    <span>Уралхиммаш</span><span>ПермТранс</span><span>СодаПром</span><span>КамаМеталл</span><span>ЗападУралРуда</span>
+  </div>
+</section>
+
+<!-- VACANCIES -->
+<section id="jobs" class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-orange font-head uppercase tracking-[0.25em] text-sm mb-3">Карьера</p>
+    <h2 class="font-head text-3xl md:text-4xl uppercase text-white mb-12">Вакансии на объектах</h2>
+    <div class="space-y-4">
+      <div class="steel border border-[#3A3A3A] border-l-4 border-l-orange">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-head text-lg text-white uppercase">Прораб</span><span class="text-hazard font-head text-xl whitespace-nowrap">120 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A3A3A3] leading-relaxed">Опыт монолитных работ от 3 лет, ведение общего журнала, график работ. Объекты Пермского края, вахта не требуется. ДМС после 6 месяцев.</div>
+      </div>
+      <div class="steel border border-[#3A3A3A] border-l-4 border-l-orange">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-head text-lg text-white uppercase">Инженер ПТО</span><span class="text-hazard font-head text-xl whitespace-nowrap">90 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A3A3A3] leading-relaxed">Проверка исполнительной документации, работа в Гранд-Смете и AutoCAD. Знание СНиП и ФСНБ обязательны.</div>
+      </div>
+      <div class="steel border border-[#3A3A3A] border-l-4 border-l-orange">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-head text-lg text-white uppercase">Сметчик</span><span class="text-hazard font-head text-xl whitespace-nowrap">85 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A3A3A3] leading-relaxed">Составление и защита смет по расценкам ФЕР/ТЕР, опыт от 2 лет в промышленном строительстве. Офис в центре Перми, гибрид.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="py-20 bg-coal2 border-t border-[#333]">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
+    <div>
+      <p class="text-orange font-head uppercase tracking-[0.25em] text-sm mb-3">Контакты</p>
+      <h2 class="font-head text-3xl uppercase text-white mb-6">Смета за 5 дней</h2>
+      <p class="text-sm text-[#A3A3A3] leading-relaxed mb-6">Пришлите ТЗ или проект — вернём расчёт стоимости и график в течение 5 рабочих дней.</p>
+      <ul class="space-y-3 text-sm">
+        <li>📍 Пермь, ул. Героев Прикамья, 5, БЦ «Камский»</li>
+        <li>📞 +7 (342) 205-33-12</li>
+        <li>✉️ tender@monolit-stroy.ru</li>
+        <li>🕘 Пн–Пт 8:00–18:00, СРО-С-214-0920, ОПС не ниже III</li>
+      </ul>
+    </div>
+    <form id="cform" class="space-y-4">
+      <input required class="w-full bg-coal border border-[#444] px-4 py-3 text-sm text-white outline-none focus:border-orange" placeholder="Компания / имя">
+      <input required type="tel" class="w-full bg-coal border border-[#444] px-4 py-3 text-sm text-white outline-none focus:border-orange" placeholder="Телефон">
+      <textarea class="w-full bg-coal border border-[#444] px-4 py-3 text-sm text-white outline-none focus:border-orange" rows="4" placeholder="Кратко об объекте"></textarea>
+      <button class="w-full py-3 bg-orange text-coal font-head uppercase tracking-widest text-sm hover:brightness-110 transition">Отправить</button>
+      <p id="cok" class="hidden text-hazard text-sm text-center font-head uppercase">Спасибо! Мы свяжемся.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="hazard-tape h-3"></div>
+<footer class="py-10 bg-coal">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#6B6B6B] leading-relaxed">
+    <div>
+      <p class="text-white font-head uppercase text-base mb-3">ООО «МонолитСтрой»</p>
+      <p>ИНН 5904123456 · КПП 590401001 · ОГРН 1055904123456</p>
+      <p>Р/с 40702810900000054321 в ПАО «Банк Урал», БИК 045209675</p>
+      <p>Адрес: 614045, Пермь, ул. Героев Прикамья, 5</p>
+    </div>
+    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-orange underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
+document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
+document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    const el = e.target, to = +el.dataset.to; let n = 0;
+    const step = Math.max(1, Math.round(to / 60));
+    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
+    io.unobserve(el);
+  }
+}), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(c => io.observe(c));
+document.getElementById('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('cok').classList.remove('hidden');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

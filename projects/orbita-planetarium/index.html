@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Орбита — планетарий в Новосибирске</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#9D6BFF',
+        secondary: '#5BC8FF',
+        base: '#070716',
+        panel: '#100F26'
+      },
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        body: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #070716; }
+  .stars {
+    position: absolute; inset: 0; pointer-events: none;
+    width: 2px; height: 2px; border-radius: 9999px; background: transparent;
+    box-shadow:
+      12vw 8vh #fff, 24vw 20vh #9D6BFF, 38vw 6vh #fff, 52vw 26vh #5BC8FF,
+      66vw 10vh #fff, 80vw 32vh #9D6BFF, 91vw 14vh #fff, 7vw 44vh #5BC8FF,
+      19vw 60vh #fff, 33vw 50vh #fff, 47vw 68vh #9D6BFF, 61vw 55vh #fff,
+      74vw 72vh #5BC8FF, 87vw 60vh #fff, 95vw 84vh #fff, 4vw 90vh #9D6BFF,
+      27vw 84vh #fff, 42vw 92vh #5BC8FF, 57vw 88vh #fff, 71vw 94vh #fff,
+      83vw 90vh #9D6BFF, 14vw 12vh #fff, 45vw 18vh #fff, 69vw 40vh #fff;
+    opacity: .8;
+  }
+  .glow-card { transition: border-color .3s, transform .3s; }
+  .glow-card:hover { border-color: #9D6BFF; transform: translateY(-4px); }
+</style>
+</head>
+<body class="bg-base text-slate-200 font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-base/90 backdrop-blur border-b border-primary/25">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="font-display font-bold text-lg tracking-wider text-primary">◎ ОРБИТА</a>
+    <nav class="hidden md:flex gap-7 text-sm">
+      <a href="#posters" class="hover:text-primary transition">Афиша</a>
+      <a href="#dome" class="hover:text-primary transition">Купол</a>
+      <a href="#weekend" class="hover:text-primary transition">Шоу выходного</a>
+      <a href="#tickets" class="hover:text-primary transition">Билеты</a>
+    </nav>
+    <a href="#tickets" class="font-display text-sm px-5 py-2 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-bold hover:opacity-90 transition">Купить билет</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative">
+  <div class="stars"></div>
+  <div class="relative max-w-6xl mx-auto px-4 py-24 md:py-36">
+    <div class="max-w-2xl">
+      <p class="text-secondary tracking-[0.3em] uppercase text-xs mb-6">Планетарий · Новосибирск · 🪐</p>
+      <h1 class="font-display font-bold text-4xl md:text-7xl leading-tight mb-6">Вселенная<br><span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">в одном куполе</span></h1>
+      <p class="text-slate-400 text-lg mb-10 max-w-xl">Купол 14 метров, 8K-проекция и звук, который слышно костями. Сеансы для детей и взрослых каждый день.</p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="#tickets" class="font-display font-bold px-8 py-4 rounded-full bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 transition">Выбрать сеанс</a>
+        <a href="#posters" class="font-display font-bold px-8 py-4 rounded-full border border-primary/50 text-primary hover:bg-primary/10 transition">Афиша</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSTERS -->
+<section id="posters" class="max-w-6xl mx-auto px-4 py-20 border-t border-primary/15">
+  <h2 class="font-display font-bold text-3xl md:text-5xl mb-10 text-primary">Афиша сеансов</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="glow-card bg-panel border border-primary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🕳️</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Чёрные дыры»</h3>
+      <p class="text-slate-400 text-sm mb-4">Путешествие за горизонт событий. 12+, громко и красиво.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-secondary text-xs font-semibold uppercase tracking-wider">3D-зал · 45 мин</span>
+        <span class="font-display font-bold text-primary text-xl">450 ₽</span>
+      </div>
+    </div>
+    <div class="glow-card bg-panel border border-secondary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🔴</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Марс. Следующая остановка»</h3>
+      <p class="text-slate-400 text-sm mb-4">Посадка в кратере Езеро с первого ряда. 10+.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-primary text-xs font-semibold uppercase tracking-wider">Полусфера · 40 мин</span>
+        <span class="font-display font-bold text-secondary text-xl">400 ₽</span>
+      </div>
+    </div>
+    <div class="glow-card bg-panel border border-primary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🌟</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Дети и звёзды»</h3>
+      <p class="text-slate-400 text-sm mb-4">Сказочное путешествие для 4–8 лет и родителей.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-secondary text-xs font-semibold uppercase tracking-wider">Полусфера · 30 мин</span>
+        <span class="font-display font-bold text-primary text-xl">300 ₽</span>
+      </div>
+    </div>
+    <div class="glow-card bg-panel border border-primary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🌌</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Млечный Путь live»</h3>
+      <p class="text-slate-400 text-sm mb-4">Лекция под куполом с астрономом в реальном времени. 16+.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-secondary text-xs font-semibold uppercase tracking-wider">3D-зал · 60 мин</span>
+        <span class="font-display font-bold text-primary text-xl">550 ₽</span>
+      </div>
+    </div>
+    <div class="glow-card bg-panel border border-secondary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🎵</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Космос и звук»</h3>
+      <p class="text-slate-400 text-sm mb-4">Вечерний сеанс с эмбиент-саундтреком. Полусфера, лежачие места.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-primary text-xs font-semibold uppercase tracking-wider">Полусфера · 50 мин</span>
+        <span class="font-display font-bold text-secondary text-xl">600 ₽</span>
+      </div>
+    </div>
+    <div class="glow-card bg-panel border border-primary/20 rounded-2xl p-7">
+      <div class="text-5xl mb-4">🚀</div>
+      <h3 class="font-display font-bold text-xl mb-1">«Гагарин. Первый»</h3>
+      <p class="text-slate-400 text-sm mb-4">Реконструкция полёта 12 апреля 1961. 8+.</p>
+      <div class="flex justify-between items-center">
+        <span class="text-secondary text-xs font-semibold uppercase tracking-wider">3D-зал · 45 мин</span>
+        <span class="font-display font-bold text-primary text-xl">450 ₽</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOME -->
+<section id="dome" class="py-20 bg-panel border-y border-primary/15">
+  <div class="max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-6 text-secondary">Купол и техника</h2>
+      <ul class="space-y-4 text-slate-300">
+        <li class="flex gap-3"><span class="text-primary">✦</span> Купол диаметром 14 м, наклон 22° — видно всё, шея не затекает</li>
+        <li class="flex gap-3"><span class="text-primary">✦</span> 8K-проекция: 6 лазерных проекторов, бесшовная картинка</li>
+        <li class="flex gap-3"><span class="text-primary">✦</span> Звук 11.2 — гроза Сатурна слышится так, будто ты там</li>
+        <li class="flex gap-3"><span class="text-primary">✦</span> 126 кресел в 3D-зале, 84 лежачих места на полусфере</li>
+        <li class="flex gap-3"><span class="text-primary">✦</span> Живая обсерватория: после сеанса — телескоп на крыше</li>
+      </ul>
+    </div>
+    <div class="rounded-3xl bg-gradient-to-br from-primary/25 via-base to-secondary/25 border border-primary/25 aspect-square max-w-sm mx-auto w-full flex items-center justify-center">
+      <svg viewBox="0 0 200 200" class="w-56 h-56" fill="none">
+        <ellipse cx="100" cy="100" rx="80" ry="28" stroke="#9D6BFF" stroke-width="2"/>
+        <ellipse cx="100" cy="100" rx="80" ry="28" stroke="#5BC8FF" stroke-width="2" transform="rotate(60 100 100)"/>
+        <ellipse cx="100" cy="100" rx="80" ry="28" stroke="#9D6BFF" stroke-width="2" transform="rotate(120 100 100)"/>
+        <circle cx="100" cy="100" r="18" fill="#5BC8FF"/>
+        <circle cx="100" cy="100" r="26" stroke="#fff" stroke-opacity=".4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- WEEKEND SHOW -->
+<section id="weekend" class="max-w-6xl mx-auto px-4 py-20">
+  <h2 class="font-display font-bold text-3xl md:text-5xl mb-3 text-primary">Звёздное шоу выходного дня</h2>
+  <p class="text-slate-400 mb-10 max-w-2xl">Каждые субботу и воскресенье — двойной сеанс с живым ведущим, прилетает весь город. Билеты разбирают за 3–4 дня.</p>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-panel border-2 border-secondary/30 rounded-2xl p-8">
+      <p class="text-secondary uppercase tracking-widest text-xs font-semibold mb-3">Суббота · 18:00</p>
+      <h3 class="font-display font-bold text-2xl mb-3">«Рождённые звёздами»</h3>
+      <p class="text-slate-400 mb-5 text-sm">Из чего мы сделаны, как умирают звёзды и почему об этом стоит думать под куполом, а не в интернете. Финал — сверхновая на весь купол.</p>
+      <p class="font-display font-bold text-primary text-2xl">600 ₽ · 16+</p>
+    </div>
+    <div class="bg-panel border-2 border-primary/30 rounded-2xl p-8">
+      <p class="text-primary uppercase tracking-widest text-xs font-semibold mb-3">Воскресенье · 17:00</p>
+      <h3 class="font-display font-bold text-2xl mb-3">«Семейный звёздный вечер»</h3>
+      <p class="text-slate-400 mb-5 text-sm">Сначала мультсеанс про Маленького принца (полусфера), потом — телескоп на крыше с метеорным потоком, если повезёт с погодой.</p>
+      <p class="font-display font-bold text-secondary text-2xl">400 ₽ · семья 3+ — 1 100 ₽</p>
+    </div>
+  </div>
+</section>
+
+<!-- TICKETS FORM -->
+<section id="tickets" class="max-w-xl mx-auto px-4 pb-20">
+  <h2 class="font-display font-bold text-3xl text-center mb-3">Билеты</h2>
+  <p class="text-center text-slate-400 text-sm mb-10">Выберите сеанс — пришлём QR в Telegram</p>
+  <form id="tkForm" class="bg-panel border border-primary/25 rounded-2xl p-8 space-y-4">
+    <input required placeholder="Имя" class="w-full bg-base border border-primary/25 rounded-lg px-4 py-3 focus:outline-none focus:border-primary">
+    <input required type="tel" placeholder="Телефон" class="w-full bg-base border border-primary/25 rounded-lg px-4 py-3 focus:outline-none focus:border-primary">
+    <select class="w-full bg-base border border-primary/25 rounded-lg px-4 py-3 focus:outline-none focus:border-primary">
+      <option>«Чёрные дыры» — 3D-зал</option>
+      <option>«Марс. Следующая остановка» — полусфера</option>
+      <option>«Дети и звёзды» — полусфера</option>
+      <option>Шоу выходного дня — «Рождённые звёздами»</option>
+      <option>Шоу выходного дня — семейный вечер</option>
+    </select>
+    <select class="w-full bg-base border border-primary/25 rounded-lg px-4 py-3 focus:outline-none focus:border-primary">
+      <option>1 билет</option><option>2 билета</option><option>3 билета</option><option>4+ билетов</option>
+    </select>
+    <button type="submit" class="w-full font-display font-bold py-4 rounded-full bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90 transition">Забронировать 🚀</button>
+    <p id="tkMsg" class="hidden text-center text-secondary font-display font-bold">Заявка отправлена!</p>
+  </form>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-6xl mx-auto px-4 pb-20 border-t border-primary/15 pt-16">
+  <h2 class="font-display font-bold text-3xl text-center mb-10 text-primary">Отзывы посетителей</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-secondary/25 rounded-2xl p-7">
+      <p class="text-slate-300 mb-4">««Чёрные дыры» — это два дня расхаживаешь с мыслями о космосе. Сын 12 лет после сеанса сам включил книгу Хокинга.»</p>
+      <p class="font-display font-bold text-secondary">Виктор П.</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-primary/25 rounded-2xl p-7">
+      <p class="text-slate-300 mb-4">«Водили детей на «Дети и звёзды». Младшая потом неделю «летала» по квартире. Сеанс ровно по возрасту, не страшно.»</p>
+      <p class="font-display font-bold text-primary">Мария Д.</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-secondary/25 rounded-2xl p-7">
+      <p class="text-slate-300 mb-4">«Субботняя лекция live — уровень институтской кафедры, но с эффектом полного погружения. Хожу третий месяц подряд.»</p>
+      <p class="font-display font-bold text-secondary">Алексей Р.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-2xl mx-auto px-4 pb-20">
+  <h2 class="font-display font-bold text-3xl text-center mb-10 text-primary">FAQ</h2>
+  <div class="space-y-3">
+    <div class="bg-panel border border-primary/20 rounded-xl overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">С какого возраста можно?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-400 text-sm">«Дети и звёзды» — с 4 лет. Остальные сеансы — по маркировке на афише (8+/10+/12+/16+). Малышам до 4 лет в 3D-зале может быть громко.</div>
+    </div>
+    <div class="bg-panel border border-primary/20 rounded-xl overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Укачивает в куполе?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-400 text-sm">Редко, но бывает: садитесь ближе к входу и смотрите «вперёд». Персонал подскажет, какие сеансы спокойнее — обычно полусфера мягче 3D-зала.</div>
+    </div>
+    <div class="bg-panel border border-primary/20 rounded-xl overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Можно ли купить билет на месте?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-400 text-sm">Да, если остались места. На шоу выходного дня почти всегда аншлаг — лучше бронировать заранее через форму.</div>
+    </div>
+    <div class="bg-panel border border-primary/20 rounded-xl overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Работает ли обсерватория зимой?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-400 text-sm">Да, телескоп на крыше работает круглый год — в ясные морозные ночи картинка даже чище. Пледы выдаём 🙂</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-primary/25 bg-panel">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display font-bold text-xl text-primary mb-2">◎ ОРБИТА</p>
+      <p class="text-slate-400">Новосибирск, ул. Космическая, 26<br>Ежедневно 10:00 — 21:00</p>
+    </div>
+    <div class="text-slate-400">
+      <p class="text-slate-200 font-semibold mb-2">Контакты</p>
+      <p>📞 <a href="tel:+73832700788" class="hover:text-primary">+7 383 270-07-88</a></p>
+      <p>✈️ <a href="https://t.me/orbita_planet" class="hover:text-primary">@orbita_planet</a></p>
+    </div>
+    <div class="text-slate-400">
+      <p class="text-slate-200 font-semibold mb-2">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-secondary hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('tkForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('tkMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

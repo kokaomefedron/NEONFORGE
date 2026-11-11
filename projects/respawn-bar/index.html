@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>RESPAWN — киберспортивный бар во Владимире</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#00FFD1',
+        accent: '#FF2E97',
+        base: '#0A0A12',
+        panel: '#11111E'
+      },
+      fontFamily: {
+        display: ['Orbitron', 'sans-serif'],
+        body: ['Rajdhani', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #0A0A12; }
+  .neon { text-shadow: 0 0 6px #00FFD1, 0 0 18px #00FFD1AA, 0 0 42px #00FFD166; }
+  .neon-pink { text-shadow: 0 0 6px #FF2E97, 0 0 18px #FF2E97AA; }
+  .glitch { position: relative; }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .glitch::before { color: #FF2E97; clip-path: inset(20% 0 55% 0); transform: translateX(-3px); opacity: .8; animation: gl1 2.8s infinite steps(1); }
+  .glitch::after { color: #00FFD1; clip-path: inset(60% 0 15% 0); transform: translateX(3px); opacity: .8; animation: gl2 3.4s infinite steps(1); }
+  @keyframes gl1 { 0%,88%,100%{transform:translateX(-3px)} 90%{transform:translateX(4px)} 93%{transform:translateX(-6px)} }
+  @keyframes gl2 { 0%,90%,100%{transform:translateX(3px)} 92%{transform:translateX(-5px)} 95%{transform:translateX(6px)} }
+  .grid-bg {
+    background-image: linear-gradient(rgba(0,255,209,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,209,.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .scan {
+    position: relative; overflow: hidden;
+  }
+  .scan::after {
+    content:''; position:absolute; left:0; right:0; top:0; height:2px;
+    background: linear-gradient(90deg, transparent, #00FFD1, transparent);
+    opacity:.35; animation: scan 4s linear infinite;
+  }
+  @keyframes scan { 0%{top:0} 100%{top:100%} }
+  @media (prefers-reduced-motion: reduce) { .glitch::before,.glitch::after,.scan::after{animation:none} }
+</style>
+</head>
+<body class="bg-base text-gray-100 font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-base/90 backdrop-blur border-b border-primary/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="font-display font-900 text-xl text-primary neon tracking-widest">RESPAWN</a>
+    <nav class="hidden md:flex gap-6 text-sm font-semibold uppercase tracking-wider">
+      <a href="#tournaments" class="hover:text-primary transition">Турниры</a>
+      <a href="#menu" class="hover:text-primary transition">Меню</a>
+      <a href="#hall" class="hover:text-primary transition">Зал</a>
+      <a href="#book" class="hover:text-primary transition">Бронь</a>
+    </nav>
+    <a href="#book" class="font-display text-xs md:text-sm px-4 py-2 border border-accent text-accent rounded hover:bg-accent hover:text-white transition">🎮 Забронировать</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative grid-bg border-b border-primary/20">
+  <div class="max-w-6xl mx-auto px-4 py-24 md:py-36 text-center">
+    <p class="text-accent tracking-[0.4em] uppercase text-xs md:text-sm mb-6">Киберспортивный бар · Владимир · 🕹️ 🎮 🍺</p>
+    <h1 class="font-display font-900 text-4xl md:text-7xl leading-tight mb-6">
+      <span class="glitch neon block" data-text="Смотри. Пей. Побеждай.">Смотри. Пей. Побеждай.</span>
+    </h1>
+    <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+      Трансляции матчей на десяти экранах, приставки PS5 у каждого стола и крафт-бургеры, которые не дадут умереть между раундами.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#book" class="font-display px-8 py-4 bg-primary text-base font-bold rounded shadow-[0_0_25px_#00FFD155] hover:shadow-[0_0_40px_#00FFD1AA] transition">Забронировать стол</a>
+      <a href="#tournaments" class="font-display px-8 py-4 border border-primary/50 text-primary rounded hover:bg-primary/10 transition">Турниры недели</a>
+    </div>
+  </div>
+</section>
+
+<!-- TOURNAMENTS -->
+<section id="tournaments" class="max-w-6xl mx-auto px-4 py-16">
+  <h2 class="font-display text-2xl md:text-4xl text-primary neon mb-2">🏆 Турниры недели</h2>
+  <p class="text-gray-400 mb-8">Вход свободный, победители получают депозит на бар. Собирай фулл-пати.</p>
+  <div class="overflow-x-auto rounded-lg border border-primary/25 scan">
+    <table class="w-full text-left min-w-[560px]">
+      <thead class="bg-panel text-primary font-display text-xs uppercase tracking-widest">
+        <tr><th class="px-4 py-3">Дата</th><th class="px-4 py-3">Дисциплина</th><th class="px-4 py-3">Матч</th><th class="px-4 py-3">Экран</th></tr>
+      </thead>
+      <tbody class="divide-y divide-primary/10 text-sm md:text-base">
+        <tr class="hover:bg-primary/5"><td class="px-4 py-3">Чт, 12.11 · 19:00</td><td class="px-4 py-3">Dota 2</td><td class="px-4 py-3">Team Spirit — Gaimin Gladiators</td><td class="px-4 py-3 text-accent">Гигант-экран 4K</td></tr>
+        <tr class="hover:bg-primary/5"><td class="px-4 py-3">Пт, 13.11 · 18:30</td><td class="px-4 py-3">CS2</td><td class="px-4 py-3">NAVI — Virtus.pro</td><td class="px-4 py-3 text-accent">Гигант-экран 4K</td></tr>
+        <tr class="hover:bg-primary/5"><td class="px-4 py-3">Сб, 14.11 · 15:00</td><td class="px-4 py-3">Mortal Kombat 1</td><td class="px-4 py-3">Локальный кубок RESPAWN</td><td class="px-4 py-3 text-accent">VIP-комната</td></tr>
+        <tr class="hover:bg-primary/5"><td class="px-4 py-3">Вс, 15.11 · 17:00</td><td class="px-4 py-3">FIFA 25</td><td class="px-4 py-3">Финал месяца · приз 10 000 ₽</td><td class="px-4 py-3 text-accent">Все экраны</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="bg-panel border-y border-accent/20">
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="font-display text-2xl md:text-4xl text-accent neon-pink mb-8">🍔 Меню респавна</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Бургер «Пентакилл»</h3>
+        <p class="text-gray-400 text-sm mb-3">Двойная котлета, чеддер, бекон, соус барбекю</p>
+        <p class="font-display text-lg">490 ₽</p>
+      </div>
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Крылья «Хедшот»</h3>
+        <p class="text-gray-400 text-sm mb-3">9 крыльев, соус на выбор: острые / BBQ</p>
+        <p class="font-display text-lg">420 ₽</p>
+      </div>
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Начос «Аое»</h3>
+        <p class="text-gray-400 text-sm mb-3">Начос с гуакамоле, сальсой и расплавленным сыром</p>
+        <p class="font-display text-lg">340 ₽</p>
+      </div>
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Крафт-пиво «Буфф»</h3>
+        <p class="text-gray-400 text-sm mb-3">6 сортов на кранах, 0,5 л</p>
+        <p class="font-display text-lg">290 ₽</p>
+      </div>
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Энергетик «Мана»</h3>
+        <p class="text-gray-400 text-sm mb-3">Авторский лемонад с йерба-мате и лаймом</p>
+        <p class="font-display text-lg">210 ₽</p>
+      </div>
+      <div class="border border-primary/20 rounded-lg p-5 bg-base hover:border-primary transition">
+        <h3 class="font-display text-primary mb-1">Молочный коктейль «Ливл-ап»</h3>
+        <p class="text-gray-400 text-sm mb-3">Манго-маракуйя или двойной шоколад</p>
+        <p class="font-display text-lg">260 ₽</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HALL -->
+<section id="hall" class="max-w-6xl mx-auto px-4 py-16">
+  <h2 class="font-display text-2xl md:text-4xl text-primary neon mb-8">🎮 Зал и приставки</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="relative rounded-xl p-8 bg-gradient-to-br from-panel to-base border border-primary/25">
+      <div class="text-4xl mb-4">🕹️</div>
+      <h3 class="font-display text-primary text-xl mb-2">Основной зал</h3>
+      <p class="text-gray-400 text-sm mb-4">12 столов, у каждого — экран 43" и PS5. Трансляции центрального матча одновременно.</p>
+      <p class="font-display text-accent">от 500 ₽/час · стол</p>
+    </div>
+    <div class="relative rounded-xl p-8 bg-gradient-to-br from-accent/20 to-panel border border-accent/40">
+      <div class="text-4xl mb-4">👑</div>
+      <h3 class="font-display text-accent text-xl mb-2">VIP-комнаты</h3>
+      <p class="text-gray-400 text-sm mb-4">2 закрытые комнаты на 6–10 человек: PS5 + Switch, свой звук, кнопка вызова официанта.</p>
+      <p class="font-display text-primary">от 1500 ₽/час</p>
+    </div>
+    <div class="relative rounded-xl p-8 bg-gradient-to-br from-panel to-base border border-primary/25">
+      <div class="text-4xl mb-4">🖥️</div>
+      <h3 class="font-display text-primary text-xl mb-2">ПК-зона</h3>
+      <p class="text-gray-400 text-sm mb-4">6 машин RTX 4070, 240 Гц мониторы. Идеально для дуо-каток и локальных ланов.</p>
+      <p class="font-display text-accent">250 ₽/час · место</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="book" class="grid-bg border-t border-primary/20">
+  <div class="max-w-2xl mx-auto px-4 py-16">
+    <h2 class="font-display text-2xl md:text-4xl text-primary neon mb-6 text-center">📝 Бронь стола</h2>
+    <form id="bookForm" class="space-y-4 bg-panel border border-primary/25 rounded-xl p-6 md:p-8">
+      <div>
+        <label class="block text-sm font-semibold text-gray-300 mb-1" for="name">Имя и ник</label>
+        <input id="name" required class="w-full bg-base border border-primary/30 rounded px-4 py-3 focus:outline-none focus:border-primary" placeholder="ProGamer_Vasya">
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-300 mb-1" for="phone">Телефон</label>
+        <input id="phone" required type="tel" class="w-full bg-base border border-primary/30 rounded px-4 py-3 focus:outline-none focus:border-primary" placeholder="+7 9XX 000-00-00">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-300 mb-1" for="date">Дата</label>
+          <input id="date" required type="date" class="w-full bg-base border border-primary/30 rounded px-4 py-3 focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-300 mb-1" for="guests">Гостей</label>
+          <select id="guests" class="w-full bg-base border border-primary/30 rounded px-4 py-3 focus:outline-none focus:border-primary">
+            <option>2</option><option>4</option><option selected>6</option><option>10+</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="w-full font-display font-bold py-4 bg-accent text-white rounded shadow-[0_0_25px_#FF2E9755] hover:shadow-[0_0_40px_#FF2E97AA] transition">Отправить заявку 🎯</button>
+      <p id="bookMsg" class="hidden text-center text-primary font-display neon">Заявка отправлена!</p>
+    </form>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <h2 class="font-display text-2xl md:text-4xl text-accent neon-pink mb-8 text-center">💬 Отзывы игроков</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-primary/25 rounded-xl p-6">
+      <p class="text-gray-300 mb-4">«Смотрели финал Мейджора на гигант-экране — как на стадионе. Крылья огонь, пиво свежее. Теперь только сюда.»</p>
+      <p class="font-display text-primary">Дмитрий К. 🎮</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-accent/25 rounded-xl p-6">
+      <p class="text-gray-300 mb-4">«Отмечали день рождения в VIP-комнате — своя PS5, свой звук, официант по кнопке. Идеально!»</p>
+      <p class="font-display text-accent">Алина С. 👑</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border border-primary/25 rounded-xl p-6">
+      <p class="text-gray-300 mb-4">«Выиграл кубок по МК — депозит на бар 3000 ₽. Атмосфера, как в клубе киберспортивном, только с бургерами.»</p>
+      <p class="font-display text-primary">Игорь «Shade» П. 🏆</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-3xl mx-auto px-4 py-16">
+  <h2 class="font-display text-2xl md:text-4xl text-primary neon mb-8 text-center">❓ FAQ</h2>
+  <div class="space-y-3" id="faq">
+    <div class="border border-primary/25 rounded-lg overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-5 py-4 text-left font-display text-sm md:text-base">Можно прийти с детьми?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-5 pb-4 text-gray-400 text-sm">До 20:00 — да, в основном зале. После 20:00 у нас 18+, работают все краны.</div>
+    </div>
+    <div class="border border-primary/25 rounded-lg overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-5 py-4 text-left font-display text-sm md:text-base">Нужна ли предоплата за бронь?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-5 pb-4 text-gray-400 text-sm">Для VIP-комнат — депозит 3000 ₽, который идёт в счёт заказа. Основной зал — без предоплаты.</div>
+    </div>
+    <div class="border border-primary/25 rounded-lg overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-5 py-4 text-left font-display text-sm md:text-base">Показываете только большие финалы?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-5 pb-4 text-gray-400 text-sm">Все значимые матчи недели по Dota 2, CS2, LoL, Valorant и футбольным симуляторам. Расписание — в разделе «Турниры».</div>
+    </div>
+    <div class="border border-primary/25 rounded-lg overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-5 py-4 text-left font-display text-sm md:text-base">Можно ли провести свой корпоративный турнир?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-5 pb-4 text-gray-400 text-sm">Да, берём организацию под ключ: сетки, ведущий, призы. Пишите в Telegram — соберём смету за день.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-primary/20 bg-panel">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display text-primary neon text-lg mb-2">RESPAWN</p>
+      <p class="text-gray-400">Владимир, ул. Гагарина, 12А<br>Ежедневно 12:00 — 02:00</p>
+    </div>
+    <div class="text-gray-400">
+      <p class="font-display text-gray-200 mb-2">Контакты</p>
+      <p>📞 <a href="tel:+79209310077" class="hover:text-primary">+7 920 931-00-77</a></p>
+      <p>✈️ <a href="https://t.me/respawn_vl" class="hover:text-primary">@respawn_vl</a></p>
+    </div>
+    <div class="text-gray-400">
+      <p class="font-display text-gray-200 mb-2">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-accent hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+// Booking form
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('bookMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

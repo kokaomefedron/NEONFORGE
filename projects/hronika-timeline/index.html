@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Хроника — 15 лет «Атлант Групп» | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=PT+Serif:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { paper:'#F5F7FB', card:'#FFFFFF', navy:'#17418F', ink:'#1C2430', line:'#D7DEEA' },
+  fontFamily: { man:['Manrope','system-ui','sans-serif'], serif:['"PT Serif"','serif'] }
+}}};
+</script>
+<style>
+  html{-webkit-tap-highlight-color:transparent}
+  #track{scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none}
+  #track::-webkit-scrollbar{display:none}
+  .ev{scroll-snap-align:start}
+</style>
+</head>
+<body class="bg-paper text-ink font-man min-h-screen flex flex-col">
+<header class="px-4 py-4 border-b border-line bg-white">
+  <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
+    <div>
+      <h1 class="font-serif text-xl md:text-2xl text-navy">Хроника компании</h1>
+      <p class="text-xs text-ink/50">«Атлант Групп» · 2010—2025 · интерактивная летопись</p>
+    </div>
+    <div class="flex gap-2">
+      <button id="prev" class="w-11 h-11 rounded-full bg-navy text-white font-bold hover:brightness-110 active:scale-95 transition disabled:opacity-30" aria-label="Назад">←</button>
+      <button id="next" class="w-11 h-11 rounded-full bg-navy text-white font-bold hover:brightness-110 active:scale-95 transition" aria-label="Вперёд">→</button>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 py-8">
+  <!-- прогресс-линия -->
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="h-1.5 rounded-full bg-line relative overflow-hidden">
+      <div id="progress" class="absolute inset-y-0 left-0 bg-navy rounded-full transition-[width] duration-150" style="width:0%"></div>
+    </div>
+    <div class="flex justify-between text-[11px] text-ink/40 mt-1.5 font-mono"><span>2010</span><span>2025</span></div>
+  </div>
+
+  <!-- горизонтальный таймлайн -->
+  <div id="track" class="mt-6 flex gap-4 overflow-x-auto px-6 pb-6" style="scroll-padding-left:24px">
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2010</div>
+      <h2 class="font-bold mt-2">Основание компании</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Три инженера и арендованный кабинет 18 м² в Москве. Первый договор — настройка серверной для оптовой базы.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">3 сотрудника</span><span class="bg-navy/10 rounded-md px-2 py-1">1 контракт</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2012</div>
+      <h2 class="font-bold mt-2">Первый крупный контракт</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Интеграция складского учёта для федерального дистрибьютора. Проект на 8 месяцев — и репутация на годы.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">12 млн ₽ оборот</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2013</div>
+      <h2 class="font-bold mt-2">Свой офис</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Команда переехала в офис 240 м² рядом с Павелецкой. Появились первый отдел поддержки и внутренний регламент SLA.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">12 сотрудников</span><span class="bg-navy/10 rounded-md px-2 py-1">240 м²</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2014</div>
+      <h2 class="font-bold mt-2">Выход в регионы</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Открыты филиалы в Санкт-Петербурге и Казани. Начали работать с промышленными предприятиями Поволжья.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">2 филиала</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2016</div>
+      <h2 class="font-bold mt-2">Сотня клиентов</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Компании на сопровождении — сто. Сформирован round-the-clock дежурный инженерный пул.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">100 клиентов</span><span class="bg-navy/10 rounded-md px-2 py-1">24/7</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2017</div>
+      <h2 class="font-bold mt-2">Промышленная автоматизация</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Отдельное направление АСУ ТП. Прошли сертификацию ISO 9001 и получили допуск к объектам энергетики.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">ISO 9001</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2018</div>
+      <h2 class="font-bold mt-2">Первый свой продукт</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Собственный отдел разработки выпустил «Атлант.Склад» — WMS-систему для средней торговли. 14 внедрений за год.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">14 внедрений</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2019</div>
+      <h2 class="font-bold mt-2">Новый масштаб</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">250 сотрудников, офис 1 800 м², собственный учебный центр для инженеров. Запущена программа стажировок с вузами.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">250 сотрудников</span><span class="bg-navy/10 rounded-md px-2 py-1">1 800 м²</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2020</div>
+      <h2 class="font-bold mt-2">Удалённый год</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">За две недели перевели 90% сервисов в удалённый режим. Выручка при этом выросла на 34% — спрос на автоматизацию подскочил.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">+34% выручки</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2021</div>
+      <h2 class="font-bold mt-2">Международные проекты</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Первые контракты в Казахстане и Беларуси. Локализовали «Атлант.Склад» под две валютные учётные модели.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">3 страны</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2022</div>
+      <h2 class="font-bold mt-2">Платформа «Атлант.OS»</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Объединили наработки в единую платформу: 40 внедрений в год, средний срок проекта сократился с 7 до 4 месяцев.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">40 внедрений/год</span><span class="bg-navy/10 rounded-md px-2 py-1">−43% срок</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2023</div>
+      <h2 class="font-bold mt-2">Отраслевое признание</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Проект автоматизации логистического хаба на 32 га — первое место отраслевой премии «Цифровая индустрия».</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">1-е место</span><span class="bg-navy/10 rounded-md px-2 py-1">32 га</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
+      <div class="font-serif text-4xl text-navy">2024</div>
+      <h2 class="font-bold mt-2">R&D-центр</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">500 сотрудников, открыт R&D-центр в Иннополисе. Начали пилоты предиктивной аналитики оборудования.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">500 сотрудников</span></div>
+    </article>
+
+    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-navy/40 rounded-2xl p-5 shadow-md bg-gradient-to-br from-white to-navy/5">
+      <div class="font-serif text-4xl text-navy">2025</div>
+      <h2 class="font-bold mt-2">15 лет пути</h2>
+      <p class="text-sm text-ink/65 mt-2 leading-relaxed">1 200+ реализованных проектов, 9 филиалов, 98% клиентов продлевают сопровождение. Впереди — платформа нового поколения.</p>
+      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">1 200+ проектов</span><span class="bg-navy/10 rounded-md px-2 py-1">9 филиалов</span></div>
+    </article>
+  </div>
+
+  <section class="max-w-6xl mx-auto px-6 text-sm text-ink/60 leading-relaxed">
+    <h2 class="text-ink font-semibold mb-1">Как пользоваться</h2>
+    <ul class="list-disc list-inside space-y-0.5">
+      <li>Листайте ленту <b>горизонтально</b> — мышью, свайпом или колесом с Shift.</li>
+      <li>Кнопки <b>← →</b> в шапке листают по одной карточке.</li>
+      <li>Прогресс-линия сверху показывает, где вы находитесь в истории.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-ink/40 border-t border-line bg-white">
+  Демо-проект студии <a class="text-navy hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-navy hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const track=document.getElementById('track'), progress=document.getElementById('progress'),
+        prev=document.getElementById('prev'), next=document.getElementById('next');
+  function cardStep(){ const c=track.querySelector('.ev'); return c? c.offsetWidth+16 : 336; }
+  prev.addEventListener('click',()=>track.scrollBy({left:-cardStep(),behavior:'smooth'}));
+  next.addEventListener('click',()=>track.scrollBy({left:cardStep(),behavior:'smooth'}));
+  function paint(){
+    const max=track.scrollWidth-track.clientWidth;
+    const p=max>0? track.scrollLeft/max : 1;
+    progress.style.width=(6+p*94)+'%';
+    prev.disabled=track.scrollLeft<=2;
+    next.disabled=track.scrollLeft>=max-2;
+  }
+  track.addEventListener('scroll',paint,{passive:true});
+  addEventListener('resize',paint);
+  paint();
+})();
+</script>
+</body>
+</html>

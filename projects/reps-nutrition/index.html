@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Reps — спортпит и тренировки без сахара</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        iron: '#101010',
+        steel: '#2A2A2A',
+        lime: '#A3E635',
+        metal: '#8B8B8B'
+      },
+      fontFamily: {
+        archivo: ['"Archivo Black"', 'sans-serif'],
+        inter: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#A3E635; color:#101010; }
+  .stripes { background: repeating-linear-gradient(-45deg, #161616 0 12px, #101010 12px 24px); }
+  .skew { transform: skewX(-8deg); }
+</style>
+</head>
+<body class="bg-iron text-neutral-200 font-inter min-h-screen">
+
+<header class="sticky top-0 z-40 bg-iron/95 backdrop-blur border-b-2 border-lime/60">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-archivo text-2xl skew inline-block">REPS<span class="text-lime">.</span></a>
+    <input id="search" type="search" placeholder="Протеин, креатин, шейкер…"
+      class="flex-1 min-w-0 bg-steel border border-neutral-700 rounded px-3 py-2 text-sm outline-none focus:border-lime transition">
+    <button id="cartBtn" class="relative shrink-0 bg-lime text-iron font-archivo px-4 py-2 rounded hover:bg-white transition">
+      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-lime text-iron text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform border border-iron">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="stripes border-b-2 border-lime/60">
+  <div class="max-w-7xl mx-auto px-4 py-14 md:py-20">
+    <p class="font-archivo text-lime text-sm tracking-widest uppercase mb-4">0 сахара · 0 воды · 100% рабочий состав</p>
+    <h1 class="font-archivo text-4xl md:text-7xl uppercase leading-[0.95]">
+      Качай<br><span class="text-lime">железо,</span><br>а не этикетки.
+    </h1>
+    <p class="mt-5 text-neutral-400 max-w-md">Протеин с чистым составом, креатин моногидрат и шейкеры, которые не текут в сумку. Лабораторные протоколы на каждую партию.</p>
+    <div class="mt-8 flex flex-wrap gap-4 items-center">
+      <a href="#catalog" class="bg-lime text-iron font-archivo uppercase px-8 py-3.5 rounded hover:bg-white transition">Брать вес ↓</a>
+      <span class="font-archivo text-xs uppercase tracking-widest text-neutral-500">Доставка 1–2 дня · Москва</span>
+    </div>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-steel border border-neutral-700 rounded px-3 py-2 text-sm outline-none focus:border-lime">
+      <option value="pop">По популярности</option>
+      <option value="asc">Цена ↑</option>
+      <option value="desc">Цена ↓</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-neutral-500 py-16 font-archivo uppercase">Пусто. Подходи к штанге.</p>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="border-2 border-lime/60 p-6 md:p-8 bg-steel">
+    <h2 class="font-archivo text-xl uppercase mb-1">Оформить заказ</h2>
+    <p class="text-neutral-500 text-sm mb-5">Самовывоз: зал на Курской, вход через гриль-зону.</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя" class="bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
+      <input required type="tel" placeholder="Телефон" class="bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
+      <input required placeholder="Адрес или пункт выдачи" class="sm:col-span-2 bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
+      <button type="submit" class="sm:col-span-2 bg-lime text-iron font-archivo uppercase py-4 rounded hover:bg-white transition">Заказать набор</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-lime font-archivo uppercase text-center"></p>
+  </div>
+</section>
+
+<footer class="border-t-2 border-lime/60 py-10">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-neutral-400">
+    <div>
+      <p class="font-archivo text-white text-lg mb-2">REPS.</p>
+      <p>Москва, Земляной Вал, 33<br>Пн–Вс 9:00–22:00</p>
+    </div>
+    <div>
+      <p class="text-white font-bold mb-2">Контакты</p>
+      <p>+7 (495) 150-40-40<br>coach@reps.fit</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-neutral-500 text-xs leading-relaxed">© 2026 REPS.<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-lime underline hover:text-white">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-steel border-l-2 border-lime z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b-2 border-lime/60">
+    <p class="font-archivo uppercase">Твой набор</p>
+    <button id="cartClose" class="text-neutral-400 hover:text-lime text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t-2 border-lime/60">
+    <div class="flex justify-between font-archivo uppercase mb-3"><span>Итого</span><span id="cartTotal" class="text-lime">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-lime text-iron font-archivo uppercase py-3 rounded hover:bg-white transition">К оформлению</button>
+  </div>
+</aside>
+
+<script>
+const flavors = ['Шоколад','Ваниль','Банан'];
+const products = [
+  { id:1, name:'Протеин Whey Isolate, 900 г', cat:'Протеин', flavor:true, price:3290, emoji:'🥛', spec:'900 г · 30 порций · 27 г белка/порция', sugar:true, grad:'linear-gradient(135deg,#A3E635,#3f5a12)' },
+  { id:2, name:'Протеин Casein Night, 800 г', cat:'Протеин', flavor:true, price:3690, emoji:'🌙', spec:'800 г · 26 порций · медленный казеин', sugar:true, grad:'linear-gradient(135deg,#2A2A2A,#6b6b4f)' },
+  { id:3, name:'Креатин моногидрат Creapure, 300 г', cat:'Креатин', flavor:false, price:1890, emoji:'💪', spec:'300 г · 100 порций · 3 г/порция', sugar:false, grad:'linear-gradient(135deg,#8B8B8B,#3d3d3d)' },
+  { id:4, name:'BCAA 2:1:1 ferment, 400 г', cat:'BCAA', flavor:true, price:2290, emoji:'⚗️', spec:'400 г · 40 порций · 5 г BCAA/порция', sugar:true, grad:'linear-gradient(135deg,#0ea5e9,#0c3b5e)' },
+  { id:5, name:'Шейкер Rebel 700 мл', cat:'Шейкеры', flavor:false, price:590, emoji:'🧲', spec:'700 мл · стальная пружина · без BPA', sugar:false, grad:'linear-gradient(135deg,#1f2937,#4b5563)' },
+  { id:6, name:'Шейкер-бутылка Steel 750 мл', cat:'Шейкеры', flavor:false, price:1290, emoji:'🔩', spec:'нерж. сталь · холод 12 ч · петля-карабин', sugar:false, grad:'linear-gradient(135deg,#9CA3AF,#374151)' },
+  { id:7, name:'Протеин Vegan Pea, 700 г', cat:'Протеин', flavor:true, price:2990, emoji:'🌱', spec:'700 г · 23 порции · горох + рис', sugar:true, grad:'linear-gradient(135deg,#22c55e,#14532d)' },
+  { id:8, name:'Предтрен Pre-Load, 250 г', cat:'BCAA', flavor:true, price:1990, emoji:'🔥', spec:'250 г · 25 порций · кофеин 150 мг', sugar:true, grad:'linear-gradient(135deg,#ef4444,#7f1d1d)' },
+  { id:9, name:'Гейнер Mass Base, 3 кг', cat:'Протеин', flavor:true, price:4290, emoji:'🏗', spec:'3 кг · 30 порций · 1250 ккал/порция', sugar:false, grad:'linear-gradient(135deg,#f59e0b,#78350f)' },
+  { id:10, name:'Омега-3 TRX, 90 капсул', cat:'Аксессуары', flavor:false, price:990, emoji:'🐟', spec:'90 капсул · EPA 180 / DHA 120', sugar:false, grad:'linear-gradient(135deg,#38bdf8,#1e3a5f)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded text-sm font-archivo uppercase tracking-wider border-2 transition ${c===activeCat?'bg-lime text-iron border-lime':'border-neutral-700 text-neutral-400 hover:border-lime hover:text-lime'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="group border-2 border-neutral-800 bg-steel overflow-hidden hover:border-lime transition flex flex-col">
+      <div class="relative h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
+        ${p.sugar?`<span class="skew inline-block absolute top-3 left-3 bg-lime text-iron font-archivo text-xs px-2 py-1">0 САХАРА</span>`:''}
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="text-[10px] font-archivo uppercase tracking-widest text-neutral-500 mb-1">${p.cat}</p>
+        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
+        <p class="text-xs text-neutral-500 mt-1">${p.spec}</p>
+        ${p.flavor?`
+        <label class="text-xs text-neutral-400 mt-2 block">Вкус:
+          <select id="flavor-${p.id}" class="ml-1 bg-iron border border-neutral-700 rounded px-2 py-1 text-xs outline-none focus:border-lime">
+            ${flavors.map(f=>`<option>${f}</option>`).join('')}
+          </select>
+        </label>`:''}
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <p class="font-archivo text-lime text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="bg-lime text-iron text-sm font-archivo uppercase px-3 py-2 rounded hover:bg-white transition">+ Брать</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  const p = products.find(x=>x.id===id);
+  const key = p.flavor ? id+'-'+(document.getElementById('flavor-'+id)?.value||flavors[0]) : id;
+  const label = p.flavor ? p.name+' — '+ (document.getElementById('flavor-'+id)?.value||flavors[0]) : p.name;
+  if(!cart[key]) cart[key] = { qty:0, label, price:p.price, emoji:p.emoji, grad:p.grad };
+  cart[key].qty++;
+  renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function dec(key){ if(--cart[key].qty<=0) delete cart[key]; renderCart(); }
+function removeItem(key){ delete cart[key]; renderCart(); }
+function renderCart(){
+  const keys = Object.keys(cart);
+  const count = keys.reduce((s,k)=>s+cart[k].qty,0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = keys.length ? keys.map(k=>{
+    const it = cart[k];
+    return `<div class="flex items-center gap-3 border-2 border-neutral-700 rounded p-3 bg-iron">
+      <div class="w-11 h-11 rounded flex items-center justify-center text-2xl shrink-0" style="background:${it.grad}">${it.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold truncate">${it.label}</p>
+        <p class="text-xs text-lime font-archivo">${(it.price*it.qty).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec('${k}')" class="w-7 h-7 border border-neutral-700 rounded hover:border-lime hover:text-lime">−</button>
+        <span class="w-6 text-center text-sm font-bold">${it.qty}</span>
+        <button onclick="addKey('${k}')" class="w-7 h-7 border border-neutral-700 rounded hover:border-lime hover:text-lime">+</button>
+      </div>
+      <button onclick="removeItem('${k}')" class="text-neutral-500 hover:text-red-400 ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-neutral-500 py-10 text-sm font-archivo uppercase">Разминка не закончена.</p>';
+  document.getElementById('cartTotal').textContent = keys.reduce((s,k)=>s+cart[k].price*cart[k].qty,0).toLocaleString('ru-RU')+' ₽';
+}
+function addKey(key){
+  const it = cart[key]; if(!it) return;
+  it.qty++; renderCart();
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

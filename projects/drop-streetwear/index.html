@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>DROP — стритвир-магазин | Москва</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0C0C0C',
+        acid: '#D6FF3F',
+        neonpink: '#FF2E97',
+        smoke: '#161616',
+        line: '#2A2A2A'
+      },
+      fontFamily: {
+        unbounded: ['Unbounded', 'sans-serif'],
+        inter: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  body { background:#0C0C0C; }
+  .glow-acid { box-shadow: 0 0 24px rgba(214,255,63,.18); }
+  .glow-pink { box-shadow: 0 0 24px rgba(255,46,151,.22); }
+  .sticker { transform: rotate(-6deg); }
+  .noise { background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size: 4px 4px; }
+  .tile { background-size: cover; }
+  ::selection { background:#D6FF3F; color:#0C0C0C; }
+</style>
+</head>
+<body class="bg-bg text-white font-inter noise min-h-screen">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-line">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-unbounded font-900 text-2xl tracking-tight">
+      DR<span class="text-acid">O</span>P<span class="text-neonpink text-xs align-top">®</span>
+    </a>
+    <span class="hidden md:inline text-[10px] uppercase tracking-widest text-neutral-500 border border-line px-2 py-1">Москва · доставка 24ч</span>
+    <input id="search" type="search" placeholder="Найти худи, кроссы, кепку…"
+      class="flex-1 min-w-0 bg-smoke border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-acid transition">
+    <button id="cartBtn" class="relative shrink-0 bg-acid text-bg font-extrabold px-4 py-2 rounded-lg hover:bg-neonpink hover:text-white transition">
+      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-neonpink text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden border-b border-line">
+  <div class="max-w-7xl mx-auto px-4 py-14 md:py-20">
+    <p class="font-unbounded text-acid text-sm mb-3">// ДРОП 07 · УЖЕ В НАЛИЧИИ</p>
+    <h1 class="font-unbounded font-900 text-4xl md:text-7xl leading-none uppercase">
+      Улица решает.<br>
+      <span class="text-neonpink">Остальное — детали.</span>
+    </h1>
+    <p class="mt-5 text-neutral-400 max-w-md">Худи оверсайз, широкие джинсы и кроссы, которые видят из соседнего двора. Дроп ограничен — не тормози.</p>
+    <div class="mt-7 flex flex-wrap gap-3">
+      <a href="#catalog" class="bg-acid text-bg font-unbounded font-bold px-7 py-3 rounded-full glow-acid hover:scale-105 transition">В каталог ↓</a>
+      <span class="sticker inline-block bg-neonpink text-white font-unbounded font-bold text-sm px-4 py-2 rounded-lg glow-pink">SALE −40%</span>
+    </div>
+  </div>
+  <div class="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-neonpink/20 blur-3xl pointer-events-none"></div>
+  <div class="absolute right-40 bottom-0 w-52 h-52 rounded-full bg-acid/10 blur-3xl pointer-events-none"></div>
+</section>
+
+<!-- CATALOG -->
+<main class="max-w-7xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-smoke border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-acid">
+      <option value="pop">Сначала популярные</option>
+      <option value="asc">Дешевле → дороже</option>
+      <option value="desc">Дороже → дешевле</option>
+    </select>
+  </div>
+
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-neutral-500 py-16 font-unbounded">Ничего не нашлось. Попробуй другое слово.</p>
+</main>
+
+<!-- ORDER FORM -->
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="border border-line rounded-2xl p-6 md:p-8 bg-smoke glow-acid">
+    <h2 class="font-unbounded font-bold text-xl mb-1">Оформить дроп</h2>
+    <p class="text-neutral-500 text-sm mb-5">Курьер по Москве — за 24 часа. Оплата при получении.</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя" class="bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
+      <input required type="tel" placeholder="Телефон +7 (___) ___-__-__" class="bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
+      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
+      <button type="submit" class="sm:col-span-2 bg-acid text-bg font-unbounded font-bold py-4 rounded-xl hover:bg-neonpink hover:text-white transition">ЗАБРАТЬ ДРОП</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-acid font-unbounded font-bold text-center"></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-line py-10">
+  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-neutral-400">
+    <div>
+      <p class="font-unbounded text-white text-lg mb-2">DROP®</p>
+      <p>ул. Некрасовская, 14, Москва<br>Ежедневно 11:00–22:00</p>
+    </div>
+    <div>
+      <p class="text-white font-bold mb-2">Связь</p>
+      <p>tg: @drop_msk<br>+7 (495) 000-77-14<br>hello@drop.ru</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-neutral-500 text-xs leading-relaxed">© 2026 DROP.<br>
+      Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-acid underline hover:text-neonpink">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- CART PANEL -->
+<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-smoke border-l border-line z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b border-line">
+    <p class="font-unbounded font-bold">Твоя корзина</p>
+    <button id="cartClose" class="text-neutral-400 hover:text-acid text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t border-line">
+    <div class="flex justify-between font-unbounded font-bold mb-3">
+      <span>Итого</span><span id="cartTotal" class="text-acid">0 ₽</span>
+    </div>
+    <button id="checkout" class="w-full bg-acid text-bg font-bold py-3 rounded-xl hover:bg-neonpink hover:text-white transition">Оформить</button>
+  </div>
+</aside>
+
+<script>
+const products = [
+  { id:1, name:'Худи оверсайз «Ночной дроп»', cat:'Худи', price:6490, old:8990, hit:true, emoji:'🖤', grad:'linear-gradient(135deg,#1a1a1a,#2d2d2d 55%,#FF2E97)' },
+  { id:2, name:'Худи зип «Кислотный сигнал»', cat:'Худи', price:7290, old:null, hit:false, emoji:'⚡', grad:'linear-gradient(135deg,#3a4a00,#D6FF3F 70%,#0C0C0C)' },
+  { id:3, name:'Кроссовки «Токийский бум»', cat:'Кроссы', price:12990, old:15990, hit:true, emoji:'👟', grad:'linear-gradient(135deg,#2b0b1e,#FF2E97 60%,#D6FF3F)' },
+  { id:4, name:'Кроссовки «Бетон 03»', cat:'Кроссы', price:9450, old:null, hit:false, emoji:'🥾', grad:'linear-gradient(135deg,#333,#555 50%,#0C0C0C)' },
+  { id:5, name:'Кепка 5-panel «Глитч»', cat:'Кепки', price:2490, old:null, hit:false, emoji:'🧢', grad:'linear-gradient(135deg,#1a1a1a,#D6FF3F 85%)' },
+  { id:6, name:'Кепка «Сумерки Москва»', cat:'Кепки', price:2790, old:3490, hit:false, emoji:'🌆', grad:'linear-gradient(135deg,#1f0f2e,#FF2E97 80%)' },
+  { id:7, name:'Джинсы широкие «Baggy 90-е»', cat:'Джинсы', price:5890, old:null, hit:false, emoji:'👖', grad:'linear-gradient(135deg,#14203a,#4a6fa5 70%,#0C0C0C)' },
+  { id:8, name:'Джинсы карго «Рейв-склад»', cat:'Джинсы', price:6790, old:null, hit:false, emoji:'🛠', grad:'linear-gradient(135deg,#0f1f14,#2ECC71 75%,#0C0C0C)' },
+  { id:9, name:'Футболка бокс «Розовый шум»', cat:'Худи', price:3290, old:4290, hit:false, emoji:'📻', grad:'linear-gradient(135deg,#2a0f1d,#FF2E97 65%,#161616)' },
+  { id:10, name:'Ремень широкий «Стропа»', cat:'Аксессуары', price:1890, old:null, hit:false, emoji:'🧷', grad:'linear-gradient(135deg,#222,#666 55%,#D6FF3F)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-semibold border transition ${c===activeCat?'bg-acid text-bg border-acid':'border-line text-neutral-400 hover:border-acid hover:text-acid'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="group border border-line rounded-2xl overflow-hidden bg-smoke hover:border-acid hover:glow-acid transition flex flex-col">
+      <div class="relative h-44 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="group-hover:scale-125 transition-transform duration-300">${p.emoji}</span>
+        ${p.old?`<span class="sticker absolute top-3 left-3 bg-neonpink text-white text-xs font-unbounded font-bold px-2 py-1 rounded">SALE</span>`:''}
+        ${p.hit&&!p.old?`<span class="absolute top-3 left-3 bg-acid text-bg text-xs font-bold px-2 py-1 rounded">NEW</span>`:''}
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">${p.cat}</p>
+        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <div>
+            <p class="font-unbounded font-bold text-acid">${p.price.toLocaleString('ru-RU')} ₽</p>
+            ${p.old?`<p class="text-xs text-neutral-500 line-through">${p.old.toLocaleString('ru-RU')} ₽</p>`:''}
+          </div>
+          <button onclick="add(${p.id})" class="bg-acid text-bg text-sm font-extrabold px-3 py-2 rounded-lg hover:bg-neonpink hover:text-white transition">+ В корзину</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  cart[id] = (cart[id]||0)+1;
+  renderCart();
+  const badge = document.getElementById('cartCount');
+  badge.animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function removeItem(id){ delete cart[id]; renderCart(); }
+function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=>s+cart[id],0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
+    const p = products.find(x=>x.id==id);
+    return `<div class="flex items-center gap-3 border border-line rounded-xl p-3">
+      <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold truncate">${p.name}</p>
+        <p class="text-xs text-acid font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec(${p.id})" class="w-7 h-7 border border-line rounded hover:border-acid hover:text-acid">−</button>
+        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
+        <button onclick="add(${p.id})" class="w-7 h-7 border border-line rounded hover:border-acid hover:text-acid">+</button>
+      </div>
+      <button onclick="removeItem(${p.id})" class="text-neutral-500 hover:text-neonpink ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-neutral-500 py-10 text-sm">Пусто. Улица ждёт.</p>';
+  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

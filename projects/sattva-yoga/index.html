@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Sattva — студия йоги в Сочи</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#7A8B5C',
+        accent: '#C97B5D',
+        cream: '#FAF7F2',
+        ink: '#3E3A34'
+      },
+      fontFamily: {
+        display: ['"Cormorant Garamond"', 'serif'],
+        body: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #FAF7F2; }
+  .thin { border-color: rgba(122,139,92,.35); }
+  .breathe { animation: breathe 6s ease-in-out infinite; }
+  @keyframes breathe { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(1.12);opacity:.8} }
+  @media (prefers-reduced-motion: reduce) { .breathe{animation:none} }
+</style>
+</head>
+<body class="bg-cream text-ink font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-cream/90 backdrop-blur border-b thin">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="font-display text-2xl tracking-[0.25em] text-primary">SATTVА</a>
+    <nav class="hidden md:flex gap-8 text-sm tracking-wide">
+      <a href="#directions" class="hover:text-primary transition">Направления</a>
+      <a href="#schedule" class="hover:text-primary transition">Расписание</a>
+      <a href="#teachers" class="hover:text-primary transition">Преподаватели</a>
+      <a href="#pricing" class="hover:text-primary transition">Абонементы</a>
+      <a href="#join" class="hover:text-primary transition">Запись</a>
+    </nav>
+    <a href="#join" class="text-sm border thin rounded-full px-5 py-2 text-primary hover:bg-primary hover:text-white transition">Прийти</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="relative overflow-hidden">
+  <div class="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-primary/10 breathe"></div>
+  <div class="absolute -left-16 bottom-0 w-52 h-52 rounded-full bg-accent/10 breathe" style="animation-delay:-3s"></div>
+  <div class="max-w-5xl mx-auto px-4 py-24 md:py-40 text-center relative">
+    <p class="text-xs tracking-[0.35em] uppercase text-accent mb-6">Студия йоги · Сочи · 🌿</p>
+    <h1 class="font-display text-5xl md:text-7xl font-medium leading-[1.1] mb-6">Тишина внутри —<br>начинается с вдоха</h1>
+    <p class="max-w-xl mx-auto text-lg text-ink/70 font-light mb-10">Хатха, виньяса и медитация в светлом зале в десяти минутах от моря. Маленькие группы, внимательные преподаватели.</p>
+    <a href="#join" class="inline-block rounded-full border border-primary text-primary px-10 py-4 hover:bg-primary hover:text-white transition">Первое занятие — 500 ₽</a>
+  </div>
+</section>
+
+<!-- DIRECTIONS -->
+<section id="directions" class="max-w-5xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl md:text-5xl text-center mb-3">Направления</h2>
+  <p class="text-center text-ink/60 mb-12">Три практики — один путь к себе</p>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="text-center p-8 rounded-full-none border thin rounded-3xl hover:shadow-lg transition">
+      <svg class="w-16 h-16 mx-auto mb-5 text-primary" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="32" cy="14" r="6"/><path d="M32 20v14M32 34l-12 14M32 34l12 14M14 28l18 4 18-4"/>
+      </svg>
+      <h3 class="font-display text-2xl mb-2">Хатха</h3>
+      <p class="text-ink/60 text-sm leading-relaxed">Спокойная классика: асаны с длинными удержаниями, дыхание, выравнивание. Подходит новичкам.</p>
+    </div>
+    <div class="text-center p-8 border thin rounded-3xl hover:shadow-lg transition">
+      <svg class="w-16 h-16 mx-auto mb-5 text-accent" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 44c8-8 16 8 24 0s16-8 24 0"/><path d="M8 30c8-8 16 8 24 0s16-8 24 0"/><circle cx="32" cy="14" r="5"/>
+      </svg>
+      <h3 class="font-display text-2xl mb-2">Виньяса</h3>
+      <p class="text-ink/60 text-sm leading-relaxed">Динамичные связки под дыхание. Тело разогревается, ум успокаивается — движение как медитация.</p>
+    </div>
+    <div class="text-center p-8 border thin rounded-3xl hover:shadow-lg transition">
+      <svg class="w-16 h-16 mx-auto mb-5 text-primary" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="32" cy="32" r="16"/><circle cx="32" cy="32" r="8"/><circle cx="32" cy="32" r="2"/>
+      </svg>
+      <h3 class="font-display text-2xl mb-2">Медитация</h3>
+      <p class="text-ink/60 text-sm leading-relaxed">Вечерние сессии по 45 минут: концентрация, сканирование тела, дыхательные практики пранаямы.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule" class="max-w-5xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl md:text-5xl text-center mb-12">Расписание</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[540px] border thin rounded-2xl overflow-hidden text-sm md:text-base">
+      <thead class="bg-primary/10 font-medium">
+        <tr>
+          <th class="px-4 py-3 text-left">День</th><th class="px-4 py-3 text-left">Утро</th><th class="px-4 py-3 text-left">Вечер</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-primary/15">
+        <tr><td class="px-4 py-3">Пн</td><td class="px-4 py-3">07:30 · Хатха · Анна</td><td class="px-4 py-3">19:00 · Виньяса · Марк</td></tr>
+        <tr><td class="px-4 py-3">Вт</td><td class="px-4 py-3">08:00 · Медитация · Марк</td><td class="px-4 py-3">19:30 · Хатха · Анна</td></tr>
+        <tr><td class="px-4 py-3">Ср</td><td class="px-4 py-3">07:30 · Виньяса · Марк</td><td class="px-4 py-3">19:00 · Медитация · Анна</td></tr>
+        <tr><td class="px-4 py-3">Чт</td><td class="px-4 py-3">08:00 · Хатха · Анна</td><td class="px-4 py-3">19:30 · Виньяса · Марк</td></tr>
+        <tr><td class="px-4 py-3">Сб</td><td class="px-4 py-3">10:00 · Хатха · Анна</td><td class="px-4 py-3">17:00 · Медитация · Марк</td></tr>
+        <tr><td class="px-4 py-3">Вс</td><td class="px-4 py-3">—</td><td class="px-4 py-3">18:00 · Открытый класс (500 ₽)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TEACHERS -->
+<section id="teachers" class="max-w-4xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl md:text-5xl text-center mb-12">Преподаватели</h2>
+  <div class="grid sm:grid-cols-2 gap-10">
+    <div class="text-center">
+      <div class="w-28 h-28 mx-auto mb-5 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-display text-4xl">АК</div>
+      <h3 class="font-display text-2xl mb-1">Анна Королёва</h3>
+      <p class="text-accent text-sm mb-3">Хатха · медитация</p>
+      <p class="text-ink/60 text-sm leading-relaxed">Сертификация RYT-500, 9 лет практики. Училась в Ришикеше, ведёт мягкие классы с вниманием к шее и спине.</p>
+    </div>
+    <div class="text-center">
+      <div class="w-28 h-28 mx-auto mb-5 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-white font-display text-4xl">МД</div>
+      <h3 class="font-display text-2xl mb-1">Марк Дубов</h3>
+      <p class="text-accent text-sm mb-3">Виньяса · пранаяма</p>
+      <p class="text-ink/60 text-sm leading-relaxed">Ex-пловец, RYT-200 + курс по дыхательным практикам. Его виньяса — ровный темп и честная нагрузка.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="max-w-4xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl md:text-5xl text-center mb-12">Абонементы</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="border thin rounded-3xl p-8 text-center">
+      <p class="text-sm tracking-widest uppercase text-ink/50 mb-3">Пробный</p>
+      <p class="font-display text-5xl mb-2">500 ₽</p>
+      <p class="text-ink/60 text-sm mb-6">Одно занятие, любой класс. Коврик и чай после — включены.</p>
+      <a href="#join" class="text-primary border-b border-primary/50 hover:border-primary transition">Выбрать</a>
+    </div>
+    <div class="border-2 border-primary rounded-3xl p-8 text-center relative bg-primary/5">
+      <p class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs px-4 py-1 rounded-full">Выбор студентов</p>
+      <p class="text-sm tracking-widest uppercase text-ink/50 mb-3">8 занятий</p>
+      <p class="font-display text-5xl mb-2">6 400 ₽</p>
+      <p class="text-ink/60 text-sm mb-6">800 ₽ за занятие. Действует 2 месяца, заморозка 14 дней.</p>
+      <a href="#join" class="text-primary border-b border-primary/50 hover:border-primary transition">Выбрать</a>
+    </div>
+    <div class="border thin rounded-3xl p-8 text-center">
+      <p class="text-sm tracking-widest uppercase text-ink/50 mb-3">Безлимит</p>
+      <p class="font-display text-5xl mb-2">9 900 ₽</p>
+      <p class="text-ink/60 text-sm mb-6">Месяц всех классов без ограничений + одна личная сессия.</p>
+      <a href="#join" class="text-primary border-b border-primary/50 hover:border-primary transition">Выбрать</a>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN FORM -->
+<section id="join" class="max-w-xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl text-center mb-3">Запись на занятие</h2>
+  <p class="text-center text-ink/60 mb-10">Ответим в течение пары часов 🌸</p>
+  <form id="joinForm" class="space-y-4">
+    <input required placeholder="Имя" class="w-full border thin rounded-full px-6 py-3 bg-white focus:outline-none focus:border-primary">
+    <input required type="tel" placeholder="Телефон" class="w-full border thin rounded-full px-6 py-3 bg-white focus:outline-none focus:border-primary">
+    <select class="w-full border thin rounded-full px-6 py-3 bg-white focus:outline-none focus:border-primary">
+      <option>Хатха — утро</option><option>Виньяса — вечер</option><option>Медитация</option><option>Пока не выбрал(а)</option>
+    </select>
+    <button type="submit" class="w-full rounded-full bg-primary text-white py-4 hover:bg-primary/90 transition">Записаться</button>
+    <p id="joinMsg" class="hidden text-center text-primary">Заявка отправлена!</p>
+  </form>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-5xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl text-center mb-12">Отзывы</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-8 border thin">
+      <p class="font-display text-xl italic mb-4">«Хожу на хатху к Анне третий месяц — спина перестала ныть к вечеру. Зал светлый, после занятия дают чай.»</p>
+      <p class="text-sm text-ink/60">— Марина, 34 🌿</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-8 border thin">
+      <p class="font-display text-xl italic mb-4">«Виньяса у Марка — единственная тренировка, после которой голова реально тихая. Темп честный, не скучно.»</p>
+      <p class="text-sm text-ink/60">— Олег, 28 🌊</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-8 border thin">
+      <p class="font-display text-xl italic mb-4">«Пришла на пробное, осталась на безлимит. Медитации по воскресеньям — маленький отпуск без билета.»</p>
+      <p class="text-sm text-ink/60">— Света, 41 🕊️</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-2xl mx-auto px-4 py-20 border-t thin">
+  <h2 class="font-display text-4xl text-center mb-10">Вопросы</h2>
+  <div class="space-y-4">
+    <div class="border thin rounded-2xl bg-white">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left">Я никогда не занимался йогой — мне подойдёт?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-ink/60 text-sm leading-relaxed">Да. Хатха и медитация — идеальный вход. Скажите преподавателю, что вы новичок, и он будет давать упрощённые варианты асан.</div>
+    </div>
+    <div class="border thin rounded-2xl bg-white">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left">Нужен свой коврик?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-ink/60 text-sm leading-relaxed">Нет, коврики, блоки и ремни — наши. Свой коврик можно принести, если так комфортнее.</div>
+    </div>
+    <div class="border thin rounded-2xl bg-white">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left">Что с абонементом, если я заболел(а)?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-ink/60 text-sm leading-relaxed">Заморозка до 14 дней по сообщению в Telegram. Для безлимита замораживаем без вопросов.</div>
+    </div>
+    <div class="border thin rounded-2xl bg-white">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left">Сколько человек в группе?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-ink/60 text-sm leading-relaxed">Не больше 12. Мы принципиально держим маленькие группы, чтобы у каждого было внимание преподавателя.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t thin">
+  <div class="max-w-5xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display text-2xl text-primary mb-2">SATTVА</p>
+      <p class="text-ink/60">Сочи, ул. Навагинская, 9, 2 этаж<br>Ежедневно 7:30 — 20:30</p>
+    </div>
+    <div class="text-ink/60">
+      <p class="text-ink mb-2 font-medium">Контакты</p>
+      <p>📞 <a href="tel:+79384561102" class="hover:text-primary">+7 938 456-11-02</a></p>
+      <p>✈️ <a href="https://t.me/sattva_sochi" class="hover:text-primary">@sattva_sochi</a></p>
+    </div>
+    <div class="text-ink/60">
+      <p class="text-ink mb-2 font-medium">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('joinForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('joinMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

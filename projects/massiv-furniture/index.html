@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Массив — мебельная фабрика, Ижевск</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { cream:'#F7F3EC', wood:'#8A5A34', graf:'#3B3733', sand:'#EDE5D8' },
+    fontFamily: { disp:['Lora','serif'], body:['"Work Sans"','sans-serif'] }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,700;1,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  body{font-family:'Work Sans',sans-serif}
+  .oak{background:linear-gradient(135deg,#B98B5E,#8A5A34 55%,#6B4323)}
+  .ash{background:linear-gradient(135deg,#D9C4A5,#B08A5F 55%,#8F6B44)}
+  .veneer{background:linear-gradient(135deg,#7A4E2D,#4E3018 60%,#3A2411)}
+  .photo-1{background:linear-gradient(160deg,#D8C7AE,#A9835A 60%,#7C5A38)}
+  .photo-2{background:linear-gradient(160deg,#C9BBA6,#937753 60%,#5F4629)}
+  .photo-3{background:linear-gradient(160deg,#E2D5BF,#B49372 60%,#83603E)}
+</style>
+</head>
+<body class="bg-cream text-graf antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b border-[#E3D9C9]">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-3">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 24V6l10-3 10 3v18" stroke="#8A5A34" stroke-width="2" fill="none"/><path d="M9 24v-8h10v8" stroke="#8A5A34" stroke-width="2" fill="none"/></svg>
+      <span class="font-disp font-bold text-xl text-wood">Массив</span>
+    </a>
+    <nav class="hidden md:flex gap-6 text-sm font-medium">
+      <a href="#about" class="hover:text-wood transition">О фабрике</a>
+      <a href="#services" class="hover:text-wood transition">Что делаем</a>
+      <a href="#projects" class="hover:text-wood transition">Работы</a>
+      <a href="#jobs" class="hover:text-wood transition">Вакансии</a>
+      <a href="#contacts" class="hover:text-wood transition">Контакты</a>
+    </nav>
+    <button id="burger" class="md:hidden p-2" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#8A5A34" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <nav id="mobnav" class="hidden md:hidden border-t border-[#E3D9C9] bg-cream px-5 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="#about">О фабрике</a><a href="#services">Что делаем</a><a href="#projects">Работы</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="about" class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-wood/70 uppercase tracking-[0.25em] text-xs font-semibold mb-4">Мебельная фабрика · Ижевск · с 2007 года</p>
+    <h1 class="font-disp text-4xl md:text-6xl font-bold text-graf leading-tight mb-6">Мебель из массива дерева — <span class="text-wood italic">сделанная руками</span></h1>
+    <p class="max-w-xl text-[#6E655A] leading-relaxed mb-8">Собственное производство в Ижевске: цех сушки, столярный и покрасочный цеха. Проектируем, делаем и устанавливаем. Замер по Удмуртии — бесплатно.</p>
+    <div class="grid grid-cols-3 gap-4 max-w-xl mb-10">
+      <div class="bg-white border border-[#E3D9C9] rounded-lg p-4 text-center"><div class="font-disp text-3xl font-bold text-wood"><span class="counter" data-to="19">0</span></div><p class="text-xs text-[#9A9083] mt-1">лет на рынке</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-lg p-4 text-center"><div class="font-disp text-3xl font-bold text-wood"><span class="counter" data-to="5800">0</span></div><p class="text-xs text-[#9A9083] mt-1">изделий</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-lg p-4 text-center"><div class="font-disp text-3xl font-bold text-wood"><span class="counter" data-to="2400">0</span></div><p class="text-xs text-[#9A9083] mt-1">семей-клиентов</p></div>
+    </div>
+    <a href="#contacts" class="inline-block px-7 py-3 bg-wood text-cream rounded-full font-medium hover:bg-[#754a2a] transition">Записаться на бесплатный замер</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 bg-white border-y border-[#E3D9C9]">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl md:text-4xl font-bold mb-12">Что мы делаем</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+      <div class="bg-cream rounded-xl p-6"><h3 class="font-disp font-bold text-lg text-graf mb-2">Кухни на заказ</h3><p class="text-sm text-[#6E655A] leading-relaxed">Фасады из дуба и ясеня, фурнитура Blum. Срок от 45 дней, установка в день доставки.</p></div>
+      <div class="bg-cream rounded-xl p-6"><h3 class="font-disp font-bold text-lg text-graf mb-2">Шкафы и гардеробные</h3><p class="text-sm text-[#6E655A] leading-relaxed">Под потолок, с раздвижными системами и подсветкой. Замер и 3D-эскиз бесплатно.</p></div>
+      <div class="bg-cream rounded-xl p-6"><h3 class="font-disp font-bold text-lg text-graf mb-2">Офисная мебель</h3><p class="text-sm text-[#6E655A] leading-relaxed">Столы, ресепшн, переговорные. Проекты для банков и IT-офисов, рассрочка для юрлиц.</p></div>
+      <div class="bg-cream rounded-xl p-6"><h3 class="font-disp font-bold text-lg text-graf mb-2">HoReCa по договору</h3><p class="text-sm text-[#6E655A] leading-relaxed">Мебель для кафе и отелей: стойки, скамьи, стеллажи. Договор с фиксацией сроков и МОЛ.</p></div>
+    </div>
+    <h3 class="font-disp text-2xl font-bold mb-6">Материалы</h3>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="oak h-28"></div><div class="p-5 bg-white"><p class="font-disp font-bold">Дуб</p><p class="text-sm text-[#6E655A] mt-1">Твёрдый, живёт десятилетиями. От 24 000 ₽/м² фасада.</p></div></div>
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="ash h-28"></div><div class="p-5 bg-white"><p class="font-disp font-bold">Ясень</p><p class="text-sm text-[#6E655A] mt-1">Светлый, выразительная текстура. От 19 000 ₽/м².</p></div></div>
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="veneer h-28"></div><div class="p-5 bg-white"><p class="font-disp font-bold">Шпон ценных пород</p><p class="text-sm text-[#6E655A] mt-1">Орех, венге, тик — для акцентных фасадов. От 14 000 ₽/м².</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="py-20">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl font-bold mb-12">Как мы работаем — 5 шагов</h2>
+    <div class="grid md:grid-cols-5 gap-4">
+      <div class="bg-white border border-[#E3D9C9] rounded-xl p-5"><p class="font-disp text-wood text-3xl font-bold mb-2">1</p><p class="font-semibold mb-1">Замер</p><p class="text-xs text-[#6E655A]">Мастер приезжает с образцами. Бесплатно.</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-xl p-5"><p class="font-disp text-wood text-3xl font-bold mb-2">2</p><p class="font-semibold mb-1">Эскиз</p><p class="text-xs text-[#6E655A]">3D-проект и смета за 3 дня.</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-xl p-5"><p class="font-disp text-wood text-3xl font-bold mb-2">3</p><p class="font-semibold mb-1">Договор</p><p class="text-xs text-[#6E655A]">Сроки и цена фиксируются, предоплата 30%.</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-xl p-5"><p class="font-disp text-wood text-3xl font-bold mb-2">4</p><p class="font-semibold mb-1">Производство</p><p class="text-xs text-[#6E655A]">Фотоотчёт с цеха на каждом этапе.</p></div>
+      <div class="bg-white border border-[#E3D9C9] rounded-xl p-5"><p class="font-disp text-wood text-3xl font-bold mb-2">5</p><p class="font-semibold mb-1">Установка</p><p class="text-xs text-[#6E655A]">Доставляем и собираем, гарантия 5 лет.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="projects" class="py-20 bg-white border-y border-[#E3D9C9]">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl md:text-4xl font-bold mb-12">Наши работы</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="photo-1 h-48"></div><div class="p-5"><p class="font-disp font-bold">Кухня «Скандинавия»</p><p class="text-sm text-[#6E655A] mt-1">Ясень + каменная столешница · Ижевск, 2025 · 780 000 ₽</p></div></div>
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="photo-2 h-48"></div><div class="p-5"><p class="font-disp font-bold">Гардеробная «Лофт»</p><p class="text-sm text-[#6E655A] mt-1">Дуб тонированный · Воткинск, 2025 · 410 000 ₽</p></div></div>
+      <div class="rounded-xl overflow-hidden border border-[#E3D9C9]"><div class="photo-3 h-48"></div><div class="p-5"><p class="font-disp font-bold">Ресепшн для отеля</p><p class="text-sm text-[#6E655A] mt-1">Шпон ореха, HoReCa-проект · Ижевск, 2024 · 1 150 000 ₽</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="py-14">
+  <p class="text-center text-xs uppercase tracking-[0.25em] text-[#9A9083] mb-6">Нас выбирают</p>
+  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-disp font-bold text-[#C4B8A5] text-lg">
+    <span>Отель «Италмас»</span><span>Кофейня Рядом</span><span>Студия Интерьер</span><span>Гостиница «Купец»</span><span>Ресторан Пельменная №2</span>
+  </div>
+</section>
+
+<!-- VACANCIES -->
+<section id="jobs" class="py-20 bg-white border-y border-[#E3D9C9]">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="font-disp text-3xl md:text-4xl font-bold mb-12">Вакансии в цехе и офисе</h2>
+    <div class="space-y-4">
+      <div class="border border-[#E3D9C9] rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-medium">Столяр (мебельное производство)</span><span class="font-disp font-bold text-wood whitespace-nowrap">от 95 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6E655A] leading-relaxed">Работа на станках с ЧПУ и вручную, опыт от 2 лет. Цех в Индустриальном районе, питание и спецодежда за счёт фабрики.</div>
+      </div>
+      <div class="border border-[#E3D9C9] rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-medium">Дизайнер-замерщик</span><span class="font-disp font-bold text-wood whitespace-nowrap">от 70 000 ₽ + %</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6E655A] leading-relaxed">Знание PRO100 или Базис, выезды по Ижевску. Сдельная часть — процент от заказов. Компания предоставляет авто.</div>
+      </div>
+      <div class="border border-[#E3D9C9] rounded-xl">
+        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-medium">Маляр (покрасочный цех)</span><span class="font-disp font-bold text-wood whitespace-nowrap">от 88 000 ₽</span></button>
+        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6E655A] leading-relaxed">Лакирование и тонировка массива, опыт с ЛКМ на водной основе. Камера покраски в цехе, вентиляция и СИЗ.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="py-20">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
+    <div>
+      <h2 class="font-disp text-3xl font-bold mb-6">Контакты и шоурум</h2>
+      <p class="text-sm text-[#6E655A] leading-relaxed mb-6">Приходите в шоурум потрогать материалы: образцы всех пород и фурнитуры на месте. Кофе у нас хороший.</p>
+      <ul class="space-y-3 text-sm">
+        <li>📍 Ижевск, ул. Удмуртская, 304 (шоурум и цех)</li>
+        <li>📞 +7 (3412) 93-45-61</li>
+        <li>✉️ zakaz@massiv-izh.ru</li>
+        <li>🕘 Ежедневно 10:00–20:00</li>
+      </ul>
+    </div>
+    <form id="cform" class="space-y-4">
+      <input required class="w-full bg-white border border-[#E3D9C9] rounded-lg px-4 py-3 text-sm outline-none focus:border-wood" placeholder="Имя">
+      <input required type="tel" class="w-full bg-white border border-[#E3D9C9] rounded-lg px-4 py-3 text-sm outline-none focus:border-wood" placeholder="Телефон">
+      <textarea class="w-full bg-white border border-[#E3D9C9] rounded-lg px-4 py-3 text-sm outline-none focus:border-wood" rows="4" placeholder="Что хотите заказать"></textarea>
+      <button class="w-full py-3 bg-wood text-cream rounded-lg font-medium hover:bg-[#754a2a] transition">Записаться на замер</button>
+      <p id="cok" class="hidden text-wood text-sm text-center font-medium">Спасибо! Мы свяжемся.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 bg-graf text-[#B7AE9F]">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs leading-relaxed">
+    <div>
+      <p class="font-disp font-bold text-cream text-base mb-3">ООО «Фабрика Массив»</p>
+      <p>ИНН 1832098765 · КПП 183201001 · ОГРН 1071832098765</p>
+      <p>Р/с 40702810700000013579 в Удмуртском отделении Сбербанка, БИК 049401601</p>
+      <p>Адрес: 426057, Ижевск, ул. Удмуртская, 304</p>
+    </div>
+    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-cream underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
+document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
+document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    const el = e.target, to = +el.dataset.to; let n = 0;
+    const step = Math.max(1, Math.round(to / 60));
+    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n.toLocaleString('ru-RU'); }, 25);
+    io.unobserve(el);
+  }
+}), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(c => io.observe(c));
+document.getElementById('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('cok').classList.remove('hidden');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

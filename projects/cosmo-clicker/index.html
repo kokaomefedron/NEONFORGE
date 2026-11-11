@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Космо-кликер — добыча кристаллов | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
+  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
+}}};
+</script>
+<style>
+  html,body{-webkit-tap-highlight-color:transparent}
+  .planet-btn{transition:transform .08s ease}
+  .planet-btn:active{transform:scale(.93)}
+  .float-up{position:absolute;pointer-events:none;font-weight:700;color:#C6FF4D;
+    text-shadow:0 0 10px rgba(198,255,77,.7);animation:fup 1.1s ease-out forwards}
+  @keyframes fup{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-90px) scale(1.25)}}
+  .pulse-ring{animation:pring 2.6s ease-out infinite}
+  @keyframes pring{0%{transform:scale(.9);opacity:.55}70%{transform:scale(1.35);opacity:0}100%{opacity:0}}
+  .spin-slow{animation:spin 14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
+<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
+  <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-vio" style="text-shadow:0 0 18px rgba(124,92,255,.55)">КОСМО-КЛИКЕР</h1>
+  <span class="text-[11px] uppercase tracking-widest text-white/40">idle · демо</span>
+</header>
+
+<main class="flex-1 w-full max-w-4xl mx-auto px-3 py-5 grid md:grid-cols-[1fr_380px] gap-5">
+
+  <!-- Планета -->
+  <section class="flex flex-col items-center justify-start">
+    <div class="grid grid-cols-2 gap-2 w-full max-w-sm mb-4">
+      <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-2">
+        <div class="text-[11px] text-white/50 uppercase tracking-wider">Кристаллы</div>
+        <div id="crystals" class="text-lime font-extrabold text-xl">0</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-2">
+        <div class="text-[11px] text-white/50 uppercase tracking-wider">Доход / сек</div>
+        <div id="rate" class="text-blu font-extrabold text-xl">0</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-2">
+        <div class="text-[11px] text-white/50 uppercase tracking-wider">Всего добыто</div>
+        <div id="total" class="font-bold text-white/80">0</div>
+      </div>
+      <div class="rounded-xl bg-white/5 border border-white/10 px-3 py-2">
+        <div class="text-[11px] text-white/50 uppercase tracking-wider">Кликов</div>
+        <div id="clicks" class="font-bold text-white/80">0</div>
+      </div>
+    </div>
+
+    <div id="planetZone" class="relative w-64 h-64 md:w-72 md:h-72 flex items-center justify-center">
+      <div class="absolute inset-0 rounded-full border border-vio/40 pulse-ring"></div>
+      <div class="absolute inset-6 rounded-full border border-blu/30 pulse-ring" style="animation-delay:1.2s"></div>
+      <button id="planet" class="planet-btn relative w-52 h-52 md:w-60 md:h-60 rounded-full flex items-center justify-center text-[96px] md:text-[110px]"
+        style="background:radial-gradient(circle at 32% 30%, #2b1a66 0%, #120a2e 55%, #05050A 100%);box-shadow:0 0 60px rgba(124,92,255,.45), inset 0 0 40px rgba(91,140,255,.25)">
+        <span class="spin-slow absolute inset-0 rounded-full border-2 border-dashed border-blu/30"></span>
+        🪐
+      </button>
+    </div>
+    <p class="mt-4 text-white/50 text-sm text-center max-w-xs">Тапай по планете — каждый удар даёт <b class="text-lime">+1 кристалл</b>. Авто-майнеры справа добывают без тебя.</p>
+  </section>
+
+  <!-- Магазин -->
+  <aside>
+    <h2 class="text-sm font-bold uppercase tracking-widest text-white/60 mb-2">Магазин улучшений</h2>
+    <div id="shop" class="space-y-2"></div>
+    <div class="mt-4 flex items-center justify-between text-[11px] text-white/35">
+      <span>Автосохранение каждые 5 секунд</span>
+      <button id="wipe" class="hover:text-red-400 transition">Сбросить прогресс</button>
+    </div>
+  </aside>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
+  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const UPG=[
+    {id:'probe',   name:'Дрон-зонд',         emoji:'🛰️', desc:'Сканирует пояс астероидов',        base:25,    rate:0.5},
+    {id:'drill',   name:'Буровая платформа', emoji:'⛏️', desc:'Добывает кристаллы из мантии',     base:220,   rate:3},
+    {id:'station', name:'Орбитальная станция',emoji:'🛸',desc:'Промышленная добыча на орбите',    base:1800,  rate:18},
+    {id:'quant',   name:'Квантовый рудник',  emoji:'🌀', desc:'Синтезирует кристаллы из пустоты', base:12000, rate:95}
+  ];
+  const S={crystals:0,total:0,clicks:0,lvl:{probe:0,drill:0,station:0,quant:0}};
+
+  const el=id=>document.getElementById(id);
+  const crystalsEl=el('crystals'), rateEl=el('rate'), totalEl=el('total'), clicksEl=el('clicks'), shopEl=el('shop');
+
+  function fmt(n){
+    if(n>=1e9) return (n/1e9).toFixed(2)+'B';
+    if(n>=1e6) return (n/1e6).toFixed(2)+'M';
+    if(n>=1e4) return (n/1e3).toFixed(1)+'K';
+    return Math.floor(n).toLocaleString('ru-RU');
+  }
+  const cost=u=>Math.floor(u.base*Math.pow(1.5,S.lvl[u.id]));
+  const totalRate=()=>UPG.reduce((s,u)=>s+u.rate*S.lvl[u.id],0);
+
+  // --- сохранение ---
+  function save(){ try{ localStorage.setItem('nf_cosmo_clicker_save', JSON.stringify(S)); }catch(e){} }
+  function load(){
+    try{
+      const raw=localStorage.getItem('nf_cosmo_clicker_save');
+      if(raw){ const d=JSON.parse(raw);
+        if(d && typeof d.crystals==='number' && d.lvl){ Object.assign(S,d); } }
+    }catch(e){}
+  }
+  load();
+  setInterval(save,5000);
+  addEventListener('beforeunload',save);
+
+  // --- магазин: строим один раз ---
+  const rows={};
+  for(const u of UPG){
+    const row=document.createElement('div');
+    row.className='rounded-xl bg-white/5 border border-white/10 p-3';
+    row.innerHTML=
+      '<div class="flex items-start gap-3">'+
+        '<div class="text-3xl w-10 text-center">'+u.emoji+'</div>'+
+        '<div class="flex-1 min-w-0">'+
+          '<div class="font-semibold text-sm">'+u.name+'</div>'+
+          '<div class="text-[11px] text-white/45 leading-snug">'+u.desc+'</div>'+
+          '<div class="text-[11px] mt-1 text-white/60">Уровень: <b class="lvl text-blu">0</b> · '+
+            'Даёт: <b class="rt text-lime">'+u.rate+'/сек</b></div>'+
+        '</div>'+
+        '<button class="buy shrink-0 self-center px-3 py-2.5 min-w-[92px] rounded-lg bg-vio/20 border border-vio/50 text-xs font-bold text-white hover:bg-vio/40 active:scale-95 transition disabled:opacity-35 disabled:cursor-not-allowed"></button>'+
+      '</div>';
+    row.querySelector('.buy').addEventListener('click',()=>{
+      const c=cost(u);
+      if(S.crystals>=c){
+        S.crystals-=c; S.lvl[u.id]++;
+        save(); refresh(); flash(row);
+      }
+    });
+    shopEl.appendChild(row);
+    rows[u.id]=row;
+  }
+  function flash(row){
+    row.classList.add('ring-1','ring-lime/60');
+    setTimeout(()=>row.classList.remove('ring-1','ring-lime/60'),350);
+  }
+
+  function refresh(){
+    for(const u of UPG){
+      const row=rows[u.id], c=cost(u), btn=row.querySelector('.buy');
+      row.querySelector('.lvl').textContent=S.lvl[u.id];
+      row.querySelector('.rt').textContent=u.rate*S.lvl[u.id]+u.rate+'/сек';
+      btn.textContent=fmt(c)+' 💎';
+      btn.disabled=S.crystals<c;
+    }
+    crystalsEl.textContent=fmt(S.crystals);
+    rateEl.textContent=fmt(totalRate());
+    totalEl.textContent=fmt(S.total);
+    clicksEl.textContent=fmt(S.clicks);
+  }
+
+  // --- клик по планете ---
+  const planet=el('planet'), zone=el('planetZone');
+  planet.addEventListener('pointerdown',e=>{
+    S.crystals+=1; S.total+=1; S.clicks++;
+    const r=zone.getBoundingClientRect();
+    const f=document.createElement('span');
+    f.className='float-up'; f.textContent='+1 💎';
+    f.style.left=(e.clientX-r.left-20+(Math.random()*30-15))+'px';
+    f.style.top=(e.clientY-r.top-30)+'px';
+    zone.appendChild(f);
+    f.addEventListener('animationend',()=>f.remove());
+    refresh();
+  });
+
+  el('wipe').addEventListener('click',()=>{
+    if(confirm('Сбросить весь прогресс без возможности восстановления?')){
+      S.crystals=0; S.total=0; S.clicks=0;
+      for(const u of UPG) S.lvl[u.id]=0;
+      save(); refresh();
+    }
+  });
+
+  // --- игровой цикл: доход/сек через rAF, пауза при скрытой вкладке ---
+  let tPrev=performance.now(), acc=0;
+  function loop(t){
+    requestAnimationFrame(loop);
+    if(document.hidden){ tPrev=t; return; }
+    let dt=(t-tPrev)/1000; tPrev=t;
+    if(dt>0.1) dt=0.1;
+    const inc=totalRate()*dt;
+    if(inc>0){ S.crystals+=inc; S.total+=inc; }
+    acc+=dt;
+    if(acc>0.25){ acc=0; refresh(); }
+  }
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tPrev=performance.now(); });
+  refresh();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

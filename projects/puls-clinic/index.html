@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Пульс — медцентр диагностики в Перми</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#1E6FD9',
+        accent: '#2BC4A4',
+        mist: '#F3F8FC'
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif']
+      },
+      boxShadow: {
+        soft: '0 10px 40px rgba(30,111,217,.10)',
+        softer: '0 6px 24px rgba(30,111,217,.08)'
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: Inter, sans-serif; }
+</style>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 shadow-sm">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-2 font-bold text-lg text-primary">💠 ПУЛЬС <span class="hidden sm:inline text-xs font-medium text-slate-400">диагностика · Пермь</span></a>
+    <nav class="hidden md:flex gap-7 text-sm font-medium">
+      <a href="#research" class="hover:text-primary transition">Исследования</a>
+      <a href="#doctors" class="hover:text-primary transition">Врачи</a>
+      <a href="#steps" class="hover:text-primary transition">Как проходит</a>
+      <a href="#licenses" class="hover:text-primary transition">Лицензии</a>
+    </nav>
+    <a href="#appointment" class="bg-primary text-white font-semibold rounded-xl px-5 py-2.5 text-sm hover:bg-primary/90 transition shadow-soft">Записаться</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero" class="bg-mist">
+  <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <span class="inline-flex items-center gap-2 bg-accent/10 text-accent text-xs font-semibold px-4 py-2 rounded-full mb-6">✅ Лицензия № ЛО-59-01-005687 от 14.03.2019</span>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-5">МРТ, КТ и УЗИ —<br>без очередей</h1>
+      <p class="text-slate-600 text-lg mb-8 max-w-lg">Запись на сегодня и завтра. Результаты на руки через 1 час, описание врача-рентгенолога — в этот же день. Вечерние и субботние слоты.</p>
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <a href="#appointment" class="bg-primary text-white font-semibold rounded-xl px-8 py-4 text-center hover:bg-primary/90 transition shadow-soft">Записаться на приём</a>
+        <a href="#research" class="border-2 border-primary text-primary font-semibold rounded-xl px-8 py-4 text-center hover:bg-primary/5 transition">Цены на исследования</a>
+      </div>
+      <div class="flex gap-8 text-sm">
+        <div><p class="text-2xl font-extrabold text-primary">1,5Т</p><p class="text-slate-500">мощность МРТ</p></div>
+        <div><p class="text-2xl font-extrabold text-primary">64</p><p class="text-slate-500">среза КТ</p></div>
+        <div><p class="text-2xl font-extrabold text-primary">60 мин</p><p class="text-slate-500">до результата</p></div>
+      </div>
+    </div>
+    <div class="hidden md:block">
+      <svg viewBox="0 0 320 320" class="w-80 mx-auto" fill="none">
+        <circle cx="160" cy="160" r="140" fill="#1E6FD9" opacity=".06"/>
+        <circle cx="160" cy="160" r="100" fill="#2BC4A4" opacity=".08"/>
+        <path d="M40 160h60l16-30 24 60 20-80 24 100 20-50h56" stroke="#1E6FD9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="284" cy="160" r="6" fill="#2BC4A4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH (accordion) -->
+<section id="research" class="max-w-4xl mx-auto px-4 py-20">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-3">Исследования и цены</h2>
+  <p class="text-center text-slate-500 mb-10">Раскрыть категорию — увидеть цены. Акции и пакеты уточняйте по телефону.</p>
+  <div class="space-y-4">
+    <div class="bg-mist rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-5 text-left font-bold text-lg">🧠 МРТ<span class="text-primary text-xl">+</span></button>
+      <div class="faq-a hidden px-6 pb-6 text-slate-600">
+        <ul class="divide-y divide-slate-200">
+          <li class="flex justify-between py-3"><span>МРТ головного мозга</span><span class="font-semibold text-primary">3 200 ₽</span></li>
+          <li class="flex justify-between py-3"><span>МРТ поясничного отдела позвоночника</span><span class="font-semibold text-primary">3 000 ₽</span></li>
+          <li class="flex justify-between py-3"><span>МРТ коленного сустава</span><span class="font-semibold text-primary">3 400 ₽</span></li>
+          <li class="flex justify-between py-3"><span>МРТ с контрастом</span><span class="font-semibold text-primary">от 5 100 ₽</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-mist rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-5 text-left font-bold text-lg">🫁 КТ<span class="text-primary text-xl">+</span></button>
+      <div class="faq-a hidden px-6 pb-6 text-slate-600">
+        <ul class="divide-y divide-slate-200">
+          <li class="flex justify-between py-3"><span>КТ органов грудной клетки (низкодозная)</span><span class="font-semibold text-primary">2 800 ₽</span></li>
+          <li class="flex justify-between py-3"><span>КТ придаточных пазух носа</span><span class="font-semibold text-primary">2 200 ₽</span></li>
+          <li class="flex justify-between py-3"><span>КТ брюшной полости</span><span class="font-semibold text-primary">3 600 ₽</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-mist rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-5 text-left font-bold text-lg">🩺 УЗИ<span class="text-primary text-xl">+</span></button>
+      <div class="faq-a hidden px-6 pb-6 text-slate-600">
+        <ul class="divide-y divide-slate-200">
+          <li class="flex justify-between py-3"><span>УЗИ брюшной полости</span><span class="font-semibold text-primary">1 400 ₽</span></li>
+          <li class="flex justify-between py-3"><span>УЗИ щитовидной железы</span><span class="font-semibold text-primary">1 100 ₽</span></li>
+          <li class="flex justify-between py-3"><span>УЗИ сердца (ЭхоКГ)</span><span class="font-semibold text-primary">1 900 ₽</span></li>
+          <li class="flex justify-between py-3"><span>УЗИ на сроке беременности</span><span class="font-semibold text-primary">1 600 ₽</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bg-mist rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-5 text-left font-bold text-lg">🔬 Лаборатория<span class="text-primary text-xl">+</span></button>
+      <div class="faq-a hidden px-6 pb-6 text-slate-600">
+        <ul class="divide-y divide-slate-200">
+          <li class="flex justify-between py-3"><span>Общий анализ крови (26 показателей)</span><span class="font-semibold text-primary">750 ₽</span></li>
+          <li class="flex justify-between py-3"><span>Биохимия (12 показателей)</span><span class="font-semibold text-primary">1 300 ₽</span></li>
+          <li class="flex justify-between py-3"><span>Чек-ап «Щитовидка» (ТТГ, Т4, АТПО)</span><span class="font-semibold text-primary">1 650 ₽</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors" class="bg-mist py-20">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12">Врачи</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-2xl p-7 shadow-softer text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-extrabold text-xl">ИБ</div>
+        <h3 class="font-bold text-lg mb-1">Ирина Белова</h3>
+        <p class="text-accent text-sm font-semibold mb-3">Врач-рентгенолог · МРТ</p>
+        <p class="text-slate-500 text-sm">К.м.н., стаж 14 лет. Описывает по стандартам RSNA, по желанию — второе мнение на диск/файл DICOM.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-7 shadow-softer text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-white font-extrabold text-xl">ПГ</div>
+        <h3 class="font-bold text-lg mb-1">Павел Гущин</h3>
+        <p class="text-accent text-sm font-semibold mb-3">Врач УЗИ · эксперт-класс</p>
+        <p class="text-slate-500 text-sm">Стаж 11 лет, специализация ЭхоКГ и УЗИ сосудов. Ласково объяснит «что видно» ещё до бланка.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-7 shadow-softer text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-extrabold text-xl">ЕТ</div>
+        <h3 class="font-bold text-lg mb-1">Елена Тихонова</h3>
+        <p class="text-accent text-sm font-semibold mb-3">Врач-рентгенолог · КТ</p>
+        <p class="text-slate-500 text-sm">Стаж 9 лет, сертификат по лучевой диагностике ОГК. Ведёт разбор исследований у гастроэнтерологов города.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="steps" class="max-w-5xl mx-auto px-4 py-20">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-12">Как проходит обследование</h2>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="text-center px-4">
+      <p class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary text-white font-extrabold text-2xl flex items-center justify-center shadow-soft">1</p>
+      <h3 class="font-bold text-lg mb-2">Запись и подготовка</h3>
+      <p class="text-slate-500 text-sm">Приём по записи: придёте к своему времени и в кабинет без ожидания. Для брюшной полости — не есть 4 часа, остальное без подготовки.</p>
+    </div>
+    <div class="text-center px-4">
+      <p class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary text-white font-extrabold text-2xl flex items-center justify-center shadow-soft">2</p>
+      <h3 class="font-bold text-lg mb-2">Само исследование</h3>
+      <p class="text-slate-500 text-sm">МРТ — 25–40 минут с музыкой в наушниках, КТ — 5–10 минут, УЗИ — 15–20 минут. Всё оборудование проходит ТО раз в квартал.</p>
+    </div>
+    <div class="text-center px-4">
+      <p class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-accent text-white font-extrabold text-2xl flex items-center justify-center shadow-soft">3</p>
+      <h3 class="font-bold text-lg mb-2">Результаты</h3>
+      <p class="text-slate-500 text-sm">Диск с изображениями — сразу после процедуры, письменное заключение врача — в течение часа. Дублируем в Telegram или на e-mail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LICENSES -->
+<section id="licenses" class="bg-mist py-16">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-extrabold mb-10">Лицензии и сертификаты</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+      <span class="bg-white shadow-softer rounded-full px-6 py-3 text-sm font-semibold">🏥 Лицензия № ЛО-59-01-005687 — меддеятельность</span>
+      <span class="bg-white shadow-softer rounded-full px-6 py-3 text-sm font-semibold">☢️ СанЭПЗ № 59.РД.001.2019 — источники ионизирующего излучения</span>
+      <span class="bg-white shadow-softer rounded-full px-6 py-3 text-sm font-semibold">📜 Аккредитация специалистов — рентгенология, УЗ-диагностика</span>
+      <span class="bg-white shadow-softer rounded-full px-6 py-3 text-sm font-semibold">🤝 Договоры ДМС: СОГАЗ, АльфаСтрахование, Ингосстрах</span>
+    </div>
+    <p class="text-slate-400 text-xs mt-8">Оригиналы документов — в уголке «Информация для пациентов» у регистратуры.</p>
+  </div>
+</section>
+
+<!-- APPOINTMENT -->
+<section id="appointment" class="max-w-xl mx-auto px-4 py-20">
+  <h2 class="text-3xl font-extrabold text-center mb-3">Запись на приём</h2>
+  <p class="text-center text-slate-500 mb-10">Перезвоним в течение 15 минут в рабочее время</p>
+  <form id="apptForm" class="bg-mist rounded-2xl p-8 shadow-soft space-y-4">
+    <input required placeholder="ФИО" class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 focus:outline-none focus:border-primary">
+    <input required type="tel" placeholder="Телефон" class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 focus:outline-none focus:border-primary">
+    <select required class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 focus:outline-none focus:border-primary">
+      <option value="">Выберите исследование…</option>
+      <option>МРТ головного мозга — 3 200 ₽</option>
+      <option>МРТ позвоночника — 3 000 ₽</option>
+      <option>КТ грудной клетки — 2 800 ₽</option>
+      <option>УЗИ брюшной полости — 1 400 ₽</option>
+      <option>УЗИ сердца (ЭхоКГ) — 1 900 ₽</option>
+      <option>Лаборатория / чек-ап</option>
+    </select>
+    <select class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 focus:outline-none focus:border-primary">
+      <option>Сегодня / завтра — что есть</option>
+      <option>В будни вечером (после 18:00)</option>
+      <option>В субботу утром</option>
+      <option>Другой день — подберём</option>
+    </select>
+    <button type="submit" class="w-full bg-primary text-white font-semibold rounded-xl py-4 hover:bg-primary/90 transition shadow-soft">Записаться 💠</button>
+    <p id="apptMsg" class="hidden text-center text-accent font-semibold">Заявка отправлена!</p>
+    <p class="text-xs text-slate-400 text-center leading-relaxed pt-2">Имеются противопоказания. Необходима консультация специалиста.</p>
+  </form>
+</section>
+
+<!-- REVIEWS -->
+<section class="bg-mist py-16">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="text-3xl font-extrabold text-center mb-10">Отзывы пациентов</h2>
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+      <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-2xl p-7 shadow-softer">
+        <p class="text-slate-600 mb-4">«Записалась на МРТ утром — прошла в 15:30 того же дня. Заключение Беловой получила на почту через 40 минут. На третьем этаже города таких темпов не знаю.»</p>
+        <p class="font-semibold text-slate-800">— Марина, 45</p>
+      </div>
+      <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-2xl p-7 shadow-softer">
+        <p class="text-slate-600 mb-4">«Боюсь замкнутых пространств, откладывал МРТ год. В „Пульсе" дали наушники с музыкой и постоянную связь с лаборантом — прошёл спокойно.»</p>
+        <p class="font-semibold text-slate-800">— Сергей, 38</p>
+      </div>
+      <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-2xl p-7 shadow-softer">
+        <p class="text-slate-600 mb-4">«УЗИ у Гущина — единственное, где мне объяснили картинку по-человечески, а не „в норме, и всё". Прописали, куда дальше с результатом.»</p>
+        <p class="font-semibold text-slate-800">— Ольга, 52</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-2xl mx-auto px-4 py-20">
+  <h2 class="text-3xl font-extrabold text-center mb-10">FAQ</h2>
+  <div class="space-y-4">
+    <div class="border border-slate-100 rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Больно ли делать МРТ? Мне клаустрофобия…<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-500 text-sm">Процедура безболезненна. При клаустрофобии предупредите заранее: дадим наушники с музыкой, тревожный кнопку-помощник и, если нужно, успокоительный по назначению врача.</div>
+    </div>
+    <div class="border border-slate-100 rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Нужно направление?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-500 text-sm">Формально — нет, по self-referral мы делаем МРТ/КТ/УЗИ без направления. Но по правилам здравоохранения рекомендуем обсудить показания с врачом: иногда нужнее УЗИ, а не МРТ.</div>
+    </div>
+    <div class="border border-slate-100 rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Работаете ли по полису ОМС и ДМС?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-500 text-sm">ОМС — нет, только платно и по ДМС (СОГАЗ, АльфаСтрахование, Ингосстрах и ряд других). Перед визитом уточните свой договор у страховщика.</div>
+    </div>
+    <div class="border border-slate-100 rounded-2xl shadow-softer overflow-hidden">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Можно ли с результатами прошлых лет?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-slate-500 text-sm">Да, приносите диски/файлы — врач-рентгенолог сравнит динамику, это часто важнее нового снимка. Перезапись на диск бесплатна.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-slate-100 bg-white">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-bold text-primary text-lg mb-2">💠 ПУЛЬС</p>
+      <p class="text-slate-500">Пермь, ул. Ленина, 68, 2 этаж<br>Пн–Пт 08:00 — 21:00 · Сб 09:00 — 18:00 · Вс — по записи</p>
+    </div>
+    <div class="text-slate-500">
+      <p class="text-slate-800 font-semibold mb-2">Контакты</p>
+      <p>📞 <a href="tel:+73422460912" class="hover:text-primary">+7 342 246-09-12</a></p>
+      <p>✈️ <a href="https://t.me/puls_perm" class="hover:text-primary">@puls_perm</a></p>
+      <p class="text-xs mt-3 text-slate-400">Лицензия № ЛО-59-01-005687<br>Имеются противопоказания. Необходима консультация специалиста.</p>
+    </div>
+    <div class="text-slate-500">
+      <p class="text-slate-800 font-semibold mb-2">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-accent hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('apptForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('apptMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

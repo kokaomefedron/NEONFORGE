@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>ЛабВест — медицинская лаборатория, Волгоград</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { white:'#FFFFFF', teal:'#0D9488', inkx:'#1F2937', soft:'#F0FDFA' },
+    fontFamily: { sans:['Inter','sans-serif'] }
+  } }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  .price-row{border-bottom:1px solid #E5F2F0}
+</style>
+</head>
+<body class="bg-white text-inkx antialiased" style="font-family:Inter,sans-serif">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-teal/20 shadow-sm">
+  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#about" class="flex items-center gap-2">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M9 3h10M11 3v8l-5 10a3 3 0 003 4h10a3 3 0 003-4l-5-10V3" stroke="#0D9488" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M9 17h10" stroke="#0D9488" stroke-width="2"/></svg>
+      <span class="font-bold text-xl text-teal">ЛабВест</span>
+    </a>
+    <nav class="hidden md:flex gap-6 text-sm font-medium">
+      <a href="#about" class="hover:text-teal transition">О лаборатории</a>
+      <a href="#services" class="hover:text-teal transition">Анализы</a>
+      <a href="#projects" class="hover:text-teal transition">Как сдать</a>
+      <a href="#jobs" class="hover:text-teal transition">Вакансии</a>
+      <a href="#contacts" class="hover:text-teal transition">Контакты</a>
+    </nav>
+    <button id="burger" class="md:hidden p-2" aria-label="Меню">
+      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#0D9488" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <nav id="mobnav" class="hidden md:hidden border-t border-teal/10 bg-white px-5 py-4 flex flex-col gap-4 text-sm font-medium">
+    <a href="#about">О лаборатории</a><a href="#services">Анализы</a><a href="#projects">Как сдать</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="about" class="py-16 bg-soft">
+  <div class="max-w-6xl mx-auto px-5">
+    <p class="text-teal font-semibold uppercase tracking-[0.2em] text-xs mb-4">Медицинская лаборатория · Волгоград · с 2014 года</p>
+    <h1 class="text-3xl md:text-5xl font-bold text-inkx leading-tight mb-6">Анализы без очередей — результат онлайн уже завтра</h1>
+    <p class="max-w-xl text-[#5B6472] leading-relaxed mb-8">Медицинская лицензия ЛО-34-01-005678, аккредитация Росаккредитации. 12 пунктов забора крови в Волгограде и области, выезд на дом, результаты в личном кабинете и на e-mail.</p>
+    <div class="grid grid-cols-3 gap-4 max-w-xl">
+      <div class="bg-white rounded-xl border border-teal/15 p-4 text-center"><div class="text-2xl font-bold text-teal"><span class="counter" data-to="12">0</span></div><p class="text-xs text-[#7A8494] mt-1">лет работы</p></div>
+      <div class="bg-white rounded-xl border border-teal/15 p-4 text-center"><div class="text-2xl font-bold text-teal"><span class="counter" data-to="700">0</span></div><p class="text-xs text-[#7A8494] mt-1">видов анализов</p></div>
+      <div class="bg-white rounded-xl border border-teal/15 p-4 text-center"><div class="text-2xl font-bold text-teal"><span class="counter" data-to="95">0</span></div><p class="text-xs text-[#7A8494] mt-1">тыс. пациентов</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES: PRICE ACCORDION -->
+<section id="services" class="py-16">
+  <div class="max-w-4xl mx-auto px-5">
+    <h2 class="text-2xl md:text-3xl font-bold mb-3">Популярные анализы</h2>
+    <p class="text-sm text-[#5B6472] mb-8">Полный каталог — 700+ исследований. Цены итоговые, забор крови входит в стоимость. Срок готовности указан в часах.</p>
+    <div class="rounded-xl border border-teal/20 divide-y divide-[#E5F2F0]">
+      <div>
+        <button class="acc-btn w-full flex justify-between items-center px-5 py-4 text-left"><span class="font-semibold">Общие и клинические</span><svg class="shrink-0" width="18" height="18" viewBox="0 0 24 24" stroke="#0D9488" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm">
+          <div class="price-row flex justify-between py-2.5"><span>Общий анализ крови (ОАК) с лейкоформулой</span><span class="font-semibold text-teal">350 ₽ · 4 ч</span></div>
+          <div class="price-row flex justify-between py-2.5"><span>СОЭ</span><span class="font-semibold text-teal">180 ₽ · 4 ч</span></div>
+          <div class="flex justify-between py-2.5"><span>Общий анализ мочи</span><span class="font-semibold text-teal">290 ₽ · 6 ч</span></div>
+        </div>
+      </div>
+      <div>
+        <button class="acc-btn w-full flex justify-between items-center px-5 py-4 text-left"><span class="font-semibold">Биохимия</span><svg class="shrink-0" width="18" height="18" viewBox="0 0 24 24" stroke="#0D9488" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm">
+          <div class="price-row flex justify-between py-2.5"><span>Биохимический профиль (10 показателей)</span><span class="font-semibold text-teal">от 900 ₽ · 8 ч</span></div>
+          <div class="price-row flex justify-between py-2.5"><span>Глюкоза</span><span class="font-semibold text-teal">230 ₽ · 4 ч</span></div>
+          <div class="flex justify-between py-2.5"><span>Холестерин общий + липидограмма</span><span class="font-semibold text-teal">760 ₽ · 8 ч</span></div>
+        </div>
+      </div>
+      <div>
+        <button class="acc-btn w-full flex justify-between items-center px-5 py-4 text-left"><span class="font-semibold">Гормоны и щитовидная железа</span><svg class="shrink-0" width="18" height="18" viewBox="0 0 24 24" stroke="#0D9488" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm">
+          <div class="price-row flex justify-between py-2.5"><span>ТТГ (тиреотропный гормон)</span><span class="font-semibold text-teal">540 ₽ · 24 ч</span></div>
+          <div class="price-row flex justify-between py-2.5"><span>Т4 свободный</span><span class="font-semibold text-teal">510 ₽ · 24 ч</span></div>
+          <div class="flex justify-between py-2.5"><span>Витамин D (25-OH)</span><span class="font-semibold text-teal">1 290 ₽ · 36 ч</span></div>
+        </div>
+      </div>
+      <div>
+        <button class="acc-btn w-full flex justify-between items-center px-5 py-4 text-left"><span class="font-semibold">Чек-апы</span><svg class="shrink-0" width="18" height="18" viewBox="0 0 24 24" stroke="#0D9488" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm">
+          <div class="price-row flex justify-between py-2.5"><span>Базовый чек-ап (18 показателей)</span><span class="font-semibold text-teal">2 900 ₽ · 24 ч</span></div>
+          <div class="flex justify-between py-2.5"><span>Женский чек-ап 35+ (26 показателей)</span><span class="font-semibold text-teal">4 200 ₽ · 36 ч</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 bg-soft rounded-xl p-5 grid sm:grid-cols-2 gap-4 text-sm">
+      <p class="flex gap-2"><span class="text-teal font-bold">✔</span> Выезд на дом по Волгограду — 400 ₽, при заказе от 3 000 ₽ бесплатно.</p>
+      <p class="flex gap-2"><span class="text-teal font-bold">✔</span> Результаты онлайн: личный кабинет, e-mail, уведомление в SMS.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="projects" class="py-16 bg-soft border-y border-teal/15">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="text-2xl md:text-3xl font-bold mb-10">Как сдать анализы</h2>
+    <div class="grid md:grid-cols-4 gap-5 text-sm">
+      <div class="bg-white rounded-xl p-5 border border-teal/15"><p class="text-teal font-bold text-xl mb-2">1</p><p class="font-semibold mb-1">Запишитесь</p><p class="text-[#5B6472]">Онлайн или по телефону, выберите удобный пункт.</p></div>
+      <div class="bg-white rounded-xl p-5 border border-teal/15"><p class="text-teal font-bold text-xl mb-2">2</p><p class="font-semibold mb-1">Сдайте</p><p class="text-[#5B6472]">Забор крови занимает 5 минут, без очередей в утренние часы.</p></div>
+      <div class="bg-white rounded-xl p-5 border border-teal/15"><p class="text-teal font-bold text-xl mb-2">3</p><p class="font-semibold mb-1">Получите результат</p><p class="text-[#5B6472]">В личном кабинете и на e-mail, подписанный бланк.</p></div>
+      <div class="bg-white rounded-xl p-5 border border-teal/15"><p class="text-teal font-bold text-xl mb-2">4</p><p class="font-semibold mb-1">Расшифровка</p><p class="text-[#5B6472]">Комментарий врача лабораторной диагностики — 600 ₽.</p></div>
+    </div>
+    <p class="mt-8 text-xs text-[#8A93A1] bg-white border border-teal/15 rounded-lg p-4 max-w-2xl">Имеются противопоказания. Необходима консультация специалиста. Лабораторные результаты не являются диагнозом — интерпретацию проводит лечащий врач. Лицензия ЛО-34-01-005678 от 12.03.2021.</p>
+  </div>
+</section>
+
+<!-- CLIENTS/B2B -->
+<section class="py-14">
+  <p class="text-center text-xs uppercase tracking-[0.2em] text-[#7A8494] mb-6">Корпоративные клиенты</p>
+  <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 px-5 max-w-5xl mx-auto font-semibold text-[#B5BDC8] text-base">
+    <span>Волгоградский Порт</span><span>ХимПром-В</span><span>Клиника Здравия</span><span>Школа №37</span><span>МЦД-Логистик</span>
+  </div>
+</section>
+
+<!-- VACANCIES -->
+<section id="jobs" class="py-16">
+  <div class="max-w-6xl mx-auto px-5">
+    <h2 class="text-2xl md:text-3xl font-bold mb-10">Вакансии</h2>
+    <div class="space-y-4 max-w-4xl">
+      <div class="border border-teal/20 rounded-xl">
+        <button class="acc-btn w-full text-left px-5 py-4 flex justify-between items-center gap-4"><span class="font-semibold">Врач клинической лабораторной диагностики</span><span class="text-teal font-bold whitespace-nowrap">от 90 000 ₽</span></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm text-[#5B6472] leading-relaxed">Сертификат по КЛД, опыт работы в лаборатории от 3 лет. График 2/2, премии за смены. Оформление по ТК РФ.</div>
+      </div>
+      <div class="border border-teal/20 rounded-xl">
+        <button class="acc-btn w-full text-left px-5 py-4 flex justify-between items-center gap-4"><span class="font-semibold">Медсестра процедурной (забор крови)</span><span class="text-teal font-bold whitespace-nowrap">от 62 000 ₽</span></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm text-[#5B6472] leading-relaxed">Среднее медицинское образование, обучим забору крови у нас. Пункты в разных районах города — подберём ближайший к дому.</div>
+      </div>
+      <div class="border border-teal/20 rounded-xl">
+        <button class="acc-btn w-full text-left px-5 py-4 flex justify-between items-center gap-4"><span class="font-semibold">Медпредставитель (b2b)</span><span class="text-teal font-bold whitespace-nowrap">от 55 000 ₽ + бонусы</span></button>
+        <div class="acc-panel hidden px-5 pb-4 text-sm text-[#5B6472] leading-relaxed">Работа с клиниками и стоматологиями области. Командировочные, корпоративная связь, план продаж реалистичный.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts" class="py-16 bg-soft border-t border-teal/15">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-10">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-bold mb-6">Контакты</h2>
+      <ul class="space-y-3 text-sm mb-6">
+        <li>📍 Волгоград, ул. Пражская, 17 (главный пункт, ежедневно 7:30–19:00)</li>
+        <li>📞 +7 (8442) 65-09-77 (колл-центр ежедневно 8:00–20:00)</li>
+        <li>✉️ info@labwest34.ru</li>
+        <li>🏥 Лицензия ЛО-34-01-005678 · ООО «ЛабВест»</li>
+      </ul>
+      <p class="text-xs text-[#8A93A1]">Имеются противопоказания. Необходима консультация специалиста.</p>
+    </div>
+    <form id="cform" class="space-y-4">
+      <input required class="w-full bg-white border border-teal/25 rounded-lg px-4 py-3 text-sm outline-none focus:border-teal" placeholder="Имя">
+      <input required type="tel" class="w-full bg-white border border-teal/25 rounded-lg px-4 py-3 text-sm outline-none focus:border-teal" placeholder="Телефон">
+      <textarea class="w-full bg-white border border-teal/25 rounded-lg px-4 py-3 text-sm outline-none focus:border-teal" rows="3" placeholder="Анализы или вопрос"></textarea>
+      <button class="w-full py-3 bg-teal text-white rounded-lg font-semibold hover:brightness-110 transition">Записаться</button>
+      <p id="cok" class="hidden text-teal text-sm text-center font-medium">Спасибо! Мы свяжемся.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-8 border-t border-teal/15">
+  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#8A93A1] leading-relaxed">
+    <div>
+      <p class="text-teal font-bold text-base mb-2">ООО «ЛабВест»</p>
+      <p>ИНН 3444102345 · КПП 344401001 · ОГРН 1143444102345</p>
+      <p>Р/с 40702810300000098765 в АО «Волгоградский Банк», БИК 041826601</p>
+      <p>Адрес: 400087, Волгоград, ул. Пражская, 17</p>
+    </div>
+    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-teal underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </div>
+</footer>
+
+<script>
+document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
+document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
+document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) {
+    const el = e.target, to = +el.dataset.to; let n = 0;
+    const step = Math.max(1, Math.round(to / 60));
+    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
+    io.unobserve(el);
+  }
+}), { threshold: .5 });
+document.querySelectorAll('.counter').forEach(c => io.observe(c));
+document.getElementById('cform').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('cok').classList.remove('hidden');
+  e.target.reset();
+});
+</script>
+</body>
+</html>

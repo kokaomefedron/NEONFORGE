@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Свежий помол — кофе на дом</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cream: '#FBF3E8',
+        coffee: '#6F4E37',
+        roast: '#C6402E',
+        kraft: '#EAD9C2',
+        ink: '#3E2A1C'
+      },
+      fontFamily: {
+        lora: ['Lora', 'serif'],
+        inter: ['Inter', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#6F4E37; color:#FBF3E8; }
+  .kraft-tex { background-image: radial-gradient(rgba(111,78,55,.06) 1px, transparent 1px); background-size: 6px 6px; }
+</style>
+</head>
+<body class="bg-cream text-ink font-inter min-h-screen kraft-tex">
+
+<header class="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-coffee/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-lora font-bold text-2xl flex items-center gap-2">☕ Свежий <span class="text-roast">помол</span></a>
+    <input id="search" type="search" placeholder="Найти: Эфиопия, турка, фильтры…"
+      class="flex-1 min-w-0 bg-white border border-coffee/30 rounded-full px-4 py-2 text-sm outline-none focus:border-coffee transition">
+    <button id="cartBtn" class="relative shrink-0 bg-coffee text-cream font-bold px-4 py-2 rounded-full hover:bg-roast transition">
+      🛒 <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-roast text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="border-b border-coffee/20 bg-kraft/50">
+  <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-8 items-center">
+    <div>
+      <p class="text-roast font-lora italic mb-3">Обжариваем по вторникам — отправляем в тот же день</p>
+      <h1 class="font-lora font-bold text-4xl md:text-6xl leading-tight">Кофе, который пахнет<br><span class="text-coffee">утром, а не вчерашним днём</span></h1>
+      <p class="mt-4 text-ink/70 max-w-md">Зерно со свежей обжарки, помол под вашу турку или эспрессо, аккуратная упаковка с клапаном. От 250 г до килограмма.</p>
+      <div class="mt-7 flex flex-wrap gap-3 items-center">
+        <a href="#catalog" class="bg-coffee text-cream font-bold px-7 py-3 rounded-full hover:bg-roast transition">Выбрать кофе ↓</a>
+        <span class="text-sm text-roast font-semibold">🎁 Промокод «ПЕРВЫЙПОМОЛ» — молоток в подарок</span>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center justify-center">
+      <div class="w-64 h-64 rounded-full bg-gradient-to-br from-coffee to-ink flex items-center justify-center text-[130px] shadow-xl shadow-coffee/30">🫘</div>
+    </div>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-white border border-coffee/30 rounded-full px-4 py-2 text-sm outline-none focus:border-coffee">
+      <option value="pop">Популярные</option>
+      <option value="asc">Дешевле сначала</option>
+      <option value="desc">Дороже сначала</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-ink/50 py-16 font-lora italic">Такого у нас пока нет — но зерно уже в пути.</p>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="border-2 border-coffee/30 rounded-2xl p-6 md:p-8 bg-white">
+    <h2 class="font-lora font-bold text-2xl mb-1">Оформить заказ</h2>
+    <p class="text-ink/60 text-sm mb-5">Отправляем СДЭК и Boxberry по всей России.</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя" class="bg-cream border border-coffee/30 rounded-xl px-4 py-3 text-sm outline-none focus:border-coffee">
+      <input required type="tel" placeholder="Телефон" class="bg-cream border border-coffee/30 rounded-xl px-4 py-3 text-sm outline-none focus:border-coffee">
+      <input required placeholder="Город и адрес" class="sm:col-span-2 bg-cream border border-coffee/30 rounded-xl px-4 py-3 text-sm outline-none focus:border-coffee">
+      <button type="submit" class="sm:col-span-2 bg-coffee text-cream font-lora font-bold py-4 rounded-xl hover:bg-roast transition">Заказать свежий помол</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-roast font-lora font-bold text-center"></p>
+  </div>
+</section>
+
+<footer class="border-t border-coffee/20 py-10 bg-kraft/50">
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-ink/70">
+    <div>
+      <p class="font-lora font-bold text-coffee text-lg mb-2">Свежий помол</p>
+      <p>Обжарочный цех: Рязань, ул. Зерновая, 3<br>Пн–Пт 9:00–18:00, самовывоз — по звонку</p>
+    </div>
+    <div>
+      <p class="text-ink font-bold mb-2">Связь</p>
+      <p>+7 (4912) 33-44-55<br>hello@pomol.ru · tg: @pomol_coffee</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-ink/50 text-xs leading-relaxed">© 2026 «Свежий помол»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-roast underline hover:text-coffee">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-coffee/40 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-cream border-l-2 border-coffee/30 z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b border-coffee/20">
+    <p class="font-lora font-bold text-lg">Ваш заказ</p>
+    <button id="cartClose" class="text-ink/60 hover:text-roast text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t border-coffee/20">
+    <div class="flex justify-between font-lora font-bold text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-roast">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-coffee text-cream font-bold py-3 rounded-xl hover:bg-roast transition">К оформлению</button>
+  </div>
+</aside>
+
+<script>
+const grindPrices = { 'В зёрнах': 0, 'Эспрессо': 50, 'Турка': 50 };
+const products = [
+  { id:1, name:'Эфиопия Йиргачеффе, мытая', cat:'Зерно', price:1290, weight:'250 г', emoji:'🫐', desc:'Фиолетовые сладости, чёрный чай, высокий аром', grad:'linear-gradient(135deg,#6F4E37,#C6402E)' },
+  { id:2, name:'Колумбия Уила Супремо', cat:'Зерно', price:1090, weight:'250 г', emoji:'🍫', desc:'Молочный шоколад, красное яблоко, карамель', grad:'linear-gradient(135deg,#3E2A1C,#8a5a2b)' },
+  { id:3, name:'Бразилия Сантос, тёмная', cat:'Зерно', price:890, weight:'250 г', emoji:'🥜', desc:'Ореховая паста, какао, плотное тело', grad:'linear-gradient(135deg,#4a3524,#6F4E37)' },
+  { id:4, name:'Кения АА топ-лот', cat:'Зерно', price:1590, weight:'250 г', emoji:'🍒', desc:'Смородина, томатная сладость, яркая кислотность', grad:'linear-gradient(135deg,#C6402E,#e07b3a)' },
+  { id:5, name:'Смесь «Домашняя» 1 кг', cat:'Зерно', price:2990, weight:'1 кг', emoji:'🏠', desc:'Для эспрессо и турки каждый день, выгодный кило', grad:'linear-gradient(135deg,#2f1f12,#6F4E37)' },
+  { id:6, name:'Турка медная 350 мл', cat:'Аксессуары', price:2290, weight:null, emoji:'🫖', desc:'Кованая медь, удобная ручка, толстое дно', grad:'linear-gradient(135deg,#b87333,#e8a44c)' },
+  { id:7, name:'Фильтры бумажные V60, 100 шт', cat:'Аксессуары', price:490, weight:null, emoji:'📄', desc:'Конусные 02, нейтральный вкус', grad:'linear-gradient(135deg,#d9c6a5,#FBF3E8)' },
+  { id:8, name:'Весы бариста с таймером', cat:'Аксессуары', price:3490, weight:null, emoji:'⚖️', desc:'Точность 0,1 г, режим пуровера', grad:'linear-gradient(135deg,#3E2A1C,#6F4E37)' },
+  { id:9, name:'Ручная кофемолка «Мельница»', cat:'Аксессуары', price:4590, weight:null, emoji:'🌀', desc:'Стальные жерна, 40 настроек помола', grad:'linear-gradient(135deg,#4a3524,#9a7449)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
+const cart = {}; // id -> {qty, grind}
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-semibold border transition ${c===activeCat?'bg-coffee text-cream border-coffee':'border-coffee/30 text-coffee hover:bg-coffee hover:text-cream'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="border border-coffee/25 rounded-2xl overflow-hidden bg-white hover:shadow-lg hover:shadow-coffee/15 transition flex flex-col">
+      <div class="h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="drop-shadow">${p.emoji}</span>
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="text-[10px] uppercase tracking-widest text-coffee/60 mb-1">${p.cat}${p.weight?' · '+p.weight:''}</p>
+        <h3 class="font-lora font-bold text-base leading-snug flex-1">${p.name}</h3>
+        <p class="text-xs text-ink/60 mt-1">${p.desc}</p>
+        ${p.cat==='Зерно'?`
+        <label class="text-xs text-ink/70 mt-3 block">Помол:
+          <select id="grind-${p.id}" class="ml-1 bg-cream border border-coffee/30 rounded-lg px-2 py-1 text-xs outline-none focus:border-coffee">
+            <option value="В зёрнах">В зёрнах</option>
+            <option value="Эспрессо">Эспрессо (+50₽)</option>
+            <option value="Турка">Турка (+50₽)</option>
+          </select>
+        </label>`:''}
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <p class="font-lora font-bold text-coffee text-lg" id="price-${p.id}">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="bg-coffee text-cream text-sm font-bold px-3 py-2 rounded-full hover:bg-roast transition">+ В корзину</button>
+        </div>
+      </div>
+    </article>`).join('');
+  // live price update per grind
+  products.filter(p=>p.cat==='Зерно').forEach(p=>{
+    const sel = document.getElementById('grind-'+p.id);
+    if(!sel) return;
+    sel.onchange = ()=>{
+      const price = p.price + grindPrices[sel.value];
+      document.getElementById('price-'+p.id).textContent = price.toLocaleString('ru-RU')+' ₽';
+    };
+  });
+}
+function curPrice(p){
+  if(p.cat!=='Зерно') return p.price;
+  const sel = document.getElementById('grind-'+p.id);
+  return p.price + (sel?grindPrices[sel.value]:0);
+}
+function add(id){
+  const p = products.find(x=>x.id===id);
+  const key = p.cat==='Зерно' ? id+'-'+(document.getElementById('grind-'+id)?.value||'В зёрнах') : id;
+  const label = p.cat==='Зерно' ? p.name+' ('+(document.getElementById('grind-'+id)?.value||'В зёрнах')+')' : p.name;
+  const price = curPrice(p);
+  if(!cart[key]) cart[key] = { qty:0, label, price, emoji:p.emoji, grad:p.grad };
+  cart[key].qty++;
+  renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function dec(key){ if(--cart[key].qty<=0) delete cart[key]; renderCart(); }
+function removeItem(key){ delete cart[key]; renderCart(); }
+function renderCart(){
+  const keys = Object.keys(cart);
+  const count = keys.reduce((s,k)=>s+cart[k].qty,0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = keys.length ? keys.map(k=>{
+    const it = cart[k];
+    return `<div class="flex items-center gap-3 border border-coffee/25 rounded-xl p-3 bg-white">
+      <div class="w-11 h-11 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${it.grad}">${it.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold truncate">${it.label}</p>
+        <p class="text-xs text-roast font-bold">${(it.price*it.qty).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec('${k}')" class="w-7 h-7 border border-coffee/30 rounded-full hover:border-roast hover:text-roast">−</button>
+        <span class="w-6 text-center text-sm font-bold">${it.qty}</span>
+        <button onclick="addById('${k}')" class="w-7 h-7 border border-coffee/30 rounded-full hover:border-roast hover:text-roast">+</button>
+      </div>
+      <button onclick="removeItem('${k}')" class="text-ink/40 hover:text-roast ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-ink/50 py-10 text-sm font-lora italic">Пока пусто — поставьте турку на огонь.</p>';
+  document.getElementById('cartTotal').textContent = keys.reduce((s,k)=>s+cart[k].price*cart[k].qty,0).toLocaleString('ru-RU')+' ₽';
+}
+function addById(key){
+  const it = cart[key]; if(!it) return;
+  it.qty++; renderCart();
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

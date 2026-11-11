@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Волна — школа сёрфинга в Балаклаве</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#00A8B5',
+        accent: '#FF6B5B',
+        sea: '#EAF6F9',
+        deep: '#073B42'
+      },
+      fontFamily: {
+        display: ['Quicksand', 'sans-serif'],
+        body: ['Rubik', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #EAF6F9; }
+  .wave-divider { display:block; width:100%; height:60px; }
+  .board { transition: transform .3s ease; }
+  .board:hover { transform: translateY(-6px) rotate(-1deg); }
+</style>
+</head>
+<body class="bg-sea text-deep font-body antialiased">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-sea/90 backdrop-blur shadow-sm">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#hero" class="font-display font-bold text-xl text-primary flex items-center gap-2">🌊 ВОЛНА</a>
+    <nav class="hidden md:flex gap-7 font-medium text-sm">
+      <a href="#programs" class="hover:text-primary transition">Программы</a>
+      <a href="#instructors" class="hover:text-primary transition">Инструкторы</a>
+      <a href="#included" class="hover:text-primary transition">Что входит</a>
+      <a href="#pricing" class="hover:text-primary transition">Цены</a>
+    </nav>
+    <a href="#book" class="bg-accent text-white font-display font-bold rounded-full px-5 py-2 text-sm hover:bg-deep transition">Записаться</a>
+  </div>
+</header>
+
+<!-- HERO with big SVG wave -->
+<section id="hero" class="relative overflow-hidden">
+  <div class="relative z-10 max-w-4xl mx-auto px-4 pt-20 pb-10 text-center md:text-left md:flex md:items-center md:gap-12">
+    <div class="flex-1">
+      <p class="font-display font-bold text-primary tracking-widest uppercase text-sm mb-5">Школа сёрфинга · Балаклава 🏄</p>
+      <h1 class="font-display font-bold text-5xl md:text-7xl leading-tight mb-6">Лови свою<br><span class="text-primary">первую волну</span></h1>
+      <p class="text-deep/70 text-lg max-w-lg mb-9 mx-auto md:mx-0">Тихая бухта, тёплое Чёрное море и инструкторы с сертификатами ISA. С нуля до самостоятельного проскейда — за 3 занятия.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        <a href="#book" class="bg-primary text-white font-display font-bold text-lg rounded-full px-9 py-4 shadow-lg shadow-primary/30 hover:bg-deep transition">Записаться на урок</a>
+        <a href="#programs" class="border-2 border-primary text-primary font-display font-bold text-lg rounded-full px-9 py-4 hover:bg-primary hover:text-white transition">Программы</a>
+      </div>
+    </div>
+    <div class="hidden md:block">
+      <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="80" fill="#00A8B5" opacity=".1"/>
+        <path d="M30 120c20-30 40 30 60 0s40-30 60 0" stroke="#00A8B5" stroke-width="6" stroke-linecap="round"/>
+        <path d="M30 145c20-30 40 30 60 0s40-30 60 0" stroke="#FF6B5B" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="100" cy="70" r="16" fill="#FF6B5B"/>
+      </svg>
+    </div>
+  </div>
+  <!-- big wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
+    <path d="M0 70 C240 20 480 110 720 70 C960 30 1200 110 1440 60 L1440 120 L0 120 Z" fill="#00A8B5" opacity=".18"/>
+    <path d="M0 90 C240 40 480 130 720 85 C960 45 1200 125 1440 80 L1440 120 L0 120 Z" fill="#00A8B5" opacity=".35"/>
+  </svg>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs" class="max-w-5xl mx-auto px-4 py-16">
+  <h2 class="font-display font-bold text-4xl md:text-5xl text-center mb-4">Программы</h2>
+  <p class="text-center text-deep/60 mb-12 max-w-lg mx-auto">Три уровня — от «я стою на доске впервые» до «где мои волны побыстрее».</p>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="board bg-white rounded-3xl p-8 shadow-lg shadow-primary/10 border-t-8 border-primary">
+      <div class="text-5xl mb-4">🏄‍♂️</div>
+      <h3 class="font-display font-bold text-2xl mb-2">Новички</h3>
+      <p class="text-deep/60 text-sm mb-4">Стояние на доске, гребля, подбор волны. 3 занятия по 2 часа в тихой части бухты.</p>
+      <p class="font-display font-bold text-primary text-2xl">2 500 ₽ / урок</p>
+    </div>
+    <div class="board bg-white rounded-3xl p-8 shadow-lg shadow-primary/10 border-t-8 border-accent">
+      <div class="text-5xl mb-4">🌊</div>
+      <h3 class="font-display font-bold text-2xl mb-2">Продолжающие</h3>
+      <p class="text-deep/60 text-sm mb-4">Повороты, чтение волны, выход на гребень. Группы до 4 человек + разбор видео.</p>
+      <p class="font-display font-bold text-accent text-2xl">3 200 ₽ / урок</p>
+    </div>
+    <div class="board bg-white rounded-3xl p-8 shadow-lg shadow-primary/10 border-t-8 border-primary">
+      <div class="text-5xl mb-4">🧒</div>
+      <h3 class="font-display font-bold text-2xl mb-2">Дети 8–14 лет</h3>
+      <p class="text-deep/60 text-sm mb-4">Мягкие волны, софт-борды, спасжилет и всегда два инструктора на группу.</p>
+      <p class="font-display font-bold text-primary text-2xl">2 000 ₽ / урок</p>
+    </div>
+  </div>
+</section>
+
+<!-- wave divider -->
+<svg class="wave-divider" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
+  <path d="M0 60 C240 110 480 10 720 60 C960 110 1200 15 1440 65 L1440 120 L0 120 Z" fill="#00A8B5" opacity=".12"/>
+</svg>
+
+<!-- INSTRUCTORS -->
+<section id="instructors" class="py-16 bg-primary/10">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="font-display font-bold text-4xl text-center mb-3">Инструкторы</h2>
+    <p class="text-center text-deep/60 text-sm mb-10">Все — действующие сертификаты ISA Level 1/2 и время в воде не меньше вашего</p>
+    <div class="grid sm:grid-cols-2 gap-8">
+      <div class="bg-white rounded-3xl p-8 shadow-md flex gap-5 items-start">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent shrink-0 flex items-center justify-center text-white font-display font-bold text-2xl">ЕШ</div>
+        <div>
+          <h3 class="font-display font-bold text-xl mb-1">Егор Шумилов</h3>
+          <p class="text-accent text-sm font-medium mb-2">ISA Level 2 · 7 лет в море</p>
+          <p class="text-deep/60 text-sm">Прошёл Сохо-школы Шри-Ланки, знает Балаклавскую бухту, как свою ладонь. Спокойный, «ещё раз попробуем».</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl p-8 shadow-md flex gap-5 items-start">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-accent to-primary shrink-0 flex items-center justify-center text-white font-display font-bold text-2xl">ЛК</div>
+        <div>
+          <h3 class="font-display font-bold text-xl mb-1">Лиза Кравец</h3>
+          <p class="text-accent text-sm font-medium mb-2">ISA Level 1 · спасатель</p>
+          <p class="text-deep/60 text-sm">Сертификат спасателя на водах + детский инструктор. С ней ребёнок выныривает счастливым и просит «ещё».</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDED -->
+<section id="included" class="max-w-4xl mx-auto px-4 py-16">
+  <h2 class="font-display font-bold text-4xl text-center mb-10">Что входит в урок 🎒</h2>
+  <div class="grid md:grid-cols-2 gap-x-12 gap-y-4">
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>Софт-борд по уровню и гидрокостюм 3/2 (стирка после каждого — честно)</p>
+    </div>
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>Разминка и техника безопасности на берегу, 15 минут</p>
+    </div>
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>2 часа в воде с инструктором (группа до 4 человек)</p>
+    </div>
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>Фото- и видеоотчёт — пришлём в Telegram к вечеру</p>
+    </div>
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>Душ, шкафчик, вода и чай после моря — на базе школы</p>
+    </div>
+    <div class="flex items-start gap-3 bg-white rounded-2xl p-4 shadow-sm">
+      <span class="text-primary text-xl">✔</span><p>Страховка на время занятия входит в цену</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING + BOOKING -->
+<section id="pricing" class="py-16 bg-primary/10">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="font-display font-bold text-4xl text-center mb-10">Пакеты</h2>
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <div class="bg-white rounded-3xl p-7 text-center shadow-md">
+        <p class="font-medium text-deep/50 mb-2">Разовый урок</p>
+        <p class="font-display font-bold text-4xl mb-3">2 500 ₽</p>
+        <p class="text-sm text-deep/60">Один урок в группе новичков</p>
+      </div>
+      <div class="bg-deep text-white rounded-3xl p-7 text-center shadow-xl relative">
+        <p class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-white text-xs font-bold px-4 py-1 rounded-full">Выгодно</p>
+        <p class="font-medium text-white/60 mb-2">Курс 5 уроков</p>
+        <p class="font-display font-bold text-4xl mb-3 text-primary">10 900 ₽</p>
+        <p class="text-sm text-white/70">2 180 ₽ за урок + разбор видео</p>
+      </div>
+      <div class="bg-white rounded-3xl p-7 text-center shadow-md">
+        <p class="font-medium text-deep/50 mb-2">Сезонный безлимит</p>
+        <p class="font-display font-bold text-4xl mb-3">24 900 ₽</p>
+        <p class="text-sm text-deep/60">Весь сезон, все уровни, своё место на стойке</p>
+      </div>
+    </div>
+
+    <div id="book" class="max-w-xl mx-auto bg-white rounded-3xl p-8 shadow-lg">
+      <h3 class="font-display font-bold text-2xl text-center mb-6">Записаться на урок</h3>
+      <form id="bookForm" class="space-y-4">
+        <input required placeholder="Имя" class="w-full border-2 border-sea rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+        <input required type="tel" placeholder="Телефон" class="w-full border-2 border-sea rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+        <select class="w-full border-2 border-sea rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+          <option>Новички</option><option>Продолжающие</option><option>Дети 8–14</option><option>Курс 5 уроков</option>
+        </select>
+        <button type="submit" class="w-full bg-accent text-white font-display font-bold text-lg rounded-full py-4 hover:bg-deep transition">В море! 🌊</button>
+        <p id="bookMsg" class="hidden text-center text-primary font-bold">Заявка отправлена!</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-5xl mx-auto px-4 py-16">
+  <h2 class="font-display font-bold text-4xl text-center mb-10">Отзывы 🐬</h2>
+  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-7 shadow-md">
+      <p class="text-deep/70 mb-4">«Встал на доску на втором занятии, хоть рост 193 и сам себе не верил. Егор объясняет греблю так, что перестаёшь задыхаться.»</p>
+      <p class="font-display font-bold text-primary">Максим, 31 🏄‍♂️</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-7 shadow-md">
+      <p class="text-deep/70 mb-4">«Сын 10 лет после первого урока заявил, что теперь он серфер и всё остальное терпимо. Лиза — волшебница с софт-бордом.»</p>
+      <p class="font-display font-bold text-accent">Ольга, мама Гриши 🧒</p>
+    </div>
+    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-3xl p-7 shadow-md">
+      <p class="text-deep/70 mb-4">«Курс из 5 уроков — лучшее, что я сделала этим летом. Видео-разбор показал, что я гребу руками, а не всем телом. Исправили.»</p>
+      <p class="font-display font-bold text-primary">Аня, 26 🌊</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <h2 class="font-display font-bold text-4xl text-center mb-10">Вопросы</h2>
+  <div class="space-y-4">
+    <div class="bg-white rounded-2xl shadow-sm">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-bold">Я не умею плавать — можно?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-deep/60 text-sm">Уроки проходят по грудь, в жилетах, и рядом всегда инструктор с доской-спасалкой. Базовое плавание желательно, но не обязательно.</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-bold">Когда сезон?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-deep/60 text-sm">С середины мая по конец октября. Самое тёплое море и мягкий ветер — июнь и сентябрь, это наши «золотые месяцы».</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-bold">Что, если волны нет?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-deep/60 text-sm">Перенесём урок на ближайший день с волной или вернём деньги за занятие. Формат урока зависит от флат-календаря бухты.</div>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm">
+      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-bold">Где вы находитесь?<span class="text-primary">+</span></button>
+      <div class="faq-a hidden px-6 pb-5 text-deep/60 text-sm">Балаклава, наб. Назукина, 5А — база прямо у причала, до спота 3 минуты на нашей лодке.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-deep text-white">
+  <div class="max-w-5xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-display font-bold text-2xl text-primary mb-2">🌊 ВОЛНА</p>
+      <p class="text-white/70">Балаклава, наб. Назукина, 5А<br>Май–октябрь, ежедневно 8:00 — 19:00</p>
+    </div>
+    <div class="text-white/70">
+      <p class="text-white font-bold mb-2">Контакты</p>
+      <p>📞 <a href="tel:+79781234056" class="hover:text-primary">+7 978 123-40-56</a></p>
+      <p>✈️ <a href="https://t.me/volna_surf" class="hover:text-primary">@volna_surf</a></p>
+    </div>
+    <div class="text-white/70">
+      <p class="text-white font-bold mb-2">Демо</p>
+      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const a = btn.nextElementSibling;
+    a.classList.toggle('hidden');
+    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  });
+});
+document.getElementById('bookForm').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('bookMsg').classList.remove('hidden');
+  e.target.querySelector('button[type=submit]').disabled = true;
+});
+</script>
+</body>
+</html>

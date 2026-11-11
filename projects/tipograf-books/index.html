@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Типографъ — книжный магазин</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        paper: '#F7F4ED',
+        ink: '#1A1A1A',
+        verm: '#D0342C',
+        edge: '#D8D2C4'
+      },
+      fontFamily: {
+        serif: ['"PT Serif"', 'serif'],
+        oswald: ['Oswald', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#D0342C; color:#F7F4ED; }
+  .drop-cap::first-letter { font-family:'Oswald'; font-size:2.6em; float:left; line-height:.8; margin-right:.1em; color:#D0342C; }
+  .rule { border-top: 3px double #1A1A1A; }
+</style>
+</head>
+<body class="bg-paper text-ink font-serif min-h-screen">
+
+<header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b-2 border-ink">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-oswald font-bold text-2xl tracking-wide">ТИПОГРА<span class="text-verm">ФЪ</span></a>
+    <span class="hidden md:inline text-[10px] font-oswald tracking-[0.3em] text-ink/50 uppercase border border-ink/30 px-2 py-1">Книжная лавка · осн. 1894</span>
+    <input id="search" type="search" placeholder="Найти книгу или автора…"
+      class="flex-1 min-w-0 bg-transparent border-b-2 border-ink/40 px-2 py-1.5 text-sm outline-none focus:border-verm transition font-serif">
+    <button id="cartBtn" class="relative shrink-0 bg-ink text-paper font-oswald uppercase tracking-wider text-sm px-4 py-2 hover:bg-verm transition">
+      Корзина <span id="cartCount" class="absolute -top-2 -right-2 bg-verm text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="border-b-2 border-ink">
+  <div class="max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-[1fr_auto] gap-10 items-center">
+    <div>
+      <p class="font-oswald text-verm tracking-[0.25em] uppercase text-sm mb-4">Ярмарка — до 30% на классику</p>
+      <h1 class="font-serif font-bold text-4xl md:text-6xl leading-tight drop-cap">Тише.<br>Здесь читают.</h1>
+      <p class="mt-5 max-w-md text-ink/70">Бумага, переплёт, аромат типографской краски. Книги, которые переносят тираж из года в год, — от Гоголя до новинок нон-фикшна.</p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a href="#catalog" class="bg-ink text-paper font-oswald uppercase tracking-widest px-7 py-3 hover:bg-verm transition">В каталог ↓</a>
+        <span class="font-oswald text-xs tracking-widest uppercase text-ink/50">Доставка по всей России</span>
+      </div>
+    </div>
+    <div class="hidden md:block">
+      <div class="w-48 h-64 bg-gradient-to-br from-ink to-ink/70 border-4 border-ink/20 flex items-center justify-center text-7xl rotate-3 shadow-[8px_8px_0_#D0342C]">📕</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+<div class="max-w-6xl mx-auto px-4 py-6 text-center font-serif italic text-ink/70">
+  «Чтение — вот лучшее учение.» — Пушкин, а мы лишь согласны.
+</div>
+<div class="rule"></div>
+
+<main class="max-w-6xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-transparent border-2 border-ink/40 rounded-none px-3 py-2 text-sm font-oswald uppercase tracking-wider outline-none focus:border-verm">
+      <option value="pop">Без сортировки</option>
+      <option value="asc">Дешевле</option>
+      <option value="desc">Дороже</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-ink/50 py-16 font-serif italic">Страница не найдена в этом томе.</p>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="border-2 border-ink p-6 md:p-8 bg-white/50">
+    <h2 class="font-oswald uppercase tracking-widest text-xl mb-1 border-b-2 border-verm inline-block pb-1">Оформить заказ</h2>
+    <p class="text-ink/60 text-sm mb-5 font-serif">Наложенный платёж, СДЭК, Почта России.</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя" class="bg-transparent border-2 border-ink/40 px-4 py-3 text-sm outline-none focus:border-verm font-serif">
+      <input required type="tel" placeholder="Телефон" class="bg-transparent border-2 border-ink/40 px-4 py-3 text-sm outline-none focus:border-verm font-serif">
+      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-transparent border-2 border-ink/40 px-4 py-3 text-sm outline-none focus:border-verm font-serif">
+      <button type="submit" class="sm:col-span-2 bg-ink text-paper font-oswald uppercase tracking-widest py-4 hover:bg-verm transition">Отправить в типографию</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-verm font-oswald font-bold text-center uppercase tracking-widest"></p>
+  </div>
+</section>
+
+<footer class="border-t-2 border-ink py-10">
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+    <div>
+      <p class="font-oswald font-bold uppercase text-lg mb-2">Типографъ</p>
+      <p class="text-ink/70">Никольская ул., 10, Москва<br>Пн–Вс 10:00–21:00</p>
+    </div>
+    <div>
+      <p class="font-oswald uppercase tracking-wider mb-2">Связь</p>
+      <p class="text-ink/70">+7 (495) 987-65-43<br>knigi@tipograf.ru</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-ink/40 text-xs leading-relaxed font-serif">© 1894–2026 «Типографъ»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-verm underline hover:text-ink">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-ink/50 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-paper border-l-2 border-ink z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b-2 border-ink">
+    <p class="font-oswald uppercase tracking-widest">Ваш том</p>
+    <button id="cartClose" class="text-ink/50 hover:text-verm text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t-2 border-ink">
+    <div class="flex justify-between font-oswald uppercase tracking-wider mb-3"><span>Итого</span><span id="cartTotal" class="text-verm">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-ink text-paper font-oswald uppercase tracking-widest py-3 hover:bg-verm transition">К оформлению</button>
+  </div>
+</aside>
+
+<script>
+const products = [
+  { id:1, name:'Мёртвые души', cat:'Классика', author:'Н. Гоголь', pages:352, bind:'Твёрдый', price:690, emoji:'📕', grad:'linear-gradient(135deg,#1A1A1A,#4a4a4a)' },
+  { id:2, name:'Преступление и наказание', cat:'Классика', author:'Ф. Достоевский', pages:672, bind:'Твёрдый', price:840, emoji:'📖', grad:'linear-gradient(135deg,#3d1f1f,#8a3b32)' },
+  { id:3, name:'Пикник на обочине', cat:'Фантастика', author:'А. и Б. Стругацкие', pages:288, bind:'Мягкий', price:520, emoji:'🛸', grad:'linear-gradient(135deg,#0f2f24,#2e8b57)' },
+  { id:4, name:'Солярис', cat:'Фантастика', author:'С. Лем', pages:224, bind:'Мягкий', price:480, emoji:'🌊', grad:'linear-gradient(135deg,#12233f,#3b6ea5)' },
+  { id:5, name:'Думай медленно… решай быстро', cat:'Нон-фикшн', author:'Д. Канеман', pages:624, bind:'Твёрдый', price:1290, emoji:'🧠', grad:'linear-gradient(135deg,#2b2b2b,#6b6b6b)' },
+  { id:6, name:'Атомные привычки', cat:'Нон-фикшн', author:'Д. Клир', pages:368, bind:'Твёрдый', price:1150, emoji:'⚛️', grad:'linear-gradient(135deg,#243b55,#D0342C)' },
+  { id:7, name:'Денискины рассказы', cat:'Детям', author:'В. Драгунский', pages:224, bind:'Твёрдый', price:560, emoji:'🎈', grad:'linear-gradient(135deg,#e8b4c8,#D0342C)' },
+  { id:8, name:'Гарри Поттер и философский камень', cat:'Детям', author:'Дж. Роулинг', pages:432, bind:'Твёрдый', price:990, emoji:'⚡', grad:'linear-gradient(135deg,#1a1a2e,#e94560)' },
+  { id:9, name:'Мастер и Маргарита', cat:'Классика', author:'М. Булгаков', pages:480, bind:'Твёрдый', price:890, emoji:'🐈‍⬛', grad:'linear-gradient(135deg,#141414,#4d3a5c)' },
+  { id:10, name:'Краткая история времени', cat:'Нон-фикшн', author:'С. Хокинг', pages:272, bind:'Мягкий', price:750, emoji:'🌌', grad:'linear-gradient(135deg,#0d1b2a,#415a77)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*900)+100;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-1.5 border-2 font-oswald uppercase tracking-wider text-xs transition ${c===activeCat?'bg-ink text-paper border-ink':'border-ink/40 text-ink/70 hover:border-verm hover:text-verm'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) &&
+    (p.name.toLowerCase().includes(query) || p.author.toLowerCase().includes(query)));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="border-2 border-ink/30 bg-white/60 hover:border-ink transition flex flex-col group">
+      <div class="h-40 flex items-center justify-center text-6xl border-b-2 border-ink/20" style="background:${p.grad}">
+        <span class="group-hover:-rotate-6 group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="font-oswald text-[10px] uppercase tracking-[0.25em] text-verm mb-1">${p.cat}</p>
+        <h3 class="font-serif font-bold text-base leading-snug flex-1">${p.name}</h3>
+        <p class="text-xs text-ink/60 mt-1 font-serif italic">${p.author}</p>
+        <p class="text-[11px] text-ink/50 mt-1 font-oswald uppercase tracking-wider">${p.pages} стр. · ${p.bind} переплёт</p>
+        <div class="mt-3 flex items-end justify-between gap-2 border-t border-dotted border-ink/30 pt-3">
+          <p class="font-oswald font-bold text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="bg-ink text-paper text-xs font-oswald uppercase tracking-wider px-3 py-2 hover:bg-verm transition">+ Корзина</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  cart[id] = (cart[id]||0)+1; renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function removeItem(id){ delete cart[id]; renderCart(); }
+function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=>s+cart[id],0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
+    const p = products.find(x=>x.id==id);
+    return `<div class="flex items-center gap-3 border border-ink/30 p-3 bg-white/70">
+      <div class="w-10 h-14 flex items-center justify-center text-2xl shrink-0 border border-ink/20" style="background:${p.grad}">${p.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-serif font-bold truncate">${p.name}</p>
+        <p class="text-xs text-verm font-oswald">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec(${p.id})" class="w-7 h-7 border border-ink/40 hover:border-verm hover:text-verm">−</button>
+        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
+        <button onclick="add(${p.id})" class="w-7 h-7 border border-ink/40 hover:border-verm hover:text-verm">+</button>
+      </div>
+      <button onclick="removeItem(${p.id})" class="text-ink/40 hover:text-verm ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-ink/50 py-10 text-sm font-serif italic">Полка пуста. Прогуляйтесь по каталогу.</p>';
+  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

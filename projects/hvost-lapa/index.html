@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Хвост и Лапа — зоомагазин</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        sunny: '#FFFBEA',
+        beep: '#FFC93C',
+        aqua: '#2EC4B6',
+        choco: '#4A3728',
+        coral: '#FF6B6B'
+      },
+      fontFamily: {
+        nunito: ['Nunito', 'sans-serif'],
+        baloo: ['"Baloo 2"', 'cursive']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#2EC4B6; color:#FFFBEA; }
+  .wobbly { border-radius: 24px 20px 26px 18px / 20px 26px 18px 24px; }
+  .paw-bg { background-image: radial-gradient(circle at 10px 10px, rgba(255,201,60,.25) 6px, transparent 7px); background-size: 60px 60px; }
+</style>
+</head>
+<body class="bg-sunny text-choco font-nunito min-h-screen paw-bg">
+
+<header class="sticky top-0 z-40 bg-sunny/95 backdrop-blur border-b-4 border-beep/60">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-baloo font-bold text-2xl flex items-center gap-1">🐾 Хвост <span class="text-aqua">& Лапа</span></a>
+    <input id="search" type="search" placeholder="Найти: корм, мячик, лежанка…"
+      class="flex-1 min-w-0 bg-white border-2 border-beep/60 rounded-full px-4 py-2 text-sm outline-none focus:border-aqua transition">
+    <button id="cartBtn" class="relative shrink-0 bg-aqua text-white font-baloo font-bold px-4 py-2 rounded-full hover:bg-coral transition">
+      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-coral text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="border-b-4 border-beep/60 bg-gradient-to-br from-beep/40 via-sunny to-aqua/20">
+  <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 text-center">
+    <p class="font-baloo text-aqua text-lg mb-2">🐕 Одобрено хвостами · Утверждено мурлыканьем 🐈</p>
+    <h1 class="font-baloo text-4xl md:text-6xl leading-tight">Мурчалку — в ленту!<br><span class="text-coral">Скидки на всё</span> хвостатое</h1>
+    <p class="mt-4 text-choco/80 max-w-xl mx-auto">Корм, игрушки и лежанки, которые переживут и кота-разбойника, и щенка-пылесоса. Доставка за день, а лакомство — в подарок.</p>
+    <div class="mt-7 flex flex-wrap justify-center gap-3">
+      <a href="#catalog" class="bg-coral text-white font-baloo font-bold px-7 py-3 rounded-full hover:bg-aqua transition shadow-lg shadow-coral/30">Выбрать радость ↓</a>
+      <span class="bg-white px-4 py-3 rounded-full font-bold text-sm border-2 border-beep">🎁 При заказе от 2000 ₽ — печение бесплатно!</span>
+    </div>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-white border-2 border-beep/60 rounded-full px-4 py-2 text-sm font-bold outline-none focus:border-aqua">
+      <option value="pop">Популярные</option>
+      <option value="asc">Дешевле сначала</option>
+      <option value="desc">Дороже сначала</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-choco/50 py-16 font-baloo">Арам-зам-зам… ничего не нашлось!</p>
+
+  <div class="mt-12 bg-white wobbly p-6 text-center font-baloo text-xl text-aqua border-2 border-beep/40">
+    «Мой кот съел упаковку быстрее корма. 10/10, куплю ещё» — Оксана и кот Барсик 😹
+  </div>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="bg-white wobbly border-2 border-beep/60 p-6 md:p-8 shadow-lg shadow-beep/20">
+    <h2 class="font-baloo text-2xl mb-1">Оформить заказ</h2>
+    <p class="text-choco/60 text-sm mb-5">Хвостатый курьер не входит в штат, поэтому доставка — обычная 🚚</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Ваше имя" class="bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
+      <input required type="tel" placeholder="Телефон" class="bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
+      <input required placeholder="Адрес (и кличка питомца)" class="sm:col-span-2 bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
+      <button type="submit" class="sm:col-span-2 bg-aqua text-white font-baloo font-bold text-lg py-4 rounded-2xl hover:bg-coral transition">Урони лапу на кнопку!</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-coral font-baloo font-bold text-center"></p>
+  </div>
+</section>
+
+<footer class="border-t-4 border-beep/60 py-10 bg-aqua/10">
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-choco/80">
+    <div>
+      <p class="font-baloo font-bold text-choco text-lg mb-2">🐾 Хвост и Лапа</p>
+      <p>Москва, ул. Пёсья, 9<br>Ежедневно 10:00–21:00</p>
+    </div>
+    <div>
+      <p class="text-choco font-bold mb-2">Связь</p>
+      <p>+7 (499) 335-22-88<br>gav@hvostilapa.ru · tg: @hvostilapa</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-choco/50 text-xs leading-relaxed">© 2026 «Хвост и Лапа» · Гав!<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-aqua underline hover:text-coral">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-choco/40 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-sunny border-l-4 border-beep z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b-2 border-beep/50">
+    <p class="font-baloo font-bold text-lg">Собрано хвостиками</p>
+    <button id="cartClose" class="text-choco/50 hover:text-coral text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t-2 border-beep/50">
+    <div class="flex justify-between font-baloo font-bold text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-coral">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-aqua text-white font-baloo font-bold py-3 rounded-2xl hover:bg-coral transition">К оформлению 🐕</button>
+  </div>
+</aside>
+
+<script>
+const products = [
+  { id:1, name:'Корм «Мур-Мияс» для котов, 2 кг', cat:'Корма 🐱', pet:'🐱', price:1290, emoji:'🐟', desc:'Лосось + рис. Кот одобрил, тарелка вылизана', grad:'linear-gradient(135deg,#2EC4B6,#a8e6e1)' },
+  { id:2, name:'Корм «Хвост-Гурман» малый, 1 кг', cat:'Корма 🐶', pet:'🐶', price:990, emoji:'🍖', desc:'Курица для приверед. Съедают за 4 минуты', grad:'linear-gradient(135deg,#FFC93C,#ffe29a)' },
+  { id:3, name:'Корм для хомяков «Норка-Ном», 500 г', cat:'Корма 🐹', pet:'🐹', price:390, emoji:'🌻', desc:'Семечки без соли, курага, мини-крекеры', grad:'linear-gradient(135deg,#FFC93C,#FF6B6B)' },
+  { id:4, name:'Корм попугайный «Клюй-Клюй», 800 г', cat:'Корма 🦜', pet:'🦜', price:560, emoji:'🥭', desc:'Просо, манго, хлопья. Щебечет от счастья', grad:'linear-gradient(135deg,#2EC4B6,#FFC93C)' },
+  { id:5, name:'Мячик-пищалка «Сqueeк!», резина', cat:'Игрушки 🐶', pet:'🐶', price:290, emoji:'🎾', desc:'Пищит на 3 тонах. Собака happy, соседи not', grad:'linear-gradient(135deg,#FF6B6B,#ffc2c2)' },
+  { id:6, name:'Когтеточка-домик «Мяу-Мансион»', cat:'Игрушки 🐱', pet:'🐱', price:2190, emoji:'🏠', desc:'Сизаль + полка-трон. Кот станет королём', grad:'linear-gradient(135deg,#beige,#e8d5b7)'.replace('beige','#F5DEB3') },
+  { id:7, name:'Лежанка «Пух-облачко» XL', cat:'Лежанки 🐶', pet:'🐶', price:2490, emoji:'☁️', desc:'Съёмный чехол, машинная стирка. Сон богов', grad:'linear-gradient(135deg,#fff,#cfe8f7)' },
+  { id:8, name:'Гамак для хомяка «Летучая мышь»', cat:'Лежанки 🐹', pet:'🐹', price:340, emoji:'🪝', desc:'Вешается в клетку, качается, хомяк доволен', grad:'linear-gradient(135deg,#FFC93C,#f9e4b7)' },
+  { id:9, name:'Лоток закрытый «Туалет-Люкс»', cat:'Лотки 🐱', pet:'🐱', price:1890, emoji:'🚪', desc:'С фильтром запаха и дверцей. Соседи не узнают', grad:'linear-gradient(135deg,#9aa8b8,#d8e0ea)' },
+  { id:10, name:'Лоток-совок + наполнитель 5 л', cat:'Лотки 🐱', pet:'🐱', price:520, emoji:'🧹', desc:'Комкуется, не пылит, держит 3 дня', grad:'linear-gradient(135deg,#2EC4B6,#7fd6cf)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*900)+100;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-bold border-2 transition ${c===activeCat?'bg-beep text-choco border-beep':'border-beep/50 text-choco/70 hover:border-aqua hover:text-aqua'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="bg-white wobbly border-2 border-beep/40 overflow-hidden hover:border-aqua hover:-translate-y-1 transition flex flex-col group">
+      <div class="h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="group-hover:rotate-12 transition-transform duration-300">${p.emoji}</span>
+        <span class="absolute translate-x-16 -translate-y-12 text-3xl">${p.pet}</span>
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="text-[10px] font-bold uppercase tracking-wider text-aqua mb-1">${p.cat}</p>
+        <h3 class="font-bold text-sm leading-snug flex-1">${p.name}</h3>
+        <p class="text-xs text-choco/60 mt-1 font-nunito">${p.desc}</p>
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <p class="font-baloo font-bold text-xl text-coral">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="bg-beep text-choco text-sm font-bold px-3 py-2 rounded-full hover:bg-aqua hover:text-white transition">+ Гуф!</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  cart[id] = (cart[id]||0)+1; renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function removeItem(id){ delete cart[id]; renderCart(); }
+function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=>s+cart[id],0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
+    const p = products.find(x=>x.id==id);
+    return `<div class="flex items-center gap-3 border-2 border-beep/40 rounded-2xl p-3 bg-white">
+      <div class="w-11 h-11 rounded-full flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold truncate">${p.name}</p>
+        <p class="text-xs text-coral font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec(${p.id})" class="w-7 h-7 border-2 border-beep/50 rounded-full hover:border-coral hover:text-coral">−</button>
+        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
+        <button onclick="add(${p.id})" class="w-7 h-7 border-2 border-beep/50 rounded-full hover:border-coral hover:text-coral">+</button>
+      </div>
+      <button onclick="removeItem(${p.id})" class="text-choco/40 hover:text-coral ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-choco/50 py-10 text-sm font-baloo">Хвост пустой. Питомец недоволен 🐾</p>';
+  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

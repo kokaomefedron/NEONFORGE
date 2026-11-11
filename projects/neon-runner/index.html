@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>НЕОН-РАННЕР — аркада | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
+  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
+}}};
+</script>
+<style>
+  html,body{overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+  .neon{text-shadow:0 0 18px rgba(124,92,255,.55)}
+  #wrap{touch-action:manipulation}
+</style>
+</head>
+<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
+<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
+  <h1 class="text-lg md:text-xl font-extrabold tracking-widest neon">НЕОН-РАННЕР</h1>
+  <span class="text-[11px] uppercase tracking-widest text-white/40">аркада · демо</span>
+</header>
+
+<main class="flex-1 w-full max-w-3xl mx-auto px-3 py-4">
+  <div class="flex justify-between text-sm mb-2 px-1">
+    <div>СЧЁТ: <span id="score" class="text-lime font-bold">0</span></div>
+    <div>РЕКОРД: <span id="best" class="text-blu font-bold">0</span></div>
+  </div>
+
+  <div id="wrap" class="relative rounded-2xl overflow-hidden border border-vio/40 shadow-[0_0_44px_rgba(124,92,255,.22)] h-[58vh] min-h-[320px] cursor-pointer">
+    <canvas id="cv" class="block w-full h-full"></canvas>
+
+    <div id="start" class="absolute inset-0 bg-ink/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-center px-6">
+      <div class="text-2xl font-extrabold text-blu">Готов к забегу?</div>
+      <div class="text-white/70 text-sm">Тапни по полю или нажми «Пробел», чтобы начать</div>
+    </div>
+
+    <div id="over" class="hidden absolute inset-0 bg-ink/85 backdrop-blur-sm flex flex-col items-center justify-center gap-3 text-center px-6">
+      <div class="text-3xl font-extrabold text-vio neon tracking-wide">ИГРА ОКОНЧЕНА</div>
+      <div id="final" class="text-white/80 text-sm"></div>
+      <button id="restart" class="mt-2 px-8 py-3 rounded-xl bg-lime text-ink font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">ЕЩЁ РАЗ</button>
+    </div>
+  </div>
+
+  <section class="mt-4 text-sm text-white/60 leading-relaxed">
+    <h2 class="text-white font-semibold mb-1">Как играть</h2>
+    <ul class="list-disc list-inside space-y-0.5">
+      <li><b class="text-lime">Пробел</b> или <b class="text-lime">тап по полю</b> — прыжок.</li>
+      <li>Перепрыгивай неоновые блоки: скорость растёт с каждым очком.</li>
+      <li>Один прыжок — один блок: двойные препятствия рассчитывай заранее.</li>
+      <li>Рекорд сохраняется на этом устройстве автоматически.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
+  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const cv=document.getElementById('cv'), wrap=document.getElementById('wrap'),
+        scoreEl=document.getElementById('score'), bestEl=document.getElementById('best'),
+        overEl=document.getElementById('over'), startEl=document.getElementById('start'),
+        finalEl=document.getElementById('final'), btnRestart=document.getElementById('restart');
+  const ctx=cv.getContext('2d');
+
+  let W=0,H=0,DPR=1,groundY=0;
+  function resize(){
+    DPR=Math.min(2, window.devicePixelRatio||1);
+    const r=wrap.getBoundingClientRect();
+    W=r.width; H=r.height;
+    cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    groundY=H-70;
+    if(state!=='run') P.y=groundY-P.size;
+    initStars();
+  }
+
+  let best=0;
+  try{ best=parseInt(localStorage.getItem('nf_neon_runner_best'),10)||0; }catch(e){}
+  bestEl.textContent=best;
+
+  const P={x:90,y:0,vy:0,size:34};
+  let obs=[], speed=360, score=0, state='ready', tPrev=0, sinceSpawn=0, runDist=0;
+  const stars=[];
+  function initStars(){
+    stars.length=0;
+    for(let i=0;i<50;i++) stars.push({x:Math.random()*W, y:Math.random()*(groundY-30), r:Math.random()*1.6+.4, tw:Math.random()*6});
+  }
+  // пул частиц — создаётся один раз, без new в цикле
+  const parts=[];
+  for(let i=0;i<80;i++) parts.push({a:false,x:0,y:0,vx:0,vy:0,life:0,c:'#fff'});
+  function boom(x,y){
+    let n=0;
+    for(const p of parts){
+      if(p.a) continue;
+      p.a=true; p.x=x; p.y=y;
+      const a=Math.random()*Math.PI*2, s=90+Math.random()*320;
+      p.vx=Math.cos(a)*s; p.vy=Math.sin(a)*s-120;
+      p.life=.5+Math.random()*.6;
+      p.c=['#7C5CFF','#5B8CFF','#C6FF4D'][n%3];
+      if(++n>=42) break;
+    }
+  }
+
+  function reset(){
+    obs.length=0; speed=360; score=0; sinceSpawn=0; runDist=0;
+    P.vy=0; P.y=groundY-P.size;
+    state='run';
+    overEl.classList.add('hidden'); startEl.classList.add('hidden');
+    scoreEl.textContent='0';
+    tPrev=performance.now();
+  }
+
+  function jump(){
+    if(state==='ready'||state==='dead'){ reset(); return; }
+    if(P.y>=groundY-P.size-0.5) P.vy=-920;
+  }
+
+  function die(){
+    state='dead';
+    boom(P.x+P.size/2, P.y+P.size/2);
+    if(score>best){ best=score; try{localStorage.setItem('nf_neon_runner_best',String(best));}catch(e){} bestEl.textContent=best; }
+    finalEl.innerHTML='Счёт: <b class="text-lime">'+score+'</b> &nbsp;·&nbsp; Рекорд: <b class="text-blu">'+best+'</b>';
+    overEl.classList.remove('hidden');
+  }
+
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+
+  function draw(time){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      const a=.22+.35*Math.abs(Math.sin(time*1.3+s.tw));
+      ctx.fillStyle='rgba(124,92,255,'+a.toFixed(3)+')';
+      ctx.fillRect(s.x,s.y,s.r,s.r);
+    }
+    // земля
+    ctx.strokeStyle='rgba(198,255,77,.85)'; ctx.lineWidth=2;
+    ctx.shadowColor='#C6FF4D'; ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.moveTo(0,groundY); ctx.lineTo(W,groundY); ctx.stroke();
+    ctx.shadowBlur=0;
+    ctx.strokeStyle='rgba(198,255,77,.16)';
+    const off=runDist%48;
+    ctx.beginPath();
+    for(let x=-off;x<W;x+=48){ ctx.moveTo(x,groundY); ctx.lineTo(x-14,groundY+18); }
+    ctx.stroke();
+    // препятствия
+    for(const o of obs){
+      ctx.fillStyle='#0b0b18'; ctx.strokeStyle='#7C5CFF'; ctx.lineWidth=2;
+      ctx.shadowColor='#7C5CFF'; ctx.shadowBlur=14;
+      roundRect(o.x,groundY-o.h,o.w,o.h,4); ctx.fill(); ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+    // игрок
+    ctx.shadowColor='#5B8CFF'; ctx.shadowBlur=18; ctx.fillStyle='#5B8CFF';
+    roundRect(P.x,P.y,P.size,P.size,6); ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='rgba(255,255,255,.9)';
+    ctx.fillRect(P.x+P.size-10,P.y+7,4,4);
+    // частицы
+    for(const p of parts){
+      if(!p.a) continue;
+      ctx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));
+      ctx.fillStyle=p.c; ctx.fillRect(p.x-2,p.y-2,4,4);
+    }
+    ctx.globalAlpha=1;
+  }
+
+  function step(t){
+    requestAnimationFrame(step);
+    if(document.hidden){ tPrev=t; return; }
+    let dt=(t-tPrev)/1000; tPrev=t;
+    if(dt>0.05) dt=0.05;
+
+    if(state==='run'){
+      speed=360+Math.min(420,score*2.2);
+      runDist+=speed*dt;
+      score=Math.floor(runDist/40);
+      scoreEl.textContent=score;
+
+      P.vy+=2600*dt; P.y+=P.vy*dt;
+      if(P.y>groundY-P.size){ P.y=groundY-P.size; P.vy=0; }
+
+      sinceSpawn+=speed*dt;
+      const gap=Math.max(230,520-score*0.55)+Math.random()*260;
+      if(sinceSpawn>gap){
+        sinceSpawn=0;
+        obs.push({x:W+40, w:26+Math.random()*26, h:34+Math.random()*64});
+      }
+      for(let i=obs.length-1;i>=0;i--){
+        const o=obs[i];
+        o.x-=speed*dt;
+        if(o.x+o.w<-30){ obs.splice(i,1); continue; }
+        if(P.x+P.size-6>o.x && P.x+6<o.x+o.w && P.y+P.size>groundY-o.h+5){ die(); break; }
+      }
+    }
+    // частицы живут и после смерти
+    for(const p of parts){
+      if(!p.a) continue;
+      p.life-=dt;
+      if(p.life<=0){ p.a=false; continue; }
+      p.vy+=1400*dt; p.x+=p.vx*dt; p.y+=p.vy*dt;
+      if(p.y>groundY){ p.y=groundY; p.vy*=-0.4; }
+    }
+    draw(t/1000);
+  }
+
+  addEventListener('keydown',e=>{
+    if(e.code==='Space'){ e.preventDefault(); jump(); }
+  });
+  wrap.addEventListener('pointerdown',e=>{ e.preventDefault(); jump(); });
+  btnRestart.addEventListener('click',e=>{ e.stopPropagation(); reset(); });
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tPrev=performance.now(); });
+  addEventListener('resize',resize);
+
+  resize(); P.y=groundY-P.size;
+  requestAnimationFrame(step);
+})();
+</script>
+</body>
+</html>

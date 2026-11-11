@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Лукоморье — магазин детских игрушек</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        sky1: '#E0F2FF',
+        sky2: '#FFF9E8',
+        blue: '#2E86DE',
+        red: '#EB4747',
+        green: '#2ECC71',
+        cloud: '#FFFFFF'
+      },
+      fontFamily: {
+        comfortaa: ['Comfortaa', 'cursive'],
+        nunito: ['Nunito', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  ::selection { background:#2E86DE; color:#fff; }
+  body { background: linear-gradient(180deg,#E0F2FF 0%,#FFF9E8 100%); min-height:100vh; }
+  .bouncy { border-radius: 28px 26px 30px 24px; }
+  .cloudlet { position:absolute; background:#fff; border-radius:50px; opacity:.8; }
+</style>
+</head>
+<body class="text-slate-700 font-nunito overflow-x-hidden">
+
+<header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b-4 border-blue/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <a href="#" class="font-comfortaa font-bold text-2xl flex items-center gap-1">
+      <span class="text-blue">✨ Лукоморье</span>
+    </a>
+    <input id="search" type="search" placeholder="Найти: конструктор, мишка, настолка…"
+      class="flex-1 min-w-0 bg-white border-2 border-blue/30 rounded-full px-4 py-2 text-sm outline-none focus:border-red transition">
+    <button id="cartBtn" class="relative shrink-0 bg-red text-white font-comfortaa font-bold px-4 py-2 rounded-full hover:bg-blue transition">
+      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-green text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
+    </button>
+  </div>
+</header>
+
+<section class="relative border-b-4 border-blue/20 overflow-hidden">
+  <div class="cloudlet w-32 h-10 top-8 left-8"></div>
+  <div class="cloudlet w-20 h-8 top-20 right-16"></div>
+  <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 text-center relative">
+    <p class="font-comfortaa text-green text-lg mb-2">🎈 Весёлый вторник: −15% на всё по промокоду ВЕСЕЛЫЙВТ</p>
+    <h1 class="font-comfortaa font-bold text-4xl md:text-6xl leading-tight">
+      Чудеса начинаются <span class="text-red">здесь</span>
+    </h1>
+    <p class="mt-4 text-slate-600 max-w-xl mx-auto">Конструкторы, мягкие друзья и настолки, после которых дети откладывают планшеты. Сертифицировано, безопасно, бесконечно интересно.</p>
+    <div class="mt-7 flex flex-wrap justify-center gap-3">
+      <a href="#catalog" class="bg-blue text-white font-comfortaa font-bold px-7 py-3 rounded-full hover:bg-red transition shadow-lg shadow-blue/30">В страну чудес ↓</a>
+      <span class="bg-white px-4 py-3 rounded-full font-bold text-sm border-2 border-green/50">🚚 Бесплатно от 3000 ₽</span>
+    </div>
+    <div class="mt-6 text-6xl">🧸 🚂 🦄 🎮 🐻</div>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 py-10">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
+    <select id="sortSel" class="bg-white border-2 border-blue/30 rounded-full px-4 py-2 text-sm font-bold outline-none focus:border-red">
+      <option value="pop">Популярные</option>
+      <option value="asc">Дешевле сначала</option>
+      <option value="desc">Дороже сначала</option>
+    </select>
+  </div>
+  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
+  <p id="empty" class="hidden text-center text-slate-500 py-16 font-comfortaa">Волшебство закончилось… но скоро привезём!</p>
+
+  <div class="mt-12 bg-white bouncy p-6 text-center font-comfortaa text-lg text-blue border-2 border-dashed border-red/40">
+    «Настолка села на неделю. Дети играют, родители отдыхают. Магазин, спасибо!» — семья Петровых 👨‍👩‍👧‍👦
+  </div>
+</main>
+
+<section class="max-w-2xl mx-auto px-4 pb-16">
+  <div class="bg-white bouncy border-4 border-blue/30 p-6 md:p-8 shadow-xl shadow-blue/10">
+    <h2 class="font-comfortaa font-bold text-2xl mb-1">Оформить заказ</h2>
+    <p class="text-slate-500 text-sm mb-5">Курьер-волшебник приедет в удобное время 🪄</p>
+    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <input required placeholder="Имя родителя" class="bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
+      <input required type="tel" placeholder="Телефон" class="bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
+      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
+      <button type="submit" class="sm:col-span-2 bg-green text-white font-comfortaa font-bold text-lg py-4 rounded-2xl hover:bg-blue transition">Собрать чудо!</button>
+    </form>
+    <p id="orderMsg" class="hidden mt-4 text-green font-comfortaa font-bold text-center"></p>
+  </div>
+</section>
+
+<footer class="border-t-4 border-blue/20 py-10 bg-white/70">
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-slate-600">
+    <div>
+      <p class="font-comfortaa font-bold text-blue text-lg mb-2">✨ Лукоморье</p>
+      <p>Москва, ул. Сказочная, 5<br>Ежедневно 10:00–20:00</p>
+    </div>
+    <div>
+      <p class="text-slate-700 font-bold mb-2">Связь</p>
+      <p>+7 (499) 777-33-22<br>chudo@lukomorye.ru</p>
+    </div>
+    <div class="sm:text-right">
+      <p class="text-slate-400 text-xs leading-relaxed">© 2026 «Лукоморье»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-blue underline hover:text-red">NEONFORGE</a> — закажите свой магазин.</p>
+    </div>
+  </div>
+</footer>
+
+<div id="cartOverlay" class="fixed inset-0 bg-blue/30 z-40 opacity-0 pointer-events-none transition-opacity"></div>
+<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white border-l-4 border-blue/30 z-50 translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-4 border-b-2 border-blue/20">
+    <p class="font-comfortaa font-bold text-lg">Мешок чудес</p>
+    <button id="cartClose" class="text-slate-400 hover:text-red text-2xl leading-none">×</button>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+  <div class="p-4 border-t-2 border-blue/20">
+    <div class="flex justify-between font-comfortaa font-bold text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-red">0 ₽</span></div>
+    <button id="checkout" class="w-full bg-blue text-white font-comfortaa font-bold py-3 rounded-2xl hover:bg-red transition">К оформлению</button>
+  </div>
+</aside>
+
+<script>
+const products = [
+  { id:1, name:'Конструктор «Замок дракона», 640 дет.', cat:'Конструкторы', age:'6+', price:3290, emoji:'🐉', desc:'Подъёмный мост, светящаяся башня и 3 минифигурки', grad:'linear-gradient(135deg,#2E86DE,#8ec9ff)' },
+  { id:2, name:'Конструктор «Космодром», 420 дет.', cat:'Конструкторы', age:'6+', price:2790, emoji:'🚀', desc:'Ракета, ровер и стартовая площадка с маячком', grad:'linear-gradient(135deg,#3b3b6d,#6c5ce7)' },
+  { id:3, name:'Мягкий мишка Барни, 45 см', cat:'Мягкие игрушки', age:'0+', price:1690, emoji:'🧸', desc:'Антистресс-плюш, машинная стирка, обнимашка №1', grad:'linear-gradient(135deg,#d4a06a,#f3d5a7)' },
+  { id:4, name:'Единорог Пузырь на колёсах', cat:'Мягкие игрушки', age:'3+', price:1290, emoji:'🦄', desc:'Каталка с ручкой, радужная грива, колёсики тихие', grad:'linear-gradient(135deg,#EB4747,#ffc3c3)' },
+  { id:5, name:'Настолка «Пираты бюджета», 2–6 игроков', cat:'Настолки', age:'10+', price:1990, emoji:'🏴‍☠️', desc:'Стратегия на 45 минут. Дети считают, родители думать', grad:'linear-gradient(135deg,#2ECC71,#b7f5d0)' },
+  { id:6, name:'Настолка «Зообульдозер», детская', cat:'Настолки', age:'3+', price:1290, emoji:'🦒', desc:'Сортировка зверей: внимание и цвета в игре', grad:'linear-gradient(135deg,#FFC93C,#fff3c4)' },
+  { id:7, name:'Деревянная железная дорога, 68 дет.', cat:'Конструкторы', age:'3+', price:2490, emoji:'🚂', desc:'Мост, тоннель, магнитные вагончики, совместимо с классикой', grad:'linear-gradient(135deg,#6F4E37,#c9a97e)' },
+  { id:8, name:'Набор «Юный палеонтолог»', cat:'Настолки', age:'6+', price:1590, emoji:'🦖', desc:'Раскопки динозавра, кисточка, книга-энциклопедия', grad:'linear-gradient(135deg,#5d4037,#a1887f)' },
+  { id:9, name:'Плюшевый кит Синий, 60 см', cat:'Мягкие игрушки', age:'0+', price:2190, emoji:'🐳', desc:'Огромный, мягкий, дышит безопасностью', grad:'linear-gradient(135deg,#2E86DE,#cfe8ff)' },
+  { id:10, name:'Игровая приставка-планшет «Турбо-малыш»', cat:'Настолки', age:'6+', price:3990, emoji:'🎮', desc:'100 обучающих игр, режим родительского контроля', grad:'linear-gradient(135deg,#EB4747,#2E86DE)' }
+];
+const cats = ['Все', ...new Set(products.map(p=>p.cat))];
+let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*900)+100;
+const cart = {};
+const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+
+function renderTabs(){
+  catTabs.innerHTML = cats.map(c =>
+    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-bold border-2 transition ${c===activeCat?'bg-red text-white border-red':'border-blue/30 text-slate-600 hover:border-green hover:text-green'}">${c}</button>`).join('');
+}
+function visible(){
+  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
+  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
+  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function render(){
+  const list = visible();
+  document.getElementById('empty').classList.toggle('hidden', list.length>0);
+  grid.innerHTML = list.map(p=>`
+    <article class="bg-white bouncy border-2 border-blue/20 overflow-hidden hover:border-green hover:-translate-y-1 hover:shadow-lg hover:shadow-green/20 transition flex flex-col group">
+      <div class="relative h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
+        <span class="group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">${p.emoji}</span>
+        <span class="absolute top-2 left-2 bg-white/90 text-blue font-comfortaa font-bold text-xs px-2 py-1 rounded-full">${p.age}</span>
+        <span class="absolute top-2 right-2 bg-yellow-300 text-slate-700 font-bold text-[10px] px-2 py-1 rounded-full">Весёлый вторник −15%</span>
+      </div>
+      <div class="p-4 flex flex-col flex-1">
+        <p class="text-[10px] font-bold uppercase tracking-wider text-green mb-1">${p.cat}</p>
+        <h3 class="font-bold text-sm leading-snug flex-1">${p.name}</h3>
+        <p class="text-xs text-slate-500 mt-1">${p.desc}</p>
+        <div class="mt-3 flex items-end justify-between gap-2">
+          <p class="font-comfortaa font-bold text-lg text-red">${p.price.toLocaleString('ru-RU')} ₽</p>
+          <button onclick="add(${p.id})" class="bg-blue text-white text-sm font-bold px-3 py-2 rounded-full hover:bg-green transition">+ Хочу!</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function add(id){
+  cart[id] = (cart[id]||0)+1; renderCart();
+  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
+}
+function removeItem(id){ delete cart[id]; renderCart(); }
+function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
+function renderCart(){
+  const ids = Object.keys(cart);
+  const count = ids.reduce((s,id)=>s+cart[id],0);
+  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
+  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
+    const p = products.find(x=>x.id==id);
+    return `<div class="flex items-center gap-3 border-2 border-blue/20 rounded-2xl p-3">
+      <div class="w-11 h-11 rounded-full flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold truncate">${p.name}</p>
+        <p class="text-xs text-red font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
+      </div>
+      <div class="flex items-center gap-1">
+        <button onclick="dec(${p.id})" class="w-7 h-7 border-2 border-blue/20 rounded-full hover:border-red hover:text-red">−</button>
+        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
+        <button onclick="add(${p.id})" class="w-7 h-7 border-2 border-blue/20 rounded-full hover:border-red hover:text-red">+</button>
+      </div>
+      <button onclick="removeItem(${p.id})" class="text-slate-300 hover:text-red ml-1">🗑</button>
+    </div>`;
+  }).join('') : '<p class="text-center text-slate-400 py-10 text-sm font-comfortaa">Мешок пока пустой 🪄</p>';
+  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
+}
+const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
+function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
+function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
+document.getElementById('cartBtn').onclick = openCart;
+document.getElementById('cartClose').onclick = closeCart;
+overlay.onclick = closeCart;
+document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
+document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
+document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
+catTabs.addEventListener('click', e=>{
+  const b = e.target.closest('.cat-btn'); if(!b) return;
+  activeCat = b.dataset.c; renderTabs(); render();
+});
+document.getElementById('orderForm').onsubmit = e=>{
+  e.preventDefault();
+  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
+  document.getElementById('orderMsg').classList.remove('hidden');
+  e.target.reset();
+};
+renderTabs(); render(); renderCart();
+</script>
+</body>
+</html>

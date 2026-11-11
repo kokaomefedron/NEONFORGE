@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Змейка NEONFORGE — аркада | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
+  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
+}}};
+</script>
+<style>
+  html,body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+  #cv{touch-action:none}
+  .dpad{width:64px;height:64px;border-radius:16px;background:rgba(124,92,255,.14);
+    border:1px solid rgba(124,92,255,.5);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;
+    user-select:none;-webkit-user-select:none;touch-action:manipulation}
+  .dpad:active{background:rgba(124,92,255,.4)}
+</style>
+</head>
+<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
+<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
+  <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-lime" style="text-shadow:0 0 18px rgba(198,255,77,.45)">ЗМЕЙКА NEONFORGE</h1>
+  <span class="text-[11px] uppercase tracking-widest text-white/40">аркада · демо</span>
+</header>
+
+<main class="flex-1 w-full max-w-lg mx-auto px-3 py-4 flex flex-col items-center">
+  <div class="w-full flex justify-between text-sm mb-2 px-1">
+    <div>СЧЁТ: <span id="score" class="text-lime font-bold">0</span></div>
+    <div>РЕКОРД: <span id="best" class="text-blu font-bold">0</span></div>
+    <button id="pauseBtn" class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/15 text-xs hover:border-vio transition">Пауза (P)</button>
+  </div>
+
+  <div id="wrap" class="relative w-full rounded-2xl overflow-hidden border border-vio/40 shadow-[0_0_40px_rgba(124,92,255,.2)]">
+    <canvas id="cv" class="block w-full" style="aspect-ratio:1/1"></canvas>
+    <div id="start" class="absolute inset-0 bg-ink/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-center px-6">
+      <div class="text-2xl font-extrabold text-blu">Собери неон!</div>
+      <div class="text-white/70 text-sm">Стрелки / свайп / кнопки — старт</div>
+    </div>
+    <div id="pause" class="hidden absolute inset-0 bg-ink/75 backdrop-blur-sm flex flex-col items-center justify-center gap-2">
+      <div class="text-2xl font-extrabold text-vio">ПАУЗА</div>
+      <div class="text-white/60 text-sm">P или кнопка «Пауза» — продолжить</div>
+    </div>
+    <div id="over" class="hidden absolute inset-0 bg-ink/85 backdrop-blur-sm flex flex-col items-center justify-center gap-3 text-center px-6">
+      <div class="text-3xl font-extrabold text-lime">ХВОСТ ЗАЖАЛИ!</div>
+      <div id="final" class="text-white/80 text-sm"></div>
+      <button id="restart" class="mt-1 px-8 py-3 rounded-xl bg-lime text-ink font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">ЗАНОВО</button>
+    </div>
+  </div>
+
+  <!-- экранный D-pad -->
+  <div class="mt-4 grid grid-cols-3 gap-2" style="width:216px">
+    <div></div><button class="dpad" data-dir="up">▲</button><div></div>
+    <button class="dpad" data-dir="left">◀</button>
+    <div class="flex items-center justify-center text-white/25 text-xs">D-pad</div>
+    <button class="dpad" data-dir="right">▶</button>
+    <div></div><button class="dpad" data-dir="down">▼</button><div></div>
+  </div>
+
+  <section class="mt-5 w-full text-sm text-white/60 leading-relaxed">
+    <h2 class="text-white font-semibold mb-1">Как играть</h2>
+    <ul class="list-disc list-inside space-y-0.5">
+      <li>Компьютер: <b class="text-lime">стрелки</b> или <b class="text-lime">WASD</b>, пауза — <b class="text-lime">P</b>.</li>
+      <li>Телефон: <b class="text-lime">свайпы по полю</b> или экранный D-pad ниже.</li>
+      <li>Собирай светящиеся точки — змейка растёт и ускоряется.</li>
+      <li>Не врезайся в стены и в собственный хвост.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
+  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const cv=document.getElementById('cv'), ctx=cv.getContext('2d'),
+        wrap=document.getElementById('wrap'), startEl=document.getElementById('start'),
+        pauseEl=document.getElementById('pause'), overEl=document.getElementById('over'),
+        scoreEl=document.getElementById('score'), bestEl=document.getElementById('best'),
+        finalEl=document.getElementById('final'), restartBtn=document.getElementById('restart'),
+        pauseBtn=document.getElementById('pauseBtn');
+
+  const N=21;
+  let W=0, cell=0, DPR=1;
+  function resize(){
+    DPR=Math.min(2, window.devicePixelRatio||1);
+    W=wrap.clientWidth;
+    cv.width=Math.round(W*DPR); cv.height=Math.round(W*DPR);
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    cell=W/N;
+  }
+  resize(); addEventListener('resize',resize);
+
+  let best=0;
+  try{ best=parseInt(localStorage.getItem('nf_snake_forge_best'),10)||0; }catch(e){}
+  bestEl.textContent=best;
+
+  let snake=[], dir={x:1,y:0}, queue=[], food=null, score=0,
+      state='ready', acc=0, tPrev=0, pulse=0;
+
+  function reset(){
+    snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+    dir={x:1,y:0}; queue=[]; score=0; acc=0;
+    scoreEl.textContent='0';
+    placeFood();
+    state='run';
+    startEl.classList.add('hidden'); overEl.classList.add('hidden'); pauseEl.classList.add('hidden');
+    tPrev=performance.now();
+  }
+  function stepTime(){ return Math.max(70, 150-score*2); }
+
+  function placeFood(){
+    let p;
+    do{ p={x:Math.floor(Math.random()*N), y:Math.floor(Math.random()*N)}; }
+    while(snake.some(s=>s.x===p.x&&s.y===p.y));
+    food=p;
+  }
+
+  function setDir(d){
+    const m={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[d];
+    if(!m) return;
+    const last=queue.length?queue[queue.length-1]:dir;
+    if(m.x===-last.x&&m.y===-last.y) return;   // нельзя развернуться
+    if(m.x===last.x&&m.y===last.y) return;
+    if(queue.length<2) queue.push(m);
+    if(state==='ready') reset();
+    if(state==='paused') togglePause();
+  }
+
+  function tick(){
+    if(queue.length) dir=queue.shift();
+    const h=snake[0], nh={x:h.x+dir.x, y:h.y+dir.y};
+    if(nh.x<0||nh.y<0||nh.x>=N||nh.y>=N||snake.some(s=>s.x===nh.x&&s.y===nh.y)){ die(); return; }
+    snake.unshift(nh);
+    if(nh.x===food.x&&nh.y===food.y){
+      score++; scoreEl.textContent=score; placeFood();
+    } else snake.pop();
+  }
+
+  function die(){
+    state='dead';
+    if(score>best){ best=score; try{ localStorage.setItem('nf_snake_forge_best',String(best)); }catch(e){} bestEl.textContent=best; }
+    finalEl.innerHTML='Счёт: <b class="text-lime">'+score+'</b> &nbsp;·&nbsp; Рекорд: <b class="text-blu">'+best+'</b>';
+    overEl.classList.remove('hidden');
+  }
+
+  function togglePause(){
+    if(state==='run'){ state='paused'; pauseEl.classList.remove('hidden'); }
+    else if(state==='paused'){ state='run'; pauseEl.classList.add('hidden'); tPrev=performance.now(); }
+  }
+
+  function draw(time){
+    ctx.clearRect(0,0,W,W);
+    // фон и сетка
+    ctx.fillStyle='#07070F'; ctx.fillRect(0,0,W,W);
+    ctx.strokeStyle='rgba(124,92,255,.09)'; ctx.lineWidth=1;
+    ctx.beginPath();
+    for(let i=1;i<N;i++){ ctx.moveTo(i*cell,0); ctx.lineTo(i*cell,W); ctx.moveTo(0,i*cell); ctx.lineTo(W,i*cell); }
+    ctx.stroke();
+    // еда — пульсирующий неон
+    if(food){
+      const r=cell*0.34+Math.sin(time*6)*cell*0.06;
+      ctx.shadowColor='#C6FF4D'; ctx.shadowBlur=16;
+      ctx.fillStyle='#C6FF4D';
+      ctx.beginPath(); ctx.arc(food.x*cell+cell/2, food.y*cell+cell/2, r, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur=0;
+    }
+    // змейка
+    for(let i=snake.length-1;i>=0;i--){
+      const s=snake[i], k=i/Math.max(1,snake.length-1);
+      const col=i===0?'#C6FF4D':'rgb('+Math.round(91+49*(1-k))+','+Math.round(140-48*(1-k))+','+Math.round(255)+')';
+      ctx.shadowColor=col; ctx.shadowBlur=i===0?14:8;
+      ctx.fillStyle=col;
+      const pad=cell*0.1;
+      ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(s.x*cell+pad, s.y*cell+pad, cell-pad*2, cell-pad*2, cell*0.28);
+      else ctx.rect(s.x*cell+pad, s.y*cell+pad, cell-pad*2, cell-pad*2);
+      ctx.fill();
+    }
+    ctx.shadowBlur=0;
+    // глаза
+    if(snake.length){
+      const h=snake[0];
+      ctx.fillStyle='#05050A';
+      const cx=h.x*cell+cell/2, cy=h.y*cell+cell/2, e=cell*0.12;
+      const ox=dir.y!==0?cell*0.18:0, oy=dir.x!==0?cell*0.18:0;
+      ctx.beginPath(); ctx.arc(cx-dir.x*cell*0.15+ox, cy-dir.y*cell*0.15+oy, e, 0, Math.PI*2);
+      ctx.arc(cx-dir.x*cell*0.15-ox, cy-dir.y*cell*0.15-oy, e, 0, Math.PI*2); ctx.fill();
+    }
+  }
+
+  function loop(t){
+    requestAnimationFrame(loop);
+    if(document.hidden){ tPrev=t; return; }
+    let dt=(t-tPrev)/1000; tPrev=t;
+    if(dt>0.1) dt=0.1;
+    pulse=t/1000;
+    if(state==='run'){
+      acc+=dt*1000;
+      let guard=0;
+      while(acc>=stepTime()&&state==='run'&&guard++<4){ acc-=stepTime(); tick(); }
+    }
+    draw(pulse);
+  }
+
+  addEventListener('keydown',e=>{
+    const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
+               KeyW:'up',KeyS:'down',KeyA:'left',KeyD:'right'};
+    if(map[e.code]){ e.preventDefault(); setDir(map[e.code]); }
+    if(e.code==='KeyP'){ e.preventDefault(); if(state==='run'||state==='paused') togglePause(); }
+    if(e.code==='Space'&&state==='dead'){ e.preventDefault(); reset(); }
+  });
+
+  document.querySelectorAll('.dpad').forEach(b=>{
+    b.addEventListener('pointerdown',e=>{ e.preventDefault(); setDir(b.dataset.dir); });
+  });
+
+  // свайпы по полю
+  let sx=0, sy=0;
+  cv.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
+  cv.addEventListener('touchend',e=>{
+    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dx)<24&&Math.abs(dy)<24){ if(state==='ready') reset(); return; }
+    setDir(Math.abs(dx)>Math.abs(dy) ? (dx>0?'right':'left') : (dy>0?'down':'up'));
+  },{passive:true});
+  cv.addEventListener('pointerdown',()=>{ if(state==='ready') reset(); });
+
+  pauseBtn.addEventListener('click',()=>{ if(state==='run'||state==='paused') togglePause(); });
+  restartBtn.addEventListener('click',reset);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tPrev=performance.now(); });
+
+  draw(0);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

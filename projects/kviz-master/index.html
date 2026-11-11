@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>КвизМастер — интеллектуальное шоу | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { navy:'#0A1230', panel:'#101A40', gold:'#E3B341', ice:'#8FB2FF' },
+  fontFamily: { show:['"Russo One"','system-ui','sans-serif'], man:['Manrope','system-ui','sans-serif'] }
+}}};
+</script>
+<style>
+  html,body{-webkit-tap-highlight-color:transparent}
+  .opt{transition:transform .1s, background .2s, border-color .2s}
+  .opt:active{transform:scale(.98)}
+  .opt.correct{background:rgba(198,255,77,.18)!important;border-color:#C6FF4D!important;color:#E9FFC2}
+  .opt.wrong{background:rgba(255,92,120,.15)!important;border-color:#FF5C78!important;color:#FFC9D4}
+  .opt:disabled{cursor:default}
+  #tbar{transition:width .1s linear}
+</style>
+</head>
+<body class="bg-navy text-white font-man min-h-screen flex flex-col" style="background:radial-gradient(1200px 600px at 50% -10%, #14205c 0%, #0A1230 55%, #05070f 100%)">
+<header class="px-4 py-3 flex items-center justify-between border-b border-gold/25">
+  <h1 class="font-show text-lg md:text-xl tracking-wide text-gold" style="text-shadow:0 0 20px rgba(227,179,65,.45)">КВИЗМАСТЕР</h1>
+  <span class="text-[11px] uppercase tracking-widest text-white/40">интеллектуальное шоу · демо</span>
+</header>
+
+<main class="flex-1 w-full max-w-2xl mx-auto px-4 py-6 flex flex-col">
+
+  <!-- Старт -->
+  <section id="startScreen" class="flex-1 flex flex-col items-center justify-center text-center gap-4">
+    <div class="text-6xl md:text-7xl">🏆</div>
+    <div class="font-show text-3xl md:text-4xl text-gold">8 вопросов. 15 секунд.</div>
+    <p class="text-white/65 max-w-sm">Наука, кино и история. Отвечай быстро — таймер не ждёт. Собери максимум баллов и получи звание от «Новичка» до «Гроссмейстера».</p>
+    <button id="startBtn" class="mt-2 px-10 py-4 rounded-2xl bg-gold text-navy font-show text-lg tracking-wide hover:brightness-110 active:scale-95 transition">НАЧАТЬ ИГРУ</button>
+    <div id="startBest" class="text-xs text-white/40"></div>
+  </section>
+
+  <!-- Вопрос -->
+  <section id="quiz" class="hidden flex-1 flex flex-col">
+    <div class="flex items-center justify-between text-sm">
+      <div class="font-show text-gold" id="qNum">Вопрос 1 / 8</div>
+      <div>Счёт: <b id="score" class="text-gold font-show">0</b></div>
+    </div>
+    <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
+      <div id="tbar" class="h-full rounded-full bg-gold" style="width:100%"></div>
+    </div>
+    <div class="mt-1 text-[11px] text-white/40 text-right">осталось <span id="tsec">15</span> сек</div>
+
+    <div class="mt-4 rounded-2xl bg-panel border border-gold/25 p-5 md:p-6 shadow-lg">
+      <span id="qCat" class="text-[11px] uppercase tracking-widest text-ice bg-ice/10 rounded-md px-2 py-1"></span>
+      <h2 id="qText" class="font-show text-lg md:text-2xl leading-snug mt-3"></h2>
+    </div>
+
+    <div id="opts" class="mt-4 grid gap-2.5"></div>
+    <div id="feedback" class="mt-3 h-6 text-center text-sm font-semibold"></div>
+  </section>
+
+  <!-- Финал -->
+  <section id="final" class="hidden flex-1 flex flex-col items-center justify-center text-center gap-3">
+    <div class="text-6xl md:text-7xl" id="fEmoji">🎓</div>
+    <div class="font-show text-3xl md:text-4xl text-gold" id="fTitle">Новичок</div>
+    <div class="text-white/80 text-lg">Ваш результат: <b id="fScore" class="text-gold font-show"></b> из 8</div>
+    <p id="fText" class="text-white/60 max-w-sm text-sm"></p>
+    <div id="fBest" class="text-xs text-white/40"></div>
+    <button id="againBtn" class="mt-2 px-10 py-4 rounded-2xl bg-gold text-navy font-show text-lg tracking-wide hover:brightness-110 active:scale-95 transition">ИГРАТЬ СНОВА</button>
+  </section>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-gold/25">
+  Демо-проект студии <a class="text-ice hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-ice hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const QUESTIONS=[
+    {cat:'Наука',  q:'Какая планета Солнечной системы — самая большая?',          a:['Юпитер','Сатурн','Нептун','Земля'],              c:0},
+    {cat:'Кино',   q:'Кто режиссёр фильма «Интерстеллар»?',                        a:['Кристофер Нолан','Ридли Скотт','Дени Вильнёв','Джеймс Кэмерон'], c:0},
+    {cat:'История',q:'В каком году пала Берлинская стена?',                        a:['1989','1991','1985','1979'],                      c:0},
+    {cat:'Наука',  q:'Сколько сердец у осьминога?',                                a:['Три','Одно','Два','Четыре'],                      c:0},
+    {cat:'Кино',   q:'Кто сыграл Нео в трилогии «Матрица»?',                       a:['Киану Ривз','Том Круз','Брэд Питт','Уилл Смит'],  c:0},
+    {cat:'История',q:'Кто совершил первый полёт человека в космос?',               a:['Юрий Гагарин','Нил Армстронг','Алан Шепард','Герман Титов'], c:0},
+    {cat:'Наука',  q:'Какой газ преобладает в атмосфере Земли?',                   a:['Азот','Кислород','Углекислый газ','Аргон'],       c:0},
+    {cat:'Кино',   q:'Какой мультфильм стал первым полнометражным у Disney?',      a:['«Белоснежка и семь гномов»','«Бэмби»','«Пиноккио»','«Дамбо»'], c:0}
+  ];
+  const LIMIT=15;
+  const RANKS=[
+    {min:7,t:'Гроссмейстер',e:'👑',x:'Блестящий результат! Выдающаяся эрудиция — почти без промахов.'},
+    {min:5,t:'Мастер',       e:'🥈',x:'Сильный уровень: уверенное знание науки, кино и истории.'},
+    {min:3,t:'Знаток',       e:'🥉',x:'Хороший результат! Ещё немного тренировки — и будет «Мастер».'},
+    {min:1,t:'Ученик',       e:'📚',x:'Есть с чего начать — тема для вас явно интересная.'},
+    {min:0,t:'Новичок',      e:'🌱',x:'Зато теперь вы знаете ответы на все восемь вопросов!'}
+  ];
+
+  const startScreen=document.getElementById('startScreen'), quizEl=document.getElementById('quiz'),
+        finalEl=document.getElementById('final'), startBtn=document.getElementById('startBtn'),
+        againBtn=document.getElementById('againBtn'), qNum=document.getElementById('qNum'),
+        qCat=document.getElementById('qCat'), qText=document.getElementById('qText'),
+        optsEl=document.getElementById('opts'), feedback=document.getElementById('feedback'),
+        scoreEl=document.getElementById('score'), tbar=document.getElementById('tbar'),
+        tsec=document.getElementById('tsec'), startBest=document.getElementById('startBest'),
+        fEmoji=document.getElementById('fEmoji'), fTitle=document.getElementById('fTitle'),
+        fScore=document.getElementById('fScore'), fText=document.getElementById('fText'),
+        fBest=document.getElementById('fBest');
+
+  let idx=0, score=0, answered=false, tLeft=LIMIT, tPrev=0, running=false;
+
+  function loadBest(){ try{ return parseInt(localStorage.getItem('nf_kviz_master_best'),10)||0; }catch(e){ return 0; } }
+  function showBestTxt(){ const b=loadBest(); startBest.textContent=b?('Ваш рекорд: '+b+' из 8'):''; }
+  showBestTxt();
+
+  function start(){
+    idx=0; score=0; scoreEl.textContent='0';
+    startScreen.classList.add('hidden'); finalEl.classList.add('hidden');
+    quizEl.classList.remove('hidden');
+    showQ();
+  }
+
+  function showQ(){
+    answered=false; tLeft=LIMIT; running=true; tPrev=performance.now();
+    feedback.textContent='';
+    const Q=QUESTIONS[idx];
+    qNum.textContent='Вопрос '+(idx+1)+' / '+QUESTIONS.length;
+    qCat.textContent=Q.cat; qText.textContent=Q.q;
+    optsEl.innerHTML='';
+    const order=Q.a.map((t,i)=>({t,i}));
+    // перемешиваем варианты
+    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+    order.forEach(o=>{
+      const b=document.createElement('button');
+      b.className='opt text-left px-4 py-4 rounded-xl bg-white/5 border border-white/15 hover:border-gold/60 hover:bg-white/10';
+      b.textContent=o.t;
+      b.dataset.orig=Q.a.indexOf(o.t);
+      b.addEventListener('click',()=>answer(b,Q));
+      optsEl.appendChild(b);
+    });
+    tbar.style.width='100%';
+    requestAnimationFrame(tick);
+  }
+
+  function tick(t){
+    if(!running) return;
+    requestAnimationFrame(tick);
+    if(document.hidden){ tPrev=t; return; }
+    const dt=(t-tPrev)/1000; tPrev=t;
+    if(answered) return;
+    tLeft-=dt;
+    if(tLeft<=0){ tLeft=0; timeout(); }
+    tbar.style.width=(tLeft/LIMIT*100)+'%';
+    tsec.textContent=Math.ceil(tLeft);
+  }
+
+  function lock(Q,chosen){
+    answered=true; running=false;
+    [...optsEl.children].forEach(b=>{
+      b.disabled=true;
+      if(+b.dataset.orig===Q.c) b.classList.add('correct');
+      else if(b===chosen) b.classList.add('wrong');
+      else b.classList.add('opacity-40');
+    });
+  }
+
+  function answer(btn,Q){
+    if(answered) return;
+    if(+btn.dataset.orig===Q.c){
+      score++; scoreEl.textContent=score;
+      feedback.textContent='✔ Верно!'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#C6FF4D]';
+    } else {
+      feedback.textContent='✘ Увы, неверно'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#FF9DB0]';
+    }
+    lock(Q,btn);
+    setTimeout(next,1400);
+  }
+
+  function timeout(){
+    if(answered) return;
+    feedback.textContent='⏰ Время вышло!'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#FF9DB0]';
+    lock(QUESTIONS[idx],null);
+    setTimeout(next,1400);
+  }
+
+  function next(){
+    idx++;
+    if(idx<QUESTIONS.length) showQ();
+    else finish();
+  }
+
+  function finish(){
+    quizEl.classList.add('hidden'); finalEl.classList.remove('hidden');
+    const r=RANKS.find(r=>score>=r.min);
+    fEmoji.textContent=r.e; fTitle.textContent=r.t;
+    fScore.textContent=score; fText.textContent=r.x;
+    const b=loadBest();
+    if(score>b){ try{ localStorage.setItem('nf_kviz_master_best',String(score)); }catch(e){} }
+    fBest.textContent='Рекорд на этом устройстве: '+Math.max(score,b)+' из 8';
+  }
+
+  startBtn.addEventListener('click',start);
+  againBtn.addEventListener('click',start);
+})();
+</script>
+</body>
+</html>

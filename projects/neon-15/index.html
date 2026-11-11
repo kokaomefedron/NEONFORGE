@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Пятнашки-неон — головоломка | демо NEONFORGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
+  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
+}}};
+</script>
+<style>
+  html,body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+  #board{touch-action:none}
+  .tile{position:absolute;display:flex;align-items:center;justify-content:center;
+    border-radius:12px;font-weight:800;cursor:pointer;user-select:none;
+    background:linear-gradient(145deg,rgba(124,92,255,.28),rgba(91,140,255,.14));
+    border:1px solid rgba(124,92,255,.55);
+    box-shadow:0 0 14px rgba(124,92,255,.28), inset 0 0 12px rgba(91,140,255,.15);
+    color:#fff;transition:transform .13s ease;text-shadow:0 0 10px rgba(91,140,255,.8)}
+  .tile.goal{background:linear-gradient(145deg,rgba(198,255,77,.3),rgba(198,255,77,.1));
+    border-color:rgba(198,255,77,.7);box-shadow:0 0 18px rgba(198,255,77,.35);color:#05050A;text-shadow:none}
+  .confetti{position:absolute;top:-3vh;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(720deg);opacity:.7}}
+</style>
+</head>
+<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
+<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
+  <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-vio" style="text-shadow:0 0 18px rgba(124,92,255,.55)">ПЯТНАШКИ-НЕОН</h1>
+  <div class="flex gap-1">
+    <button data-n="3" class="sizeBtn px-3 py-2 rounded-lg text-xs font-bold border border-white/20 hover:border-blu transition">3×3</button>
+    <button data-n="4" class="sizeBtn px-3 py-2 rounded-lg text-xs font-bold border border-white/20 hover:border-blu transition">4×4</button>
+  </div>
+</header>
+
+<main class="flex-1 w-full max-w-md mx-auto px-3 py-4 flex flex-col">
+  <div class="flex justify-between items-center text-sm mb-3 px-1">
+    <div>Ходов: <span id="moves" class="text-lime font-bold">0</span></div>
+    <div>Время: <span id="timer" class="text-blu font-bold">0:00</span></div>
+    <div>Рекорд: <span id="best" class="text-white/60 font-bold">—</span></div>
+  </div>
+
+  <div class="relative">
+    <div id="board" class="relative w-full aspect-square rounded-2xl border border-vio/40 overflow-hidden"
+      style="background:radial-gradient(circle at 50% 0%, #120a2e 0%, #05050A 75%);box-shadow:0 0 40px rgba(124,92,255,.2)"></div>
+
+    <div id="win" class="hidden absolute inset-0 z-10 rounded-2xl overflow-hidden bg-ink/85 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-center px-6">
+      <div id="confettiBox" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+      <div class="text-3xl font-extrabold text-lime" style="text-shadow:0 0 20px rgba(198,255,77,.6)">СОБРАНО!</div>
+      <div id="winInfo" class="text-white/80 text-sm"></div>
+      <button id="again" class="mt-2 px-8 py-3 rounded-xl bg-vio text-white font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">НОВАЯ ИГРА</button>
+    </div>
+  </div>
+
+  <button id="newGame" class="mt-4 mx-auto px-8 py-3 rounded-xl bg-lime text-ink font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">ПЕРЕМЕШАТЬ</button>
+
+  <section class="mt-4 text-sm text-white/60 leading-relaxed">
+    <h2 class="text-white font-semibold mb-1">Как играть</h2>
+    <ul class="list-disc list-inside space-y-0.5">
+      <li>Двигай костяшки <b class="text-lime">тапом</b> — только соседние с пустой клеткой.</li>
+      <li>На телефоне работает и <b class="text-lime">свайп</b> в любую сторону.</li>
+      <li>Цель — расставить номера по порядку, пустая клетка — в углу.</li>
+      <li>Кнопкой сверху можно переключиться на поле 3×3 или 4×4.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
+  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+</footer>
+
+<script>
+(function(){
+  const board=document.getElementById('board'), movesEl=document.getElementById('moves'),
+        timerEl=document.getElementById('timer'), bestEl=document.getElementById('best'),
+        winEl=document.getElementById('win'), winInfo=document.getElementById('winInfo'),
+        confettiBox=document.getElementById('confettiBox'), newGameBtn=document.getElementById('newGame'),
+        againBtn=document.getElementById('again');
+
+  let N=4, tiles=[], boardArr=[], emptyPos=0, moves=0, started=false, seconds=0, timerInt=null, solved=false;
+
+  function bestKey(){ return 'nf_neon15_best_moves_'+N; }
+  function loadBest(){ try{ return parseInt(localStorage.getItem(bestKey()),10)||0; }catch(e){ return 0; } }
+  function showBest(){ const b=loadBest(); bestEl.textContent=b?b+' ход.':'—'; }
+
+  function fmtTime(s){ return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+  function startTimer(){
+    stopTimer(); seconds=0; timerEl.textContent=fmtTime(0);
+    timerInt=setInterval(()=>{ if(!document.hidden){ seconds++; timerEl.textContent=fmtTime(seconds);} },1000);
+  }
+  function stopTimer(){ if(timerInt){ clearInterval(timerInt); timerInt=null; } }
+
+  function layout(){
+    const W=board.clientWidth, gap=Math.max(4,W*0.015), pad=Math.max(6,W*0.022);
+    const cell=(W-pad*2-gap*(N-1))/N;
+    for(const t of tiles){
+      t.el.style.width=cell+'px'; t.el.style.height=cell+'px';
+      t.el.style.fontSize=Math.round(cell*0.42)+'px';
+      place(t);
+    }
+    function place(t){
+      const p=t.pos, r=Math.floor(p/N), c=p%N;
+      t.el.style.transform='translate('+(pad+c*(cell+gap))+'px,'+(pad+r*(cell+gap))+'px)';
+    }
+    tiles._place=place;
+  }
+
+  function build(){
+    board.innerHTML=''; tiles=[]; boardArr=[]; solved=false;
+    const total=N*N;
+    for(let i=0;i<total;i++) boardArr.push((i+1)%total);
+    emptyPos=total-1;
+    for(let n=1;n<total;n++){
+      const el=document.createElement('div');
+      el.className='tile'; el.textContent=n;
+      board.appendChild(el);
+      tiles.push({n,pos:n-1,el});
+      el.addEventListener('pointerdown',e=>{ e.preventDefault(); tryMove(n-1); });
+    }
+    tiles._place=null;
+    layout();
+    showBest();
+  }
+
+  function shuffle(){
+    // гарантированно решаемая позиция: случайные ходы от собранной
+    solved=false; winEl.classList.add('hidden');
+    let blank=emptyPos, prev=-1;
+    const rnd=Math.random;
+    for(let i=0;i<300*N;i++){
+      const r=Math.floor(blank/N), c=blank%N, opts=[];
+      if(r>0) opts.push(blank-N);
+      if(r<N-1) opts.push(blank+N);
+      if(c>0) opts.push(blank-1);
+      if(c<N-1) opts.push(blank+1);
+      const pick=opts.filter(p=>p!==prev)[Math.floor(rnd()*opts.filter(p=>p!==prev).length)];
+      if(pick===undefined) continue;
+      swapCells(blank,pick); prev=blank; blank=pick;
+    }
+    emptyPos=blank;
+    moves=0; movesEl.textContent='0';
+    started=false; stopTimer(); timerEl.textContent='0:00';
+    render();
+  }
+
+  function swapCells(a,b){
+    const an=boardArr[a], bn=boardArr[b];
+    boardArr[a]=bn; boardArr[b]=an;
+  }
+
+  function render(){
+    for(const t of tiles){
+      // найти текущую позицию номера
+      for(let i=0;i<boardArr.length;i++){ if(boardArr[i]===t.n){ t.pos=i; break; } }
+      if(tiles._place) tiles._place(t);
+      t.el.classList.toggle('goal', t.pos===t.n-1);
+    }
+  }
+
+  function tryMove(pos){
+    if(solved) return;
+    const er=Math.floor(emptyPos/N), ec=emptyPos%N;
+    const r=Math.floor(pos/N), c=pos%N;
+    if(Math.abs(er-r)+Math.abs(ec-c)!==1) return;
+    swapCells(emptyPos,pos);
+    emptyPos=pos;
+    if(!started){ started=true; startTimer(); }
+    moves++; movesEl.textContent=moves;
+    render();
+    checkWin();
+  }
+
+  function checkWin(){
+    for(let i=0;i<N*N-1;i++) if(boardArr[i]!==i+1) return;
+    solved=true; stopTimer();
+    const b=loadBest();
+    let rec='';
+    if(!b||moves<b){ try{ localStorage.setItem(bestKey(),String(moves)); }catch(e){} rec=' <b class="text-lime">Новый рекорд!</b>'; }
+    showBest();
+    winInfo.innerHTML='Ходов: <b class="text-lime">'+moves+'</b> · Время: <b class="text-blu">'+fmtTime(seconds)+'</b> ·'+rec;
+    winEl.classList.remove('hidden');
+    confetti();
+  }
+
+  function confetti(){
+    confettiBox.innerHTML='';
+    const colors=['#7C5CFF','#5B8CFF','#C6FF4D','#FF5CA8','#4DD8FF'];
+    for(let i=0;i<60;i++){
+      const d=document.createElement('div');
+      d.className='confetti';
+      d.style.left=Math.random()*100+'%';
+      d.style.background=colors[i%colors.length];
+      d.style.animationDuration=(1.6+Math.random()*1.8)+'s';
+      d.style.animationDelay=(Math.random()*0.7)+'s';
+      d.style.transform='rotate('+Math.random()*360+'deg)';
+      confettiBox.appendChild(d);
+    }
+    setTimeout(()=>{ confettiBox.innerHTML=''; },4500);
+  }
+
+  // свайп по полю
+  let sx=0, sy=0;
+  board.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
+  board.addEventListener('touchend',e=>{
+    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dx)<24&&Math.abs(dy)<24) return;
+    const er=Math.floor(emptyPos/N), ec=emptyPos%N;
+    let pos=-1;
+    if(Math.abs(dx)>Math.abs(dy)) pos=dx<0? (ec<N-1?emptyPos+1:-1) : (ec>0?emptyPos-1:-1);
+    else pos=dy<0? (er<N-1?emptyPos+N:-1) : (er>0?emptyPos-N:-1);
+    if(pos>=0) tryMove(pos);
+  },{passive:true});
+
+  newGameBtn.addEventListener('click',shuffle);
+  againBtn.addEventListener('click',shuffle);
+
+  function setSize(n){
+    N=n;
+    document.querySelectorAll('.sizeBtn').forEach(b=>{
+      const on=+b.dataset.n===n;
+      b.classList.toggle('bg-vio',on); b.classList.toggle('border-vio',on); b.classList.toggle('text-white',on);
+    });
+    build(); shuffle();
+  }
+  document.querySelectorAll('.sizeBtn').forEach(b=>b.addEventListener('click',()=>setSize(+b.dataset.n)));
+  addEventListener('resize',layout);
+
+  setSize(4);
+})();
+</script>
+</body>
+</html>
