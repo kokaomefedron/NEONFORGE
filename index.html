@@ -2,7 +2,7 @@
 <html lang="ru" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>NEONFORGE — Веб-студия высшей лиги | Сайты под ключ</title>
 <meta name="description" content="NEONFORGE — элитная студия разработки: лендинги, корпоративные сайты и e-commerce, которые доминируют на рынке.">
 
@@ -130,12 +130,27 @@ body { background: #05050A; overflow-x: hidden; }
 }
 .hot-card { animation: pulse-border 2.6s ease-in-out infinite; }
 
+/* ============ МОБИЛЬНАЯ ОПТИМИЗАЦИЯ ПРОИЗВОДИТЕЛЬНОСТИ ============ */
+@media (max-width: 767px) {
+  /* Блюр дешевле: 18–24px на стеклянных панелях -> 8px (GPU на телефонах) */
+  .glass        { backdrop-filter: blur(8px) saturate(1.15); -webkit-backdrop-filter: blur(8px) saturate(1.15); }
+  .glass-strong { backdrop-filter: blur(10px) saturate(1.2); -webkit-backdrop-filter: blur(10px) saturate(1.2); }
+  /* Огромный блюр орбов жрёт батарею/GPU — на мобиле в 2 раза слабее */
+  .orb { filter: blur(55px); opacity: .35; }
+  /* Анимация box-shadow («Хит продаж») вызывает repaint каждый кадр — на мобиле статичная мягкая тень */
+  .hot-card { animation: none; box-shadow: 0 0 25px -6px rgba(198,255,77,.35), 0 20px 60px -24px rgba(124,92,255,.55); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hot-card { animation: none; box-shadow: 0 0 25px -6px rgba(198,255,77,.35), 0 20px 60px -24px rgba(124,92,255,.55); }
+  .marquee-track { animation: none; }
+}
+
 /* ============ АНИМАЦИИ ПОЯВЛЕНИЯ (fallback до JS) ============ */
 .reveal { opacity: 0; transform: translateY(42px); }
 
 /* ============ БЕГУЩАЯ СТРОКА ============ */
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-.marquee-track { animation: marquee 28s linear infinite; }
+.marquee-track { animation: marquee 28s linear infinite; will-change: transform; }
 .marquee-track:hover { animation-play-state: paused; }
 
 /* Прячем полосу прокрутки у карусели тарифов (мобайл) */
@@ -213,7 +228,7 @@ body { background: #05050A; overflow-x: hidden; }
 <div class="fixed inset-0 -z-10 bg-grid"></div>
 <div class="orb w-[520px] h-[520px] bg-neon/30 -top-40 -left-40" data-orb></div>
 <div class="orb w-[460px] h-[460px] bg-voltage/25 top-1/3 -right-52" data-orb></div>
-<div class="orb w-[400px] h-[400px] bg-lime/15 bottom-0 left-1/4" data-orb></div>
+<div class="orb hidden sm:block w-[400px] h-[400px] bg-lime/15 bottom-0 left-1/4" data-orb></div>
 
 <!-- ===== КУРСОР ===== -->
 <div class="cursor-dot" id="cursorDot"></div>
@@ -1027,11 +1042,17 @@ const ctx = canvas.getContext('2d');
 let particles = [];
 const mouse = { x: -9999, y: -9999 };
 
+// Мобильная оптимизация: меньше частиц, без связей O(n²), без DPR>2, пауза в фоне
+const IS_MOBILE = window.matchMedia('(max-width: 767px)').matches || window.matchMedia('(pointer: coarse)').matches;
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR = IS_MOBILE ? Math.min(devicePixelRatio || 1, 1.5) : (devicePixelRatio || 1);
+
 function resizeCanvas() {
-  canvas.width = innerWidth * devicePixelRatio;
-  canvas.height = innerHeight * devicePixelRatio;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  const count = Math.min(90, Math.floor(innerWidth / 16));
+  canvas.width = innerWidth * DPR;
+  canvas.height = innerHeight * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  // ~30 частиц на телефоне / до 80 на десктопе
+  const count = Math.min(IS_MOBILE ? 30 : 80, Math.floor(innerWidth / (IS_MOBILE ? 26 : 16)));
   particles = Array.from({ length: count }, () => ({
     x: Math.random() * innerWidth,
     y: Math.random() * innerHeight,
@@ -1042,20 +1063,29 @@ function resizeCanvas() {
   }));
 }
 resizeCanvas();
-addEventListener('resize', resizeCanvas);
-addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+// Дебаунс ресайза через rAF — вместо перегенерации на каждое событие
+let resizeRAF = 0;
+addEventListener('resize', () => {
+  cancelAnimationFrame(resizeRAF);
+  resizeRAF = requestAnimationFrame(resizeCanvas);
+}, { passive: true });
+addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
 
-const LINK_DIST = 130;
+const LINK_DIST = 130; // связи рисуем только на десктопе
 function tickParticles() {
+  // Таб в фоне: rAF всё равно не идёт — защита от лишней работы при возвращении
+  if (document.hidden) { requestAnimationFrame(tickParticles); return; }
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   for (const p of particles) {
-    // лёгкое отталкивание от курсора
-    const dx = p.x - mouse.x, dy = p.y - mouse.y;
-    const d2 = dx * dx + dy * dy;
-    if (d2 < 120 * 120) {
-      const f = (120 - Math.sqrt(d2)) / 120 * 0.6;
-      p.vx += (dx / Math.sqrt(d2 + 0.01)) * f * 0.15;
-      p.vy += (dy / Math.sqrt(d2 + 0.01)) * f * 0.15;
+    // лёгкое отталкивание от курсора (только там, где есть мышь)
+    if (!IS_MOBILE) {
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 120 * 120) {
+        const f = (120 - Math.sqrt(d2)) / 120 * 0.6;
+        p.vx += (dx / Math.sqrt(d2 + 0.01)) * f * 0.15;
+        p.vy += (dy / Math.sqrt(d2 + 0.01)) * f * 0.15;
+      }
     }
     p.vx += (0 - p.vx) * 0.002; p.vy += (0 - p.vy) * 0.002; // затухание
     p.x += p.vx; p.y += p.vy;
@@ -1067,24 +1097,26 @@ function tickParticles() {
     ctx.fillStyle = `rgba(167,153,255,${p.a})`;
     ctx.fill();
   }
-  // связи
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const a = particles[i], b = particles[j];
-      const dx = a.x - b.x, dy = a.y - b.y;
-      const d = Math.hypot(dx, dy);
-      if (d < LINK_DIST) {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(124,92,255,${(1 - d / LINK_DIST) * 0.18})`;
-        ctx.lineWidth = 0.7;
-        ctx.stroke();
+  // связи между частицами: O(n²) — дорого, поэтому только на десктопе
+  if (!IS_MOBILE) {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        if (d < LINK_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(124,92,255,${(1 - d / LINK_DIST) * 0.18})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
       }
     }
   }
   requestAnimationFrame(tickParticles);
 }
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) tickParticles();
+if (!REDUCED) tickParticles();
 
 /* ==================================================================
    5. HEADER — shrink на скролле + мобильное меню
@@ -1311,7 +1343,10 @@ function typeCode() {
     setTimeout(typeCode, 200);
   }
 }
-setTimeout(typeCode, 2600);
+// Запускаем тайпрайтер только там, где он реально виден (десктоп ≥1024px) и без reduced-motion
+if (typerEl && window.innerWidth >= 1024 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  setTimeout(typeCode, 2600);
+}
 
 /* ==================================================================
    15. ФОРМА ЗАЯВКИ + МОДАЛКА УСПЕХА + КОНФЕТТИ
