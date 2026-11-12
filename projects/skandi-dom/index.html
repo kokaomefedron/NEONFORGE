@@ -3,219 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>СкандиДом — мебель в скандинавском стиле</title>
+<title>СкандиДом — мебель для северных интерьеров</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        sand: '#FAF8F5',
-        wood: '#C8A882',
-        coal: '#33322E',
-        fog: '#EFEAE3'
-      },
-      fontFamily: {
-        manrope: ['Manrope', 'sans-serif'],
-        lora: ['Lora', 'serif']
-      }
-    }
-  }
-}
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Karla:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#C8A882; color:#33322E; }
+  :root{--beige:#F5F1EA;--oak:#C8A97E;--graphite:#3A3F45;--sage:#93A38C}
+  body{background:var(--beige);color:var(--graphite);font-family:Karla,sans-serif;margin:0}
+  h1,h2,h3,.outfit{font-family:Outfit,sans-serif}
+  /* плинтус-навигация */
+  .plinthus{position:sticky;top:0;z-index:40;background:var(--beige);border-bottom:3px solid var(--oak);
+    display:flex;gap:1.5rem;align-items:center;padding:.55rem 1rem;font-size:.82rem;letter-spacing:.04em}
+  .plinthus a{color:var(--graphite);text-decoration:none;border-bottom:1px dashed transparent}
+  .plinthus a:hover{border-color:var(--oak)}
+  /* сцены комнат */
+  .scene-wrap{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 10px 30px rgba(58,63,69,.12)}
+  .scene{position:relative;width:800px;height:360px;transform-origin:top left}
+  .wall{position:absolute;inset:0 0 18% 0;background:linear-gradient(180deg,#EFE8DB 0%,#E6DCCB 100%)}
+  .wall::after{content:"";position:absolute;left:0;right:0;top:52%;height:1px;background:rgba(58,63,69,.07)}
+  .floor{position:absolute;left:0;right:0;bottom:0;height:18%;
+    background:linear-gradient(180deg,#D9CDB9 0%,#C7B697 100%);border-top:2px solid #B7A480}
+  .rug{position:absolute;height:26px;border-radius:50%;background:radial-gradient(ellipse at center,#E2D6C2 55%,#D3C3A6 100%)}
+  /* мебель из простых фигур */
+  .piece{position:absolute}
+  .sofa{width:240px;height:118px}
+  .sofa .back{position:absolute;inset:0 0 55% 0;background:var(--sage);border-radius:14px 14px 0 0;opacity:.9}
+  .sofa .seat{position:absolute;left:8px;right:8px;bottom:10px;height:52px;background:#A6B39E;border-radius:10px;
+    box-shadow:inset 0 -8px 0 rgba(58,63,69,.10)}
+  .sofa .arm{position:absolute;width:18px;height:74px;background:#88977F;border-radius:9px;bottom:4px}
+  .sofa .leg{position:absolute;width:8px;height:12px;background:var(--oak);bottom:-2px}
+  .shelf{background:linear-gradient(180deg,#EDE4D4,#E2D5BE);border:2px solid var(--oak);border-radius:6px;
+    background-image:repeating-linear-gradient(0deg,transparent 0 43px,#C8A97E 43px 45px),
+                     repeating-linear-gradient(90deg,transparent 0 34px,#C8A97E 34px 36px)}
+  .lamp .pole{position:absolute;left:50%;bottom:0;width:4px;height:130px;background:var(--graphite)}
+  .lamp .base{position:absolute;left:50%;transform:translateX(-50%);bottom:-4px;width:44px;height:8px;background:var(--graphite);border-radius:50%}
+  .lamp .shade{position:absolute;left:50%;transform:translateX(-50%);bottom:126px;width:58px;height:34px;
+    background:var(--oak);border-radius:6px 6px 3px 3px;box-shadow:0 0 24px rgba(200,169,126,.55)}
+  .table{background:var(--oak);border-radius:8px;box-shadow:0 8px 0 #B29565}
+  .bed .mattress{position:absolute;left:26px;right:0;bottom:0;height:56px;background:#EDE6D8;border-radius:10px;box-shadow:inset 0 -10px 0 rgba(58,63,69,.06)}
+  .bed .head{position:absolute;left:0;bottom:0;width:30px;height:96px;background:#D8C6A4;border-radius:10px 4px 4px 10px}
+  .bed .blanket{position:absolute;left:26px;right:6px;bottom:26px;height:30px;background:var(--sage);border-radius:8px;opacity:.85}
+  .dresser{background:linear-gradient(180deg,#E8DCC6,#D9C9A9);border:2px solid var(--oak);border-radius:8px;
+    background-image:repeating-linear-gradient(0deg,transparent 0 26px,#B7A480 26px 28px)}
+  .mirror{border:4px solid var(--oak);border-radius:50%;background:radial-gradient(circle at 35% 35%,#F4F0E8 10%,#DCE4E4 60%,#C9D4D4)}
+  .desk{background:var(--oak);border-radius:6px;box-shadow:0 8px 0 #B29565}
+  .chair .backr{position:absolute;left:12px;top:0;width:56px;height:64px;background:#6E757D;border-radius:10px 10px 4px 4px}
+  .chair .seatc{position:absolute;left:6px;top:60px;width:68px;height:12px;background:#5C636B;border-radius:6px}
+  .chair .legc{position:absolute;left:16px;top:70px;width:5px;height:46px;background:#3A3F45}
+  .wallshelf{background-image:repeating-linear-gradient(0deg,#C8A97E 0 5px,transparent 5px 52px);border-radius:4px}
+  .monitor{position:absolute;background:#2E3237;border-radius:4px}
+  /* бирки-выноски */
+  .tag{position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:1px;cursor:pointer;
+    background:#FDFCF9;border:1px solid #E3DACB;border-left:3px solid var(--oak);border-radius:6px;
+    padding:6px 10px;font-family:Karla;font-size:12px;line-height:1.25;color:var(--graphite);
+    box-shadow:0 6px 16px rgba(58,63,69,.14);text-align:left;transition:transform .15s}
+  .tag::before{content:"";position:absolute;left:-30px;top:50%;width:30px;height:1px;background:var(--graphite);opacity:.55}
+  .tag .t-name{font-family:Outfit;font-weight:600;font-size:12px}
+  .tag .t-price{color:#8A8272}
+  .tag .t-add{font-size:10px;letter-spacing:.06em;color:var(--sage);font-weight:600}
+  .tag:hover{transform:translateY(-2px)}
+  .tag.pop{animation:pop .4s}
+  @keyframes pop{40%{transform:scale(1.08)}100%{transform:scale(1)}}
+  /* каталог запчастей */
+  .extra{background:#FDFCF9;border:1px solid #E8E0D1;border-radius:12px;padding:14px;position:relative}
+  .extra .swatch{height:64px;border-radius:8px;margin-bottom:10px}
+  .hidden{display:none!important}
+  .f-btn{border:1px solid #D8CEBC;background:#FDFCF9;border-radius:999px;padding:6px 14px;font-size:12px;cursor:pointer}
+  .f-btn.on{background:var(--sage);color:#fff;border-color:var(--sage)}
+  /* корзина-табличка */
+  .cart-btn{position:fixed;top:64px;right:14px;z-index:60;width:54px;height:74px;background:#FDFCF9;
+    border:2px solid var(--oak);border-radius:8px;box-shadow:0 8px 20px rgba(58,63,69,.2);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .cart-btn::before,.cart-btn::after{content:"";width:5px;height:5px;border-radius:50%;background:#C9BCA3}
+  .cart-btn span{font-size:10px;writing-mode:vertical-rl;letter-spacing:.08em}
+  .badge{background:var(--sage);color:#fff;border-radius:999px;min-width:20px;font-size:11px;padding:1px 5px}
+  .cart-panel{position:fixed;top:0;right:0;bottom:0;z-index:70;width:min(360px,100%);background:#FDFCF9;
+    border-left:3px solid var(--oak);box-shadow:-12px 0 30px rgba(58,63,69,.18);padding:18px;overflow-y:auto}
+  .receipt-line{border-bottom:1px dashed #D8CEBC;padding:8px 0;display:flex;justify-content:space-between;gap:8px;font-size:14px}
+  .ghost{background:none;border:none;color:#B3A98F;cursor:pointer;font-size:14px}
+  .checkout input{width:100%;border:1px solid #D8CEBC;border-radius:8px;padding:10px 12px;margin-top:6px;background:#fff;font-family:Karla}
+  .primary{background:var(--graphite);color:#F5F1EA;border:none;border-radius:10px;padding:12px 18px;cursor:pointer;font-family:Outfit}
+  .primary:hover{background:#2B3036}
 </style>
 </head>
-<body class="bg-sand text-coal font-manrope min-h-screen">
+<body>
 
-<header class="sticky top-0 z-40 bg-sand/90 backdrop-blur border-b border-wood/30">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
-    <a href="#" class="font-extrabold text-xl flex items-center gap-2">
-      <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="4" rx="1" fill="#C8A882"/><path d="M5 14v5M19 14v5M7 10V6h10v4" stroke="#33322E" stroke-width="1.5" fill="none"/></svg>
-      Сканди<span class="text-wood">Дом</span>
-    </a>
-    <input id="search" type="search" placeholder="Найти: стол, стул, светильник…"
-      class="flex-1 min-w-0 bg-white border border-wood/40 rounded-lg px-4 py-2 text-sm outline-none focus:border-wood transition">
-    <button id="cartBtn" class="relative shrink-0 bg-coal text-sand font-semibold px-4 py-2 rounded-lg hover:bg-wood hover:text-coal transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-wood text-coal text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
-  </div>
-</header>
+<nav class="plinthus">
+  <strong style="font-family:Outfit">СКАНДИДОМ</strong>
+  <a href="#rooms">Комнаты</a><a href="#extras">Текстиль и свет</a><a href="#" onclick="openCart();return false">Корзина</a>
+</nav>
 
-<section class="bg-fog border-b border-wood/30">
-  <div class="max-w-6xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-[1.2fr_1fr] gap-10 items-center">
-    <div>
-      <p class="text-wood text-sm font-semibold tracking-widest uppercase mb-3">Новая коллекция «Гигея»</p>
-      <h1 class="font-lora text-4xl md:text-6xl leading-tight">Спокойные комнаты<br>начинаются с <span class="italic text-wood">простых вещей</span></h1>
-      <p class="mt-4 text-coal/70 max-w-md">Мебель из массива берёзы и дуба, лаконичные светильники и текстиль из неокрашенного льна. Собирается за один вечер.</p>
-      <div class="mt-7 flex flex-wrap gap-3">
-        <a href="#catalog" class="bg-coal text-sand font-semibold px-7 py-3 rounded-lg hover:bg-wood hover:text-coal transition">Смотреть каталог ↓</a>
-        <span class="text-sm text-coal/60 flex items-center">🚚 Доставка и сборка по Москве и области</span>
+<main class="max-w-3xl mx-auto px-4 pb-24">
+  <header class="pt-8 pb-2">
+    <p class="text-xs tracking-[.2em] uppercase" style="color:#93A38C">Мебель ручной сборки · Москва</p>
+    <h1 class="text-3xl md:text-5xl font-semibold mt-1">Интерьер, в котором<br>хочется остаться</h1>
+    <p class="mt-3 text-sm max-w-md" style="color:#7B7F85">Мы показываем мебель так, как она будет жить у вас дома. Кликайте по биркам на предметах — всё попадает в корзину.</p>
+  </header>
+
+  <section id="rooms">
+    <h2 class="text-2xl font-semibold mt-8 mb-2">Гостиная</h2>
+    <div class="scene-wrap">
+      <div class="scene">
+        <div class="wall"></div><div class="floor"></div>
+        <div class="rug" style="left:120px;bottom:6px;width:320px"></div>
+        <div class="piece sofa" style="left:40px;bottom:26px"><div class="back"></div><div class="seat"></div><div class="arm" style="left:0"></div><div class="arm" style="right:0"></div><div class="leg" style="left:20px"></div><div class="leg" style="right:20px"></div></div>
+        <div class="piece shelf" style="left:330px;bottom:56px;width:110px;height:180px"></div>
+        <div class="piece lamp" style="left:480px;bottom:44px;width:80px;height:170px"><div class="pole"></div><div class="base"></div><div class="shade"></div></div>
+        <div class="piece table" style="left:600px;bottom:22px;width:120px;height:64px"></div>
+        <button class="tag" style="left:56px;top:36px" data-id="sofa" data-name="Диван РЕЛАКС" data-price="54900"><span class="t-name">Диван РЕЛАКС</span><span class="t-price">54 900 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:430px;top:44px" data-id="birku" data-name="Стеллаж БИРКУ" data-price="18900"><span class="t-name">Стеллаж БИРКУ</span><span class="t-price">18 900 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:540px;top:150px" data-id="luma" data-name="Торшер ЛУМА" data-price="7400"><span class="t-name">Торшер ЛУМА</span><span class="t-price">7 400 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:610px;top:262px" data-id="alva" data-name="Столик АЛВА" data-price="9800"><span class="t-name">Столик АЛВА</span><span class="t-price">9 800 ₽</span><span class="t-add">+ в корзину</span></button>
       </div>
     </div>
-    <div class="hidden md:grid grid-cols-2 gap-3">
-      <div class="h-32 rounded-xl bg-gradient-to-br from-wood to-fog flex items-center justify-center text-6xl">🪑</div>
-      <div class="h-32 rounded-xl bg-gradient-to-br from-coal/80 to-wood/60 flex items-center justify-center text-6xl">🛋</div>
-      <div class="h-32 rounded-xl bg-gradient-to-br from-fog to-white flex items-center justify-center text-6xl">💡</div>
-      <div class="h-32 rounded-xl bg-gradient-to-br from-wood/70 to-coal/70 flex items-center justify-center text-6xl">🪟</div>
-    </div>
-  </div>
-</section>
 
-<main class="max-w-6xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-white border border-wood/40 rounded-lg px-4 py-2 text-sm outline-none focus:border-wood">
-      <option value="pop">По популярности</option>
-      <option value="asc">Сначала дешевле</option>
-      <option value="desc">Сначала дороже</option>
-    </select>
-  </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-coal/50 py-16 font-lora italic">В этой комнате пока пусто.</p>
+    <h2 class="text-2xl font-semibold mt-10 mb-2">Спальня</h2>
+    <div class="scene-wrap">
+      <div class="scene">
+        <div class="wall"></div><div class="floor"></div>
+        <div class="rug" style="left:180px;bottom:8px;width:280px"></div>
+        <div class="piece bed" style="left:50px;bottom:28px;width:300px;height:100px"><div class="mattress"></div><div class="blanket"></div><div class="head"></div></div>
+        <div class="piece dresser" style="left:400px;bottom:30px;width:150px;height:104px"></div>
+        <div class="piece mirror" style="left:590px;bottom:34px;width:96px;height:96px"></div>
+        <button class="tag" style="left:120px;top:52px" data-id="himmel" data-name="Кровать ХИММЕЛЬ" data-price="39500"><span class="t-name">Кровать ХИММЕЛЬ</span><span class="t-price">39 500 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:420px;top:120px" data-id="skog" data-name="Комод СКОГ" data-price="14200"><span class="t-name">Комод СКОГ</span><span class="t-price">14 200 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:560px;top:210px" data-id="vegg" data-name="Зеркало ВЕГГ" data-price="6400"><span class="t-name">Зеркало ВЕГГ</span><span class="t-price">6 400 ₽</span><span class="t-add">+ в корзину</span></button>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-semibold mt-10 mb-2">Кабинет</h2>
+    <div class="scene-wrap">
+      <div class="scene">
+        <div class="wall"></div><div class="floor"></div>
+        <div class="piece desk" style="left:40px;bottom:30px;width:260px;height:78px"></div>
+        <div class="piece chair" style="left:320px;bottom:16px;width:80px;height:118px"><div class="backr"></div><div class="seatc"></div><div class="legc" style="left:18px"></div><div class="legc" style="left:52px"></div></div>
+        <div class="piece wallshelf" style="left:450px;bottom:70px;width:190px;height:158px"></div>
+        <div class="piece monitor" style="left:110px;bottom:112px;width:110px;height:66px"></div>
+        <div class="piece monitor" style="left:88px;bottom:108px;width:150px;height:8px;background:#8B9096"></div>
+        <button class="tag" style="left:80px;top:96px" data-id="ergo" data-name="Стол ЭРГО" data-price="21700"><span class="t-name">Стол ЭРГО</span><span class="t-price">21 700 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:330px;top:180px" data-id="fjord" data-name="Кресло ФЬОРД" data-price="28300"><span class="t-name">Кресло ФЬОРД</span><span class="t-price">28 300 ₽</span><span class="t-add">+ в корзину</span></button>
+        <button class="tag" style="left:470px;top:60px" data-id="vegg2" data-name="Полка ВЭГГ" data-price="6900"><span class="t-name">Полка ВЭГГ</span><span class="t-price">6 900 ₽</span><span class="t-add">+ в корзину</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="extras" class="mt-12">
+    <h2 class="text-2xl font-semibold mb-3">Каталог запчастей к уюту</h2>
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button class="f-btn on" data-room="all">Все</button>
+      <button class="f-btn" data-room="living">Гостиная</button>
+      <button class="f-btn" data-room="bed">Спальня</button>
+      <button class="f-btn" data-room="work">Кабинет</button>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="extra" data-room="living"><div class="swatch" style="background:linear-gradient(135deg,#C9A27E,#A97F55)"></div><b class="outfit text-sm">Плед ФРЕЯ</b><p class="text-xs mt-1" style="color:#8A8272">шерсть, 130×170</p><p class="text-sm font-semibold mt-1">4 500 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="frya" data-name="Плед ФРЕЯ" data-price="4500">+ в корзину</button></p></div>
+      <div class="extra" data-room="living"><div class="swatch" style="background:linear-gradient(135deg,#9DB4A4,#7B9483)"></div><b class="outfit text-sm">Ковёр СИД</b><p class="text-xs mt-1" style="color:#8A8272">шёрстный ворс, 160×230</p><p class="text-sm font-semibold mt-1">8 900 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="sid" data-name="Ковёр СИД" data-price="8900">+ в корзину</button></p></div>
+      <div class="extra" data-room="living"><div class="swatch" style="background:linear-gradient(135deg,#E7DCC8,#CDBFA4)"></div><b class="outfit text-sm">Ваза КРУГ</b><p class="text-xs mt-1" style="color:#8A8272">керамика, h 24 см</p><p class="text-sm font-semibold mt-1">2 400 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="krug" data-name="Ваза КРУГ" data-price="2400">+ в корзину</button></p></div>
+      <div class="extra" data-room="bed"><div class="swatch" style="background:linear-gradient(135deg,#D9CBB4,#BFAE8E)"></div><b class="outfit text-sm">Подушки МИНН ×2</b><p class="text-xs mt-1" style="color:#8A8272">50×70, лён</p><p class="text-sm font-semibold mt-1">2 900 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="minn" data-name="Подушки МИНН" data-price="2900">+ в корзину</button></p></div>
+      <div class="extra" data-room="bed"><div class="swatch" style="background:linear-gradient(135deg,#F0E4CE,#DCC9A2)"></div><b class="outfit text-sm">Свеча ЛУМЕН</b><p class="text-xs mt-1" style="color:#8A8272">кедр и бергамот</p><p class="text-sm font-semibold mt-1">1 200 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="lumen" data-name="Свеча ЛУМЕН" data-price="1200">+ в корзину</button></p></div>
+      <div class="extra" data-room="bed"><div class="swatch" style="background:linear-gradient(135deg,#B7C4BB,#93A38C)"></div><b class="outfit text-sm">Валик УЛЬВ</b><p class="text-xs mt-1" style="color:#8A8272">для чтения перед сном</p><p class="text-sm font-semibold mt-1">1 900 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="ulv" data-name="Валик УЛЬВ" data-price="1900">+ в корзину</button></p></div>
+      <div class="extra" data-room="work"><div class="swatch" style="background:linear-gradient(135deg,#93A38C,#6F7F6B)"></div><b class="outfit text-sm">Кашпо ТОНЕ</b><p class="text-xs mt-1" style="color:#8A8272">подвесное, джут</p><p class="text-sm font-semibold mt-1">1 800 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="tone" data-name="Кашпо ТОНЕ" data-price="1800">+ в корзину</button></p></div>
+      <div class="extra" data-room="work"><div class="swatch" style="background:linear-gradient(135deg,#C8A97E,#8F7443)"></div><b class="outfit text-sm">Лампа ПИК</b><p class="text-xs mt-1" style="color:#8A8272">настольная, дуб + металл</p><p class="text-sm font-semibold mt-1">3 200 ₽ <button class="add-x text-xs" style="color:#93A38C;font-weight:700" data-id="pik" data-name="Лампа ПИК" data-price="3200">+ в корзину</button></p></div>
+    </div>
+  </section>
 </main>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="border border-wood/40 rounded-2xl p-6 md:p-8 bg-white">
-    <h2 class="font-lora text-2xl mb-1">Оформить заказ</h2>
-    <p class="text-coal/60 text-sm mb-5">Курьер привезёт, соберёт и вынесет упаковку.</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-sand border border-wood/40 rounded-xl px-4 py-3 text-sm outline-none focus:border-wood">
-      <input required type="tel" placeholder="Телефон" class="bg-sand border border-wood/40 rounded-xl px-4 py-3 text-sm outline-none focus:border-wood">
-      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-sand border border-wood/40 rounded-xl px-4 py-3 text-sm outline-none focus:border-wood">
-      <button type="submit" class="sm:col-span-2 bg-coal text-sand font-semibold py-4 rounded-xl hover:bg-wood hover:text-coal transition">Заказать мебель</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-wood font-lora font-bold text-center"></p>
-  </div>
-</section>
-
-<footer class="border-t border-wood/30 py-10 bg-fog/60">
-  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-coal/70">
-    <div>
-      <p class="font-lora font-bold text-coal text-lg mb-2">СкандиДом</p>
-      <p>Шоурум: Москва, Дизайн-квартал «Красный Октябрь»<br>Ежедневно 10:00–21:00</p>
-    </div>
-    <div>
-      <p class="text-coal font-bold mb-2">Связь</p>
-      <p>+7 (495) 640-22-11<br>hello@skandidom.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-coal/40 text-xs leading-relaxed">© 2026 «СкандиДом»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-wood underline hover:text-coal">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
+<footer class="px-4 py-8 text-center text-xs" style="border-top:1px dashed #D8CEBC;color:#8A8272">
+  Интерьеры от <a href="https://kokaomefedron.github.io/NEONFORGE" style="color:#3A3F45;font-weight:600">NEONFORGE</a> · kokaomefedron.github.io/NEONFORGE
 </footer>
 
-<div id="cartOverlay" class="fixed inset-0 bg-coal/40 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-sand border-l border-wood/40 z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b border-wood/30">
-    <p class="font-lora text-lg">Ваша корзина</p>
-    <button id="cartClose" class="text-coal/50 hover:text-wood text-2xl leading-none">×</button>
+<button class="cart-btn" onclick="openCart()"><span>КОРЗИНА</span><span class="badge" id="badge">0</span></button>
+
+<aside class="cart-panel" id="cartPanel" style="display:none">
+  <div class="flex items-center justify-between">
+    <b class="outfit text-lg">Квитанция доставки</b>
+    <button class="ghost" onclick="closeCart()">✕</button>
   </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t border-wood/30">
-    <div class="flex justify-between font-lora text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-wood">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-coal text-sand font-semibold py-3 rounded-xl hover:bg-wood hover:text-coal transition">К оформлению</button>
-  </div>
+  <div id="cartBody" class="mt-3"></div>
+  <label class="receipt-line" style="cursor:pointer"><span>Сборка мебели</span><span><input type="checkbox" id="assembly"> +2 500 ₽</span></label>
+  <div class="receipt-line"><span>Доставка по городу</span><span>900 ₽</span></div>
+  <div class="receipt-line" style="border-bottom:none"><b class="outfit">Итого</b><b class="outfit" id="total">0 ₽</b></div>
+  <form class="checkout mt-3" id="orderForm">
+    <input name="name" placeholder="Имя" required>
+    <input name="phone" placeholder="Телефон" required pattern="[0-9+()\-\s]{6,}">
+    <input name="city" placeholder="Город" required>
+    <button class="primary w-full mt-3">Оформить</button>
+  </form>
 </aside>
 
 <script>
-const products = [
-  { id:1, name:'Стул «Берёза» обеденный', cat:'Гостиная', price:7900, emoji:'🪑', spec:'берёза · 45×50×82 см', grad:'linear-gradient(135deg,#C8A882,#EFEAE3)' },
-  { id:2, name:'Стол письменный «Фьорд»', cat:'Офис', price:18900, emoji:'🪵', spec:'дуб, 120×60×75 см', grad:'linear-gradient(135deg,#8a6d4b,#C8A882)' },
-  { id:3, name:'Кресло-качалка «Хюгге»', cat:'Гостиная', price:12900, emoji:'🧸', spec:'ясень · текстиль · 78×85 см', grad:'linear-gradient(135deg,#FAF8F5,#d9c8ad)' },
-  { id:4, name:'Кровать «Норд» 160×200', cat:'Спальня', price:27900, emoji:'🛏', spec:'массив сосны · ильинская рейка', grad:'linear-gradient(135deg,#d9d2c5,#a8917a)' },
-  { id:5, name:'Светильник напольный «Луна»', cat:'Гостиная', price:5400, emoji:'💡', spec:'180 см · тёплый свет 2700K', grad:'linear-gradient(135deg,#fdf6e3,#e9d8a6)' },
-  { id:6, name:'Настольная лампа «Куб»', cat:'Офис', price:3900, emoji:'🔦', spec:'42 см · дуб + металл', grad:'linear-gradient(135deg,#33322E,#7a786e)' },
-  { id:7, name:'Комод 4 ящика «Аскер»', cat:'Спальня', price:16400, emoji:'🗄', spec:'берёза · 84×40×96 см', grad:'linear-gradient(135deg,#b09372,#e0d3bd)' },
-  { id:8, name:'Плед льняной «Тёплая ночь»', cat:'Спальня', price:2900, emoji:'🧶', spec:'130×180 см · 100% лён', grad:'linear-gradient(135deg,#c9c2b2,#FAF8F5)' },
-  { id:9, name:'Полка навесная «Сканди 80»', cat:'Кухня', price:3400, emoji:'📚', spec:'80×20 см · дуб, крепёж в комплекте', grad:'linear-gradient(135deg,#C8A882,#fff)' },
-  { id:10, name:'Барный стул «Мало»', cat:'Кухня', price:6700, emoji:'🍸', spec:'металл + берёза · 75 см', grad:'linear-gradient(135deg,#55524a,#c0bcb0)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*90000)+10000;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+  const cart=[], DELIVERY=900, ASSEMBLY=2500;
+  const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+  const panel=document.getElementById('cartPanel');
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-lg text-sm font-semibold border transition ${c===activeCat?'bg-coal text-sand border-coal':'border-wood/40 text-coal/70 hover:border-wood hover:text-wood'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="border border-wood/30 rounded-2xl overflow-hidden bg-white hover:shadow-md hover:shadow-wood/20 hover:border-wood transition flex flex-col">
-      <div class="h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] uppercase tracking-widest text-wood mb-1">${p.cat}</p>
-        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-coal/60 mt-1">${p.spec}</p>
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <p class="font-lora font-medium text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="bg-coal text-sand text-sm font-semibold px-3 py-2 rounded-lg hover:bg-wood hover:text-coal transition">+ Корзина</button>
-        </div>
-      </div>
-    </article>`).join('');
-}
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border border-wood/30 rounded-xl p-3 bg-white">
-      <div class="w-11 h-11 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold truncate">${p.name}</p>
-        <p class="text-xs text-wood font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border border-wood/40 rounded hover:border-coal">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border border-wood/40 rounded hover:border-coal">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-coal/40 hover:text-wood ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-coal/50 py-10 text-sm font-lora italic">Пусто. Как комната до переезда.</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
-});
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  function add(id,name,price,el){
+    const f=cart.find(i=>i.id===id);
+    f?f.qty++:cart.push({id,name,price,qty:1});
+    if(el){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+    render();
+  }
+  document.querySelectorAll('[data-id]').forEach(el=>{
+    el.addEventListener('click',()=>add(el.dataset.id,el.dataset.name,+el.dataset.price,el));
+  });
+
+  function qtyHTML(i){
+    return `<div class="flex items-center gap-2">
+      <button class="ghost" onclick="chQty('${i.id}',-1)">−</button><span>${i.qty}</span>
+      <button class="ghost" onclick="chQty('${i.id}',1)">+</button></div>`;
+  }
+  function chQty(id,d){
+    const i=cart.find(x=>x.id===id); if(!i)return;
+    i.qty+=d; if(i.qty<=0)cart.splice(cart.indexOf(i),1); render();
+  }
+  function render(){
+    document.getElementById('badge').textContent=cart.reduce((s,i)=>s+i.qty,0);
+    const body=document.getElementById('cartBody');
+    body.innerHTML=cart.length?cart.map(i=>
+      `<div class="receipt-line"><span><b>${i.name}</b> × ${i.qty}</span><span>${fmt(i.price*i.qty)} ${qtyHTML(i)}</span></div>`).join('')
+      :'<p class="text-sm py-3" style="color:#8A8272">Пока пусто. Кликайте по биркам в комнатах.</p>';
+    const sum=cart.reduce((s,i)=>s+i.price*i.qty,0)
+      +(document.getElementById('assembly').checked&&cart.length?ASSEMBLY:0)
+      +(cart.length?DELIVERY:0);
+    document.getElementById('total').textContent=fmt(sum);
+  }
+  document.getElementById('assembly').addEventListener('change',render);
+
+  function openCart(){panel.style.display='block'}
+  function closeCart(){panel.style.display='none'}
+
+  document.getElementById('orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    panel.innerHTML=`<div class="text-center py-10">
+      <div style="font-size:44px">📦</div>
+      <b class="outfit text-xl">Заказ принят</b>
+      <p class="text-sm mt-2" style="color:#7B7F85">Менеджер позвонит в течение часа и согласует день доставки и сборки.</p>
+      <button class="primary mt-6" onclick="location.reload()">Вернуться в интерьеры</button></div>`;
+  });
+
+  // фильтр запчастей
+  document.querySelectorAll('.f-btn').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.f-btn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const r=b.dataset.room;
+    document.querySelectorAll('.extra').forEach(c=>c.classList.toggle('hidden',r!=='all'&&c.dataset.room!==r));
+  }));
+
+  // масштаб сцен под контейнер (мобильная адаптация)
+  function fit(){
+    document.querySelectorAll('.scene-wrap').forEach(w=>{
+      const s=w.clientWidth/800;
+      w.querySelector('.scene').style.transform=`scale(${s})`;
+      w.style.height=(360*s)+'px';
+    });
+  }
+  addEventListener('resize',fit);fit();
 </script>
 </body>
 </html>

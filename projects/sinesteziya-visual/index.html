@@ -3,203 +3,316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Синестезия — музыкальный визуализатор | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
-  fontFamily: { un:['Unbounded','system-ui','sans-serif'], man:['Manrope','system-ui','sans-serif'] }
-}}};
-</script>
+<title>Синестезия — аналоговый синтезатор</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  html,body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-  .pad{position:relative;border-radius:18px;border:1px solid rgba(255,255,255,.14);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    color:#fff;min-height:96px;cursor:pointer;user-select:none;touch-action:manipulation;
-    transition:transform .09s ease, box-shadow .25s, filter .25s;filter:saturate(.55) brightness(.7)}
-  .pad .note{font-family:Unbounded,sans-serif;font-weight:700;font-size:clamp(14px,2.6vw,20px)}
-  .pad .freq{font-size:11px;opacity:.65;font-family:Manrope,sans-serif}
-  .pad.lit{filter:none;transform:scale(1.06);box-shadow:0 0 42px var(--c)}
-  .ring{position:absolute;inset:-6px;border-radius:22px;border:2px solid var(--c);opacity:0;pointer-events:none}
-  .pad.lit .ring{animation:ring .55s ease-out}
-  @keyframes ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.5)}}
+  :root{
+    --chassis:#1B1E24;--chassis2:#22262E;--panel:#15181D;
+    --orange:#FF7A1A;--teal:#2BD9C8;--violet:#8B7BFF;
+    --txt:#C9CDD6;--led-off:#3A2126;--screw:#2E333C
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0D0F12;color:var(--txt);font-family:'Chakra Petch',sans-serif;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 12px 40px;
+    -webkit-tap-highlight-color:transparent}
+  .synth{width:min(860px,100%);background:
+      linear-gradient(180deg,#232830 0%,var(--chassis) 8%,var(--chassis) 92%,#14161A 100%);
+    border-radius:14px;border:1px solid #000;
+    box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);
+    padding:22px clamp(12px,3vw,30px) 26px}
+  /* шильдик и винты */
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{background:linear-gradient(180deg,#3A404B,#23262D);padding:6px 16px;border-radius:4px;
+    border:1px solid #0A0B0D;font-weight:700;letter-spacing:.28em;font-size:15px;color:#E8EAEF;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+  .logo b{color:var(--orange)}
+  .badge{font-size:10px;letter-spacing:.15em;color:#6E747F;border:1px solid #2A2E36;
+    padding:3px 8px;border-radius:3px}
+  .badge a{color:var(--teal);text-decoration:none}
+  .badge a:hover{text-decoration:underline}
+  .screw{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#4A5058,var(--screw));
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.2);position:relative;flex-shrink:0}
+  .screw::after{content:'';position:absolute;left:50%;top:1px;bottom:1px;width:1.5px;background:#121417;transform:translateX(-50%) rotate(35deg)}
+  .screw.s2::after{transform:translateX(-50%) rotate(-20deg)}
+
+  .modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .module{background:var(--panel);border:1px solid #0A0B0D;border-radius:8px;padding:12px 12px 14px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 2px 6px rgba(0,0,0,.4)}
+  .module h2{font-size:10px;letter-spacing:.3em;color:#7A8089;text-align:center;margin-bottom:10px;
+    border-bottom:1px solid #262A31;padding-bottom:6px}
+  .module h2 span{color:var(--orange)}
+  .module.m-filter h2 span{color:var(--teal)}
+  .module.m-env h2 span{color:var(--violet)}
+
+  /* Пэды */
+  .pads{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .pad{min-height:52px;border:none;border-radius:6px;cursor:pointer;position:relative;
+    font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:14px;color:#E8EAEF;
+    background:linear-gradient(180deg,#2E333C,#1D2128);
+    box-shadow:0 3px 0 #0C0D10,inset 0 1px 0 rgba(255,255,255,.08);
+    transition:transform .06s,box-shadow .06s}
+  .pad .led{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;
+    background:var(--led-off);transition:all .1s}
+  .pad:active,.pad.on{transform:translateY(2px);box-shadow:0 1px 0 #0C0D10,inset 0 1px 0 rgba(255,255,255,.08)}
+  .pad.c .led.on-l{background:var(--orange);box-shadow:0 0 8px var(--orange)}
+  .pad.e .led.on-l{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .pad.g .led.on-l{background:var(--violet);box-shadow:0 0 8px var(--violet)}
+  .pad.a .led.on-l{background:#FFD60A;box-shadow:0 0 8px #FFD60A}
+  .pad small{display:block;font-size:9px;font-weight:400;color:#7A8089;letter-spacing:.1em}
+
+  /* Слайдеры */
+  .sliders{display:flex;gap:14px;justify-content:center;align-items:stretch}
+  .sl{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+  .sl label{font-size:9px;letter-spacing:.15em;color:#7A8089}
+  .sl output{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--teal);
+    background:#0D0F12;padding:2px 8px;border-radius:3px;border:1px solid #262A31;min-width:44px;text-align:center}
+  .sl input[type=range]{-webkit-appearance:none;appearance:none;width:26px;height:96px;
+    background:linear-gradient(180deg,#0A0B0D,#17191F);border-radius:13px;border:1px solid #000;
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.7);cursor:pointer;writing-mode:vertical-lr;direction:rtl}
+  .sl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:20px;border-radius:4px;
+    background:linear-gradient(180deg,#3C424C,#23262D);
+    border:1px solid #0A0B0D;box-shadow:0 2px 4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);
+    position:relative}
+  .sl input[type=range]::-webkit-slider-thumb::after{content:''}
+  .sl input[type=range]::-moz-range-thumb{width:34px;height:20px;border-radius:4px;
+    background:linear-gradient(180deg,#3C424C,#23262D);border:1px solid #0A0B0D}
+  .sl.teal-thumb output{color:var(--teal)}
+  .sl.violet-thumb output{color:var(--violet)}
+  .sl.orange-thumb output{color:var(--orange)}
+  .thumb-teal::-webkit-slider-thumb{border-top:3px solid var(--teal)}
+  .thumb-violet::-webkit-slider-thumb{border-top:3px solid var(--violet)}
+  .thumb-orange::-webkit-slider-thumb{border-top:3px solid var(--orange)}
+
+  /* Светодиодная шкала master */
+  .leds{display:flex;gap:3px;margin-top:8px;justify-content:center}
+  .leds i{width:5px;height:9px;border-radius:1px;background:#24282F}
+  .leds i.on{background:#33D17A;box-shadow:0 0 5px #33D17A}
+
+  /* Осциллограф */
+  .scope{margin-top:14px;background:#0B0D10;border:1px solid #0A0B0D;border-radius:8px;
+    padding:10px;box-shadow:inset 0 2px 10px rgba(0,0,0,.6)}
+  .scope h2{font-size:10px;letter-spacing:.3em;color:#7A8089;margin-bottom:6px;display:flex;justify-content:space-between}
+  .scope h2 span{color:var(--teal);font-family:ui-monospace,monospace}
+  canvas{display:block;width:100%;border-radius:4px}
+  .note{margin-top:10px;text-align:center;font-size:11px;color:#5A6068}
 </style>
 </head>
-<body class="bg-ink text-white font-man min-h-screen flex flex-col select-none">
-<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
-  <h1 class="font-un text-base md:text-xl tracking-wide"><span class="text-vio" style="text-shadow:0 0 16px rgba(124,92,255,.6)">СИНЕСТЕЗИЯ</span></h1>
-  <div class="flex gap-2">
-    <button id="soundBtn" class="px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-xs hover:border-lime transition">🔊 Звук: вкл</button>
-    <button id="autoBtn" class="px-3 py-2.5 rounded-xl bg-white/5 border border-white/15 text-xs hover:border-vio transition">▶ Авто-мелодия</button>
-  </div>
-</header>
+<body>
 
-<main class="flex-1 w-full max-w-3xl mx-auto px-3 py-5 flex flex-col">
-  <!-- визуализатор -->
-  <div class="relative rounded-2xl overflow-hidden border border-vio/40 shadow-[0_0_40px_rgba(124,92,255,.2)]">
-    <canvas id="viz" class="block w-full" style="height:240px"></canvas>
-    <div class="absolute top-2 left-3 text-[10px] uppercase tracking-widest text-white/35">спектр · analyser 2048</div>
+<div class="synth">
+  <div class="top">
+    <div class="screw"></div>
+    <div class="brand">
+      <div class="logo">SINE<b>ST</b>EZIA-1</div>
+      <div class="badge">АНАЛОГОВЫЙ СИНТЕЗАТОР</div>
+      <div class="badge">синтез от <a href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a></div>
+    </div>
+    <div class="screw s2"></div>
   </div>
 
-  <!-- пэды -->
-  <div id="pads" class="mt-4 grid grid-cols-3 md:grid-cols-6 gap-2.5"></div>
+  <div class="modules">
+    <div class="module">
+      <h2><span>OSC</span> · ИСТОЧНИК</h2>
+      <div class="pads">
+        <button class="pad c" data-note="261.63"><span class="led"></span>C<small>440·1/1</small></button>
+        <button class="pad e" data-note="329.63"><span class="led"></span>E<small>терция</small></button>
+        <button class="pad g" data-note="392.00"><span class="led"></span>G<small>квинта</small></button>
+        <button class="pad a" data-note="440.00"><span class="led"></span>A<small>октава+</small></button>
+      </div>
+    </div>
 
-  <section class="mt-5 text-sm text-white/60 leading-relaxed">
-    <h2 class="text-white font-semibold mb-1">Как пользоваться</h2>
-    <ul class="list-disc list-inside space-y-0.5">
-      <li>Нажимай <b class="text-lime">неоновые пэды</b> — каждая кнопка играёт ноту пентатоники (До · Ми · Соль · Ля · До² · Ми²).</li>
-      <li>Звук синтезируется <b class="text-lime">прямо в браузере</b> — никаких файлов, чистые осцилляторы Web Audio.</li>
-      <li><b class="text-lime">Авто-мелодия</b> — случайная гипнотическая последовательность нот.</li>
-      <li>Кнопка «Звук» включает и выключает выход; спектр внизу реагирует в реальном времени.</li>
-    </ul>
-    <p class="text-[11px] text-white/35 mt-2">Первое нажатие включает аудиоконтекст — это требование браузеров.</p>
-  </section>
-</main>
+    <div class="module m-filter">
+      <h2>FILTER · <span>СРЕЗ</span></h2>
+      <div class="sliders">
+        <div class="sl teal-thumb">
+          <output id="o-cut">800</output>
+          <input type="range" id="r-cut" min="120" max="4000" value="800" class="thumb-teal">
+          <label>CUTOFF</label>
+        </div>
+        <div class="sl">
+          <output id="o-res" style="color:#8A93A6">6</output>
+          <input type="range" id="r-res" min="0" max="20" value="6">
+          <label>RES</label>
+        </div>
+      </div>
+    </div>
 
-<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
-  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+    <div class="module m-env">
+      <h2>ENV · <span>ОГИБАЮЩАЯ</span></h2>
+      <div class="sliders">
+        <div class="sl violet-thumb">
+          <output id="o-att" style="color:var(--violet)">10</output>
+          <input type="range" id="r-att" min="0" max="300" value="10" class="thumb-violet">
+          <label>ATT</label>
+        </div>
+        <div class="sl violet-thumb">
+          <output id="o-rel" style="color:var(--violet)">400</output>
+          <input type="range" id="r-rel" min="50" max="1500" value="400" class="thumb-violet">
+          <label>REL</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="module">
+      <h2><span>MASTER</span> · ГРОМКОСТЬ</h2>
+      <div class="sliders">
+        <div class="sl orange-thumb" style="flex:2">
+          <output id="o-vol" style="color:var(--orange)">60</output>
+          <input type="range" id="r-vol" min="0" max="100" value="60" class="thumb-orange">
+          <label>VOL</label>
+        </div>
+      </div>
+      <div class="leds" id="leds"></div>
+    </div>
+  </div>
+
+  <div class="scope">
+    <h2>ОСЦИЛЛОГРАФ <span id="scope-state">STANDBY</span></h2>
+    <canvas id="scope-cv" height="130"></canvas>
+  </div>
+
+  <p class="note">Звук включается при первом касании пэда · удерживайте пэд для ноты</p>
+</div>
 
 <script>
-(function(){
-  const NOTES=[
-    {f:261.63,name:'ДО', c:'#7C5CFF',g:'rgba(124,92,255,'},
-    {f:329.63,name:'МИ', c:'#5B8CFF',g:'rgba(91,140,255,'},
-    {f:392.00,name:'СОЛЬ',c:'#C6FF4D',g:'rgba(198,255,77,'},
-    {f:440.00,name:'ЛЯ', c:'#FF5CA8',g:'rgba(255,92,168,'},
-    {f:523.25,name:'ДО²',c:'#4DD8FF',g:'rgba(77,216,255,'},
-    {f:659.25,name:'МИ²',c:'#FFB84D',g:'rgba(255,184,77,'}
-  ];
+'use strict';
+const DPR=Math.min(window.devicePixelRatio||1,2);
 
-  // ---------- аудио ----------
-  let actx=null, master=null, analyser=null, soundOn=true;
-  function ensureAudio(){
-    if(actx) return;
-    const AC=window.AudioContext||window.webkitAudioContext;
-    if(!AC) return;
-    actx=new AC();
-    master=actx.createGain(); master.gain.value=soundOn?0.4:0;
-    analyser=actx.createAnalyser(); analyser.fftSize=2048; analyser.smoothingTimeConstant=0.8;
-    master.connect(analyser); analyser.connect(actx.destination);
-  }
-  function playNote(n){
-    ensureAudio();
-    if(!actx) return;
-    if(actx.state==='suspended') actx.resume();
-    const t=actx.currentTime;
-    const env=actx.createGain();
-    env.gain.setValueAtTime(0.0001,t);
-    env.gain.exponentialRampToValueAtTime(0.5,t+0.015);
-    env.gain.exponentialRampToValueAtTime(0.0001,t+1.4);
-    env.connect(master);
-    const o1=actx.createOscillator(); o1.type='sine';     o1.frequency.value=n.f;
-    const o2=actx.createOscillator(); o2.type='triangle'; o2.frequency.value=n.f*2.005;
-    const g2=actx.createGain(); g2.gain.value=0.18;
-    o1.connect(env); o2.connect(g2); g2.connect(env);
-    o1.start(t); o2.start(t);
-    o1.stop(t+1.5); o2.stop(t+1.5);
-  }
-
-  // ---------- пэды ----------
-  const padsEl=document.getElementById('pads');
-  const padEls=[];
-  NOTES.forEach((n,i)=>{
-    const b=document.createElement('button');
-    b.className='pad'; b.style.setProperty('--c',n.c);
-    b.style.background='linear-gradient(160deg,'+n.g+'.28),'+n.g+'.08)';
-    b.innerHTML='<span class="ring"></span><span class="note">'+n.name+'</span><span class="freq">'+n.f.toFixed(0)+' Гц</span>';
-    b.addEventListener('pointerdown',e=>{
-      e.preventDefault();
-      hit(i);
-    });
-    padsEl.appendChild(b); padEls.push(b);
+/* --- Web Audio (лениво) --- */
+let AC=null, master=null, filter=null, analyser=null;
+function initAudio(){
+  if(AC) return true;
+  try{
+    AC=new (window.AudioContext||window.webkitAudioContext)();
+    master=AC.createGain();
+    master.gain.value=+rVol.value/100*0.35;
+    filter=AC.createBiquadFilter();
+    filter.type='lowpass';
+    filter.frequency.value=+rCut.value;
+    filter.Q.value=+rRes.value;
+    analyser=AC.createAnalyser();
+    analyser.fftSize=2048;
+    filter.connect(master); master.connect(analyser); analyser.connect(AC.destination);
+    document.getElementById('scope-state').textContent='ACTIVE';
+    return true;
+  }catch(e){return false;}
+}
+const rCut=document.getElementById('r-cut'), rRes=document.getElementById('r-res'),
+      rAtt=document.getElementById('r-att'), rRel=document.getElementById('r-rel'),
+      rVol=document.getElementById('r-vol');
+function bind(r,o,fmt){
+  r.addEventListener('input',()=>{
+    o.textContent=fmt(+r.value);
+    if(AC){
+      if(r===rCut) filter.frequency.setTargetAtTime(+r.value,AC.currentTime,0.03);
+      if(r===rRes) filter.Q.setTargetAtTime(+r.value,AC.currentTime,0.03);
+      if(r===rVol) master.gain.setTargetAtTime(+r.value/100*0.35,AC.currentTime,0.03);
+    }
+    if(r===rVol) renderLeds();
   });
-  function hit(i){
-    playNote(NOTES[i]);
-    const p=padEls[i];
-    p.classList.remove('lit'); void p.offsetWidth; p.classList.add('lit');
-    clearTimeout(p._t); p._t=setTimeout(()=>p.classList.remove('lit'),300);
-  }
+}
+bind(rCut,document.getElementById('o-cut'),v=>v);
+bind(rRes,document.getElementById('o-res'),v=>v);
+bind(rAtt,document.getElementById('o-att'),v=>v+'ms');
+bind(rRel,document.getElementById('o-rel'),v=>v+'ms');
+bind(rVol,document.getElementById('o-vol'),v=>v);
 
-  // ---------- визуализатор ----------
-  const cv=document.getElementById('viz'), ctx=cv.getContext('2d');
-  let W=0,H=0,DPR=1;
-  function resize(){
-    DPR=Math.min(2,devicePixelRatio||1);
-    const r=cv.parentElement.getBoundingClientRect();
-    W=r.width; H=240;
-    cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR);
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-  }
-  resize(); addEventListener('resize',resize);
+/* LED-шкала громкости */
+const leds=document.getElementById('leds');
+for(let i=0;i<10;i++){leds.appendChild(document.createElement('i'));}
+function renderLeds(){
+  const lvl=Math.round(+rVol.value/10);
+  [...leds.children].forEach((el,i)=>el.classList.toggle('on',i<lvl));
+}
+renderLeds();
 
-  let freq=null;
-  const BARS=64;
-  function draw(){
-    requestAnimationFrame(draw);
-    if(document.hidden) return;
-    ctx.fillStyle='rgba(5,5,10,.28)';           // шлейф
-    ctx.fillRect(0,0,W,H);
-    if(analyser){
-      if(!freq) freq=new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteFrequencyData(freq);
-      const bw=W/BARS;
-      for(let i=0;i<BARS;i++){
-        // лог-подобное отображение нижней (слышимой) части спектра
-        const idx=Math.floor(Math.pow(i/BARS,1.6)*400)+2;
-        const v=freq[idx]/255;
-        const h=Math.max(2, v*H*0.9);
-        const hue=200+i/BARS*300;
-        ctx.fillStyle='hsl('+hue+' 90% '+(45+v*25)+'%)';
-        ctx.shadowColor='hsl('+hue+' 90% 60%)'; ctx.shadowBlur=10;
-        const x=i*bw+1, w=Math.max(2,bw-2);
-        ctx.beginPath();
-        if(ctx.roundRect) ctx.roundRect(x,H-h,w,h,3); else ctx.rect(x,H-h,w,h);
-        ctx.fill();
-      }
-      ctx.shadowBlur=0;
-    } else {
-      ctx.fillStyle='rgba(124,92,255,.5)';
-      ctx.font='13px Manrope'; ctx.textAlign='center';
-      ctx.fillText('нажмите любой пэд, чтобы включить звук', W/2, H/2);
+/* --- Пэды: нота с ADSR --- */
+const held=new Map();
+function noteOn(freq,el){
+  if(!initAudio()) return;
+  if(AC.state==='suspended') AC.resume();
+  if(held.has(freq)) return;
+  const t=AC.currentTime;
+  const osc=AC.createOscillator();
+  osc.type='sawtooth';
+  osc.frequency.value=freq;
+  const det=AC.createOscillator();          // второй осциллятор — толщина
+  det.type='square'; det.frequency.value=freq/2;
+  const detG=AC.createGain(); detG.gain.value=0.4;
+  const g=AC.createGain(); g.gain.value=0;
+  osc.connect(g); det.connect(detG); detG.connect(g); g.connect(filter);
+  const att=Math.max(0.005,+rAtt.value/1000);
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(0.32,t+att);            // attack
+  g.gain.setTargetAtTime(0.22,t+att,0.4);                // лёгкий спад к sustain
+  osc.start();det.start();
+  const voice={osc,det,g};
+  held.set(freq,voice);
+  el.classList.add('on'); el.querySelector('.led').classList.add('on-l');
+}
+function noteOff(freq,el){
+  const v=held.get(freq);
+  if(!v) return;
+  held.delete(freq);
+  const t=AC.currentTime, rel=Math.max(0.05,+rRel.value/1000);
+  v.g.gain.cancelScheduledValues(t);
+  v.g.gain.setValueAtTime(v.g.gain.value,t);
+  v.g.gain.linearRampToValueAtTime(0,t+rel);             // release
+  v.osc.stop(t+rel+0.05); v.det.stop(t+rel+0.05);
+  el.classList.remove('on'); el.querySelector('.led').classList.remove('on-l');
+}
+document.querySelectorAll('.pad').forEach(pad=>{
+  const freq=+pad.dataset.note;
+  const down=e=>{e.preventDefault();noteOn(freq,pad);};
+  const up=()=>noteOff(freq,pad);
+  pad.addEventListener('pointerdown',down);
+  pad.addEventListener('pointerup',up);
+  pad.addEventListener('pointerleave',up);
+  pad.addEventListener('pointercancel',up);
+  pad.addEventListener('contextmenu',e=>e.preventDefault());
+});
+addEventListener('blur',()=>{document.querySelectorAll('.pad.on').forEach(p=>{
+  const v=held.get(+p.dataset.note); if(v){noteOff(+p.dataset.note,p);}
+});});
+
+/* --- Осциллограф --- */
+const cv=document.getElementById('scope-cv');
+function size(){const r=cv.getBoundingClientRect();cv.width=Math.round(r.width*DPR);cv.height=130*DPR;}
+size();addEventListener('resize',size);
+const buf=new Uint8Array(1024);
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  requestAnimationFrame(loop);
+  if(document.hidden) return;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  /* сетка */
+  ctx.strokeStyle='rgba(43,217,200,.08)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=W/12){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=H/4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.strokeStyle='rgba(43,217,200,.25)';
+  ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+  /* волна */
+  ctx.lineWidth=2*DPR;ctx.strokeStyle='#2BD9C8';
+  ctx.shadowColor='rgba(43,217,200,.6)';ctx.shadowBlur=6*DPR;
+  ctx.beginPath();
+  if(analyser){
+    analyser.getByteTimeDomainData(buf);
+    for(let i=0;i<buf.length;i++){
+      const x=i/buf.length*W, y=(buf[i]/255)*H;
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+  }else{
+    for(let x=0;x<=W;x+=4){                    // standby — плоская линия с шумом
+      const y=H/2+Math.sin(x*0.05+now*0.002)*3*DPR;
+      x?ctx.lineTo(x,y):ctx.moveTo(x,y);
     }
   }
-  draw();
-
-  // ---------- звук вкл/выкл ----------
-  const soundBtn=document.getElementById('soundBtn');
-  soundBtn.addEventListener('click',()=>{
-    soundOn=!soundOn;
-    soundBtn.textContent=soundOn?'🔊 Звук: вкл':'🔇 Звук: выкл';
-    if(master) master.gain.value=soundOn?0.4:0;
-  });
-
-  // ---------- авто-мелодия ----------
-  const autoBtn=document.getElementById('autoBtn');
-  let auto=false, autoTimer=null;
-  function autoStep(){
-    if(!auto) return;
-    hit(Math.floor(Math.random()*NOTES.length));
-    autoTimer=setTimeout(autoStep, 260+Math.random()*420);
-  }
-  autoBtn.addEventListener('click',()=>{
-    auto=!auto;
-    autoBtn.textContent=auto?'⏸ Стоп мелодия':'▶ Авто-мелодия';
-    autoBtn.classList.toggle('bg-vio/30',auto);
-    clearTimeout(autoTimer);
-    if(auto) autoStep();
-  });
-  document.addEventListener('visibilitychange',()=>{
-    if(document.hidden&&auto){ // пауза при скрытой вкладке
-      clearTimeout(autoTimer);
-    } else if(!document.hidden&&auto){
-      autoStep();
-    }
-  });
-})();
+  ctx.stroke();ctx.shadowBlur=0;
+}
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>

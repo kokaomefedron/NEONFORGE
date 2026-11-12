@@ -3,239 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>DROP — стритвир-магазин | Москва</title>
+<title>DROP — уличная одежда. Дроп 03</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        bg: '#0C0C0C',
-        acid: '#D6FF3F',
-        neonpink: '#FF2E97',
-        smoke: '#161616',
-        line: '#2A2A2A'
-      },
-      fontFamily: {
-        unbounded: ['Unbounded', 'sans-serif'],
-        inter: ['Inter', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  body { background:#0C0C0C; }
-  .glow-acid { box-shadow: 0 0 24px rgba(214,255,63,.18); }
-  .glow-pink { box-shadow: 0 0 24px rgba(255,46,151,.22); }
-  .sticker { transform: rotate(-6deg); }
-  .noise { background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size: 4px 4px; }
-  .tile { background-size: cover; }
-  ::selection { background:#D6FF3F; color:#0C0C0C; }
+  :root{ --ink:#0B0B0B; --acid:#D8FF3E; }
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:#fff;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+  .unb{font-family:'Unbounded',sans-serif}
+  .noise{background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px),radial-gradient(rgba(216,255,62,.06) 1px,transparent 1px);background-size:7px 7px,13px 13px;background-position:0 0,4px 4px}
+  .stroke-num{-webkit-text-stroke:2px var(--acid);color:transparent;font-size:clamp(140px,38vw,420px);line-height:.9}
+  .film{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 18px 18px;-ms-overflow-style:none;scrollbar-width:none}
+  .film::-webkit-scrollbar{display:none}
+  .look{scroll-snap-align:start;flex:0 0 250px;cursor:pointer}
+  .look-photo{height:300px;border-radius:12px;position:relative;overflow:hidden}
+  .look-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,transparent 50%,rgba(0,0,0,.55))}
+  .sizebtn{border:1px solid rgba(255,255,255,.35);padding:2px 9px;font-size:11px;border-radius:4px;color:rgba(255,255,255,.7);cursor:pointer}
+  .sizebtn.on{background:var(--acid);color:#0B0B0B;border-color:var(--acid);font-weight:800}
+  .cartbar{position:fixed;right:0;top:38%;transform:translateY(-50%);writing-mode:vertical-rl;background:var(--acid);color:#0B0B0B;padding:16px 8px;border-radius:0 0 0 10px;font-weight:900;z-index:60;cursor:pointer;letter-spacing:.12em}
+  .drawer{position:fixed;inset:0 0 0 auto;width:min(380px,100%);background:#141414;border-left:2px solid var(--acid);transform:translateX(100%);transition:transform .3s;z-index:70;display:flex;flex-direction:column}
+  .drawer.open{transform:none}
+  .filterchip{border:1px solid rgba(255,255,255,.3);padding:6px 16px;font-size:12px;letter-spacing:.15em;cursor:pointer;border-radius:999px}
+  .filterchip.on{background:#fff;color:#0B0B0B;border-color:#fff;font-weight:800}
+  .sold{position:absolute;top:10px;left:10px;background:#fff;color:#0B0B0B;font-size:10px;padding:3px 8px;letter-spacing:.2em;font-weight:800;transform:rotate(-4deg)}
+  input,button{font-family:inherit}
+  .inp{background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 2px;width:100%;outline:none}
+  .inp:focus{border-color:var(--acid)}
+  @media(max-width:390px){.look{flex-basis:210px}.look-photo{height:260px}}
 </style>
 </head>
-<body class="bg-bg text-white font-inter noise min-h-screen">
-
-<!-- HEADER -->
-<header class="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-line">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-unbounded font-900 text-2xl tracking-tight">
-      DR<span class="text-acid">O</span>P<span class="text-neonpink text-xs align-top">®</span>
-    </a>
-    <span class="hidden md:inline text-[10px] uppercase tracking-widest text-neutral-500 border border-line px-2 py-1">Москва · доставка 24ч</span>
-    <input id="search" type="search" placeholder="Найти худи, кроссы, кепку…"
-      class="flex-1 min-w-0 bg-smoke border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-acid transition">
-    <button id="cartBtn" class="relative shrink-0 bg-acid text-bg font-extrabold px-4 py-2 rounded-lg hover:bg-neonpink hover:text-white transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-neonpink text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
-  </div>
-</header>
+<body class="noise">
 
 <!-- HERO -->
-<section class="relative overflow-hidden border-b border-line">
-  <div class="max-w-7xl mx-auto px-4 py-14 md:py-20">
-    <p class="font-unbounded text-acid text-sm mb-3">// ДРОП 07 · УЖЕ В НАЛИЧИИ</p>
-    <h1 class="font-unbounded font-900 text-4xl md:text-7xl leading-none uppercase">
-      Улица решает.<br>
-      <span class="text-neonpink">Остальное — детали.</span>
-    </h1>
-    <p class="mt-5 text-neutral-400 max-w-md">Худи оверсайз, широкие джинсы и кроссы, которые видят из соседнего двора. Дроп ограничен — не тормози.</p>
-    <div class="mt-7 flex flex-wrap gap-3">
-      <a href="#catalog" class="bg-acid text-bg font-unbounded font-bold px-7 py-3 rounded-full glow-acid hover:scale-105 transition">В каталог ↓</a>
-      <span class="sticker inline-block bg-neonpink text-white font-unbounded font-bold text-sm px-4 py-2 rounded-lg glow-pink">SALE −40%</span>
+<header class="relative px-5 pt-10 pb-6 overflow-hidden">
+  <div class="stroke-num unb select-none" aria-hidden="true">03</div>
+  <p class="unb text-[11px] tracking-[.35em] mt-2" style="color:var(--acid)">DROP 03 — ТЕКУЩИЙ</p>
+  <h1 class="unb font-black text-3xl md:text-5xl mt-3 uppercase leading-tight">Тишина —<br>это тоже шум</h1>
+  <p class="text-sm text-white/60 mt-3 max-w-xs">Восемь луков. Тираж по 40 штук каждого. Отпускается только в размерах — без размера в корзину нельзя.</p>
+  <div class="mt-5 flex items-center gap-3">
+    <span class="text-[11px] tracking-[.25em] text-white/50">ДО КОНЦА ДРОПА</span>
+    <span id="timer" class="unb text-lg" style="color:var(--acid)">--:--:--:--</span>
+  </div>
+  <!-- вертикальная ссылка на студию -->
+  <a href="https://kokaomefedron.github.io/NEONFORGE" class="hidden md:block absolute right-2 top-1/2 -translate-y-1/2 tracking-[.3em] text-[10px] text-white/40 hover:text-white" style="writing-mode:vertical-rl">NEONFORGE — kokaomefedron.github.io/NEONFORGE</a>
+</header>
+
+<!-- ФИЛЬТР ТИПА -->
+<nav class="px-5 pb-4 flex gap-2 flex-wrap" id="filters">
+  <button class="filterchip on" data-t="all">ВСЁ</button>
+  <button class="filterchip" data-t="hood">ХУДИ</button>
+  <button class="filterchip" data-t="tee">ТИЧОТКИ</button>
+  <button class="filterchip" data-t="acc">АКСЕССУАРЫ</button>
+</nav>
+
+<!-- ЛУКИ ДРОПА 03 -->
+<main>
+  <section class="pb-10">
+    <div class="film" id="film"></div>
+  </section>
+
+  <!-- АРХИВ -->
+  <section class="px-5 pb-16">
+    <h2 class="unb text-xs tracking-[.3em] text-white/50 mb-4">АРХИВ ДРОПОВ</h2>
+    <div class="divide-y divide-white/10">
+      <div class="py-4 flex items-center justify-between gap-3">
+        <div><span class="unb text-sm">DROP 02 — «ПЕПЕЛ»</span><span class="block text-xs text-white/40 mt-1">14 луков · закрыт 02.11.2026</span></div>
+        <div class="text-right"><s class="text-sm text-white/35">5 900 ₽</s><span class="sold relative ml-2">SOLD OUT</span></div>
+      </div>
+      <div class="py-4 flex items-center justify-between gap-3">
+        <div><span class="unb text-sm">DROP 01 — «ПЕРВЫЙ СВЕТ»</span><span class="block text-xs text-white/40 mt-1">9 луков · закрыт 19.10.2026</span></div>
+        <div class="text-right"><s class="text-sm text-white/35">4 400 ₽</s><span class="sold relative ml-2">SOLD OUT</span></div>
+      </div>
+      <div class="py-4 flex items-center justify-between gap-3 opacity-50">
+        <div><span class="unb text-sm">DROP 00 — ТЕСТ</span><span class="block text-xs text-white/40 mt-1">для своих · 12.10.2026</span></div>
+        <span class="text-xs tracking-[.2em] text-white/40">SOLD OUT</span>
+      </div>
     </div>
-  </div>
-  <div class="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-neonpink/20 blur-3xl pointer-events-none"></div>
-  <div class="absolute right-40 bottom-0 w-52 h-52 rounded-full bg-acid/10 blur-3xl pointer-events-none"></div>
-</section>
-
-<!-- CATALOG -->
-<main class="max-w-7xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-smoke border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-acid">
-      <option value="pop">Сначала популярные</option>
-      <option value="asc">Дешевле → дороже</option>
-      <option value="desc">Дороже → дешевле</option>
-    </select>
-  </div>
-
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-neutral-500 py-16 font-unbounded">Ничего не нашлось. Попробуй другое слово.</p>
+  </section>
 </main>
 
-<!-- ORDER FORM -->
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="border border-line rounded-2xl p-6 md:p-8 bg-smoke glow-acid">
-    <h2 class="font-unbounded font-bold text-xl mb-1">Оформить дроп</h2>
-    <p class="text-neutral-500 text-sm mb-5">Курьер по Москве — за 24 часа. Оплата при получении.</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
-      <input required type="tel" placeholder="Телефон +7 (___) ___-__-__" class="bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
-      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-bg border border-line rounded-lg px-4 py-3 text-sm outline-none focus:border-acid">
-      <button type="submit" class="sm:col-span-2 bg-acid text-bg font-unbounded font-bold py-4 rounded-xl hover:bg-neonpink hover:text-white transition">ЗАБРАТЬ ДРОП</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-acid font-unbounded font-bold text-center"></p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t border-line py-10">
-  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-neutral-400">
-    <div>
-      <p class="font-unbounded text-white text-lg mb-2">DROP®</p>
-      <p>ул. Некрасовская, 14, Москва<br>Ежедневно 11:00–22:00</p>
-    </div>
-    <div>
-      <p class="text-white font-bold mb-2">Связь</p>
-      <p>tg: @drop_msk<br>+7 (495) 000-77-14<br>hello@drop.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-neutral-500 text-xs leading-relaxed">© 2026 DROP.<br>
-      Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-acid underline hover:text-neonpink">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
+<footer class="px-5 pb-28 pt-6 border-t border-white/10 md:hidden">
+  <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-[11px] text-white/40 tracking-wider">NEONFORGE — kokaomefedron.github.io/NEONFORGE</a>
 </footer>
 
-<!-- CART PANEL -->
-<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-smoke border-l border-line z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b border-line">
-    <p class="font-unbounded font-bold">Твоя корзина</p>
-    <button id="cartClose" class="text-neutral-400 hover:text-acid text-2xl leading-none">×</button>
+<!-- КНОПКА КОРЗИНЫ -->
+<button id="cartBtn" class="cartbar unb text-xs">КОРЗИНА ▸ <span id="cartCount">0</span></button>
+
+<!-- DRAWER -->
+<aside class="drawer" id="drawer" aria-label="Корзина">
+  <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
+    <span class="unb text-sm tracking-widest">КОРЗИНА</span>
+    <button id="closeDrawer" class="text-white/60 text-xl leading-none px-2">×</button>
   </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t border-line">
-    <div class="flex justify-between font-unbounded font-bold mb-3">
-      <span>Итого</span><span id="cartTotal" class="text-acid">0 ₽</span>
+  <div id="cartList" class="flex-1 overflow-y-auto px-5 py-4 space-y-4"></div>
+  <div class="px-5 pb-5 border-t border-white/10">
+    <div class="flex justify-between items-baseline py-3">
+      <span class="text-xs tracking-[.2em] text-white/50">ИТОГО</span>
+      <span id="cartTotal" class="unb text-xl" style="color:var(--acid)">0 ₽</span>
     </div>
-    <button id="checkout" class="w-full bg-acid text-bg font-bold py-3 rounded-xl hover:bg-neonpink hover:text-white transition">Оформить</button>
+    <form id="orderForm" class="space-y-3">
+      <input class="inp" name="name" placeholder="имя" required>
+      <input class="inp" name="phone" placeholder="телефон" required>
+      <input class="inp" name="addr" placeholder="адрес / пункт выдачи" required>
+      <button class="w-full unb text-xs tracking-[.2em] bg-[#D8FF3E] text-[#0B0B0B] py-3 font-black mt-1">ЗАБРОНИРОВАТЬ</button>
+    </form>
+    <p id="orderMsg" class="hidden text-center text-xs mt-3" style="color:var(--acid)">Дроп №03 забронирован. Ждём смс.</p>
   </div>
 </aside>
 
 <script>
-const products = [
-  { id:1, name:'Худи оверсайз «Ночной дроп»', cat:'Худи', price:6490, old:8990, hit:true, emoji:'🖤', grad:'linear-gradient(135deg,#1a1a1a,#2d2d2d 55%,#FF2E97)' },
-  { id:2, name:'Худи зип «Кислотный сигнал»', cat:'Худи', price:7290, old:null, hit:false, emoji:'⚡', grad:'linear-gradient(135deg,#3a4a00,#D6FF3F 70%,#0C0C0C)' },
-  { id:3, name:'Кроссовки «Токийский бум»', cat:'Кроссы', price:12990, old:15990, hit:true, emoji:'👟', grad:'linear-gradient(135deg,#2b0b1e,#FF2E97 60%,#D6FF3F)' },
-  { id:4, name:'Кроссовки «Бетон 03»', cat:'Кроссы', price:9450, old:null, hit:false, emoji:'🥾', grad:'linear-gradient(135deg,#333,#555 50%,#0C0C0C)' },
-  { id:5, name:'Кепка 5-panel «Глитч»', cat:'Кепки', price:2490, old:null, hit:false, emoji:'🧢', grad:'linear-gradient(135deg,#1a1a1a,#D6FF3F 85%)' },
-  { id:6, name:'Кепка «Сумерки Москва»', cat:'Кепки', price:2790, old:3490, hit:false, emoji:'🌆', grad:'linear-gradient(135deg,#1f0f2e,#FF2E97 80%)' },
-  { id:7, name:'Джинсы широкие «Baggy 90-е»', cat:'Джинсы', price:5890, old:null, hit:false, emoji:'👖', grad:'linear-gradient(135deg,#14203a,#4a6fa5 70%,#0C0C0C)' },
-  { id:8, name:'Джинсы карго «Рейв-склад»', cat:'Джинсы', price:6790, old:null, hit:false, emoji:'🛠', grad:'linear-gradient(135deg,#0f1f14,#2ECC71 75%,#0C0C0C)' },
-  { id:9, name:'Футболка бокс «Розовый шум»', cat:'Худи', price:3290, old:4290, hit:false, emoji:'📻', grad:'linear-gradient(135deg,#2a0f1d,#FF2E97 65%,#161616)' },
-  { id:10, name:'Ремень широкий «Стропа»', cat:'Аксессуары', price:1890, old:null, hit:false, emoji:'🧷', grad:'linear-gradient(135deg,#222,#666 55%,#D6FF3F)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+/* ---------- таймер дропа ---------- */
+const deadline = new Date('2026-11-30T21:00:00+03:00').getTime();
+const pad = n => String(n).padStart(2,'0');
+function tick(){
+  let d = deadline - Date.now();
+  if (d < 0) d = 0;
+  const dd = Math.floor(d/86400000), hh = Math.floor(d/3600000)%24,
+        mm = Math.floor(d/60000)%60, ss = Math.floor(d/1000)%60;
+  document.getElementById('timer').textContent = `${pad(dd)}:${pad(hh)}:${pad(mm)}:${pad(ss)}`;
+}
+tick(); setInterval(tick,1000);
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-semibold border transition ${c===activeCat?'bg-acid text-bg border-acid':'border-line text-neutral-400 hover:border-acid hover:text-acid'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="group border border-line rounded-2xl overflow-hidden bg-smoke hover:border-acid hover:glow-acid transition flex flex-col">
-      <div class="relative h-44 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-125 transition-transform duration-300">${p.emoji}</span>
-        ${p.old?`<span class="sticker absolute top-3 left-3 bg-neonpink text-white text-xs font-unbounded font-bold px-2 py-1 rounded">SALE</span>`:''}
-        ${p.hit&&!p.old?`<span class="absolute top-3 left-3 bg-acid text-bg text-xs font-bold px-2 py-1 rounded">NEW</span>`:''}
+/* ---------- товары ---------- */
+const looks = [
+  {id:1,name:'Худи «Асид Дождь»',type:'hood',price:8900,old:11400,g:'linear-gradient(145deg,#2b2b2b,#0d0d0d 55%,#3a3a1a)',tag:'○'},
+  {id:2,name:'Тичотка «Сигнал»',type:'tee',price:3200,old:null,g:'linear-gradient(160deg,#D8FF3E,#8ba524)',tag:'●'},
+  {id:3,name:'Худи «Пепельный свет»',type:'hood',price:9400,old:null,g:'linear-gradient(200deg,#4a4a4a,#1a1a1a)',tag:'◇'},
+  {id:4,name:'Кепка «Шум»',type:'acc',price:2700,old:null,g:'linear-gradient(120deg,#111,#333 60%,#0B0B0B)',tag:'✕'},
+  {id:5,name:'Тичотка «Глухо»',type:'tee',price:2900,old:3600,g:'linear-gradient(150deg,#1e1e28,#0B0B0B)',tag:'◔'},
+  {id:6,name:'Худи «Оверсайз 404»',type:'hood',price:9900,old:null,g:'linear-gradient(170deg,#26301a,#0f120a)',tag:'▣'},
+  {id:7,name:'Сумка-бCourier «Плёнка»',type:'acc',price:4100,old:null,g:'linear-gradient(140deg,#333,#111 50%,#2a2a10)',tag:'▤'},
+  {id:8,name:'Тичотка «Асид 03»',type:'tee',price:3400,old:null,g:'linear-gradient(135deg,#d9ff3e33,#0B0B0B 40%)',tag:'◉'},
+];
+const sizes = ['S','M','L','XL'];
+const film = document.getElementById('film');
+
+function renderLooks(type){
+  film.innerHTML = '';
+  looks.filter(l => type==='all' || l.type===type).forEach(l=>{
+    const el = document.createElement('article');
+    el.className='look';
+    el.innerHTML = `
+      <div class="look-photo noise" style="background:${l.g}">
+        <span class="absolute top-3 left-3 unb text-2xl" style="color:var(--acid)">${l.tag}</span>
+        ${l.old?`<span class="absolute top-3 right-3 text-[11px] line-through text-white/50">${l.old.toLocaleString('ru')} ₽</span>`:''}
       </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] uppercase tracking-widest text-neutral-500 mb-1">${p.cat}</p>
-        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <div>
-            <p class="font-unbounded font-bold text-acid">${p.price.toLocaleString('ru-RU')} ₽</p>
-            ${p.old?`<p class="text-xs text-neutral-500 line-through">${p.old.toLocaleString('ru-RU')} ₽</p>`:''}
-          </div>
-          <button onclick="add(${p.id})" class="bg-acid text-bg text-sm font-extrabold px-3 py-2 rounded-lg hover:bg-neonpink hover:text-white transition">+ В корзину</button>
-        </div>
+      <h3 class="unb text-[13px] mt-3 leading-snug">${l.name}</h3>
+      <div class="flex justify-between items-baseline mt-1">
+        <span class="unb text-base" style="color:var(--acid)">${l.price.toLocaleString('ru')} ₽</span>
+        <button class="addb text-[11px] tracking-widest text-white/60 hover:text-[#D8FF3E]" data-id="${l.id}">В КОРЗИНУ →</button>
       </div>
-    </article>`).join('');
+      <div class="flex gap-1.5 mt-2" data-sizes="${l.id}">
+        ${sizes.map(s=>`<span class="sizebtn" data-size="${s}">${s}</span>`).join('')}
+      </div>`;
+    film.appendChild(el);
+  });
 }
-function add(id){
-  cart[id] = (cart[id]||0)+1;
-  renderCart();
-  const badge = document.getElementById('cartCount');
-  badge.animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border border-line rounded-xl p-3">
-      <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold truncate">${p.name}</p>
-        <p class="text-xs text-acid font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border border-line rounded hover:border-acid hover:text-acid">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border border-line rounded hover:border-acid hover:text-acid">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-neutral-500 hover:text-neonpink ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-neutral-500 py-10 text-sm">Пусто. Улица ждёт.</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
+renderLooks('all');
+
+/* ---------- выбор размера ---------- */
+let pickedSize = {};
+film.addEventListener('click', e=>{
+  const sb = e.target.closest('.sizebtn');
+  if (sb){
+    const id = sb.parentElement.dataset.sizes;
+    sb.parentElement.querySelectorAll('.sizebtn').forEach(b=>b.classList.remove('on'));
+    sb.classList.add('on');
+    pickedSize[id] = sb.dataset.size;
+  }
+  const add = e.target.closest('.addb');
+  if (add){
+    const id = add.dataset.id;
+    if (!pickedSize[id]){
+      const row = document.querySelector(`[data-sizes="${id}"]`);
+      row.style.transition='transform .15s'; row.style.transform='translateX(3px)';
+      setTimeout(()=>row.style.transform='',180);
+      add.textContent = 'ВЫБЕРИ РАЗМЕР!';
+      setTimeout(()=>add.textContent='В КОРЗИНУ →',1300);
+      return;
+    }
+    addToCart(id, pickedSize[id]);
+    add.textContent = '✓';
+    setTimeout(()=>add.textContent='В КОРЗИНУ →',900);
+  }
 });
-document.getElementById('orderForm').onsubmit = e=>{
+
+/* ---------- фильтр ---------- */
+document.getElementById('filters').addEventListener('click', e=>{
+  const b = e.target.closest('.filterchip'); if(!b) return;
+  document.querySelectorAll('.filterchip').forEach(c=>c.classList.remove('on'));
+  b.classList.add('on'); renderLooks(b.dataset.t);
+});
+
+/* ---------- корзина ---------- */
+let cart = [];
+function addToCart(id,size){
+  const l = looks.find(x=>x.id==id);
+  const key = id+'_'+size;
+  const row = cart.find(c=>c.key===key);
+  row ? row.q++ : cart.push({key,id,name:l.name,price:l.price,size,q:1});
+  renderCart();
+  openDrawer();
+}
+function renderCart(){
+  const n = cart.reduce((s,c)=>s+c.q,0);
+  document.getElementById('cartCount').textContent = n;
+  document.getElementById('cartTotal').textContent =
+    cart.reduce((s,c)=>s+c.price*c.q,0).toLocaleString('ru')+' ₽';
+  const list = document.getElementById('cartList');
+  list.innerHTML = cart.length ? '' : '<p class="text-white/40 text-xs">Пока пусто. Дроп уезжает быстро.</p>';
+  cart.forEach(c=>{
+    const d = document.createElement('div');
+    d.className='flex justify-between items-start gap-2 border-b border-white/5 pb-3';
+    d.innerHTML = `<div><p class="text-sm">${c.name}</p><p class="text-[11px] text-white/40 mt-0.5">размер ${c.size} × ${c.q}</p></div>
+      <div class="text-right"><span class="text-sm" style="color:var(--acid)">${(c.price*c.q).toLocaleString('ru')} ₽</span>
+      <button class="block ml-auto text-white/30 hover:text-white text-xs mt-1" data-del="${c.key}">убрать</button></div>`;
+    list.appendChild(d);
+  });
+}
+document.getElementById('cartList').addEventListener('click',e=>{
+  if(e.target.dataset.del){ cart = cart.filter(c=>c.key!==e.target.dataset.del); renderCart(); }
+});
+
+/* ---------- drawer ---------- */
+const drawer = document.getElementById('drawer');
+const openDrawer = () => drawer.classList.add('open');
+document.getElementById('cartBtn').onclick = openDrawer;
+document.getElementById('closeDrawer').onclick = () => drawer.classList.remove('open');
+
+/* ---------- заказ ---------- */
+document.getElementById('orderForm').addEventListener('submit', e=>{
   e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
   e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  cart = []; renderCart();
+  document.getElementById('orderMsg').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('orderMsg').classList.add('hidden'),4000);
+});
 </script>
 </body>
 </html>

@@ -3,234 +3,367 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Пятнашки-неон — головоломка | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
-  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
-}}};
-</script>
+<title>Пятнашки — механический пазл</title>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  html,body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-  #board{touch-action:none}
-  .tile{position:absolute;display:flex;align-items:center;justify-content:center;
-    border-radius:12px;font-weight:800;cursor:pointer;user-select:none;
-    background:linear-gradient(145deg,rgba(124,92,255,.28),rgba(91,140,255,.14));
-    border:1px solid rgba(124,92,255,.55);
-    box-shadow:0 0 14px rgba(124,92,255,.28), inset 0 0 12px rgba(91,140,255,.15);
-    color:#fff;transition:transform .13s ease;text-shadow:0 0 10px rgba(91,140,255,.8)}
-  .tile.goal{background:linear-gradient(145deg,rgba(198,255,77,.3),rgba(198,255,77,.1));
-    border-color:rgba(198,255,77,.7);box-shadow:0 0 18px rgba(198,255,77,.35);color:#05050A;text-shadow:none}
-  .confetti{position:absolute;top:-3vh;width:9px;height:14px;border-radius:2px;animation:fall linear forwards}
-  @keyframes fall{to{transform:translateY(115vh) rotate(720deg);opacity:.7}}
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { min-height:100%; }
+  body {
+    background:#F3EFE7;
+    background-image:radial-gradient(#E9E2D4 1px, transparent 1px);
+    background-size:22px 22px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Comfortaa', cursive; color:#4A4A55;
+    padding:20px 12px; -webkit-tap-highlight-color:transparent;
+  }
+  .box {
+    background:linear-gradient(180deg,#fff, #F7F3EC);
+    border-radius:26px;
+    border:1px solid #E4DCCE;
+    box-shadow:0 18px 40px rgba(120,105,80,.18), inset 0 1px 0 #fff;
+    padding:22px 22px 16px;
+    width:min(400px, 94vw);
+    position:relative;
+  }
+  /* винтики по углам */
+  .screw {
+    position:absolute; width:14px; height:14px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #E8E2D6, #C9C2B2);
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.25);
+  }
+  .screw::before {
+    content:"+"; position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; color:#9d968a; font-weight:700;
+  }
+  .screw.tl { top:9px; left:9px; } .screw.tr { top:9px; right:9px; }
+  .screw.bl { bottom:9px; left:9px; } .screw.br { bottom:9px; right:9px; }
+  .plate {
+    text-align:center; margin-bottom:14px;
+  }
+  .plate h1 {
+    font-size:22px; font-weight:700; letter-spacing:2px; color:#4A4A55;
+  }
+  .stats {
+    display:flex; justify-content:center; gap:26px; margin-top:8px;
+  }
+  .stat {
+    background:#F4F6FA; border-radius:12px; padding:6px 14px;
+    border:1px solid #E4E8F0;
+  }
+  .stat .v { font-size:20px; font-weight:700; }
+  .stat .l { font-size:10px; letter-spacing:1px; color:#8B8B98; }
+  .grid {
+    position:relative;
+    background:#EFEAE0;
+    border-radius:18px;
+    border:1px solid #E4DCCE;
+    box-shadow:inset 0 2px 8px rgba(120,105,80,.14);
+    padding:10px;
+    aspect-ratio:1;
+  }
+  .cell-slot {
+    position:absolute; width:calc((100% - 20px)/4); height:calc((100% - 20px)/4);
+  }
+  .tile {
+    position:absolute; inset:0;
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:clamp(20px, 7vw, 30px); font-weight:700;
+    color:#4A4A55;
+    box-shadow:0 4px 0 rgba(120,105,80,.2), 0 6px 12px rgba(120,105,80,.14), inset 0 2px 0 rgba(255,255,255,.75);
+    cursor:pointer; user-select:none;
+    transition:transform .16s ease, box-shadow .08s;
+    touch-action:none;
+  }
+  .tile:active { box-shadow:inset 0 3px 6px rgba(120,105,80,.3); }
+  .tile.mint { background:#B8E8D8; }
+  .tile.peach { background:#FFD9C0; }
+  .tile.lav { background:#D9CFF6; }
+  .tile.cream { background:#F6E7C8; }
+  .empty {
+    background:#E4DECF;
+    border-radius:18px;
+    box-shadow:inset 0 2px 6px rgba(120,105,80,.18);
+  }
+  .btns { display:flex; gap:12px; margin-top:14px; }
+  .btn {
+    flex:1; padding:13px 0; min-height:48px;
+    border-radius:14px; border:none; cursor:pointer;
+    font-family:'Comfortaa', cursive; font-weight:700; font-size:15px;
+    color:#4A4A55;
+    box-shadow:0 4px 0 rgba(120,105,80,.25), inset 0 2px 0 rgba(255,255,255,.7);
+    transition:transform .08s;
+  }
+  .btn:active { transform:translateY(3px); box-shadow:0 1px 0 rgba(120,105,80,.25); }
+  .btn.mint { background:#B8E8D8; }
+  .btn.lav { background:#D9CFF6; }
+  .win-tag {
+    position:absolute; left:50%; top:50%;
+    transform:translate(-50%,-50%) scale(.6);
+    background:#fff; border-radius:18px; padding:18px 26px;
+    box-shadow:0 16px 40px rgba(120,105,80,.28);
+    text-align:center; z-index:20;
+    opacity:0; pointer-events:none;
+    transition:transform .35s cubic-bezier(.2,1.4,.4,1), opacity .3s;
+  }
+  .win-tag.show { opacity:1; transform:translate(-50%,-50%) scale(1); pointer-events:auto; }
+  .win-tag .big { font-size:22px; font-weight:700; }
+  .win-tag .sub { font-size:13px; color:#8B8B98; margin-top:6px; }
+  .confetti-bit {
+    position:fixed; width:12px; height:12px; border-radius:50%;
+    pointer-events:none; z-index:30;
+    top:-20px;
+  }
+  .plate-foot {
+    margin-top:14px; text-align:center;
+    font-size:11px; color:#9d968a; letter-spacing:.4px;
+  }
+  .plate-foot a { color:#7a8f6a; text-decoration:underline; }
+  @media (max-width:380px){ .btns { flex-direction:column; } }
 </style>
 </head>
-<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
-<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
-  <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-vio" style="text-shadow:0 0 18px rgba(124,92,255,.55)">ПЯТНАШКИ-НЕОН</h1>
-  <div class="flex gap-1">
-    <button data-n="3" class="sizeBtn px-3 py-2 rounded-lg text-xs font-bold border border-white/20 hover:border-blu transition">3×3</button>
-    <button data-n="4" class="sizeBtn px-3 py-2 rounded-lg text-xs font-bold border border-white/20 hover:border-blu transition">4×4</button>
-  </div>
-</header>
-
-<main class="flex-1 w-full max-w-md mx-auto px-3 py-4 flex flex-col">
-  <div class="flex justify-between items-center text-sm mb-3 px-1">
-    <div>Ходов: <span id="moves" class="text-lime font-bold">0</span></div>
-    <div>Время: <span id="timer" class="text-blu font-bold">0:00</span></div>
-    <div>Рекорд: <span id="best" class="text-white/60 font-bold">—</span></div>
-  </div>
-
-  <div class="relative">
-    <div id="board" class="relative w-full aspect-square rounded-2xl border border-vio/40 overflow-hidden"
-      style="background:radial-gradient(circle at 50% 0%, #120a2e 0%, #05050A 75%);box-shadow:0 0 40px rgba(124,92,255,.2)"></div>
-
-    <div id="win" class="hidden absolute inset-0 z-10 rounded-2xl overflow-hidden bg-ink/85 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-center px-6">
-      <div id="confettiBox" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
-      <div class="text-3xl font-extrabold text-lime" style="text-shadow:0 0 20px rgba(198,255,77,.6)">СОБРАНО!</div>
-      <div id="winInfo" class="text-white/80 text-sm"></div>
-      <button id="again" class="mt-2 px-8 py-3 rounded-xl bg-vio text-white font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">НОВАЯ ИГРА</button>
+<body>
+<div class="box">
+  <span class="screw tl"></span><span class="screw tr"></span>
+  <span class="screw bl"></span><span class="screw br"></span>
+  <div class="plate">
+    <h1>ПЯТНАШКИ</h1>
+    <div class="stats">
+      <div class="stat"><div class="v" id="moves">0</div><div class="l">ХОДЫ</div></div>
+      <div class="stat"><div class="v" id="timer">0:00</div><div class="l">ВРЕМЯ</div></div>
+      <div class="stat"><div class="v" id="best">—</div><div class="l">РЕКОРД</div></div>
     </div>
   </div>
-
-  <button id="newGame" class="mt-4 mx-auto px-8 py-3 rounded-xl bg-lime text-ink font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">ПЕРЕМЕШАТЬ</button>
-
-  <section class="mt-4 text-sm text-white/60 leading-relaxed">
-    <h2 class="text-white font-semibold mb-1">Как играть</h2>
-    <ul class="list-disc list-inside space-y-0.5">
-      <li>Двигай костяшки <b class="text-lime">тапом</b> — только соседние с пустой клеткой.</li>
-      <li>На телефоне работает и <b class="text-lime">свайп</b> в любую сторону.</li>
-      <li>Цель — расставить номера по порядку, пустая клетка — в углу.</li>
-      <li>Кнопкой сверху можно переключиться на поле 3×3 или 4×4.</li>
-    </ul>
-  </section>
-</main>
-
-<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
-  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+  <div class="grid" id="grid"></div>
+  <div class="btns">
+    <button class="btn mint" id="btnShuffle" type="button">ПЕРЕМЕШАТЬ</button>
+    <button class="btn lav" id="btnReset" type="button">СОБРАТЬ (РЕСЕТ)</button>
+  </div>
+  <div class="win-tag" id="winTag">
+    <div class="big">Собрано!</div>
+    <div class="sub" id="winSub"></div>
+  </div>
+  <div class="plate-foot">пазл спроектирован <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener">NEONFORGE</a> — kokaomefedron.github.io/NEONFORGE</div>
+</div>
 
 <script>
 (function(){
-  const board=document.getElementById('board'), movesEl=document.getElementById('moves'),
-        timerEl=document.getElementById('timer'), bestEl=document.getElementById('best'),
-        winEl=document.getElementById('win'), winInfo=document.getElementById('winInfo'),
-        confettiBox=document.getElementById('confettiBox'), newGameBtn=document.getElementById('newGame'),
-        againBtn=document.getElementById('again');
+  "use strict";
+  var grid = document.getElementById('grid');
+  var COLORS = ['mint','peach','lav','cream'];
+  var tiles = [];      // {val, el, idx}
+  var emptyIdx = 15;   // индекс ячейки
+  var moves = 0, started = false, solved = false;
+  var t0 = 0, timerInt = null;
+  var best = null;
+  try { best = parseInt(localStorage.getItem('nf_puzzle15')||'',10) || null; } catch(e){}
 
-  let N=4, tiles=[], boardArr=[], emptyPos=0, moves=0, started=false, seconds=0, timerInt=null, solved=false;
+  var $ = function(id){ return document.getElementById(id); };
+  if (best !== null) $('best').textContent = best;
 
-  function bestKey(){ return 'nf_neon15_best_moves_'+N; }
-  function loadBest(){ try{ return parseInt(localStorage.getItem(bestKey()),10)||0; }catch(e){ return 0; } }
-  function showBest(){ const b=loadBest(); bestEl.textContent=b?b+' ход.':'—'; }
-
-  function fmtTime(s){ return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
-  function startTimer(){
-    stopTimer(); seconds=0; timerEl.textContent=fmtTime(0);
-    timerInt=setInterval(()=>{ if(!document.hidden){ seconds++; timerEl.textContent=fmtTime(seconds);} },1000);
+  // создаем слоты-подложки (для позиции)
+  var slots = [];
+  for (var i=0;i<16;i++){
+    var s = document.createElement('div');
+    s.className = 'cell-slot';
+    s.style.left = (10 + (i%4)*0) + 'px'; // позиции зададим в px после layout
+    grid.appendChild(s); slots.push(s);
   }
-  function stopTimer(){ if(timerInt){ clearInterval(timerInt); timerInt=null; } }
-
-  function layout(){
-    const W=board.clientWidth, gap=Math.max(4,W*0.015), pad=Math.max(6,W*0.022);
-    const cell=(W-pad*2-gap*(N-1))/N;
-    for(const t of tiles){
-      t.el.style.width=cell+'px'; t.el.style.height=cell+'px';
-      t.el.style.fontSize=Math.round(cell*0.42)+'px';
-      place(t);
-    }
-    function place(t){
-      const p=t.pos, r=Math.floor(p/N), c=p%N;
-      t.el.style.transform='translate('+(pad+c*(cell+gap))+'px,'+(pad+r*(cell+gap))+'px)';
-    }
-    tiles._place=place;
-  }
-
-  function build(){
-    board.innerHTML=''; tiles=[]; boardArr=[]; solved=false;
-    const total=N*N;
-    for(let i=0;i<total;i++) boardArr.push((i+1)%total);
-    emptyPos=total-1;
-    for(let n=1;n<total;n++){
-      const el=document.createElement('div');
-      el.className='tile'; el.textContent=n;
-      board.appendChild(el);
-      tiles.push({n,pos:n-1,el});
-      el.addEventListener('pointerdown',e=>{ e.preventDefault(); tryMove(n-1); });
-    }
-    tiles._place=null;
-    layout();
-    showBest();
-  }
-
-  function shuffle(){
-    // гарантированно решаемая позиция: случайные ходы от собранной
-    solved=false; winEl.classList.add('hidden');
-    let blank=emptyPos, prev=-1;
-    const rnd=Math.random;
-    for(let i=0;i<300*N;i++){
-      const r=Math.floor(blank/N), c=blank%N, opts=[];
-      if(r>0) opts.push(blank-N);
-      if(r<N-1) opts.push(blank+N);
-      if(c>0) opts.push(blank-1);
-      if(c<N-1) opts.push(blank+1);
-      const pick=opts.filter(p=>p!==prev)[Math.floor(rnd()*opts.filter(p=>p!==prev).length)];
-      if(pick===undefined) continue;
-      swapCells(blank,pick); prev=blank; blank=pick;
-    }
-    emptyPos=blank;
-    moves=0; movesEl.textContent='0';
-    started=false; stopTimer(); timerEl.textContent='0:00';
-    render();
-  }
-
-  function swapCells(a,b){
-    const an=boardArr[a], bn=boardArr[b];
-    boardArr[a]=bn; boardArr[b]=an;
-  }
-
-  function render(){
-    for(const t of tiles){
-      // найти текущую позицию номера
-      for(let i=0;i<boardArr.length;i++){ if(boardArr[i]===t.n){ t.pos=i; break; } }
-      if(tiles._place) tiles._place(t);
-      t.el.classList.toggle('goal', t.pos===t.n-1);
+  function layoutSlots(){
+    var gw = grid.clientWidth - 20; // padding 10*2
+    var cw = gw/4;
+    for (var i=0;i<16;i++){
+      slots[i].style.left = (10 + (i%4)*cw) + 'px';
+      slots[i].style.top  = (10 + Math.floor(i/4)*cw) + 'px';
     }
   }
+  layoutSlots();
+  window.addEventListener('resize', layoutSlots);
 
-  function tryMove(pos){
-    if(solved) return;
-    const er=Math.floor(emptyPos/N), ec=emptyPos%N;
-    const r=Math.floor(pos/N), c=pos%N;
-    if(Math.abs(er-r)+Math.abs(ec-c)!==1) return;
-    swapCells(emptyPos,pos);
-    emptyPos=pos;
-    if(!started){ started=true; startTimer(); }
-    moves++; movesEl.textContent=moves;
-    render();
+  var tileEls = {};
+  for (var v=1; v<=15; v++){
+    var el = document.createElement('div');
+    el.className = 'tile ' + COLORS[(v-1)%4];
+    el.textContent = v;
+    el.dataset.val = v;
+    el.addEventListener('click', function(e){ onTileTap(parseInt(this.dataset.val,10)); });
+    grid.appendChild(el);
+    tileEls[v] = el;
+  }
+  var emptyEl = document.createElement('div');
+  emptyEl.className = 'cell-slot empty';
+  grid.appendChild(emptyEl);
+
+  // позиции: pos[v] = индекс ячейки фишки; 0 — фишки нет
+  var pos = [];
+  function cellToXY(idx){
+    var cw = (grid.clientWidth-20)/4;
+    return { x: 10 + (idx%4)*cw, y: 10 + Math.floor(idx/4)*cw };
+  }
+  function placeTile(v){
+    var c = cellToXY(pos[v]);
+    tileEls[v].style.left = c.x + 'px';
+    tileEls[v].style.top  = c.y + 'px';
+    tileEls[v].style.width = ((grid.clientWidth-20)/4) + 'px';
+    tileEls[v].style.height = ((grid.clientWidth-20)/4) + 'px';
+  }
+  function placeEmpty(){
+    var c = cellToXY(emptyIdx);
+    var cw = (grid.clientWidth-20)/4;
+    emptyEl.style.left = c.x+'px'; emptyEl.style.top = c.y+'px';
+    emptyEl.style.width = cw+'px'; emptyEl.style.height = cw+'px';
+  }
+  function placeAll(){
+    for (var v=1;v<=15;v++) placeTile(v);
+    placeEmpty();
+  }
+
+  function initSolved(){
+    pos = [];
+    for (var v=1;v<=15;v++) pos[v] = v-1;
+    pos[0] = 15; // пустая
+    emptyIdx = 15;
+    moves = 0; solved = false; started = false;
+    $('moves').textContent = '0';
+    $('timer').textContent = '0:00';
+    $('winTag').classList.remove('show');
+    clearInterval(timerInt);
+    placeAll();
+  }
+
+  // соседи ячейки
+  function neighbors(idx){
+    var r = Math.floor(idx/4), c = idx%4, out = [];
+    if (r>0) out.push(idx-4);
+    if (r<3) out.push(idx+4);
+    if (c>0) out.push(idx-1);
+    if (c<3) out.push(idx+1);
+    return out;
+  }
+  function tileAt(idx){
+    for (var v=1;v<=15;v++) if (pos[v] === idx) return v;
+    return 0;
+  }
+  function canMove(idx){ return neighbors(emptyIdx).indexOf(idx) !== -1; }
+
+  function moveTileFrom(idx){
+    var v = tileAt(idx);
+    if (!v || !canMove(idx)) return false;
+    pos[v] = emptyIdx; emptyIdx = idx;
+    placeTile(v); placeEmpty();
+    moves++; $('moves').textContent = moves;
+    if (!started){ started = true; t0 = Date.now();
+      timerInt = setInterval(function(){
+        var s = Math.floor((Date.now()-t0)/1000);
+        $('timer').textContent = Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+      }, 500);
+    }
     checkWin();
+    return true;
+  }
+  function moveRow(dir){ // dir: -1 влево, 1 вправо, -4 вверх, 4 вниз — двигаем ряд
+    var er = Math.floor(emptyIdx/4), ec = emptyIdx%4;
+    var moved = false;
+    if (dir === 1){ // свайп вправо: фишки слева от пустой сдвигаются
+      for (var c=ec-1;c>=0;c--){ if (moveTileFrom(er*4+c)) moved = true; }
+    } else if (dir === -1){
+      for (var c2=ec+1;c2<4;c2++){ if (moveTileFrom(er*4+c2)) moved = true; }
+    } else if (dir === 4){
+      for (var r=er-1;r>=0;r--){ if (moveTileFrom(r*4+ec)) moved = true; }
+    } else if (dir === -4){
+      for (var r2=er+1;r2<4;r2++){ if (moveTileFrom(r2*4+ec)) moved = true; }
+    }
+    return moved;
+  }
+  function onTileTap(v){
+    if (solved) return;
+    moveTileFrom(pos[v]);
   }
 
   function checkWin(){
-    for(let i=0;i<N*N-1;i++) if(boardArr[i]!==i+1) return;
-    solved=true; stopTimer();
-    const b=loadBest();
-    let rec='';
-    if(!b||moves<b){ try{ localStorage.setItem(bestKey(),String(moves)); }catch(e){} rec=' <b class="text-lime">Новый рекорд!</b>'; }
-    showBest();
-    winInfo.innerHTML='Ходов: <b class="text-lime">'+moves+'</b> · Время: <b class="text-blu">'+fmtTime(seconds)+'</b> ·'+rec;
-    winEl.classList.remove('hidden');
+    for (var v=1;v<=15;v++) if (pos[v] !== v-1) return;
+    solved = true; clearInterval(timerInt);
+    var s = started ? Math.floor((Date.now()-t0)/1000) : 0;
+    $('winSub').textContent = moves + ' ходов за ' + Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    $('winTag').classList.add('show');
+    if (best === null || moves < best){
+      best = moves;
+      $('best').textContent = best;
+      try { localStorage.setItem('nf_puzzle15', String(best)); } catch(e){}
+    }
     confetti();
   }
 
-  function confetti(){
-    confettiBox.innerHTML='';
-    const colors=['#7C5CFF','#5B8CFF','#C6FF4D','#FF5CA8','#4DD8FF'];
-    for(let i=0;i<60;i++){
-      const d=document.createElement('div');
-      d.className='confetti';
-      d.style.left=Math.random()*100+'%';
-      d.style.background=colors[i%colors.length];
-      d.style.animationDuration=(1.6+Math.random()*1.8)+'s';
-      d.style.animationDelay=(Math.random()*0.7)+'s';
-      d.style.transform='rotate('+Math.random()*360+'deg)';
-      confettiBox.appendChild(d);
+  // решаемое перемешивание: случайные легальные ходы
+  function shuffle(){
+    if (moves > 0 && !solved) { /* перемешиваем с текущей позиции */ }
+    solved = false; $('winTag').classList.remove('show');
+    var lastE = -1;
+    for (var k=0;k<160;k++){
+      var ns = neighbors(emptyIdx).filter(function(i){ return i !== lastE; });
+      var pick = ns[Math.floor(Math.random()*ns.length)];
+      lastE = emptyIdx;
+      var v = tileAt(pick);
+      pos[v] = emptyIdx; emptyIdx = pick;
     }
-    setTimeout(()=>{ confettiBox.innerHTML=''; },4500);
+    // если случайно собрано — перемешаем ещё
+    var ok = false;
+    for (var v2=1;v2<=15;v2++) if (pos[v2] !== v2-1){ ok = true; break; }
+    if (!ok) return shuffle();
+    moves = 0; started = false; $('moves').textContent = '0';
+    clearInterval(timerInt); $('timer').textContent = '0:00';
+    placeAll();
   }
 
-  // свайп по полю
-  let sx=0, sy=0;
-  board.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
-  board.addEventListener('touchend',e=>{
-    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
-    if(Math.abs(dx)<24&&Math.abs(dy)<24) return;
-    const er=Math.floor(emptyPos/N), ec=emptyPos%N;
-    let pos=-1;
-    if(Math.abs(dx)>Math.abs(dy)) pos=dx<0? (ec<N-1?emptyPos+1:-1) : (ec>0?emptyPos-1:-1);
-    else pos=dy<0? (er<N-1?emptyPos+N:-1) : (er>0?emptyPos-N:-1);
-    if(pos>=0) tryMove(pos);
-  },{passive:true});
+  // клавиатура: стрелка двигает фишку НАВСТРЕЧУ стрелке
+  window.addEventListener('keydown', function(e){
+    if (solved) return;
+    var m = { ArrowUp:4, ArrowDown:-4, ArrowLeft:1, ArrowRight:-1 };
+    if (e.key in m){ e.preventDefault(); moveRow(m[e.key]); }
+  });
 
-  newGameBtn.addEventListener('click',shuffle);
-  againBtn.addEventListener('click',shuffle);
+  // свайпы
+  var tsx=0, tsy=0, tracking=false;
+  grid.addEventListener('touchstart', function(e){
+    var t = e.touches[0]; tsx=t.clientX; tsy=t.clientY; tracking=true;
+  }, {passive:true});
+  grid.addEventListener('touchend', function(e){
+    if (!tracking) return; tracking=false;
+    var t = e.changedTouches[0], dx=t.clientX-tsx, dy=t.clientY-tsy;
+    if (solved) return;
+    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return; // это был тап
+    if (Math.abs(dx) > Math.abs(dy)) moveRow(dx>0 ? 1 : -1);
+    else moveRow(dy>0 ? 4 : -4);
+  }, {passive:true});
 
-  function setSize(n){
-    N=n;
-    document.querySelectorAll('.sizeBtn').forEach(b=>{
-      const on=+b.dataset.n===n;
-      b.classList.toggle('bg-vio',on); b.classList.toggle('border-vio',on); b.classList.toggle('text-white',on);
-    });
-    build(); shuffle();
+  document.getElementById('btnShuffle').addEventListener('click', shuffle);
+  document.getElementById('btnReset').addEventListener('click', initSolved);
+
+  // конфетти — пул кружочков
+  var cpool = [];
+  for (var ci=0;ci<36;ci++){
+    var d = document.createElement('div'); d.className='confetti-bit'; d.style.display='none';
+    document.body.appendChild(d); cpool.push(d);
   }
-  document.querySelectorAll('.sizeBtn').forEach(b=>b.addEventListener('click',()=>setSize(+b.dataset.n)));
-  addEventListener('resize',layout);
+  function confetti(){
+    var pal = ['#B8E8D8','#FFD9C0','#D9CFF6','#F6E7C8','#7a8f6a'];
+    for (var i=0;i<cpool.length;i++){
+      (function(d, i){
+        d.style.background = pal[i%pal.length];
+        d.style.left = (Math.random()*100)+'vw';
+        d.style.display='block';
+        d.style.transition='none';
+        var dur = 2.2+Math.random()*1.6;
+        d.animate([
+          { transform:'translateY(-20px) rotate(0deg)', opacity:1 },
+          { transform:'translateY('+(window.innerHeight+40)+'px) rotate('+(Math.random()*720-360)+'deg)', opacity:.9 }
+        ], { duration:dur*1000, easing:'cubic-bezier(.2,.6,.3,1)' }).onfinish = function(){ d.style.display='none'; };
+      })(cpool[i], i);
+    }
+  }
 
-  setSize(4);
+  initSolved();
 })();
 </script>
 </body>

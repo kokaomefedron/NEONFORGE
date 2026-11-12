@@ -3,269 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Гараж 55 — автозапчасти и масла</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        asphalt: '#121417',
-        steel: '#1D2126',
-        flame: '#FF7A00',
-        silver: '#9AA3AD'
-      },
-      fontFamily: {
-        rajdhani: ['Rajdhani', 'sans-serif'],
-        inter: ['Inter', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Гараж 55 — автозапчасти со склада. Подбор по авто</title>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#FF7A00; color:#121417; }
-  .diag { background: linear-gradient(135deg, #FF7A00 0 16px, transparent 16px 32px); }
-  .hazard { background: repeating-linear-gradient(45deg,#FF7A00 0 10px,#121417 10px 20px); }
+  :root{--concrete:#23252A;--rust:#E0641F;--mark:#F2B705;--metal:#9AA0A8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--concrete);color:#E8E9EB;font-family:'Segoe UI',Arial,sans-serif}
+  .rus{font-family:'Russo One',sans-serif;letter-spacing:.02em}
+  .wall{background-image:repeating-linear-gradient(90deg,rgba(154,160,168,.05) 0 2px,transparent 2px 90px),
+        linear-gradient(180deg,#26282D,#1E2024)}
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px}
+  /* пульт подбора */
+  .pult{background:#2E3138;border:2px solid #3C4048;border-radius:12px;padding:16px;margin:24px 0;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.05),0 10px 24px rgba(0,0,0,.4)}
+  .pult label{display:block;font-size:11px;color:var(--metal);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+  .pult select{width:100%;background:#1B1D21;color:#E8E9EB;border:1px solid #4A4E56;border-radius:8px;
+    padding:10px 10px;font-size:14px;font-family:inherit}
+  .find{width:100%;margin-top:14px;background:var(--rust);color:#fff;border:none;border-radius:8px;
+    padding:12px;font-family:'Russo One';font-size:15px;cursor:pointer;letter-spacing:.06em}
+  .find:active{transform:translateY(2px)}
+  .pult-hint{font-size:12px;color:var(--metal);margin-top:8px}
+  /* полки */
+  .category{margin:34px 0}
+  .cat-head{display:flex;align-items:stretch;gap:0}
+  .vsign{writing-mode:vertical-rl;transform:rotate(180deg);background:var(--mark);color:#1B1D21;
+    font-family:'Russo One';font-size:13px;letter-spacing:.14em;padding:10px 6px;border-radius:0 8px 8px 0;
+    display:flex;align-items:center}
+  .rail{flex:1;display:flex;gap:12px;overflow-x:auto;padding:8px 14px 0;scrollbar-width:thin}
+  .rail::-webkit-scrollbar{height:6px}.rail::-webkit-scrollbar-thumb{background:#4A4E56;border-radius:3px}
+  .plank{height:14px;margin:0 0 14px 26px;border-radius:2px 8px 8px 2px;
+    background:linear-gradient(180deg,#4A4E56,#33363C 60%,#26282D);
+    box-shadow:0 8px 14px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15)}
+  /* коробки и канистры */
+  .box{flex:0 0 auto;width:170px;cursor:pointer;position:relative;transition:opacity .25s}
+  .box.dim{opacity:.28}
+  .box-body{height:110px;border-radius:8px;position:relative;overflow:hidden;
+    box-shadow:inset -10px 0 16px rgba(0,0,0,.35),inset 4px 4px 8px rgba(255,255,255,.12),0 8px 14px rgba(0,0,0,.45)}
+  .box-body .label{position:absolute;inset:34px 10px 10px;background:rgba(20,22,26,.72);border-radius:6px;
+    display:flex;align-items:center;justify-content:center;font-family:'Russo One';font-size:15px;color:#fff;text-align:center}
+  .canister .spout{position:absolute;top:-16px;left:14px;width:26px;height:18px;background:inherit;
+    border-radius:6px 8px 0 0;transform:skewX(-18deg)}
+  .canister .handle{position:absolute;top:2px;right:10px;width:44px;height:16px;border:5px solid rgba(0,0,0,.35);
+    border-bottom:none;border-radius:10px 10px 0 0}
+  .carton .tape{position:absolute;left:0;right:0;top:50%;height:14px;background:rgba(154,160,168,.3)}
+  .carton .markline{position:absolute;left:0;right:0;bottom:12px;height:3px;background:var(--mark);opacity:.7}
+  /* бирки */
+  .tag{background:#1B1D21;border:1px solid #3C4048;border-radius:8px;padding:8px 10px;margin-top:8px;font-size:12px}
+  .art{font-family:'Russo One';font-size:11px;color:var(--mark);letter-spacing:.08em}
+  .fit-tag{display:none;background:#2F7D46;color:#fff;font-family:'Russo One';font-size:10px;
+    padding:3px 8px;border-radius:4px;letter-spacing:.08em}
+  .box.fit .fit-tag{display:inline-block}
+  .plus{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:6px;background:var(--rust);
+    color:#fff;border:none;font-size:18px;cursor:pointer;z-index:2;font-family:'Russo One'}
+  .plus:active{transform:scale(.92)}
+  /* накладная */
+  .inv-btn{position:fixed;top:12px;right:12px;z-index:60;background:var(--mark);color:#1B1D21;border:none;
+    border-radius:8px;padding:10px 14px;font-family:'Russo One';font-size:13px;cursor:pointer;
+    box-shadow:0 4px 0 #a37c04}
+  .inv-panel{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.55);display:none}
+  .inv-inner{position:absolute;right:0;top:0;bottom:0;width:min(380px,100%);background:#E8E5DC;color:#26282D;
+    padding:18px;overflow-y:auto;box-shadow:-10px 0 30px rgba(0,0,0,.5);
+    background-image:repeating-linear-gradient(180deg,transparent 0 30px,rgba(35,37,42,.08) 30px 31px)}
+  .inv-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #9AA0A8;font-size:13px}
+  .order input{width:100%;border:2px solid #26282D;border-radius:8px;padding:10px 12px;margin-top:8px;font-family:inherit;font-size:14px}
+  .go{width:100%;margin-top:14px;background:var(--rust);color:#fff;border:none;border-radius:8px;
+    padding:13px;font-family:'Russo One';font-size:15px;cursor:pointer}
+  /* трафарет на стене */
+  .stencil{margin:50px auto 44px;width:fit-content;font-family:'Russo One';font-size:14px;color:#565B63;
+    letter-spacing:.28em;text-align:center;border:3px solid #3C4048;border-radius:4px;padding:14px 22px;
+    transform:rotate(-1deg);text-transform:uppercase}
+  .stencil a{color:var(--rust);text-decoration:none}
+  @media(max-width:390px){.box{width:150px}.vsign{font-size:11px}}
 </style>
 </head>
-<body class="bg-asphalt text-neutral-200 font-inter min-h-screen">
+<body class="wall">
 
-<header class="sticky top-0 z-40 bg-steel/95 backdrop-blur border-b-2 border-flame">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-rajdhani font-bold text-2xl flex items-center gap-2">
-      <svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#9AA3AD" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="#FF7A00"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="#9AA3AD" stroke-width="2"/></svg>
-      ГАРАЖ <span class="text-flame">55</span>
-    </a>
-    <input id="search" type="search" placeholder="Масло, колодки, фильтр…"
-      class="flex-1 min-w-0 bg-asphalt border border-neutral-700 rounded px-3 py-2 text-sm outline-none focus:border-flame transition font-rajdhani">
-    <button id="cartBtn" class="relative shrink-0 bg-flame text-asphalt font-rajdhani font-bold px-4 py-2 rounded hover:bg-white transition uppercase tracking-wide">
-      Корзина <span id="cartCount" class="absolute -top-2 -right-2 bg-flame text-asphalt text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform border-2 border-steel">0</span>
-    </button>
-  </div>
+<header class="wrap" style="padding-top:34px">
+  <p class="rus" style="color:var(--mark);font-size:12px;letter-spacing:.3em">СКЛАД · САМОВЫВОЗ · ДОСТАВКА ПО СПБ</p>
+  <h1 class="rus" style="font-size:clamp(28px,6vw,44px);margin:6px 0 0">ГАРАЖ 55</h1>
+  <p style="color:var(--metal);font-size:14px;max-width:440px;margin-top:8px">
+    Запчасти со склада на Караванной. Выбери авто на пульте — совместимое подсветим биркой «ПОДХОДИТ».</p>
 </header>
 
-<section class="hazard h-3"></section>
-
-<section class="border-b border-neutral-800 bg-gradient-to-br from-steel to-asphalt">
-  <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
-    <p class="font-rajdhani text-flame tracking-[0.3em] uppercase mb-3">// подбираем по VIN и по марке</p>
-    <h1 class="font-rajdhani font-bold text-5xl md:text-7xl leading-none uppercase">
-      Для тех,<br>кто крутит <span class="text-flame">гайки сам</span>
-    </h1>
-    <p class="mt-4 text-silver max-w-lg">Масла с правильной вязкостью, колодки без скрипа и фильтры, которые держат интервал. Оригинал и проверенные аналоги — на складе.</p>
-
-    <!-- Подбор по авто -->
-    <div class="mt-8 bg-steel border border-neutral-700 rounded-lg p-5 max-w-xl">
-      <p class="font-rajdhani font-bold uppercase tracking-widest text-flame text-sm mb-3">⚙ Подбор по авто</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <select id="makeSel" class="bg-asphalt border border-neutral-700 rounded px-3 py-2 text-sm font-rajdhani outline-none focus:border-flame">
-          <option value="">Выберите марку…</option>
-          <option value="Lada">Lada</option>
-          <option value="Toyota">Toyota</option>
-          <option value="Kia">Kia</option>
-          <option value="VW">Volkswagen</option>
-        </select>
-        <select id="modelSel" class="bg-asphalt border border-neutral-700 rounded px-3 py-2 text-sm font-rajdhani outline-none focus:border-flame" disabled>
-          <option value="">Сначала выберите марку</option>
-        </select>
-      </div>
-      <p id="fitMsg" class="mt-3 text-sm font-rajdhani text-silver">Совместимость показывается на карточках после выбора модели.</p>
+<main class="wrap" style="padding-bottom:40px">
+  <section class="pult">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px">
+      <div><label>Марка</label><select id="brand">
+        <option value="">— выбери —</option><option>Lada</option><option>Kia</option><option>Hyundai</option><option>Toyota</option><option>Renault</option></select></div>
+      <div><label>Модель</label><select id="model"><option value="">— выбери —</option></select></div>
+      <div><label>Год</label><select id="year"><option value="">— выбери —</option><option>2010–2015</option><option>2016–2019</option><option>2020+</option></select></div>
     </div>
+    <button class="find" id="findBtn">ПОКАЗАТЬ СОВМЕСТИМОЕ</button>
+    <p class="pult-hint" id="pultHint">Подбор по артикулам: без выбора всё просто лежит на полках.</p>
+  </section>
 
-    <a href="#catalog" class="inline-block mt-6 bg-flame text-asphalt font-rajdhani font-bold uppercase tracking-widest px-8 py-3 rounded hover:bg-white transition">В каталог ↓</a>
-  </div>
-</section>
+  <section class="pult" style="padding:12px 16px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+    <div style="flex:1;min-width:120px"><b class="rus" style="color:var(--mark);font-size:13px">СКЛАД СЕГОДНЯ</b><p style="font-size:12px;color:var(--metal);margin:2px 0 0">работаем до 20:00, самовывоз через 40 минут</p></div>
+    <div style="text-align:center"><b class="rus" style="font-size:20px;color:#fff">1 240</b><p style="font-size:11px;color:var(--metal)">позиций в наличии</p></div>
+    <div style="text-align:center"><b class="rus" style="font-size:20px;color:#fff">40 мин</b><p style="font-size:11px;color:var(--metal)">сборка заказа</p></div>
+    <div style="text-align:center"><b class="rus" style="font-size:20px;color:#fff">0 ₽</b><p style="font-size:11px;color:var(--metal)">самовывоз с Караванной</p></div>
+  </section>
 
-<main class="max-w-7xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-steel border border-neutral-700 rounded px-3 py-2 text-sm font-rajdhani outline-none focus:border-flame">
-      <option value="pop">По популярности</option>
-      <option value="asc">Дешевле</option>
-      <option value="desc">Дороже</option>
-    </select>
+  <section class="category" data-cat="Масла">
+    <div class="cat-head"><div class="rail" id="row-oil"></div><div class="vsign">МАСЛА</div></div><div class="plank"></div>
+  </section>
+  <section class="category" data-cat="Тормоза">
+    <div class="cat-head"><div class="rail" id="row-brake"></div><div class="vsign">ТОРМОЗА</div></div><div class="plank"></div>
+  </section>
+  <section class="category" data-cat="Фильтры">
+    <div class="cat-head"><div class="rail" id="row-filter"></div><div class="vsign">ФИЛЬТРЫ</div></div><div class="plank"></div>
+  </section>
+  <section class="category" data-cat="Аксессуары">
+    <div class="cat-head"><div class="rail" id="row-acc"></div><div class="vsign">АКСЕССУАРЫ</div></div><div class="plank"></div>
+  </section>
+
+  <div class="stencil">
+    склад собран <a href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a><br>
+    <span style="font-size:10px;letter-spacing:.2em">kokaomefedron.github.io/NEONFORGE</span>
   </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-neutral-500 py-16 font-rajdhani uppercase">Деталь не найдена. Проверьте поиск.</p>
 </main>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="border-2 border-flame/70 p-6 md:p-8 bg-steel">
-    <h2 class="font-rajdhani font-bold uppercase text-xl tracking-widest mb-1">Оформить заказ</h2>
-    <p class="text-silver text-sm mb-5">Выдача со склада в день звонка. СТО-партнёрам скидка 10%.</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-asphalt border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-flame font-rajdhani">
-      <input required type="tel" placeholder="Телефон" class="bg-asphalt border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-flame font-rajdhani">
-      <input required placeholder="Авто (марка, модель, год)" class="sm:col-span-2 bg-asphalt border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-flame font-rajdhani">
-      <button type="submit" class="sm:col-span-2 bg-flame text-asphalt font-rajdhani font-bold uppercase tracking-widest py-4 rounded hover:bg-white transition">Зарезервировать детали</button>
+<button class="inv-btn" onclick="toggleInv()">НАКЛАДНАЯ <span id="badge">0</span></button>
+
+<div class="inv-panel" id="invPanel">
+  <div class="inv-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <b class="rus" style="font-size:16px">НАКЛАДНАЯ № 055</b>
+      <button style="background:none;border:none;font-size:18px;cursor:pointer" onclick="toggleInv()">✕</button>
+    </div>
+    <div class="rus" style="font-size:11px;color:#6b6e73;margin:2px 0 10px">ГАРАЖ 55 · СКЛАД · КАРАВАННАЯ, 5</div>
+    <div id="invBody"></div>
+    <div class="inv-row" style="border-bottom:2px solid #26282D;font-weight:700"><span>ИТОГ</span><span class="rus" id="total">0 ₽</span></div>
+    <form class="order" id="orderForm">
+      <b class="rus" style="font-size:14px">ОФОРМИТЬ НА СКЛАД</b>
+      <input name="name" placeholder="Имя" required>
+      <input name="phone" placeholder="Телефон" required pattern="[0-9+()\-\s]{6,}">
+      <select name="car" style="width:100%;margin-top:8px;padding:10px;border:2px solid #26282D;border-radius:8px;font-family:inherit;font-size:14px">
+        <option>Марка авто: Lada</option><option>Марка авто: Kia</option><option>Марка авто: Hyundai</option><option>Марка авто: Toyota</option><option>Марка авто: Renault</option><option>Марка авто: другая</option>
+      </select>
+      <button class="go" type="submit">ПЕРЕДАТЬ НА СКЛАД</button>
     </form>
-    <p id="orderMsg" class="hidden mt-4 text-flame font-rajdhani font-bold uppercase tracking-widest text-center"></p>
   </div>
-</section>
-
-<footer class="border-t border-neutral-800 py-10">
-  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-silver">
-    <div>
-      <p class="font-rajdhani font-bold uppercase text-white text-lg mb-2">Гараж 55</p>
-      <p>Склад: Москва, Моторная ул., 55<br>Пн–Сб 9:00–20:00</p>
-    </div>
-    <div>
-      <p class="font-rajdhani uppercase tracking-wider text-white mb-2">Связь</p>
-      <p>+7 (495) 555-55-55<br>zapchasti@garage55.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-neutral-500 text-xs leading-relaxed">© 2026 «Гараж 55»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-flame underline hover:text-white">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
-</footer>
-
-<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-steel border-l-2 border-flame z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b-2 border-flame/60">
-    <p class="font-rajdhani font-bold uppercase tracking-widest">Ваш кофр</p>
-    <button id="cartClose" class="text-neutral-400 hover:text-flame text-2xl leading-none">×</button>
-  </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t-2 border-flame/60">
-    <div class="flex justify-between font-rajdhani font-bold uppercase tracking-wider mb-3"><span>Итого</span><span id="cartTotal" class="text-flame">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-flame text-asphalt font-rajdhani font-bold uppercase tracking-widest py-3 rounded hover:bg-white transition">К оформлению</button>
-  </div>
-</aside>
+</div>
 
 <script>
-const models = {
-  Lada: ['Vesta','Granta','Niva Legend'],
-  Toyota: ['Camry','RAV4','Corolla'],
-  Kia: ['Rio','Sportage','Ceed'],
-  VW: ['Polo','Tiguan','Passat']
-};
-const products = [
-  { id:1, name:'Масло моторное SynthPro 5W-30, 4 л', cat:'Масла', price:3490, emoji:'🛢', spec:'5W-30 · синтетика · ACEA C3 · VW 504/507', fits:['VW','Toyota','Kia'], orig:'Оригинал', grad:'linear-gradient(135deg,#FF7A00,#7a3d00)' },
-  { id:2, name:'Масло моторное DieselMax 5W-40, 5 л', cat:'Масла', price:4290, emoji:'⛽', spec:'5W-40 · дизель · MB 229.5 · BMW LL-04', fits:['VW','Toyota','Lada','Kia'], orig:'Аналог', grad:'linear-gradient(135deg,#9AA3AD,#3d444c)' },
-  { id:3, name:'Масло гидрокинематическое ATF T-IV, 1 л', cat:'Масла', price:1190, emoji:'🔧', spec:'ATF Type IV · для АКПП · JWS 3309', fits:['Kia','Toyota'], orig:'Оригинал', grad:'linear-gradient(135deg,#e2372f,#5c1712)' },
-  { id:4, name:'Колодки передние StopPro керамика', cat:'Тормоза', price:2890, emoji:'🛞', spec:'комплект на ось · керамика · без пыли', fits:['Toyota','Kia','VW'], orig:'Аналог', grad:'linear-gradient(135deg,#2A2E33,#6a7480)' },
-  { id:5, name:'Колодки задние DiskBrake, металлик', cat:'Тормоза', price:2290, emoji:'⚙', spec:'комплект на ось · полуметалл · 90 000 км ресурс', fits:['Lada','Kia'], orig:'Аналог', grad:'linear-gradient(135deg,#121417,#555c66)' },
-  { id:6, name:'Фильтр масляный OilTrap Pro', cat:'Фильтры', price:590, emoji:'🧯', spec:'M1/2-18 · клапан антидренаж · 10 000 км', fits:['Lada','Kia','VW','Toyota'], orig:'Аналог', grad:'linear-gradient(135deg,#2E7DD1,#143a5e)' },
-  { id:7, name:'Фильтр воздушный AirMax Panel', cat:'Фильтры', price:890, emoji:'🌬', spec:'панельный · целлюлоза + активированный слой', fits:['VW','Toyota'], orig:'Оригинал', grad:'linear-gradient(135deg,#c9d4de,#4a545e)' },
-  { id:8, name:'Щётки стеклоочистителя AeroFit, 600 мм', cat:'Фильтры', price:790, emoji:'☔', spec:'бескаркасные · графит · комплект 2 шт', fits:['Lada','Toyota','Kia','VW'], orig:'Аналог', grad:'linear-gradient(135deg,#1D2126,#8d99a5)' },
-  { id:9, name:'Свечи зажигания SparkCore Iridium, 4 шт', cat:'Электрика', price:1690, emoji:'⚡', spec:'иридий · зазор 1,1 мм · ресурс 90 000 км', fits:['Toyota','Kia','VW'], orig:'Оригинал', grad:'linear-gradient(135deg,#f2f2f2,#8a8f96)' },
-  { id:10, name:'Аккумулятор VoltBox 60 А·ч', cat:'Электрика', price:6490, emoji:'🔋', spec:'60 А·ч · 540 А · обратная полярность', fits:['Lada','Kia'], orig:'Аналог', grad:'linear-gradient(135deg,#1a1a1a,#33383f)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
-let car = null; // {make, model}
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+  const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+  const goods=[
+   {art:'ML-5W40-4',cat:'oil',n:'Масло 5W-40 синтетика',v:'4 л',p:2190,c:'#3A4351',type:'canister'},
+   {art:'ML-M8G-4', cat:'oil',n:'Масло М-8 полусинтетика',v:'4 л',p:1290,c:'#6E4A2E',type:'canister'},
+   {art:'ML-TRN-1', cat:'oil',n:'Трансмиссионное 80W-90',v:'1 л',p:890, c:'#4E5B3A',type:'canister'},
+   {art:'ML-ATF-2', cat:'oil',n:'Масло ATF для АКПП',v:'2 л',p:1690,c:'#5E2E4A',type:'canister'},
+   {art:'BR-PAD-F1',cat:'brake',n:'Колодки передние LPR',v:'комплект',p:2450,c:'#5A5E66',type:'carton'},
+   {art:'BR-DISC-F2',cat:'brake',n:'Диски тормозные вент.',v:'пара',p:3900, c:'#7A7E86',type:'carton'},
+   {art:'BR-HOSE-3',cat:'brake',n:'Шланг тормозной зад.',v:'шт',p:690,  c:'#4E4237',type:'carton'},
+   {art:'BR-CAL-K',cat:'brake',n:'Ремкомплект суппорта',v:'компл',p:1250,c:'#3F4750',type:'carton'},
+   {art:'FT-OIL-01',cat:'filter',n:'Фильтр масляный',v:'шт',p:350, c:'#B8562F',type:'carton'},
+   {art:'FT-AIR-02',cat:'filter',n:'Фильтр воздушный',v:'шт',p:590, c:'#8C6F3F',type:'carton'},
+   {art:'FT-CAB-03',cat:'filter',n:'Фильтр салонный уголь',v:'шт',p:450, c:'#3E5B5E',type:'carton'},
+   {art:'AC-MAT-07',cat:'acc',n:'Коврики EVA 3D',v:'комплект',p:1890,c:'#2E4A5A',type:'carton'},
+   {art:'AC-PMP-11',cat:'acc',n:'Насос автомобильный',v:'шт',p:790, c:'#6B3A2E',type:'carton'},
+   {art:'AC-MED-15',cat:'acc',n:'Аптечка + огнетушитель',v:'набор',p:390+490,c:'#8A2F2F',type:'carton'},
+   {art:'AC-WIP-19',cat:'acc',n:'Щётки стеклоочистителя',v:'пара',p:990,c:'#2F4E3E',type:'carton'}
+  ];
+  const compat={
+   'Lada|Vesta':   ['ML-5W40-4','FT-OIL-01','FT-AIR-02','FT-CAB-03','BR-PAD-F1','AC-MAT-07'],
+   'Lada|Kalina':  ['ML-M8G-4','FT-OIL-01','FT-AIR-02','BR-PAD-F1','BR-HOSE-3'],
+   'Lada|Granta':  ['ML-5W40-4','FT-OIL-01','FT-CAB-03','BR-PAD-F1','AC-MAT-07'],
+   'Kia|Rio':      ['ML-5W40-4','FT-OIL-01','FT-AIR-02','BR-DISC-F2','AC-MAT-07','AC-MED-15'],
+   'Kia|Ceed':     ['ML-5W40-4','FT-OIL-01','FT-CAB-03','BR-DISC-F2','AC-MAT-07'],
+   'Hyundai|Solaris':['ML-5W40-4','FT-OIL-01','FT-AIR-02','BR-DISC-F2','AC-MAT-07'],
+   'Hyundai|Creta': ['ML-5W40-4','FT-TRN-1','FT-OIL-01','BR-DISC-F2','AC-PMP-11'],
+   'Toyota|Camry': ['ML-5W40-4','FT-OIL-01','FT-AIR-02','BR-DISC-F2','AC-MAT-07','AC-MED-15'],
+   'Toyota|Corolla':['ML-5W40-4','FT-OIL-01','FT-CAB-03','BR-PAD-F1'],
+   'Renault|Logan':['ML-M8G-4','FT-OIL-01','FT-AIR-02','BR-PAD-F1','AC-PMP-11'],
+   'Renault|Duster':['ML-TRN-1','FT-AIR-02','BR-DISC-F2','AC-PMP-11','AC-MAT-07']
+  };
+  const models={'Lada':['Vesta','Kalina','Granta'],'Kia':['Rio','Ceed'],'Hyundai':['Solaris','Creta'],
+                'Toyota':['Camry','Corolla'],'Renault':['Logan','Duster']};
 
-const makeSel = document.getElementById('makeSel'), modelSel = document.getElementById('modelSel');
-makeSel.onchange = ()=>{
-  const m = makeSel.value;
-  modelSel.disabled = !m;
-  modelSel.innerHTML = m
-    ? '<option value="">Выберите модель…</option>' + models[m].map(x=>`<option>${x}</option>`).join('')
-    : '<option value="">Сначала выберите марку</option>';
-  car = null; updateFit(); render();
-};
-modelSel.onchange = ()=>{
-  car = modelSel.value ? {make:makeSel.value, model:modelSel.value} : null;
-  updateFit(); render();
-};
-function updateFit(){
-  document.getElementById('fitMsg').innerHTML = car
-    ? `<span class="text-flame font-bold">Ваш авто: ${car.make} ${car.model}.</span> Подходящие детали отмечены на карточках.`
-    : 'Совместимость показывается на карточках после выбора модели.';
-}
-
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded font-rajdhani font-semibold uppercase tracking-wider text-sm border-2 transition ${c===activeCat?'bg-flame text-asphalt border-flame':'border-neutral-700 text-silver hover:border-flame hover:text-flame'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>{
-    let fitBadge = '';
-    if(car){
-      fitBadge = p.fits.includes(car.make)
-        ? `<span class="bg-green-600 text-white text-xs font-rajdhani font-bold px-2 py-1 rounded">✓ Подходит ${car.make} ${car.model}</span>`
-        : `<span class="bg-neutral-700 text-neutral-400 text-xs font-rajdhani px-2 py-1 rounded">✕ не для ${car.make} ${car.model}</span>`;
-    }
-    return `
-    <article class="group border border-neutral-800 bg-steel overflow-hidden hover:border-flame transition flex flex-col">
-      <div class="relative h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
-        <span class="absolute top-2 left-2 ${p.orig==='Оригинал'?'bg-flame text-asphalt':'bg-neutral-700 text-silver'} text-xs font-rajdhani font-bold px-2 py-0.5 rounded uppercase">${p.orig}</span>
+  function box(g){
+    const isCan=g.type==='canister';
+    return `<div class="box" data-art="${g.art}">
+      <div class="box-body ${isCan?'canister':'carton'}" style="background:linear-gradient(160deg,${g.c},rgba(0,0,0,.45))">
+        ${isCan?'<div class="spout"></div><div class="handle"></div>':'<div class="tape"></div><div class="markline"></div>'}
+        <div class="label">${g.n.split(' ')[0]}<br><span style="font-size:11px">${g.v}</span></div>
       </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] font-rajdhani uppercase tracking-[0.2em] text-silver mb-1">${p.cat}</p>
-        <h3 class="font-rajdhani font-semibold text-base leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-neutral-500 mt-1">${p.spec}</p>
-        ${car?`<div class="mt-2">${fitBadge}</div>`:''}
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <p class="font-rajdhani font-bold text-flame text-xl">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="bg-flame text-asphalt text-sm font-rajdhani font-bold uppercase px-3 py-2 rounded hover:bg-white transition">+ В кофр</button>
-        </div>
-      </div>
-    </article>`;
-  }).join('');
-}
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border border-neutral-700 rounded p-3 bg-asphalt">
-      <div class="w-11 h-11 rounded flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold truncate">${p.name}</p>
-        <p class="text-xs text-flame font-rajdhani font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border border-neutral-700 rounded hover:border-flame hover:text-flame">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border border-neutral-700 rounded hover:border-flame hover:text-flame">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-neutral-500 hover:text-red-400 ml-1">🗑</button>
+      <div class="tag"><span class="art">${g.art}</span><br>${g.n}<br><b class="rus" style="font-size:14px">${fmt(g.p)}</b>
+        <span class="fit-tag">ПОДХОДИТ</span></div>
+      <button class="plus" data-art="${g.art}" title="в накладную">+</button>
     </div>`;
-  }).join('') : '<p class="text-center text-neutral-500 py-10 text-sm font-rajdhani uppercase">Кофр пустой. Мотор не обслужен.</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
-});
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  }
+  ['oil','brake','filter','acc'].forEach(c=>{
+    document.getElementById('row-'+c).innerHTML=goods.filter(g=>g.cat===c).map(box).join('');
+  });
+
+  document.getElementById('brand').addEventListener('change',e=>{
+    const m=document.getElementById('model');
+    m.innerHTML='<option value="">— выбери —</option>'+(models[e.target.value]||[]).map(x=>`<option>${x}</option>`).join('');
+  });
+  document.getElementById('findBtn').addEventListener('click',()=>{
+    const b=document.getElementById('brand').value,m=document.getElementById('model').value,y=document.getElementById('year').value;
+    document.querySelectorAll('.box').forEach(x=>x.classList.remove('fit','dim'));
+    if(!b){document.getElementById('pultHint').textContent='Выбери марку — остальное подскажем.';return;}
+    if(!m||!y){document.getElementById('pultHint').textContent='Дозаполни модель и год — тогда покажем совместимое.';return;}
+    const list=compat[b+'|'+m]||[];
+    document.querySelectorAll('.box').forEach(x=>{
+      list.includes(x.dataset.art)?x.classList.add('fit'):x.classList.add('dim');
+    });
+    document.getElementById('pultHint').textContent=
+      `${b} ${m}, ${y}: совместимых позиций — ${list.length}. Зелёная бирка «ПОДХОДИТ» на полке.`;
+  });
+
+  const cart=[];
+  document.addEventListener('click',e=>{
+    const p=e.target.closest('.plus'); if(!p)return;
+    const g=goods.find(x=>x.art===p.dataset.art);
+    const f=cart.find(i=>i.art===g.art); f?f.qty++:cart.push({...g,qty:1});
+    render(); flashBadge();
+  });
+  function chQty(a,d){
+    const i=cart.find(x=>x.art===a); if(!i)return;
+    i.qty+=d; if(i.qty<=0)cart.splice(cart.indexOf(i),1); render();
+  }
+  function render(){
+    document.getElementById('badge').textContent=cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('invBody').innerHTML=cart.length?cart.map(i=>
+      `<div class="inv-row"><span><span class="art" style="color:#8a4a12">${i.art}</span><br>${i.n} × ${i.qty}</span>
+       <span>${fmt(i.p*i.qty)} <button style="border:none;background:none;cursor:pointer" onclick="chQty('${i.art}',-1)">−</button><button style="border:none;background:none;cursor:pointer" onclick="chQty('${i.art}',1)">+</button></span></div>`).join('')
+      :'<div class="inv-row"><span>Полкой не выбрал ничего. Бери с полок — кнопка «+».</span></div>';
+    document.getElementById('total').textContent=fmt(cart.reduce((s,i)=>s+i.p*i.qty,0));
+  }
+  function flashBadge(){
+    const b=document.getElementById('badge'),btn=document.querySelector('.inv-btn');
+    btn.style.transform='scale(1.12)'; setTimeout(()=>btn.style.transform='',160);
+  }
+  function toggleInv(){const p=document.getElementById('invPanel');p.style.display=p.style.display==='block'?'none':'block';}
+  render();
+
+  document.getElementById('orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    document.querySelector('.inv-inner').innerHTML=`<div style="text-align:center;padding-top:70px">
+      <div style="font-size:56px">📦</div><b class="rus" style="font-size:22px">ЗАКАЗ ПЕРЕДАН НА СКЛАД</b>
+      <p style="color:#6b6e73;margin-top:10px">Кладовщик собирает коробки. Прислали SMS с номером накладной — можно ехать за запчастями.</p>
+      <button class="go" onclick="location.reload()">НА СКЛАД ЗА ЕЩЁ</button></div>`;
+  });
 </script>
 </body>
 </html>

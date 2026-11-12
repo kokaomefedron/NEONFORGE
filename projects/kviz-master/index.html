@@ -3,206 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>КвизМастер — интеллектуальное шоу | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<title>КвизМастер — телестудия</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { navy:'#0A1230', panel:'#101A40', gold:'#E3B341', ice:'#8FB2FF' },
-  fontFamily: { show:['"Russo One"','system-ui','sans-serif'], man:['Manrope','system-ui','sans-serif'] }
-}}};
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-  html,body{-webkit-tap-highlight-color:transparent}
-  .opt{transition:transform .1s, background .2s, border-color .2s}
-  .opt:active{transform:scale(.98)}
-  .opt.correct{background:rgba(198,255,77,.18)!important;border-color:#C6FF4D!important;color:#E9FFC2}
-  .opt.wrong{background:rgba(255,92,120,.15)!important;border-color:#FF5C78!important;color:#FFC9D4}
-  .opt:disabled{cursor:default}
-  #tbar{transition:width .1s linear}
+  :root{--studio:#0E1B3D;--yellow:#FFC53D;--red:#E5322B;--floor1:#16306B;--floor2:#0A1530}
+  body{background:var(--studio);color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;
+    min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+  .tek{font-family:'Tektur',sans-serif}
+  a{color:inherit}
+
+  /* Прожекторы */
+  .stage{position:relative;min-height:100vh;display:flex;flex-direction:column}
+  .light{position:absolute;top:0;width:220px;height:46vh;pointer-events:none;opacity:.16;
+    clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);
+    background:linear-gradient(180deg,var(--yellow),transparent 85%);
+    transform-origin:top center;animation:sway 7s ease-in-out infinite}
+  .l1{left:4%}.l2{left:34%;animation-delay:-2.3s}.l3{right:34%;animation-delay:-4.1s}.l4{right:4%;animation-delay:-5.5s}
+  @keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+
+  /* Паркет */
+  .floor{position:fixed;left:-20%;right:-20%;bottom:0;height:34vh;z-index:0;pointer-events:none;
+    background:linear-gradient(180deg,var(--floor1) 0%,var(--floor2) 90%);
+    transform:perspective(500px) rotateX(38deg);transform-origin:top;
+    box-shadow:inset 0 40px 80px rgba(0,0,0,.5)}
+  .floor::before{content:'';position:absolute;inset:0;opacity:.35;
+    background:repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.08) 79px 81px),
+               repeating-linear-gradient(0deg,transparent 0 79px,rgba(255,255,255,.05) 79px 81px)}
+  .floor-glow{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:18vh;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 0,rgba(255,197,61,.22),transparent 70%)}
+
+  .content{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;padding:20px 16px 60px;max-width:860px;margin:0 auto;width:100%}
+
+  /* Табло */
+  .board{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .board-cell{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    padding:8px 16px;border-radius:8px;font-size:13px;letter-spacing:.06em}
+  .board-cell b{font-family:'Tektur',sans-serif;color:var(--yellow);font-variant-numeric:tabular-nums}
+
+  /* Таймер-кольцо + суфлёр */
+  .top-row{display:flex;align-items:center;gap:18px;margin-top:22px}
+  .ring-wrap{flex-shrink:0;position:relative;width:74px;height:74px}
+  .ring-wrap svg{transform:rotate(-90deg)}
+  .ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Tektur',sans-serif;font-weight:900;font-size:24px;color:var(--yellow)}
+  .teleprompter{flex:1}
+  .q-topic{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px}
+  .q-text{font-size:clamp(19px,3.6vw,28px);font-weight:700;line-height:1.35}
+
+  /* Подиумы */
+  .podiums{display:flex;gap:14px;justify-content:center;align-items:flex-end;margin-top:auto;padding-top:34px;perspective:700px}
+  .pod{position:relative;width:31%;max-width:190px;border:none;cursor:pointer;padding:0;
+    background:linear-gradient(180deg,#1D3B82,#142B5E);color:#fff;
+    border-top:4px solid var(--yellow);
+    transform:rotateX(14deg);transform-origin:bottom;
+    clip-path:polygon(9% 0,91% 0,100% 100%,0 100%);
+    min-height:118px;transition:transform .15s,filter .2s}
+  .pod:hover:not(:disabled){transform:rotateX(14deg) translateY(-6px)}
+  .pod .lbl{font-family:'Tektur',sans-serif;font-size:26px;font-weight:900;color:var(--yellow);line-height:1}
+  .pod .txt{font-size:clamp(12px,1.6vw,15px);font-weight:600;line-height:1.3;padding:6px 10px 14px}
+  .pod:disabled{cursor:default}
+  .pod.correct{background:linear-gradient(180deg,#8a6a10,#6b5208);border-top-color:var(--yellow);
+    filter:drop-shadow(0 0 22px var(--yellow));animation:flash .5s ease 2}
+  .pod.wrong{background:linear-gradient(180deg,#8F2420,#6E1913);border-top-color:var(--red);
+    filter:drop-shadow(0 0 18px rgba(229,50,43,.7))}
+  .pod.dim{opacity:.45;filter:grayscale(.6)}
+  @keyframes flash{50%{filter:brightness(1.6) drop-shadow(0 0 30px var(--yellow))}}
+
+  /* Финал */
+  .finale{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 16px}
+  .win-title{font-family:'Tektur',sans-serif;font-size:clamp(34px,8vw,64px);font-weight:900;color:var(--yellow);
+    text-shadow:0 0 40px rgba(255,197,61,.4)}
+  .confetti{position:fixed;top:-12px;width:9px;height:16px;z-index:1;pointer-events:none;border-radius:2px}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+  /* Реакции зала */
+  .reaction{position:fixed;bottom:14vh;z-index:30;font-size:30px;pointer-events:none;
+    animation:react 1.6s ease forwards}
+  @keyframes react{0%{opacity:0;transform:translateY(0) scale(.6)}15%{opacity:1;transform:translateY(-20px) scale(1.2)}
+    100%{opacity:0;transform:translateY(-160px) scale(.9)}}
+
+  .credit{position:relative;z-index:2;text-align:center;padding:16px;font-size:12px;color:rgba(255,255,255,.5)}
+  .credit a{color:var(--yellow);text-decoration:none}
+  .credit a:hover{text-decoration:underline}
+  .btn-y{min-height:48px;background:var(--yellow);color:var(--studio);border:none;border-radius:10px;
+    font-family:'Tektur',sans-serif;font-weight:700;font-size:16px;padding:0 34px;cursor:pointer;
+    box-shadow:0 4px 0 #B98A18;transition:transform .1s}
+  .btn-y:active{transform:translateY(3px);box-shadow:0 1px 0 #B98A18}
 </style>
 </head>
-<body class="bg-navy text-white font-man min-h-screen flex flex-col" style="background:radial-gradient(1200px 600px at 50% -10%, #14205c 0%, #0A1230 55%, #05070f 100%)">
-<header class="px-4 py-3 flex items-center justify-between border-b border-gold/25">
-  <h1 class="font-show text-lg md:text-xl tracking-wide text-gold" style="text-shadow:0 0 20px rgba(227,179,65,.45)">КВИЗМАСТЕР</h1>
-  <span class="text-[11px] uppercase tracking-widest text-white/40">интеллектуальное шоу · демо</span>
-</header>
+<body>
 
-<main class="flex-1 w-full max-w-2xl mx-auto px-4 py-6 flex flex-col">
+<div class="stage" id="stage">
+  <div class="light l1"></div><div class="light l2"></div><div class="light l3"></div><div class="light l4"></div>
+  <div class="floor"></div><div class="floor-glow"></div>
 
-  <!-- Старт -->
-  <section id="startScreen" class="flex-1 flex flex-col items-center justify-center text-center gap-4">
-    <div class="text-6xl md:text-7xl">🏆</div>
-    <div class="font-show text-3xl md:text-4xl text-gold">8 вопросов. 15 секунд.</div>
-    <p class="text-white/65 max-w-sm">Наука, кино и история. Отвечай быстро — таймер не ждёт. Собери максимум баллов и получи звание от «Новичка» до «Гроссмейстера».</p>
-    <button id="startBtn" class="mt-2 px-10 py-4 rounded-2xl bg-gold text-navy font-show text-lg tracking-wide hover:brightness-110 active:scale-95 transition">НАЧАТЬ ИГРУ</button>
-    <div id="startBest" class="text-xs text-white/40"></div>
-  </section>
-
-  <!-- Вопрос -->
-  <section id="quiz" class="hidden flex-1 flex flex-col">
-    <div class="flex items-center justify-between text-sm">
-      <div class="font-show text-gold" id="qNum">Вопрос 1 / 8</div>
-      <div>Счёт: <b id="score" class="text-gold font-show">0</b></div>
-    </div>
-    <div class="mt-2 h-2 rounded-full bg-white/10 overflow-hidden">
-      <div id="tbar" class="h-full rounded-full bg-gold" style="width:100%"></div>
-    </div>
-    <div class="mt-1 text-[11px] text-white/40 text-right">осталось <span id="tsec">15</span> сек</div>
-
-    <div class="mt-4 rounded-2xl bg-panel border border-gold/25 p-5 md:p-6 shadow-lg">
-      <span id="qCat" class="text-[11px] uppercase tracking-widest text-ice bg-ice/10 rounded-md px-2 py-1"></span>
-      <h2 id="qText" class="font-show text-lg md:text-2xl leading-snug mt-3"></h2>
+  <!-- Игра -->
+  <main class="content" id="game">
+    <div class="board">
+      <div class="board-cell">Вопрос <b id="b-q">1/10</b></div>
+      <div class="board-cell">Счёт <b id="b-score">0</b></div>
+      <div class="board-cell">Рекорд <b id="b-best">0</b></div>
     </div>
 
-    <div id="opts" class="mt-4 grid gap-2.5"></div>
-    <div id="feedback" class="mt-3 h-6 text-center text-sm font-semibold"></div>
-  </section>
+    <div class="top-row">
+      <div class="ring-wrap">
+        <svg width="74" height="74" viewBox="0 0 74 74">
+          <circle cx="37" cy="37" r="31" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="6"/>
+          <circle id="ring" cx="37" cy="37" r="31" fill="none" stroke="#FFC53D" stroke-width="6"
+            stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-num" id="ring-num">10</div>
+      </div>
+      <div class="teleprompter">
+        <div class="q-topic" id="q-topic"></div>
+        <div class="q-text" id="q-text"></div>
+      </div>
+    </div>
+
+    <div class="podiums" id="podiums">
+      <button class="pod" data-i="0"><div class="lbl">А</div><div class="txt"></div></button>
+      <button class="pod" data-i="1"><div class="lbl">Б</div><div class="txt"></div></button>
+      <button class="pod" data-i="2"><div class="lbl">В</div><div class="txt"></div></button>
+    </div>
+  </main>
 
   <!-- Финал -->
-  <section id="final" class="hidden flex-1 flex flex-col items-center justify-center text-center gap-3">
-    <div class="text-6xl md:text-7xl" id="fEmoji">🎓</div>
-    <div class="font-show text-3xl md:text-4xl text-gold" id="fTitle">Новичок</div>
-    <div class="text-white/80 text-lg">Ваш результат: <b id="fScore" class="text-gold font-show"></b> из 8</div>
-    <p id="fText" class="text-white/60 max-w-sm text-sm"></p>
-    <div id="fBest" class="text-xs text-white/40"></div>
-    <button id="againBtn" class="mt-2 px-10 py-4 rounded-2xl bg-gold text-navy font-show text-lg tracking-wide hover:brightness-110 active:scale-95 transition">ИГРАТЬ СНОВА</button>
+  <section class="finale" id="finale" style="display:none">
+    <div class="q-topic">ФИНАЛ · РЕЗУЛЬТАТ</div>
+    <div class="win-title" id="f-rank"></div>
+    <p class="tek" style="font-size:22px;margin-top:10px" id="f-score"></p>
+    <p style="color:rgba(255,255,255,.65);margin-top:6px" id="f-note"></p>
+    <button class="btn-y" id="btn-again" style="margin-top:34px">НОВАЯ ИГРА</button>
   </section>
-</main>
+</div>
 
-<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-gold/25">
-  Демо-проект студии <a class="text-ice hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-ice hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+<div class="credit">
+  студия от <a href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a>
+</div>
 
 <script>
-(function(){
-  const QUESTIONS=[
-    {cat:'Наука',  q:'Какая планета Солнечной системы — самая большая?',          a:['Юпитер','Сатурн','Нептун','Земля'],              c:0},
-    {cat:'Кино',   q:'Кто режиссёр фильма «Интерстеллар»?',                        a:['Кристофер Нолан','Ридли Скотт','Дени Вильнёв','Джеймс Кэмерон'], c:0},
-    {cat:'История',q:'В каком году пала Берлинская стена?',                        a:['1989','1991','1985','1979'],                      c:0},
-    {cat:'Наука',  q:'Сколько сердец у осьминога?',                                a:['Три','Одно','Два','Четыре'],                      c:0},
-    {cat:'Кино',   q:'Кто сыграл Нео в трилогии «Матрица»?',                       a:['Киану Ривз','Том Круз','Брэд Питт','Уилл Смит'],  c:0},
-    {cat:'История',q:'Кто совершил первый полёт человека в космос?',               a:['Юрий Гагарин','Нил Армстронг','Алан Шепард','Герман Титов'], c:0},
-    {cat:'Наука',  q:'Какой газ преобладает в атмосфере Земли?',                   a:['Азот','Кислород','Углекислый газ','Аргон'],       c:0},
-    {cat:'Кино',   q:'Какой мультфильм стал первым полнометражным у Disney?',      a:['«Белоснежка и семь гномов»','«Бэмби»','«Пиноккио»','«Дамбо»'], c:0}
-  ];
-  const LIMIT=15;
-  const RANKS=[
-    {min:7,t:'Гроссмейстер',e:'👑',x:'Блестящий результат! Выдающаяся эрудиция — почти без промахов.'},
-    {min:5,t:'Мастер',       e:'🥈',x:'Сильный уровень: уверенное знание науки, кино и истории.'},
-    {min:3,t:'Знаток',       e:'🥉',x:'Хороший результат! Ещё немного тренировки — и будет «Мастер».'},
-    {min:1,t:'Ученик',       e:'📚',x:'Есть с чего начать — тема для вас явно интересная.'},
-    {min:0,t:'Новичок',      e:'🌱',x:'Зато теперь вы знаете ответы на все восемь вопросов!'}
-  ];
+'use strict';
+const QS=[
+ {t:'Космос',q:'Какая планета Солнечной системы самая горячая?',a:['Меркурий','Венера','Марс'],c:1},
+ {t:'Кино',q:'Кто снял фильм «Криминальное чтиво»?',a:['Скорсезе','Тарантино','Нолан'],c:1},
+ {t:'Наука',q:'Сколько спутников у Марса?',a:['Один','Два','Ни одного'],c:1},
+ {t:'История',q:'В каком году человек впервые вышел в открытый космос?',a:['1963','1965','1969'],c:1},
+ {t:'Музыка',q:'Из скольких частей состоит «Времена года» Вивальди?',a:['Из четырёх','Из шести','Из двенадцати'],c:0},
+ {t:'География',q:'Какое море самое солёное в мире?',a:['Красное','Мёртвое','Чёрное'],c:1},
+ {t:'Технологии',q:'Что означает «HTTP» в адресе сайта?',a:['Протокол передачи','Хост-траф','Формат текста'],c:0},
+ {t:'Литература',q:'Кто написал «Мастера и Маргариту»?',a:['Булгаков','Достоевский','Гоголь'],c:0},
+ {t:'Биология',q:'Самое большое животное на планете — это…',a:['Африканский слон','Синий кит','Кашалот'],c:1},
+ {t:'Спорт',q:'Какая страна принимала ЧМ по футболу 2022 года?',a:['Катар','Россия','Бразилия'],c:0}
+];
+const LETTERS=['А','Б','В'];
+const CIRC=194.8, QTIME=10;
 
-  const startScreen=document.getElementById('startScreen'), quizEl=document.getElementById('quiz'),
-        finalEl=document.getElementById('final'), startBtn=document.getElementById('startBtn'),
-        againBtn=document.getElementById('againBtn'), qNum=document.getElementById('qNum'),
-        qCat=document.getElementById('qCat'), qText=document.getElementById('qText'),
-        optsEl=document.getElementById('opts'), feedback=document.getElementById('feedback'),
-        scoreEl=document.getElementById('score'), tbar=document.getElementById('tbar'),
-        tsec=document.getElementById('tsec'), startBest=document.getElementById('startBest'),
-        fEmoji=document.getElementById('fEmoji'), fTitle=document.getElementById('fTitle'),
-        fScore=document.getElementById('fScore'), fText=document.getElementById('fText'),
-        fBest=document.getElementById('fBest');
+let idx=0, score=0, best=0, timer=QTIME, lock=false;
+try{best=+localStorage.getItem('nf_quiz')||0;}catch(e){}
 
-  let idx=0, score=0, answered=false, tLeft=LIMIT, tPrev=0, running=false;
-
-  function loadBest(){ try{ return parseInt(localStorage.getItem('nf_kviz_master_best'),10)||0; }catch(e){ return 0; } }
-  function showBestTxt(){ const b=loadBest(); startBest.textContent=b?('Ваш рекорд: '+b+' из 8'):''; }
-  showBestTxt();
-
-  function start(){
-    idx=0; score=0; scoreEl.textContent='0';
-    startScreen.classList.add('hidden'); finalEl.classList.add('hidden');
-    quizEl.classList.remove('hidden');
-    showQ();
-  }
-
-  function showQ(){
-    answered=false; tLeft=LIMIT; running=true; tPrev=performance.now();
-    feedback.textContent='';
-    const Q=QUESTIONS[idx];
-    qNum.textContent='Вопрос '+(idx+1)+' / '+QUESTIONS.length;
-    qCat.textContent=Q.cat; qText.textContent=Q.q;
-    optsEl.innerHTML='';
-    const order=Q.a.map((t,i)=>({t,i}));
-    // перемешиваем варианты
-    for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
-    order.forEach(o=>{
-      const b=document.createElement('button');
-      b.className='opt text-left px-4 py-4 rounded-xl bg-white/5 border border-white/15 hover:border-gold/60 hover:bg-white/10';
-      b.textContent=o.t;
-      b.dataset.orig=Q.a.indexOf(o.t);
-      b.addEventListener('click',()=>answer(b,Q));
-      optsEl.appendChild(b);
-    });
-    tbar.style.width='100%';
-    requestAnimationFrame(tick);
-  }
-
-  function tick(t){
-    if(!running) return;
-    requestAnimationFrame(tick);
-    if(document.hidden){ tPrev=t; return; }
-    const dt=(t-tPrev)/1000; tPrev=t;
-    if(answered) return;
-    tLeft-=dt;
-    if(tLeft<=0){ tLeft=0; timeout(); }
-    tbar.style.width=(tLeft/LIMIT*100)+'%';
-    tsec.textContent=Math.ceil(tLeft);
-  }
-
-  function lock(Q,chosen){
-    answered=true; running=false;
-    [...optsEl.children].forEach(b=>{
-      b.disabled=true;
-      if(+b.dataset.orig===Q.c) b.classList.add('correct');
-      else if(b===chosen) b.classList.add('wrong');
-      else b.classList.add('opacity-40');
-    });
-  }
-
-  function answer(btn,Q){
-    if(answered) return;
-    if(+btn.dataset.orig===Q.c){
-      score++; scoreEl.textContent=score;
-      feedback.textContent='✔ Верно!'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#C6FF4D]';
-    } else {
-      feedback.textContent='✘ Увы, неверно'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#FF9DB0]';
-    }
-    lock(Q,btn);
-    setTimeout(next,1400);
-  }
-
-  function timeout(){
-    if(answered) return;
-    feedback.textContent='⏰ Время вышло!'; feedback.className='mt-3 h-6 text-center text-sm font-semibold text-[#FF9DB0]';
-    lock(QUESTIONS[idx],null);
-    setTimeout(next,1400);
-  }
-
-  function next(){
+const $=id=>document.getElementById(id);
+function setBoard(){
+  $('b-q').textContent=(idx+1)+'/'+QS.length;
+  $('b-score').textContent=score;
+  $('b-best').textContent=best;
+}
+function showQuestion(){
+  lock=false;
+  const q=QS[idx];
+  $('q-topic').textContent='Тема: '+q.t;
+  $('q-text').textContent=q.q;
+  $('podiums').querySelectorAll('.pod').forEach((p,i)=>{
+    p.className='pod';p.disabled=false;
+    p.querySelector('.txt').textContent=q.a[i];
+  });
+  timer=QTIME;
+  $('ring').style.stroke='#FFC53D';
+}
+function answer(i){
+  if(lock) return;
+  lock=true;
+  const q=QS[idx], pods=[...$('podiums').children];
+  pods.forEach(p=>p.disabled=true);
+  const ok=i===q.c;
+  pods[i].classList.add(ok?'correct':'wrong');
+  if(!ok) pods[q.c].classList.add('correct');
+  pods.forEach((p,j)=>{if(j!==i&&j!==q.c)p.classList.add('dim');});
+  if(ok) score+=10;
+  react(ok);
+  setBoard();
+  setTimeout(()=>{
     idx++;
-    if(idx<QUESTIONS.length) showQ();
-    else finish();
-  }
+    if(idx<QS.length) showQuestion();
+    else finale();
+  },1300);
+}
+$('podiums').addEventListener('click',e=>{
+  const p=e.target.closest('.pod');
+  if(p&&!lock) answer(+p.dataset.i);
+});
 
-  function finish(){
-    quizEl.classList.add('hidden'); finalEl.classList.remove('hidden');
-    const r=RANKS.find(r=>score>=r.min);
-    fEmoji.textContent=r.e; fTitle.textContent=r.t;
-    fScore.textContent=score; fText.textContent=r.x;
-    const b=loadBest();
-    if(score>b){ try{ localStorage.setItem('nf_kviz_master_best',String(score)); }catch(e){} }
-    fBest.textContent='Рекорд на этом устройстве: '+Math.max(score,b)+' из 8';
+function tick(dt){
+  if(document.hidden||lock||idx>=QS.length) return;
+  timer-=dt;
+  const frac=Math.max(0,timer/QTIME);
+  $('ring').style.strokeDashoffset=CIRC*(1-frac);
+  $('ring-num').textContent=Math.max(0,Math.ceil(timer));
+  if(timer<=3){$('ring').style.stroke='#E5322B';}
+  if(timer<=0){lock=true;
+    [...$('podiums').children].forEach(p=>{p.disabled=true;p.classList.add('dim');});
+    setTimeout(()=>{idx++;idx<QS.length?showQuestion():finale();},800);
   }
+}
 
-  startBtn.addEventListener('click',start);
-  againBtn.addEventListener('click',start);
-})();
+/* Реакции зала — эмодзи, вылетающие над подиумами */
+const GOOD=['👏','🔥','🎉','⭐','😄'], BAD=['😯','😰','😵‍💫'];
+function react(good){
+  const x=window.innerWidth*0.2+Math.random()*window.innerWidth*0.6;
+  const el=document.createElement('div');
+  el.className='reaction';
+  el.textContent=(good?GOOD:BAD)[Math.floor(Math.random()*(good?GOOD:BAD).length)];
+  el.style.left=x+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1700);
+}
+
+function finale(){
+  $('game').style.display='none';
+  const f=$('finale');f.style.display='flex';
+  let rank,note;
+  if(score>=90){rank='ГРОССМЕЙСТЕР';note='Телезрители аплодируют стоя!';}
+  else if(score>=50){rank='ЗНАТОК';note='Очень достойный результат.';}
+  else{rank='НОВИЧОК';note='Есть куда расти — попробуйте снова.';}
+  $('f-rank').textContent=rank;
+  $('f-score').textContent=score+' из 100 очков';
+  const isRec=score>best;
+  if(isRec){best=score;try{localStorage.setItem('nf_quiz',best);}catch(e){}}
+  $('f-note').textContent=isRec?'🏆 Новый рекорд студии!':note;
+  setBoard();
+  if(score>=50) confetti();
+}
+function confetti(){
+  const colors=['#FFC53D','#E5322B','#fff','#2BD9C8'];
+  for(let i=0;i<70;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.cssText=`left:${Math.random()*100}vw;background:${colors[i%4]};
+      animation:fall ${2.2+Math.random()*2.4}s linear ${Math.random()*1.4}s infinite`;
+    document.body.appendChild(c);
+  }
+}
+$('btn-again').addEventListener('click',()=>{
+  document.querySelectorAll('.confetti').forEach(c=>c.remove());
+  idx=0;score=0;timer=QTIME;
+  $('finale').style.display='none';
+  $('game').style.display='flex';
+  setBoard();showQuestion();
+});
+
+setBoard();showQuestion();
+let last=performance.now();
+(function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  tick(dt);
+  requestAnimationFrame(loop);
+})(performance.now());
 </script>
 </body>
 </html>

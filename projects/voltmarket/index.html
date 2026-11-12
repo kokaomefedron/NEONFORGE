@@ -3,222 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>VoltMarket — электроника и гаджеты</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        bg: '#0A0F1E',
-        panel: '#101830',
-        volt: '#3B82F6',
-        warn: '#FB923C',
-        edge: '#1E2A4A'
-      },
-      fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>VoltMarket — прайс-лист электроники от 12.11.2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#3B82F6; color:#fff; }
-  .grid-bg { background-image: linear-gradient(#1E2A4A 1px, transparent 1px), linear-gradient(90deg, #1E2A4A 1px, transparent 1px); background-size: 32px 32px; }
-  .price { font-family:'JetBrains Mono', monospace; }
+  :root{--bg:#F2F3F5;--line:#D5D8DD;--ink:#17202A;--blue:#0B5CD5;--disc:#E8590C;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .sheet{max-width:960px;margin:0 auto;background:#fff;border-left:1px solid var(--line);border-right:1px solid var(--line);min-height:100vh}
+  header{border-bottom:2px solid var(--ink);padding:18px 20px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+  h1{font-family:'Inter';font-weight:800;font-size:22px;margin:0;letter-spacing:-.02em}
+  .docmeta{font-family:'IBM Plex Mono';font-size:11px;color:#5b6570;flex:1 1 100%}
+  .searchwrap{font-family:'IBM Plex Mono';font-size:13px}
+  .searchwrap input{border:1px solid var(--ink);padding:5px 8px;width:170px;background:#fff;font-family:'IBM Plex Mono';font-size:12px;outline:none}
+  .searchwrap input:focus{border-color:var(--blue)}
+  .groups{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px;border-bottom:1px solid var(--line);background:#FAFBFC}
+  .gbtn{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:#fff;padding:5px 12px;cursor:pointer;color:#5b6570}
+  .gbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  table{width:100%;border-collapse:collapse}
+  thead th{font-family:'IBM Plex Mono';font-size:10px;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:9px 8px;border-bottom:2px solid var(--ink);background:#fff;cursor:pointer;user-select:none;white-space:nowrap}
+  thead th:hover{color:var(--blue)}
+  thead th .arr{color:var(--blue)}
+  tbody td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:hover{background:#F5F8FF}
+  .num{font-family:'IBM Plex Mono';color:#8a93a0;font-size:11px}
+  .ic{width:40px;height:40px;border:1px solid var(--line);border-radius:4px;display:flex;align-items:center;justify-content:center}
+  .pname{font-weight:600;font-size:13px;line-height:1.25}
+  .pchars{font-family:'IBM Plex Mono';font-size:10px;color:#7a828d;margin-top:2px}
+  .bc{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin-right:6px}
+  .bc i{display:inline-block;width:2px;background:var(--ink);height:100%}
+  .bc i:nth-child(2n){height:70%}
+  .bc i:nth-child(3n){height:90%}
+  .stock{font-family:'IBM Plex Mono';font-size:10px;color:#5b6570;white-space:nowrap}
+  .oldp{font-family:'IBM Plex Mono';font-size:10px;color:var(--disc);text-decoration:line-through}
+  .newp{font-family:'IBM Plex Mono';font-weight:600;font-size:13px}
+  .addbtn{font-family:'IBM Plex Mono';border:1px solid var(--ink);background:#fff;width:30px;height:26px;cursor:pointer;font-size:13px;line-height:1}
+  .addbtn:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+  .addbtn.done{background:#1a7f37;border-color:#1a7f37;color:#fff}
+  /* нижняя строка итога */
+  .totalbar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:#fff;font-family:'IBM Plex Mono';display:flex;justify-content:center;gap:8px;align-items:center;padding:12px 16px;cursor:pointer;z-index:50;font-size:13px;flex-wrap:wrap}
+  .totalbar b{color:var(--bg)}
+  .totalbar .go{border:1px solid #fff;padding:3px 14px;font-size:11px;letter-spacing:.1em}
+  .cartpanel{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:3px solid var(--blue);z-index:60;transform:translateY(100%);transition:transform .25s;max-height:82vh;overflow-y:auto;box-shadow:0 -8px 30px rgba(23,32,42,.25)}
+  .cartpanel.open{transform:none}
+  .cartpanel h2{font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin:0;padding:14px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .crow{display:flex;justify-content:space-between;gap:10px;padding:10px 20px;border-bottom:1px dashed var(--line);font-size:13px;align-items:baseline}
+  .crow .m{font-family:'IBM Plex Mono';font-size:12px}
+  .del{font-family:'IBM Plex Mono';color:var(--disc);cursor:pointer;background:none;border:0;font-size:11px}
+  .ckform{padding:14px 20px 22px;border-top:2px solid var(--ink)}
+  .ckform label{display:block;font-family:'IBM Plex Mono';font-size:10px;text-transform:uppercase;color:#5b6570;margin:12px 0 2px}
+  .ckform input{width:100%;border:0;border-bottom:1px solid var(--ink);background:transparent;padding:6px 0;font-family:'Inter';font-size:14px;outline:none}
+  .ckform input:focus{border-bottom-color:var(--blue)}
+  .submit{margin-top:16px;width:100%;background:var(--blue);color:#fff;border:0;padding:12px;font-family:'IBM Plex Mono';font-size:12px;letter-spacing:.15em;cursor:pointer}
+  .okmsg{display:none;text-align:center;font-family:'IBM Plex Mono';font-size:13px;color:#1a7f37;padding:16px 0}
+  footer{padding:22px 20px 110px;font-family:'IBM Plex Mono';font-size:11px;color:#8a93a0;border-top:1px solid var(--line);text-align:center}
+  footer a{color:var(--blue)}
+  @media(max-width:560px){
+    table,thead,tbody,tr{display:block}
+    thead{display:none}
+    tbody tr{display:grid;grid-template-columns:44px 1fr auto;grid-template-areas:"ic name add" "ic chars add" "ic stock stock";border-bottom:1px solid var(--line);padding:10px 12px}
+    td.num{display:none}
+    .cell-ic{grid-area:ic}.cell-name{grid-area:name}.cell-stock{grid-area:stock;margin-top:4px}.cell-price{grid-area:chars;justify-self:start;margin-top:4px}.cell-add{grid-area:add;align-self:center}
+    .searchwrap input{width:120px}
+  }
 </style>
 </head>
-<body class="bg-bg text-slate-200 font-inter min-h-screen">
+<body>
+<div class="sheet">
 
-<header class="sticky top-0 z-40 bg-bg/90 backdrop-blur border-b border-edge">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-extrabold text-xl flex items-center gap-2">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#3B82F6"/></svg>
-      Volt<span class="text-volt">Market</span>
-    </a>
-    <input id="search" type="search" placeholder="Поиск: смартфон, наушники, powerbank…"
-      class="flex-1 min-w-0 bg-panel border border-edge rounded-lg px-3 py-2 text-sm outline-none focus:border-volt transition">
-    <button id="cartBtn" class="relative shrink-0 bg-volt text-white font-bold px-4 py-2 rounded-lg hover:bg-warn hover:text-bg transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-warn text-bg text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
-  </div>
-</header>
+  <header>
+    <h1>VoltMarket</h1>
+    <div class="searchwrap">[ <input id="search" placeholder="поиск по прайсу…" autocomplete="off"> ]</div>
+    <p class="docmeta">ИНН 7723411908 · опт и розница · прайс-лист от 12.11.2026 · наличии на складе «Электрозаводская»</p>
+  </header>
 
-<section class="grid-bg border-b border-edge">
-  <div class="max-w-7xl mx-auto px-4 py-12 md:py-16">
-    <p class="text-volt text-sm font-mono mb-3">[ РАСПРОДАЖА ЗИМНЕЙ СЕРИИ · −20% ]</p>
-    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight max-w-2xl">
-      Техника, которая<br><span class="text-volt">не подводит</span>
-    </h1>
-    <p class="mt-4 text-slate-400 max-w-lg">Смартфоны, наушники и зарядные устройства с реальными характеристиками и честными ценами. Гарантия 24 месяца на всё.</p>
-    <div class="mt-7 flex flex-wrap gap-4 items-center">
-      <a href="#catalog" class="bg-volt text-white font-bold px-7 py-3 rounded-lg hover:bg-warn hover:text-bg transition">Выбрать технику ↓</a>
-      <span class="font-mono text-xs text-slate-500">▸ Доставка по РФ 1–3 дня</span>
-    </div>
-  </div>
-</section>
+  <nav class="groups" id="groups">
+    <button class="gbtn on" data-g="all">всё</button>
+    <button class="gbtn" data-g="phones">смартфоны</button>
+    <button class="gbtn" data-g="laptops">ноутбуки</button>
+    <button class="gbtn" data-g="audio">аудио</button>
+    <button class="gbtn" data-g="acc">аксессуары</button>
+  </nav>
 
-<main class="max-w-7xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-panel border border-edge rounded-lg px-3 py-2 text-sm outline-none focus:border-volt">
-      <option value="pop">По популярности</option>
-      <option value="asc">Цена ↑</option>
-      <option value="desc">Цена ↓</option>
-    </select>
-  </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-slate-500 py-16 font-mono">// nothing found</p>
-</main>
+  <table>
+    <thead>
+      <tr>
+        <th class="num-h">№</th>
+        <th></th>
+        <th data-sort="name">наименование <span class="arr"></span></th>
+        <th data-sort="stock">наличие <span class="arr"></span></th>
+        <th data-sort="price">цена <span class="arr"></span></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="border border-edge rounded-2xl p-6 md:p-8 bg-panel">
-    <h2 class="font-extrabold text-xl mb-1">Оформить заказ</h2>
-    <p class="text-slate-500 text-sm mb-5">Позвоним, подтвердим наличие и отправим со склада.</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-bg border border-edge rounded-lg px-4 py-3 text-sm outline-none focus:border-volt">
-      <input required type="tel" placeholder="Телефон" class="bg-bg border border-edge rounded-lg px-4 py-3 text-sm outline-none focus:border-volt">
-      <input required type="email" placeholder="E-mail для чека" class="sm:col-span-2 bg-bg border border-edge rounded-lg px-4 py-3 text-sm outline-none focus:border-volt">
-      <button type="submit" class="sm:col-span-2 bg-volt text-white font-bold py-4 rounded-xl hover:bg-warn hover:text-bg transition">Отправить заказ</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-volt font-mono font-bold text-center"></p>
-  </div>
-</section>
+  <footer>
+    документ составлен NEONFORGE · <a href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+  </footer>
+</div>
 
-<footer class="border-t border-edge py-10">
-  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-slate-400">
-    <div>
-      <p class="text-white font-bold mb-2 flex items-center gap-2"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#3B82F6"/></svg>VoltMarket</p>
-      <p class="font-mono text-xs">Москва, ул. Электронная, 7<br>Пн–Сб 10:00–20:00</p>
-    </div>
-    <div>
-      <p class="text-white font-bold mb-2">Контакты</p>
-      <p class="font-mono text-xs">8 (800) 555-10-02<br>sales@voltmarket.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-slate-500 text-xs leading-relaxed">© 2026 VoltMarket<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-volt underline hover:text-warn">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
-</footer>
+<!-- итог накладной -->
+<div class="totalbar" id="totalbar">
+  <span>позиций: <b id="tCount">0</b></span><span>·</span>
+  <span>сумма: <b id="tSum">0 ₽</b></span><span>·</span>
+  <span class="go">оформить</span>
+</div>
 
-<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-panel border-l border-edge z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b border-edge">
-    <p class="font-bold">Ваша корзина</p>
-    <button id="cartClose" class="text-slate-400 hover:text-volt text-2xl leading-none">×</button>
-  </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t border-edge">
-    <div class="flex justify-between font-bold mb-3"><span>Итого</span><span id="cartTotal" class="price text-volt">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-volt text-white font-bold py-3 rounded-xl hover:bg-warn hover:text-bg transition">К оформлению</button>
-  </div>
-</aside>
+<!-- панель корзины -->
+<div class="cartpanel" id="cartpanel">
+  <h2><span>итоговая накладная</span><button class="del" id="closeCart">[ свернуть ]</button></h2>
+  <div id="cartRows"></div>
+  <form class="ckform" id="ckform">
+    <label>получатель / организация</label><input name="name" required placeholder="Иванов И. И.">
+    <label>телефон</label><input name="phone" required placeholder="+7 ___ ___-__-__" inputmode="tel">
+    <button class="submit" type="submit">ПРОВЕСТИ НАКЛАДНУЮ →</button>
+    <p class="okmsg" id="okmsg">✓ Заказ оформлен. Менеджер свяжется в течение часа.</p>
+  </form>
+</div>
 
 <script>
-const products = [
-  { id:1, name:'Смартфон Nova X14 128 ГБ', cat:'Смартфоны', price:24990, old:31990, hit:true, emoji:'📱', spec:'6,5″ · 8 ГБ ОЗУ · 128 ГБ', grad:'linear-gradient(135deg,#0d1b3e,#3B82F6)' },
-  { id:2, name:'Смартфон Nova X14 Pro 256 ГБ', cat:'Смартфоны', price:34990, old:null, hit:false, emoji:'📲', spec:'6,7″ · 12 ГБ ОЗУ · 256 ГБ', grad:'linear-gradient(135deg,#1e1040,#8B5CF6)' },
-  { id:3, name:'Наушники Pulse TWS ANC', cat:'Наушники', price:5490, old:6890, hit:true, emoji:'🎧', spec:'ANC 42 дБ · 30 ч · Bluetooth 5.3', grad:'linear-gradient(135deg,#0A0F1E,#334155)' },
-  { id:4, name:'Наушники Bass OverEar Studio', cat:'Наушники', price:8990, old:null, hit:false, emoji:'🎵', spec:'50 мм драйверы · 60 ч · провод+BT', grad:'linear-gradient(135deg,#111827,#FB923C)' },
-  { id:5, name:'Умные часы Nova Watch 3', cat:'Часы', price:12990, old:null, hit:false, emoji:'⌚', spec:'AMOLED 1,4″ · пульс · GPS · NFC', grad:'linear-gradient(135deg,#020617,#3B82F6)' },
-  { id:6, name:'Умные часы Nova Watch Fit', cat:'Часы', price:7490, old:8990, hit:false, emoji:'⏱', spec:'1,2″ · 14 дней · 120 тренировок', grad:'linear-gradient(135deg,#064e3b,#2DD4BF)' },
-  { id:7, name:'Powerbank VoltCell 20000 mAh', cat:'Зарядка', price:2990, old:null, hit:false, emoji:'🔋', spec:'20000 мА·ч · 65 Вт · USB-C PD', grad:'linear-gradient(135deg,#1f2937,#4B5563)' },
-  { id:8, name:'Powerbank VoltCell Slim 10000', cat:'Зарядка', price:1890, old:2390, hit:false, emoji:'🔌', spec:'10000 мА·ч · 22,5 Вт · 210 г', grad:'linear-gradient(135deg,#0c4a6e,#38BDF8)' },
-  { id:9, name:'Зарядка беспроводная VoltDock 15W', cat:'Зарядка', price:2190, old:null, hit:false, emoji:'⚡', spec:'15 Вт · Qi2 · индикатор LED', grad:'linear-gradient(135deg,#312e81,#6366F1)' },
-  { id:10, name:'Беспроводная мышь VoltMouse Ergo', cat:'Аксессуары', price:2490, old:null, hit:false, emoji:'🖱', spec:'4000 dpi · BT+2,4 ГГц · тихий клик', grad:'linear-gradient(135deg,#111827,#9CA3AF)' }
+const goods = [
+  {id:1,g:'phones', n:'Смартфон VOLTA V7 Pro', ch:'6.7" OLED 120 Гц · 12/256 Гб · 5000 мА·ч', st:14, p:45990, op:52990, ic:'#0B5CD5'},
+  {id:2,g:'phones', n:'Смартфон VOLTA V7 Lite', ch:'6.5" IPS · 6/128 Гб · 5000 мА·ч', st:32, p:19990, op:23990, ic:'#0B5CD5'},
+  {id:3,g:'phones', n:'Смартфон KASEN Air X', ch:'6.1" OLED · 8/128 Гб · IP68', st:6,  p:64990, op:null,  ic:'#17202A'},
+  {id:4,g:'laptops',n:'Ноутбук VOLTA Book 14', ch:'14" IPS · Ryzen 5 · 16/512 Гб SSD', st:9,  p:58400, op:64900, ic:'#5b6570'},
+  {id:5,g:'laptops',n:'Ноутбук IRBIS Pro 16', ch:'16" 2.5K · Core i7 · 16/1 Тб · RTX-графика', st:4,  p:112300,op:null,  ic:'#17202A'},
+  {id:6,g:'laptops',n:'Ноутбук VOLTA Study 15', ch:'15.6" · Ryzen 3 · 8/256 Гб', st:21, p:32900, op:37900, ic:'#5b6570'},
+  {id:7,g:'audio',  n:'Наушники VOLTA Sound ANC', ch:'накладные · ANC · 38 ч · Bluetooth 5.3', st:18, p:8790,  op:10990, ic:'#E8590C'},
+  {id:8,g:'audio',  n:'Наушники KASEN Buds Mini', ch:'TWS · 24 ч с кейсом · IPX4', st:40, p:4490,  op:null,  ic:'#E8590C'},
+  {id:9,g:'audio',  n:'Колонка VOLTA Boom 20W', ch:'портативная · 20 Вт · IPX7 · 12 ч', st:11, p:5990,  op:null,  ic:'#E8590C'},
+  {id:10,g:'acc',   n:'Повербанк VOLTA 20000', ch:'20000 мА·ч · 22.5 Вт · 2 USB-C', st:27, p:3290,  op:3990,  ic:'#1a7f37'},
+  {id:11,g:'acc',   n:'Зарядка VOLTA GaN 65W', ch:'GaN · 65 Вт · 2×USB-C + USB-A', st:35, p:2490,  op:null,  ic:'#1a7f37'},
+  {id:12,g:'acc',   n:'Кабель USB-C 240W 2 м', ch:'240 Вт · e-marker · оплётка', st:52, p:790,   op:null,  ic:'#1a7f37'},
 ];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*90000)+10000;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-lg text-sm font-semibold border transition ${c===activeCat?'bg-volt text-white border-volt':'border-edge text-slate-400 hover:border-volt hover:text-volt'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
+let group='all', sortKey=null, sortDir=1, query='';
+const rows = document.getElementById('rows');
+
+function barcode(){ return '<span class="bc">'+'<i></i>'.repeat(9)+'</span>'; }
+
 function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="group border border-edge rounded-2xl overflow-hidden bg-panel hover:border-volt transition flex flex-col">
-      <div class="relative h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
-        <div class="absolute top-3 left-3 flex gap-1">
-          ${p.hit?`<span class="bg-warn text-bg text-xs font-bold px-2 py-1 rounded">Хит</span>`:''}
-          ${p.old?`<span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">−20%</span>`:''}
-        </div>
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-slate-500 mt-1 font-mono">${p.spec}</p>
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <div>
-            <p class="price font-bold text-volt text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
-            ${p.old?`<p class="text-xs text-slate-500 line-through">${p.old.toLocaleString('ru-RU')} ₽</p>`:''}
-          </div>
-          <button onclick="add(${p.id})" class="bg-volt text-white text-sm font-bold px-3 py-2 rounded-lg hover:bg-warn hover:text-bg transition">+ Корзина</button>
-        </div>
-      </div>
-    </article>`).join('');
+  let list = goods.filter(x => (group==='all'||x.g===group) &&
+    (!query || (x.n+' '+x.ch).toLowerCase().includes(query)));
+  if (sortKey==='price') list.sort((a,b)=>sortDir*(a.p-b.p));
+  if (sortKey==='name')  list.sort((a,b)=>sortDir*a.n.localeCompare(b.n,'ru'));
+  if (sortKey==='stock') list.sort((a,b)=>sortDir*(b.st-a.st));
+  rows.innerHTML='';
+  list.forEach((x,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="num">${String(i+1).padStart(2,'0')}</td>
+      <td class="cell-ic"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="${x.ic}" stroke-width="1.6"/><path d="M8 3v3M16 3v3M3 11h18" stroke="${x.ic}" stroke-width="1.6" fill="none"/></svg></span></td>
+      <td class="cell-name"><div class="pname">${x.n}</div><div class="pchars">${x.ch}</div></td>
+      <td class="cell-stock"><span class="stock">${barcode()}${x.st} шт</span></td>
+      <td class="cell-price">${x.op?`<span class="oldp">${x.op.toLocaleString('ru')} ₽</span> `:''}<span class="newp">${x.p.toLocaleString('ru')} ₽</span></td>
+      <td class="cell-add"><button class="addbtn" data-id="${x.id}">+</button></td>`;
+    rows.appendChild(tr);
+  });
 }
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border border-edge rounded-xl p-3">
-      <div class="w-12 h-12 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold truncate">${p.name}</p>
-        <p class="text-xs text-volt font-bold price">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border border-edge rounded hover:border-volt hover:text-volt">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border border-edge rounded hover:border-volt hover:text-volt">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-slate-500 hover:text-red-400 ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-slate-500 py-10 text-sm font-mono">// cart is empty</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
+
+/* сортировка по заголовкам */
+document.querySelectorAll('th[data-sort]').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const k=th.dataset.sort;
+    sortDir = (sortKey===k) ? -sortDir : 1;
+    sortKey = k;
+    document.querySelectorAll('th .arr').forEach(a=>a.textContent='');
+    th.querySelector('.arr').textContent = sortDir===1?'↑':'↓';
+    render();
+  });
 });
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+
+/* группы */
+document.getElementById('groups').addEventListener('click',e=>{
+  const b=e.target.closest('.gbtn'); if(!b)return;
+  document.querySelectorAll('.gbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); group=b.dataset.g; render();
+});
+
+/* поиск */
+document.getElementById('search').addEventListener('input',e=>{
+  query=e.target.value.trim().toLowerCase(); render();
+});
+
+/* корзина */
+let cart=[];
+document.getElementById('rows').addEventListener('click',e=>{
+  const b=e.target.closest('.addbtn'); if(!b)return;
+  const x=goods.find(g=>g.id==b.dataset.id);
+  const row=cart.find(c=>c.id===x.id);
+  row?row.q++:cart.push({id:x.id,n:x.n,p:x.p,q:1});
+  b.textContent='✓'; b.classList.add('done');
+  setTimeout(()=>{b.textContent='+';b.classList.remove('done');},700);
+  renderCart();
+});
+function renderCart(){
+  const n=cart.reduce((s,c)=>s+c.q,0), sum=cart.reduce((s,c)=>s+c.p*c.q,0);
+  document.getElementById('tCount').textContent=n;
+  document.getElementById('tSum').textContent=sum.toLocaleString('ru')+' ₽';
+  const box=document.getElementById('cartRows'); box.innerHTML='';
+  cart.forEach(c=>{
+    const d=document.createElement('div'); d.className='crow';
+    d.innerHTML=`<div>${c.n}<br><span class="m">${c.q} × ${c.p.toLocaleString('ru')} ₽</span></div>
+      <div class="m">${(c.p*c.q).toLocaleString('ru')} ₽ <button class="del" data-id="${c.id}">✕</button></div>`;
+    box.appendChild(d);
+  });
+  if(!cart.length) box.innerHTML='<div class="crow"><span class="m">— строк нет —</span></div>';
+}
+document.getElementById('cartRows').addEventListener('click',e=>{
+  if(e.target.dataset.id){cart=cart.filter(c=>c.id!=e.target.dataset.id);renderCart();}
+});
+const panel=document.getElementById('cartpanel');
+document.getElementById('totalbar').onclick=()=>{renderCart();panel.classList.add('open');};
+document.getElementById('closeCart').onclick=()=>panel.classList.remove('open');
+document.getElementById('ckform').addEventListener('submit',e=>{
+  e.preventDefault(); e.target.reset(); cart=[]; renderCart();
+  const m=document.getElementById('okmsg'); m.style.display='block';
+  setTimeout(()=>{m.style.display='none';panel.classList.remove('open');},2500);
+});
+
+render(); renderCart();
 </script>
 </body>
 </html>

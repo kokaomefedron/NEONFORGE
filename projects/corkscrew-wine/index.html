@@ -3,251 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Corkscrew — винный бар в Санкт-Петербурге</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Corkscrew — винный бар, Санкт-Петербург</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#C9A227',
-        base: '#14100E',
-        panel: '#1D1815'
-      },
-      fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
-        body: ['"Source Sans 3"', 'sans-serif']
-      },
-      letterSpacing: {
-        widest2: '0.35em'
-      }
-    }
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
-  html { scroll-behavior: smooth; }
-  body { background: #14100E; }
-  .gold-line { height:1px; background: linear-gradient(90deg, transparent, #C9A22766, transparent); }
-  .wine-item { transition: border-color .3s; }
-  .wine-item:hover { border-color: #C9A227; }
+:root{
+  --black:#0E0B09; --gold:#C9A227; --cream:#EDE3D0; --faded:#8a7f6d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black); color:var(--cream);
+  font-family:'EB Garamond',serif; font-size:17px; line-height:1.6;
+  padding:56px 60px 90px 150px; overflow-x:hidden;
+}
+::selection{background:var(--gold); color:var(--black)}
+@media(max-width:860px){body{padding:32px 20px 60px}}
+
+/* ===== бандероль-шапка ===== */
+.band{
+  text-align:center; max-width:760px; margin:0 auto 70px;
+}
+.band .rule{height:1px; background:var(--gold); opacity:.55; margin:10px 0}
+.band .rule.thin{opacity:.3}
+.band h1{
+  font-family:'Playfair Display',serif; font-weight:500;
+  font-size:clamp(42px,8vw,76px); letter-spacing:.14em; line-height:1.05;
+}
+.band .addr{
+  font-variant:small-caps; letter-spacing:.28em; font-size:14px; color:var(--gold);
+  margin-top:6px;
+}
+.band .meta{
+  font-variant:small-caps; letter-spacing:.24em; font-size:12px; color:var(--faded); margin-top:4px;
+}
+
+/* ===== маргиналии ===== */
+.margin-nav{
+  position:fixed; left:34px; top:50%; transform:translateY(-50%); z-index:30;
+  display:flex; flex-direction:column; gap:22px;
+}
+.margin-nav a{
+  color:var(--faded); text-decoration:none; font-variant:small-caps;
+  letter-spacing:.2em; font-size:14px; display:flex; align-items:baseline; gap:10px;
+  transition:color .25s;
+}
+.margin-nav a:hover{color:var(--cream)}
+.margin-nav .num{
+  font-family:'Playfair Display',serif; font-style:italic; font-size:12px; color:var(--gold); opacity:.7;
+}
+.margin-nav a:hover .num{opacity:1}
+@media(max-width:860px){
+  .margin-nav{position:static; transform:none; flex-direction:row; flex-wrap:wrap; justify-content:center; gap:8px 20px; margin-bottom:48px}
+}
+
+/* ===== колонки карты ===== */
+.sheet{max-width:780px; margin:0 auto}
+.cols{
+  columns:2; column-gap:56px; column-rule:1px solid rgba(201,162,39,.25);
+}
+@media(max-width:860px){.cols{columns:1}}
+
+section.sec{break-inside:avoid-column; margin-bottom:56px}
+.sec-title{
+  font-family:'Playfair Display',serif; font-weight:500; font-size:26px; letter-spacing:.1em;
+  font-variant:small-caps; color:var(--gold); text-align:center; margin-bottom:6px;
+}
+.sec-title::after{
+  content:"— ❦ —"; display:block; font-size:11px; letter-spacing:.5em; color:var(--faded); margin-top:4px;
+}
+.sec-note{text-align:center; font-style:italic; font-size:14px; color:var(--faded); margin-bottom:18px}
+
+/* вина */
+.wine{position:relative; padding:7px 0; cursor:default}
+.wine .row{
+  display:flex; align-items:baseline; gap:8px; font-size:16.5px;
+}
+.wine .nm{font-family:'Playfair Display',serif; font-size:17px}
+.wine .gr{color:var(--faded); font-style:italic; font-size:14px}
+.wine .dots{flex:1; border-bottom:1px dotted rgba(201,162,39,.4); transform:translateY(-4px)}
+.wine .pr{white-space:nowrap; font-size:15px; letter-spacing:.03em}
+.wine .pr b{font-weight:500}
+.wine .note{
+  position:absolute; right:-250px; top:0; width:220px;
+  font-style:italic; font-size:13.5px; line-height:1.5; color:var(--gold);
+  opacity:0; transition:opacity .35s; pointer-events:none;
+}
+.wine:hover .note{opacity:1}
+.wine:hover .nm{color:#fff}
+@media(max-width:1150px){
+  .wine .note{
+    position:static; width:auto; display:block; max-height:0; overflow:hidden;
+    opacity:0; transition:max-height .4s ease, opacity .4s ease;
+  }
+  .wine:hover .note{max-height:80px; opacity:1; margin-top:4px}
+}
+
+/* дегустации: подписи сомелье */
+.tasting{margin-bottom:30px}
+.tasting h3{
+  font-family:'Playfair Display',serif; font-size:19px; letter-spacing:.06em; margin-bottom:4px;
+}
+.tasting .set{font-size:15.5px; color:var(--cream)}
+.tasting .set i{color:var(--faded)}
+.tasting .sig{
+  margin-top:8px; font-family:'Playfair Display',serif; font-style:italic; font-size:15px; color:var(--gold);
+}
+.tasting .sig::before{content:"— "}
+.tasting .sig .init{font-size:13px; letter-spacing:.15em; color:var(--faded); font-style:normal}
+
+/* резерв */
+.reserve{
+  text-align:center; margin-top:14px; font-size:16px;
+}
+.reserve .tel{
+  font-family:'Playfair Display',serif; font-size:24px; letter-spacing:.08em; color:var(--cream);
+  text-decoration:none; display:inline-block; margin:6px 0;
+}
+.reserve .tel:hover{color:var(--gold)}
+.reserve .pre{font-variant:small-caps; letter-spacing:.2em; color:var(--faded); font-size:13px}
+
+/* колонтитул */
+.colophon{
+  margin-top:80px; text-align:center; border-top:1px solid rgba(201,162,39,.3); padding-top:18px;
+}
+.colophon .orn{color:var(--gold); letter-spacing:.5em; font-size:12px; margin-bottom:8px}
+.colophon p{font-variant:small-caps; letter-spacing:.22em; font-size:11.5px; color:var(--faded); line-height:2}
+.colophon a{color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(201,162,39,.4)}
+.colophon a:hover{color:var(--cream)}
 </style>
 </head>
-<body class="bg-base text-neutral-200 font-body antialiased font-light">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-base/95 backdrop-blur border-b border-primary/25">
-  <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="#hero" class="font-display text-xl tracking-[0.3em] text-primary">CORKSCREW</a>
-    <nav class="hidden md:flex gap-8 text-xs uppercase tracking-widest2">
-      <a href="#list" class="hover:text-primary transition">Карта</a>
-      <a href="#tasting" class="hover:text-primary transition">Дегустации</a>
-      <a href="#sommelier" class="hover:text-primary transition">Сомелье</a>
-      <a href="#reserve" class="hover:text-primary transition">Резерв</a>
-    </nav>
-    <a href="#reserve" class="text-xs uppercase tracking-widest2 border border-primary text-primary px-5 py-2 hover:bg-primary hover:text-base transition">Столик</a>
-  </div>
+<!-- бандероль -->
+<header class="band">
+  <div class="rule"></div>
+  <h1>Corkscrew</h1>
+  <p class="addr">Санкт-Петербург · наб. канала Грибоедова, 14</p>
+  <div class="rule thin"></div>
+  <p class="meta">карта вин и дегустаций · карта № 47 · осень 2026</p>
+  <div class="rule"></div>
 </header>
 
-<!-- HERO: centered, minimalist -->
-<section id="hero" class="relative">
-  <div class="max-w-3xl mx-auto px-4 py-32 md:py-44 text-center">
-    <div class="gold-line w-40 mx-auto mb-10"></div>
-    <h1 class="font-display text-4xl md:text-6xl text-neutral-100 leading-tight mb-8">Триста этикеток.<br><span class="italic text-primary">Один спокойный вечер.</span></h1>
-    <p class="text-neutral-400 leading-relaxed max-w-xl mx-auto mb-12 tracking-wide">Винный бар на Фонтанке. Мы не кричим о вине — мы его наливаем. Стакан у окна, тарелка брускетты, Петербург за стеклом.</p>
-    <a href="#reserve" class="inline-block border border-primary text-primary uppercase tracking-widest2 text-xs px-10 py-4 hover:bg-primary hover:text-base transition">Забронировать стол</a>
-    <div class="gold-line w-40 mx-auto mt-10"></div>
-  </div>
-</section>
+<!-- маргиналии -->
+<nav class="margin-nav" aria-label="разделы карты">
+  <a href="#wines"><span class="num">I.</span> Вина</a>
+  <a href="#degust"><span class="num">II.</span> Дегустации</a>
+  <a href="#reserv"><span class="num">III.</span> Резерв</a>
+</nav>
 
-<!-- WINE LIST -->
-<section id="list" class="max-w-4xl mx-auto px-4 py-20 border-t border-primary/15">
-  <h2 class="font-display text-3xl md:text-4xl text-center mb-2">Винная карта</h2>
-  <p class="text-center text-neutral-500 text-xs uppercase tracking-widest2 mb-12">Бокал / бутылка · цены в ₽</p>
+<div class="sheet">
+<div class="cols">
 
-  <div class="mb-10">
-    <h3 class="text-primary uppercase tracking-widest2 text-xs mb-6 text-center">Белое</h3>
-    <div class="space-y-3">
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg text-neutral-100">Gavi di Gavi, La Scolca</p><p class="text-neutral-500 text-sm">Пьемонт · сухое · гави</p></div>
-        <p class="text-primary whitespace-nowrap">690 <span class="text-neutral-500 text-sm">/ 4 400</span></p>
-      </div>
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Chablis Domaine Laroche</p><p class="text-neutral-500 text-sm">Бургундия · сухое · шардоне</p></div>
-        <p class="text-primary whitespace-nowrap">840 <span class="text-neutral-500 text-sm">/ 5 900</span></p>
-      </div>
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Кача-Вао, Рислинг</p><p class="text-neutral-500 text-sm">Крым · сухое · рислинг</p></div>
-        <p class="text-primary whitespace-nowrap">420 <span class="text-neutral-500 text-sm">/ 2 600</span></p>
-      </div>
-    </div>
-  </div>
+  <section class="sec" id="wines">
+    <h2 class="sec-title">Вина бокалами</h2>
+    <p class="sec-note">цены — бокал / бутылка, винтаж может смениться без объявления</p>
 
-  <div class="mb-10">
-    <h3 class="text-primary uppercase tracking-widest2 text-xs mb-6 text-center">Красное</h3>
-    <div class="space-y-3">
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Chianti Classico, Fèlsina</p><p class="text-neutral-500 text-sm">Тоскана · сухое · санджовезе</p></div>
-        <p class="text-primary whitespace-nowrap">750 <span class="text-neutral-500 text-sm">/ 4 800</span></p>
-      </div>
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Rioja Crianza, La Rioja Alta</p><p class="text-neutral-500 text-sm">Риоха · сухое · темпранильо</p></div>
-        <p class="text-primary whitespace-nowrap">690 <span class="text-neutral-500 text-sm">/ 4 200</span></p>
-      </div>
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Сикоры, Пино Нуар</p><p class="text-neutral-500 text-sm">Кубань · сухое · пино нуар</p></div>
-        <p class="text-primary whitespace-nowrap">540 <span class="text-neutral-500 text-sm">/ 3 400</span></p>
-      </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Ркацители, «Киндзмараули»</span><span class="gr">Грузия</span><span class="dots"></span><span class="pr">450 / <b>3 900 ₽</b></span></div>
+      <p class="note">айвовый, чуть вязкий, к шашлыку и сунцхи — аутентично и без pretence.</p>
     </div>
-  </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Верментино, «Страда»</span><span class="gr">Сардиния</span><span class="dots"></span><span class="pr">520 / <b>4 400 ₽</b></span></div>
+      <p class="note">морской бриз, зелёное яблоко, финиш солёный — как глоток с причала.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Пино-нуар, «Домен Люм»</span><span class="gr">Эльзас</span><span class="dots"></span><span class="pr">610 / <b>5 300 ₽</b></span></div>
+      <p class="note">вишня в тёмном сиропе, чуть дымки; держите его у окна в дождь.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Трибидраг, «Эдичо»</span><span class="gr">Сицилия</span><span class="dots"></span><span class="pr">590 / <b>5 100 ₽</b></span></div>
+      <p class="note">тёмный, земляной, пахнет камином в ноябре; наш самый «разговорчивый» бокал.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Рислинг, «Кладер»</span><span class="gr">Мозель</span><span class="dots"></span><span class="pr">680 / <b>6 200 ₽</b></span></div>
+      <p class="note">сухой, сланцевый, почти звенит; пейте без еды, еда помешает.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Кава брют, «Равентос»</span><span class="gr">Пенедес</span><span class="dots"></span><span class="pr">490 / <b>4 100 ₽</b></span></div>
+      <p class="note">хлебная корочка и лайм; открываем по вторникам без повода.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Сансер, «Пти Буа»</span><span class="gr">Долина Луары</span><span class="dots"></span><span class="pr">710 / <b>6 400 ₽</b></span></div>
+      <p class="note">крыжовник и мокрая трава; лучший аперитив осени, спорим.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Гамэ, «Моргон Крю»</span><span class="gr">Божоле</span><span class="dots"></span><span class="pr">560 / <b>4 800 ₽</b></span></div>
+      <p class="note">лёгкий, чуть гранатовый; пьётся прохладным и без церемоний.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Саперави, «Нахширгели»</span><span class="gr">Кахетия</span><span class="dots"></span><span class="pr">480 / <b>4 000 ₽</b></span></div>
+      <p class="note">квеври, тёмная вишня, глиняный финал; подавайте к хинкали, не стесняясь.</p>
+    </div>
+    <div class="wine">
+      <div class="row"><span class="nm">Рислинг айсвайн, «Розенблюм»</span><span class="gr">Пфальц</span><span class="dots"></span><span class="pr">— / <b>8 900 ₽</b></span></div>
+      <p class="note">только бутылками, только по праздникам; мёд и лимонная корочка.</p>
+    </div>
+  </section>
 
-  <div>
-    <h3 class="text-primary uppercase tracking-widest2 text-xs mb-6 text-center">Игристое и розе</h3>
-    <div class="space-y-3">
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Prosecco Valdobbiadene</p><p class="text-neutral-500 text-sm">Венето · брют · глера</p></div>
-        <p class="text-primary whitespace-nowrap">520 <span class="text-neutral-500 text-sm">/ 3 200</span></p>
-      </div>
-      <div class="wine-item flex justify-between items-baseline border border-primary/15 px-6 py-4">
-        <div><p class="font-display text-lg">Whispering Angel Rosé</p><p class="text-neutral-500 text-sm">Прованс · сухое · гренаш</p></div>
-        <p class="text-primary whitespace-nowrap">790 <span class="text-neutral-500 text-sm">/ 5 100</span></p>
-      </div>
-    </div>
-  </div>
-</section>
+  <section class="sec" id="degust">
+    <h2 class="sec-title">Дегустации</h2>
+    <p class="sec-note">пять бокалов за вечер, расшифровка вживую</p>
 
-<!-- TASTINGS -->
-<section id="tasting" class="max-w-5xl mx-auto px-4 py-20 border-t border-primary/15">
-  <h2 class="font-display text-3xl md:text-4xl text-center mb-12">Дегустации</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-panel border border-primary/15 p-8 text-center">
-      <p class="text-primary uppercase tracking-widest2 text-xs mb-4">Каждый четверг</p>
-      <h3 class="font-display text-2xl mb-3">Италия севера</h3>
-      <p class="text-neutral-400 text-sm leading-relaxed mb-6">5 позиций: пьемонт, альто-адидже, фриули. Сырная тарелка с пармезаном 24 мес.</p>
-      <p class="font-display text-3xl text-primary">3 500 ₽</p>
+    <div class="tasting">
+      <h3>«Север против юга»</h3>
+      <p class="set">рислинг Мозель — пино-гри Эльзас — санджовезе — трибидраг — вермут <i>в финале</i></p>
+      <p class="set">по четвергам, 20:00 · <i>2 900 ₽</i></p>
+      <p class="sig">представляю как спор двух широт — побеждает, как всегда, аппетит <span class="init">— Л. Веймарник, сомелье</span></p>
     </div>
-    <div class="bg-panel border border-primary/25 p-8 text-center relative">
-      <p class="text-primary uppercase tracking-widest2 text-xs mb-4">Каждую субботу</p>
-      <h3 class="font-display text-2xl mb-3">Бургундия для начинающих</h3>
-      <p class="text-neutral-400 text-sm leading-relaxed mb-6">Шабли, Маконне, Жевре-Шамбертен. Рассказываем, почему пино такой разный.</p>
-      <p class="font-display text-3xl text-primary">4 900 ₽</p>
+    <div class="tasting">
+      <h3>«Только Грузия»</h3>
+      <p class="set">киси — ркацители квеври — саперави — хванчкара — чача <i>по желанию</i></p>
+      <p class="set">по субботам, 19:30 · <i>3 200 ₽</i></p>
+      <p class="sig">приношу амфору на стол и рассказываю, зачем в ней вообще держат вино <span class="init">— Т. Абашидзе, приглашённый сомелье</span></p>
     </div>
-    <div class="bg-panel border border-primary/15 p-8 text-center">
-      <p class="text-primary uppercase tracking-widest2 text-xs mb-4">По набору группы</p>
-      <h3 class="font-display text-2xl mb-3">Слепой вечер</h3>
-      <p class="text-neutral-400 text-sm leading-relaxed mb-6">6 бокалов без этикеток, угадываем страну и сорт. Победителю — бутылка в подарок.</p>
-      <p class="font-display text-3xl text-primary">4 200 ₽</p>
+    <div class="tasting">
+      <h3>«Слепой раунд»</h3>
+      <p class="set">пять бокалов без названий; угадавший страну получает шестой за счёт бара</p>
+      <p class="set">первое воскресенье месяца · <i>2 400 ₽</i></p>
+      <p class="sig">самый честный формат: тут не подкупишь ни ценой, ни этикеткой <span class="init">— Л. Веймарник</span></p>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SOMMELIER -->
-<section id="sommelier" class="py-20 bg-panel border-y border-primary/15">
-  <div class="max-w-3xl mx-auto px-4 text-center">
-    <p class="text-primary uppercase tracking-widest2 text-xs mb-8">Наш сомелье</p>
-    <svg class="w-12 h-12 mx-auto mb-8 text-primary/60" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M20 8h24c0 14-4 20-12 20S20 22 20 8Z"/><path d="M32 28v18M22 52h20M32 46c-6 0-10 2-10 6h20c0-4-4-6-10-6Z"/>
-    </svg>
-    <p class="font-display text-2xl md:text-3xl italic leading-relaxed mb-8 text-neutral-100">«Хорошее вино — не про баллы критиков. Это про то, что за столом долго не расходятся. Моя работа — подобрать этикетку под ваш вечер, а не под ценник.»</p>
-    <p class="text-primary tracking-widest2 uppercase text-xs">Мария Ветрова · CMS Certified · 11 лет в профессии</p>
-  </div>
-</section>
+  <section class="sec" id="reserv">
+    <h2 class="sec-title">Резерв</h2>
+    <p class="sec-note">бутили под подвалом — по предзаказу, за три дня</p>
+    <p class="reserve">
+      Бургонь «Анри Гриво» 2019 · <i>11 800 ₽</i><br>
+      Бароло «Кастелло» 2017 · <i>14 500 ₽</i><br>
+      Хванчкара старой выдержки · <i>9 600 ₽</i><br>
+      Риоха гранд резерва «Вилья» 2016 · <i>10 400 ₽</i><br>
+      Шардоне «Кросс Бенд» 2020 · <i>7 900 ₽</i><br>
+      <a class="tel" href="tel:+78123216710">+7 (812) 321-67-10</a><br>
+      <span class="pre">по предзаказу · резерв без открытия бутыли не считается</span>
+    </p>
+    <p class="reserve" style="font-size:13.5px; color:var(--faded)">
+      держим резерв три дня с момента звонка; в канун праздников — только до полудня последнего рабочего дня.
+    </p>
+  </section>
 
-<!-- RESERVE -->
-<section id="reserve" class="max-w-xl mx-auto px-4 py-20">
-  <h2 class="font-display text-3xl text-center mb-3">Резерв стола</h2>
-  <p class="text-center text-neutral-500 text-sm mb-10 tracking-wide">Бронь подтверждаем звонком в течение часа</p>
-  <form id="resForm" class="space-y-4">
-    <input required placeholder="Имя" class="w-full bg-panel border border-primary/25 px-5 py-3 focus:outline-none focus:border-primary tracking-wide">
-    <input required type="tel" placeholder="Телефон" class="w-full bg-panel border border-primary/25 px-5 py-3 focus:outline-none focus:border-primary tracking-wide">
-    <div class="grid grid-cols-2 gap-4">
-      <input type="date" required class="w-full bg-panel border border-primary/25 px-5 py-3 focus:outline-none focus:border-primary">
-      <select class="w-full bg-panel border border-primary/25 px-5 py-3 focus:outline-none focus:border-primary">
-        <option>2 гостя</option><option>4 гостя</option><option>6 гостей</option><option>Больше 6 — запрос</option>
-      </select>
-    </div>
-    <textarea placeholder="Пожелания: столик у окна, тихий зал…" rows="2" class="w-full bg-panel border border-primary/25 px-5 py-3 focus:outline-none focus:border-primary tracking-wide"></textarea>
-    <button type="submit" class="w-full border border-primary text-primary uppercase tracking-widest2 text-sm py-4 hover:bg-primary hover:text-base transition">Забронировать</button>
-    <p id="resMsg" class="hidden text-center text-primary tracking-widest2 uppercase text-xs">Заявка отправлена!</p>
-  </form>
-</section>
+</div>
+</div>
 
-<!-- REVIEWS -->
-<section class="max-w-5xl mx-auto px-4 pb-20 border-t border-primary/15 pt-16">
-  <h2 class="font-display text-3xl text-center mb-12">Отзывы гостей</h2>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-panel border border-primary/15 p-8">
-      <p class="text-neutral-300 mb-5 leading-relaxed">«Сомелье выслушала, что мы любим, и за 7 000 ₽ собрала четыре бокала лучше, чем я бы выбрал по меню за час.»</p>
-      <p class="text-primary tracking-widest2 uppercase text-xs">Андрей · визит в пятницу</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-panel border border-primary/15 p-8">
-      <p class="text-neutral-300 mb-5 leading-relaxed">«Дегустация „Бургундия для начинающих" — лучший вечер месяца. Мария объясняет так, что перестаёшь бояться карты.»</p>
-      <p class="text-primary tracking-widest2 uppercase text-xs">Ольга и Кирилл</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-panel border border-primary/15 p-8">
-      <p class="text-neutral-300 mb-5 leading-relaxed">«Тихо, красиво, никакой суеты. Столик у окна на Фонтанку — отдельный вид досуга в Петербурге.»</p>
-      <p class="text-primary tracking-widest2 uppercase text-xs">Екатерина · постоянный гость</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="max-w-2xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-3xl text-center mb-10">FAQ</h2>
-  <div class="divide-y divide-primary/15 border-y border-primary/15">
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display">Можно ли прийти только на бокал?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 text-sm tracking-wide">Конечно. 14 позиций по бокалу, минимальная сумма счёта отсутствует — пришли, выпили бокал, ушли в кино.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display">Есть ли кухня?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 text-sm tracking-wide">Гастрономическое меню без горячих блюд: сыры, мясные ассорти, брускетты, тартары. Всё подобрано под вино.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display">Можно ли купить бутылку с собой?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 text-sm tracking-wide">Да, вся карта продаётся на вынос с наценкой магазина вместо бара. Охладим и упакуем.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display">Дегустации — как попасть?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 text-sm tracking-wide">Через форму резерва с пометкой «дегустация» или в Telegram. Группа до 10 человек, рассаживаем за общий стол.</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t border-primary/25 bg-panel">
-  <div class="max-w-5xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
-    <div>
-      <p class="font-display text-xl tracking-[0.3em] text-primary mb-2">CORKSCREW</p>
-      <p class="text-neutral-400 tracking-wide">СПб, наб. Фонтанки, 40<br>Вт–Вс 17:00 — 01:00</p>
-    </div>
-    <div class="text-neutral-400">
-      <p class="text-neutral-200 uppercase tracking-widest2 text-xs mb-3">Контакты</p>
-      <p>📞 <a href="tel:+78126110233" class="hover:text-primary">+7 812 611-02-33</a></p>
-      <p>✈️ <a href="https://t.me/corkscrew_wine" class="hover:text-primary">@corkscrew_wine</a></p>
-    </div>
-    <div class="text-neutral-400">
-      <p class="text-neutral-200 uppercase tracking-widest2 text-xs mb-3">Демо</p>
-      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
-    </div>
-  </div>
+<footer class="colophon">
+  <p class="orn">❦ ❦ ❦</p>
+  <p>набрано в NEONFORGE · <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener">kokaomefedron.github.io/NEONFORGE</a><br>
+  Corkscrew, СПб · ежедневно с 17:00 до последнего гостя · вход с 21 года</p>
 </footer>
 
-<script>
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const a = btn.nextElementSibling;
-    a.classList.toggle('hidden');
-    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
-  });
-});
-document.getElementById('resForm').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('resMsg').classList.remove('hidden');
-  e.target.querySelector('button[type=submit]').disabled = true;
-});
-</script>
 </body>
 </html>

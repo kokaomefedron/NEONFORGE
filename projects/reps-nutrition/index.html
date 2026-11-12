@@ -3,229 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Reps — спортпит и тренировки без сахара</title>
+<title>REPS — спортпит без воды. Стена банок</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        iron: '#101010',
-        steel: '#2A2A2A',
-        lime: '#A3E635',
-        metal: '#8B8B8B'
-      },
-      fontFamily: {
-        archivo: ['"Archivo Black"', 'sans-serif'],
-        inter: ['Inter', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#A3E635; color:#101010; }
-  .stripes { background: repeating-linear-gradient(-45deg, #161616 0 12px, #101010 12px 24px); }
-  .skew { transform: skewX(-8deg); }
+  :root{--black:#111;--yellow:#FFE600;--metal:#B9BDC4}
+  body{background:var(--black);color:#fff;font-family:'Golos Text',sans-serif;margin:0}
+  .anton{font-family:Anton,sans-serif;letter-spacing:.02em}
+  .wall-bg{background:
+    linear-gradient(180deg,#1a1a1a 0%,#111 100%)}
+  .stand{background:#E9E9E9;color:#111;border-radius:10px;border:3px solid #fff;box-shadow:0 0 0 3px #555,0 10px 24px rgba(0,0,0,.5)}
+  .magnet{border:2px solid #333;background:#fff;border-radius:8px;padding:8px 16px;font-weight:700;cursor:pointer;
+    box-shadow:0 4px 0 #999;transition:.12s}
+  .magnet.on{background:var(--yellow);box-shadow:0 4px 0 #b3a900;transform:translate(-1px,-1px)}
+  .magnet:active{transform:translateY(3px);box-shadow:0 1px 0 #999}
+  /* банка */
+  .jar{position:relative;border-radius:10px 10px 8px 8px;padding:14px 12px 12px;cursor:pointer;
+    box-shadow:inset -14px 0 22px rgba(0,0,0,.28),inset 6px 0 10px rgba(255,255,255,.22),0 10px 18px rgba(0,0,0,.5);
+    border:2px solid rgba(0,0,0,.35);transition:transform .15s}
+  .jar:hover{transform:translateY(-4px)}
+  .lid{position:absolute;left:-2px;right:-2px;top:-2px;height:26px;border-radius:8px 8px 0 0;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 4px,rgba(0,0,0,.12) 4px 8px),rgba(20,20,20,.55);
+    border-bottom:2px solid rgba(0,0,0,.4)}
+  .jar h3{font-family:Anton;font-size:22px;line-height:1;color:#111;margin:14px 0 2px;text-transform:uppercase}
+  .jar .meta{font-size:11px;font-weight:600;color:#222}
+  .jar .price{font-family:Anton;font-size:18px;color:#111;margin-top:6px}
+  .zero{position:absolute;top:30px;right:-8px;background:var(--yellow);color:#111;font-family:Anton;font-size:12px;
+    padding:4px 10px;transform:rotate(8deg);box-shadow:2px 3px 6px rgba(0,0,0,.4)}
+  .shield{display:none;margin-top:10px;background:#fff;border-radius:8px;padding:10px;color:#111}
+  .jar.open .shield{display:block;animation:pop .2s}
+  @keyframes pop{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+  .fl{border:2px solid #111;background:#fff;border-radius:6px;padding:5px 10px;font-weight:700;font-size:12px;cursor:pointer}
+  .fl.on{background:#111;color:var(--yellow)}
+  .addbtn{width:100%;margin-top:8px;background:var(--yellow);border:none;border-radius:6px;padding:8px;
+    font-family:Anton;font-size:14px;cursor:pointer;letter-spacing:.06em}
+  .addbtn:active{transform:scale(.97)}
+  select{background:#111;color:#fff;border:2px solid var(--metal);border-radius:8px;padding:8px 12px;font-family:'Golos Text';font-weight:600}
+  /* гриф-корзина */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:60;height:62px;cursor:pointer;
+    background:linear-gradient(180deg,#C9CDD3 0%,#8F959C 45%,#5E6368 100%);
+    border-top:3px solid #2b2b2b;box-shadow:0 -6px 20px rgba(0,0,0,.6);
+    display:flex;align-items:flex-end;gap:6px;padding:6px 16px 8px;overflow-x:auto}
+  .bar::after{content:"";position:absolute;left:0;right:0;top:8px;height:8px;
+    background:repeating-linear-gradient(90deg,rgba(0,0,0,.35) 0 6px,transparent 6px 12px)}
+  .plate{flex:0 0 auto;width:34px;height:44px;border-radius:4px;border:3px solid rgba(0,0,0,.5);
+    box-shadow:inset -6px 0 10px rgba(0,0,0,.3)}
+  .bar-sum{margin-left:auto;align-self:center;font-family:Anton;font-size:20px;color:#111;background:var(--yellow);
+    padding:6px 14px;border-radius:6px;flex:0 0 auto}
+  .cart-panel{position:fixed;left:0;right:0;bottom:62px;z-index:61;background:#181818;border-top:3px solid var(--yellow);
+    padding:16px;max-height:60vh;overflow-y:auto;display:none}
+  .cp-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed #444;font-size:14px}
+  .cp-row input{width:100%;background:#111;border:2px solid #444;color:#fff;border-radius:8px;padding:10px 12px;margin-top:8px;font-family:'Golos Text'}
+  .promo{display:flex;gap:8px;margin-top:8px}
+  .promo input{flex:1;margin-top:0}
+  .promo button{background:#333;color:#fff;border:2px solid #555;border-radius:8px;padding:0 16px;font-weight:700;cursor:pointer}
+  .go{width:100%;background:var(--yellow);color:#111;border:none;border-radius:8px;padding:14px;
+    font-family:Anton;font-size:18px;letter-spacing:.08em;cursor:pointer;margin-top:12px}
+  .go:active{transform:scale(.98)}
+  .zero{transition:transform .2s}
+  .jar:hover .zero{transform:rotate(-6deg) scale(1.08)}
+  .bar:hover{filter:brightness(1.05)}
+  .magnet:hover{background:#FFF9C2}
+  @media(max-width:390px){
+    .bar{height:56px;padding:4px 10px 6px}
+    .plate{width:26px;height:36px}
+    .jar h3{font-size:18px}
+  }
 </style>
 </head>
-<body class="bg-iron text-neutral-200 font-inter min-h-screen">
+<body class="wall-bg">
 
-<header class="sticky top-0 z-40 bg-iron/95 backdrop-blur border-b-2 border-lime/60">
-  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-archivo text-2xl skew inline-block">REPS<span class="text-lime">.</span></a>
-    <input id="search" type="search" placeholder="Протеин, креатин, шейкер…"
-      class="flex-1 min-w-0 bg-steel border border-neutral-700 rounded px-3 py-2 text-sm outline-none focus:border-lime transition">
-    <button id="cartBtn" class="relative shrink-0 bg-lime text-iron font-archivo px-4 py-2 rounded hover:bg-white transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-lime text-iron text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform border border-iron">0</span>
-    </button>
-  </div>
-</header>
+<main class="max-w-4xl mx-auto px-4 pb-40">
+  <header class="pt-10">
+    <p class="anton text-sm tracking-widest" style="color:var(--yellow)">ЗАЛ · СИЛА · РЕЗУЛЬТАТ</p>
+    <h1 class="anton text-5xl md:text-7xl leading-none mt-1">СТЕНА<br>БАНОК<span style="color:var(--yellow)">.</span></h1>
+    <p class="text-sm mt-3 max-w-md" style="color:#9AA0A8">Спортпит без воды и маркетинга. Кликни по банке — выбери вкус — закинь в корзину. Промокод REPS10 −10%.</p>
+  </header>
 
-<section class="stripes border-b-2 border-lime/60">
-  <div class="max-w-7xl mx-auto px-4 py-14 md:py-20">
-    <p class="font-archivo text-lime text-sm tracking-widest uppercase mb-4">0 сахара · 0 воды · 100% рабочий состав</p>
-    <h1 class="font-archivo text-4xl md:text-7xl uppercase leading-[0.95]">
-      Качай<br><span class="text-lime">железо,</span><br>а не этикетки.
-    </h1>
-    <p class="mt-5 text-neutral-400 max-w-md">Протеин с чистым составом, креатин моногидрат и шейкеры, которые не текут в сумку. Лабораторные протоколы на каждую партию.</p>
-    <div class="mt-8 flex flex-wrap gap-4 items-center">
-      <a href="#catalog" class="bg-lime text-iron font-archivo uppercase px-8 py-3.5 rounded hover:bg-white transition">Брать вес ↓</a>
-      <span class="font-archivo text-xs uppercase tracking-widest text-neutral-500">Доставка 1–2 дня · Москва</span>
-    </div>
-  </div>
-</section>
+  <section class="stand mt-8 p-4 flex flex-wrap items-center gap-3">
+    <b class="anton text-lg tracking-wide mr-1">ЦЕЛЬ:</b>
+    <button class="magnet on" data-goal="all">ВСЕ</button>
+    <button class="magnet" data-goal="mass">МАССА</button>
+    <button class="magnet" data-goal="cut">РЕЛЬЕФ</button>
+    <button class="magnet" data-goal="enduro">ВЫНОСЛИВОСТЬ</button>
+    <select id="sort" class="ml-auto"><option value="pop">ПОПУЛЯРНОСТЬ</option><option value="asc">ЦЕНА ↑</option><option value="desc">ЦЕНА ↓</option></select>
+  </section>
 
-<main class="max-w-7xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-steel border border-neutral-700 rounded px-3 py-2 text-sm outline-none focus:border-lime">
-      <option value="pop">По популярности</option>
-      <option value="asc">Цена ↑</option>
-      <option value="desc">Цена ↓</option>
-    </select>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-8" id="wall"></div>
+
+  <section class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+    <div class="stand p-3"><div class="text-2xl">🧪</div><b class="text-sm font-bold">Лабконтроль</b><p class="text-xs mt-1" style="color:#555">каждая партия — протокол испытаний</p></div>
+    <div class="stand p-3"><div class="text-2xl">📜</div><b class="text-sm font-bold">Сертификаты</b><p class="text-xs mt-1" style="color:#555">все декларации — по запросу в один клик</p></div>
+    <div class="stand p-3"><div class="text-2xl">📦</div><b class="text-sm font-bold">Склад в городе</b><p class="text-xs mt-1" style="color:#555">не ждём посылку из-за границы</p></div>
+    <div class="stand p-3"><div class="text-2xl">↩️</div><b class="text-sm font-bold">Обмен 14 дней</b><p class="text-xs mt-1" style="color:#555">не подошёл вкус — поменяем банку</p></div>
+  </section>
+
+  <section class="mt-12 grid md:grid-cols-3 gap-4">
+    <div class="stand p-4"><div class="text-3xl">⏰</div><b class="anton tracking-wide">ДО ТРЕНИРОВКИ</b><p class="text-sm mt-1" style="color:#555">PRE-WORKOUT RUSH за 20 минут + ELECTRO LYTE в течение сессии.</p></div>
+    <div class="stand p-4"><div class="text-3xl">🏋️</div><b class="anton tracking-wide">ПОСЛЕ ЗАЛА</b><p class="text-sm mt-1" style="color:#555">WHEY PROTEIN 2.0 в течение часа. GAINER — если не добрал калорий едой.</p></div>
+    <div class="stand p-4"><div class="text-3xl">🌙</div><b class="anton tracking-wide">НА НОЧЬ</b><p class="text-sm mt-1" style="color:#555">CASEIN NIGHT за 30 минут до сна — медленный белок до утра.</p></div>
+  </section>
+
+  <section class="mt-12 grid md:grid-cols-3 gap-4">
+    <div class="stand p-4"><b class="anton tracking-wide">ОТЗЫВ ЗАЛА · №141</b><p class="text-sm mt-1" style="color:#555">«Брал на весну: протеин + креатин + электролиты. Стена банок реально помогает не путаться в банках».</p><p class="text-xs mt-2" style="color:#9AA0A8">Дима, 3 года в зале</p></div>
+    <div class="stand p-4"><b class="anton tracking-wide">ОТЗЫВ ЗАЛА · №207</b><p class="text-sm mt-1" style="color:#555">«Промокод REPS10 работает, дешевле, чем в кассе супермаркета у дома. Курьер звонит, а не молчит».</p><p class="text-xs mt-2" style="color:#9AA0A8">Лиза, марафон осенью</p></div>
+    <div class="stand p-4"><b class="anton tracking-wide">ОТЗЫВ ЗАЛА · №318</b><p class="text-sm mt-1" style="color:#555">«Наконец вкус банана не как жвачка из девяностых. Изолейт беру второй раз подряд».</p><p class="text-xs mt-2" style="color:#9AA0A8">Марат, рельеф к лету</p></div>
+  </section>
+
+  <section class="mt-8 stand p-4 flex flex-wrap gap-4 justify-between items-center">
+    <div><b class="anton tracking-wide">ДОСТАВКА</b><p class="text-sm" style="color:#555">по городу — 290 ₽, от 3 000 ₽ — бесплатно, в день заказа</p></div>
+    <div><b class="anton tracking-wide">ОПЛАТА</b><p class="text-sm" style="color:#555">карта, СБП или при получении — как удобно</p></div>
+    <div><b class="anton tracking-wide">СРОКИ ГОДНОСТИ</b><p class="text-sm" style="color:#555">банковские партии не старше 3 месяцев, проверяем на складе</p></div>
+  </section>
+
+  <div class="text-center mt-10">
+    <span style="display:inline-block;background:#E9E9E9;color:#111;border-radius:999px;padding:8px 18px;font-weight:700;font-size:13px;border:2px solid #fff">
+      спортивный сайт от <a href="https://kokaomefedron.github.io/NEONFORGE" style="color:#111;text-decoration:underline">NEONFORGE</a> · kokaomefedron.github.io/NEONFORGE
+    </span>
   </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-neutral-500 py-16 font-archivo uppercase">Пусто. Подходи к штанге.</p>
 </main>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="border-2 border-lime/60 p-6 md:p-8 bg-steel">
-    <h2 class="font-archivo text-xl uppercase mb-1">Оформить заказ</h2>
-    <p class="text-neutral-500 text-sm mb-5">Самовывоз: зал на Курской, вход через гриль-зону.</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
-      <input required type="tel" placeholder="Телефон" class="bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
-      <input required placeholder="Адрес или пункт выдачи" class="sm:col-span-2 bg-iron border border-neutral-700 rounded px-4 py-3 text-sm outline-none focus:border-lime">
-      <button type="submit" class="sm:col-span-2 bg-lime text-iron font-archivo uppercase py-4 rounded hover:bg-white transition">Заказать набор</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-lime font-archivo uppercase text-center"></p>
+<div class="cart-panel" id="cartPanel">
+  <div class="flex justify-between items-center">
+    <b class="anton text-xl tracking-wide">ТВОЙ КУРС</b>
+    <button style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer" onclick="toggleCart()">✕</button>
   </div>
-</section>
+  <div id="cartBody"></div>
+  <div class="cp-row" style="border-bottom:none"><span class="anton">ИТОГО</span><span class="anton text-xl" id="total">0 ₽</span></div>
+  <div class="promo">
+    <input id="promoIn" placeholder="ПРОМОКОД (REPS10 = −10%)">
+    <button onclick="applyPromo()">OK</button>
+  </div>
+  <p id="promoMsg" class="text-xs mt-2" style="color:#9AA0A8"></p>
+  <form id="orderForm">
+    <input name="name" placeholder="Имя" required>
+    <input name="phone" placeholder="Телефон" required pattern="[0-9+()\-\s]{6,}">
+    <button class="go" type="submit">ЗАГРУЗИТЬ КУРС</button>
+  </form>
+</div>
 
-<footer class="border-t-2 border-lime/60 py-10">
-  <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-neutral-400">
-    <div>
-      <p class="font-archivo text-white text-lg mb-2">REPS.</p>
-      <p>Москва, Земляной Вал, 33<br>Пн–Вс 9:00–22:00</p>
-    </div>
-    <div>
-      <p class="text-white font-bold mb-2">Контакты</p>
-      <p>+7 (495) 150-40-40<br>coach@reps.fit</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-neutral-500 text-xs leading-relaxed">© 2026 REPS.<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-lime underline hover:text-white">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
-</footer>
-
-<div id="cartOverlay" class="fixed inset-0 bg-black/70 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-steel border-l-2 border-lime z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b-2 border-lime/60">
-    <p class="font-archivo uppercase">Твой набор</p>
-    <button id="cartClose" class="text-neutral-400 hover:text-lime text-2xl leading-none">×</button>
-  </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t-2 border-lime/60">
-    <div class="flex justify-between font-archivo uppercase mb-3"><span>Итого</span><span id="cartTotal" class="text-lime">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-lime text-iron font-archivo uppercase py-3 rounded hover:bg-white transition">К оформлению</button>
-  </div>
-</aside>
+<div class="bar" id="bar" onclick="toggleCart()">
+  <span class="anton" style="color:#111;align-self:center;margin-right:8px;flex:0 0 auto">КОРЗИНА</span>
+  <div id="plates" class="contents"></div>
+  <span class="bar-sum" id="barSum">0 ₽</span>
+</div>
 
 <script>
-const flavors = ['Шоколад','Ваниль','Банан'];
-const products = [
-  { id:1, name:'Протеин Whey Isolate, 900 г', cat:'Протеин', flavor:true, price:3290, emoji:'🥛', spec:'900 г · 30 порций · 27 г белка/порция', sugar:true, grad:'linear-gradient(135deg,#A3E635,#3f5a12)' },
-  { id:2, name:'Протеин Casein Night, 800 г', cat:'Протеин', flavor:true, price:3690, emoji:'🌙', spec:'800 г · 26 порций · медленный казеин', sugar:true, grad:'linear-gradient(135deg,#2A2A2A,#6b6b4f)' },
-  { id:3, name:'Креатин моногидрат Creapure, 300 г', cat:'Креатин', flavor:false, price:1890, emoji:'💪', spec:'300 г · 100 порций · 3 г/порция', sugar:false, grad:'linear-gradient(135deg,#8B8B8B,#3d3d3d)' },
-  { id:4, name:'BCAA 2:1:1 ferment, 400 г', cat:'BCAA', flavor:true, price:2290, emoji:'⚗️', spec:'400 г · 40 порций · 5 г BCAA/порция', sugar:true, grad:'linear-gradient(135deg,#0ea5e9,#0c3b5e)' },
-  { id:5, name:'Шейкер Rebel 700 мл', cat:'Шейкеры', flavor:false, price:590, emoji:'🧲', spec:'700 мл · стальная пружина · без BPA', sugar:false, grad:'linear-gradient(135deg,#1f2937,#4b5563)' },
-  { id:6, name:'Шейкер-бутылка Steel 750 мл', cat:'Шейкеры', flavor:false, price:1290, emoji:'🔩', spec:'нерж. сталь · холод 12 ч · петля-карабин', sugar:false, grad:'linear-gradient(135deg,#9CA3AF,#374151)' },
-  { id:7, name:'Протеин Vegan Pea, 700 г', cat:'Протеин', flavor:true, price:2990, emoji:'🌱', spec:'700 г · 23 порции · горох + рис', sugar:true, grad:'linear-gradient(135deg,#22c55e,#14532d)' },
-  { id:8, name:'Предтрен Pre-Load, 250 г', cat:'BCAA', flavor:true, price:1990, emoji:'🔥', spec:'250 г · 25 порций · кофеин 150 мг', sugar:true, grad:'linear-gradient(135deg,#ef4444,#7f1d1d)' },
-  { id:9, name:'Гейнер Mass Base, 3 кг', cat:'Протеин', flavor:true, price:4290, emoji:'🏗', spec:'3 кг · 30 порций · 1250 ккал/порция', sugar:false, grad:'linear-gradient(135deg,#f59e0b,#78350f)' },
-  { id:10, name:'Омега-3 TRX, 90 капсул', cat:'Аксессуары', flavor:false, price:990, emoji:'🐟', spec:'90 капсул · EPA 180 / DHA 120', sugar:false, grad:'linear-gradient(135deg,#38bdf8,#1e3a5f)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+  const fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+  const jars=[
+   {id:'whey',n:'WHEY PROTEIN 2.0',w:'900 г',p:3290,goal:['mass','cut'],pop:98,c:'#F3E3C3',lid:'#5b4a2a',zero:1,bzhu:'Б75 · Ж8 · У12',fl:['Ваниль','Шоколад','Банан']},
+   {id:'gain',n:'GAINER MASS',w:'1500 г',p:2190,goal:['mass'],pop:90,c:'#E0A458',lid:'#4a3313',bzhu:'Б30 · Ж6 · У140',fl:['Шоколад','Банан']},
+   {id:'iso',n:'ISOLATE ZERO',w:'900 г',p:3890,goal:['cut'],pop:85,c:'#EDE7D8',lid:'#333',zero:1,bzhu:'Б82 · Ж1 · У0',fl:['Ваниль','Шоколад']},
+   {id:'creat',n:'CREATINE MONO',w:'300 г',p:990,goal:['mass','enduro'],pop:95,c:'#B9BDC4',lid:'#3d4045',bzhu:'Креатин 5 г/порц.',fl:['Без вкуса']},
+   {id:'bcaa',n:'BCAA 2:1:1',w:'300 г',p:1490,goal:['enduro'],pop:80,c:'#FF8FB5',lid:'#7a2040',bzhu:'БCAA 7 г/порц.',fl:['Арбуз','Лайм']},
+   {id:'pre',n:'PRE-WORKOUT RUSH',w:'250 г',p:1590,goal:['enduro'],pop:88,c:'#FF5C39',lid:'#5e1505',zero:1,bzhu:'Кофеин 200 мг',fl:['Вишня','Тропик']},
+   {id:'cas',n:'CASEIN NIGHT',w:'800 г',p:2890,goal:['cut'],pop:70,c:'#6E7B8B',lid:'#252b33',bzhu:'Б72 · Ж3 · У6',fl:['Шоколад','Ваниль']},
+   {id:'omega',n:'OMEGA-3 XL',w:'90 капс',p:790,goal:['enduro'],pop:75,c:'#FFD34D',lid:'#6b5407',bzhu:'EPA+DHA 1000 мг',fl:[]},
+   {id:'vita',n:'VITA COMPLEX',w:'60 капс',p:690,goal:['mass','cut','enduro'],pop:65,c:'#9BE564',lid:'#2d4d12',bzhu:'26 вит. и минералов',fl:[]},
+   {id:'beta',n:'BETA-ALANINE',w:'250 г',p:1190,goal:['enduro'],pop:60,c:'#7FE3D4',lid:'#1f5e55',bzhu:'Бета-аланин 3,2 г/порц.',fl:['Без вкуса']},
+   {id:'elekt',n:'ELECTRO LYTE',w:'420 г',p:1090,goal:['enduro'],pop:82,c:'#7BD3F7',lid:'#1d4a5e',zero:1,bzhu:'Натрий · калий · магний',fl:['Лимон','Апельсин']},
+   {id:'bar',n:'PROTEIN BAR ×12',w:'12 × 60 г',p:1690,goal:['mass','cut'],pop:78,c:'#D9A66C',lid:'#4a3313',bzhu:'Б20 · Ж9 · У17',fl:[]},
+   {id:'glut',n:'GLUTAMINE PURE',w:'300 г',p:990,goal:['mass','cut'],pop:62,c:'#C7E8A9',lid:'#3a5220',bzhu:'Глютамин 5 г/порц.',fl:['Без вкуса']},
+   {id:'argo',n:'ARGININE PUMP',w:'200 г',p:1290,goal:['enduro'],pop:58,c:'#F0A8B8',lid:'#7a2840',bzhu:'Аргинин 3 г/порц.',fl:['Клюква']},
+   {id:'shak',n:'READY SHAKE ×8',w:'8 × 330 мл',p:1890,goal:['mass','enduro'],pop:72,c:'#F5E6C8',lid:'#5b4a2a',bzhu:'Б30 · Ж5 · У10',fl:[]},
+   {id:'coll',n:'COLLAGEN FLEX',w:'300 г',p:1390,goal:['cut','enduro'],pop:66,c:'#E8D4C8',lid:'#6b4430',bzhu:'Коллаген 10 г/порц.',fl:['Яблоко']},
+   {id:'caffe',n:'CAFFEINE 200',w:'60 табл',p:590,goal:['enduro'],pop:74,c:'#D8D2C4',lid:'#3a3630',bzhu:'Кофеин 200 мг/табл',fl:[]}
+  ];
+  let goalFilter='all', promoOK=false;
+  const cart=[];
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded text-sm font-archivo uppercase tracking-wider border-2 transition ${c===activeCat?'bg-lime text-iron border-lime':'border-neutral-700 text-neutral-400 hover:border-lime hover:text-lime'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="group border-2 border-neutral-800 bg-steel overflow-hidden hover:border-lime transition flex flex-col">
-      <div class="relative h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
-        ${p.sugar?`<span class="skew inline-block absolute top-3 left-3 bg-lime text-iron font-archivo text-xs px-2 py-1">0 САХАРА</span>`:''}
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] font-archivo uppercase tracking-widest text-neutral-500 mb-1">${p.cat}</p>
-        <h3 class="font-semibold text-sm leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-neutral-500 mt-1">${p.spec}</p>
-        ${p.flavor?`
-        <label class="text-xs text-neutral-400 mt-2 block">Вкус:
-          <select id="flavor-${p.id}" class="ml-1 bg-iron border border-neutral-700 rounded px-2 py-1 text-xs outline-none focus:border-lime">
-            ${flavors.map(f=>`<option>${f}</option>`).join('')}
-          </select>
-        </label>`:''}
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <p class="font-archivo text-lime text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="bg-lime text-iron text-sm font-archivo uppercase px-3 py-2 rounded hover:bg-white transition">+ Брать</button>
+  function renderWall(){
+    const arr=[...jars];
+    const s=document.getElementById('sort').value;
+    if(s==='asc')arr.sort((a,b)=>a.p-b.p); else if(s==='desc')arr.sort((a,b)=>b.p-a.p); else arr.sort((a,b)=>b.pop-a.pop);
+    document.getElementById('wall').innerHTML=arr.filter(j=>goalFilter==='all'||j.goal.includes(goalFilter)).map(j=>
+      `<div class="jar" data-id="${j.id}" style="background:linear-gradient(160deg,${j.c} 0%,${j.c} 70%,rgba(0,0,0,.12) 100%)">
+        <div class="lid" style="background-color:${j.lid}"></div>
+        ${j.zero?'<div class="zero">0 САХАРА</div>':''}
+        <h3>${j.n}</h3>
+        <div class="meta">${j.w} · ${j.bzhu}</div>
+        <div class="price">${fmt(j.p)}</div>
+        <div class="shield">
+          ${j.fl.length?`<b class="text-xs tracking-widest">ВКУС:</b><div class="flex flex-wrap gap-2 mt-2">${j.fl.map(f=>`<button class="fl" data-f="${f}">${f}</button>`).join('')}</div><button class="addbtn add">В КОРЗИНУ</button>`:`<button class="addbtn add">В КОРЗИНУ</button>`}
         </div>
-      </div>
-    </article>`).join('');
-}
-function add(id){
-  const p = products.find(x=>x.id===id);
-  const key = p.flavor ? id+'-'+(document.getElementById('flavor-'+id)?.value||flavors[0]) : id;
-  const label = p.flavor ? p.name+' — '+ (document.getElementById('flavor-'+id)?.value||flavors[0]) : p.name;
-  if(!cart[key]) cart[key] = { qty:0, label, price:p.price, emoji:p.emoji, grad:p.grad };
-  cart[key].qty++;
+      </div>`).join('');
+  }
+  renderWall();
+
+  document.getElementById('wall').addEventListener('click',e=>{
+    const jar=e.target.closest('.jar'); if(!jar)return;
+    const j=jars.find(x=>x.id===jar.dataset.id);
+    const flBtn=e.target.closest('.fl');
+    if(flBtn){jar.querySelectorAll('.fl').forEach(x=>x.classList.remove('on'));flBtn.classList.add('on');jar.dataset.flavor=flBtn.dataset.f;return;}
+    if(e.target.closest('.add')){
+      const f=jar.dataset.flavor||(j.fl.length?null:null);
+      if(j.fl.length&&!f){jar.querySelector('.shield b').style.color='#B33A2B';return;}
+      const name=j.n+(f?' · '+f:'');
+      const item=cart.find(i=>i.name===name);
+      item?item.qty++:cart.push({name,price:j.p,qty:1,color:j.c});
+      jar.classList.remove('open');
+      renderCart();return;
+    }
+    document.querySelectorAll('.jar').forEach(x=>{if(x!==jar)x.classList.remove('open')});
+    jar.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.magnet').forEach(m=>m.addEventListener('click',()=>{
+    document.querySelectorAll('.magnet').forEach(x=>x.classList.remove('on'));
+    m.classList.add('on');goalFilter=m.dataset.goal;renderWall();
+  }));
+  document.getElementById('sort').addEventListener('change',renderWall);
+
+  function toggleCart(){const p=document.getElementById('cartPanel');p.style.display=p.style.display==='block'?'none':'block';}
+
+  function renderCart(){
+    document.getElementById('plates').innerHTML=cart.map(i=>
+      `<div class="plate" style="background:${i.color}" title="${i.name} × ${i.qty}"></div>`).join('')
+      ||'<span style="color:#111;font-size:12px;align-self:center">гриф пустой — закинь банку</span>';
+    let sum=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    if(promoOK&&sum)sum=Math.round(sum*0.9);
+    document.getElementById('barSum').textContent=fmt(sum);
+    document.getElementById('total').textContent=fmt(sum);
+    document.getElementById('cartBody').innerHTML=cart.length?cart.map((i,ix)=>
+      `<div class="cp-row"><span><span class="plate" style="display:inline-block;width:12px;height:12px;background:${i.color};border-radius:2px;margin-right:6px"></span>${i.name} × ${i.qty}</span>
+       <span>${fmt(i.price*i.qty)} <button style="border:none;background:none;color:#888;cursor:pointer" onclick="ch(${ix},-1)">−</button><button style="border:none;background:none;color:#888;cursor:pointer" onclick="ch(${ix},1)">+</button></span></div>`).join('')
+      :'<div class="cp-row"><span>Пусто. Стена банок ждёт.</span></div>';
+  }
+  function ch(ix,d){const i=cart[ix];if(!i)return;i.qty+=d;if(i.qty<=0)cart.splice(ix,1);renderCart();}
+  function applyPromo(){
+    const v=document.getElementById('promoIn').value.trim().toUpperCase();
+    promoOK=v==='REPS10';
+    document.getElementById('promoMsg').textContent=promoOK?'Промокод принят: −10% на всё.':'Промокод не найден. Попробуй REPS10.';
+    renderCart();
+  }
   renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function dec(key){ if(--cart[key].qty<=0) delete cart[key]; renderCart(); }
-function removeItem(key){ delete cart[key]; renderCart(); }
-function renderCart(){
-  const keys = Object.keys(cart);
-  const count = keys.reduce((s,k)=>s+cart[k].qty,0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = keys.length ? keys.map(k=>{
-    const it = cart[k];
-    return `<div class="flex items-center gap-3 border-2 border-neutral-700 rounded p-3 bg-iron">
-      <div class="w-11 h-11 rounded flex items-center justify-center text-2xl shrink-0" style="background:${it.grad}">${it.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold truncate">${it.label}</p>
-        <p class="text-xs text-lime font-archivo">${(it.price*it.qty).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec('${k}')" class="w-7 h-7 border border-neutral-700 rounded hover:border-lime hover:text-lime">−</button>
-        <span class="w-6 text-center text-sm font-bold">${it.qty}</span>
-        <button onclick="addKey('${k}')" class="w-7 h-7 border border-neutral-700 rounded hover:border-lime hover:text-lime">+</button>
-      </div>
-      <button onclick="removeItem('${k}')" class="text-neutral-500 hover:text-red-400 ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-neutral-500 py-10 text-sm font-archivo uppercase">Разминка не закончена.</p>';
-  document.getElementById('cartTotal').textContent = keys.reduce((s,k)=>s+cart[k].price*cart[k].qty,0).toLocaleString('ru-RU')+' ₽';
-}
-function addKey(key){
-  const it = cart[key]; if(!it) return;
-  it.qty++; renderCart();
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
-});
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+
+  document.getElementById('orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    document.getElementById('cartPanel').innerHTML=`<div class="text-center py-8">
+      <div style="font-size:52px">💪</div><b class="anton text-3xl">КУРС ЗАГРУЖЕН!</b>
+      <p class="text-sm mt-2" style="color:#9AA0A8">Тренер-курьер уже пакует банку. Звонок в течение 20 минут.</p>
+      <button class="go" onclick="location.reload()">НАЧАТЬ НОВУЮ ПРОГРАММУ</button></div>`;
+  });
 </script>
 </body>
 </html>

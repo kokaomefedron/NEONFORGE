@@ -3,226 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Лукоморье — магазин детских игрушек</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        sky1: '#E0F2FF',
-        sky2: '#FFF9E8',
-        blue: '#2E86DE',
-        red: '#EB4747',
-        green: '#2ECC71',
-        cloud: '#FFFFFF'
-      },
-      fontFamily: {
-        comfortaa: ['Comfortaa', 'cursive'],
-        nunito: ['Nunito', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Лукоморье — магазин игрушек со сказочным путём</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Neucha&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#2E86DE; color:#fff; }
-  body { background: linear-gradient(180deg,#E0F2FF 0%,#FFF9E8 100%); min-height:100vh; }
-  .bouncy { border-radius: 28px 26px 30px 24px; }
-  .cloudlet { position:absolute; background:#fff; border-radius:50px; opacity:.8; }
+  :root{--mint:#DFF3E4;--sun:#FFD35C;--violet:#9B7BDE;--ink:#3E3A52}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--mint);color:var(--ink);font-family:Fredoka,sans-serif}
+  .hand{font-family:Neucha,cursive}
+  .wrap{max-width:820px;margin:0 auto;padding:0 16px}
+  header{text-align:center;padding:36px 0 6px}
+  h1{font-size:clamp(30px,7vw,46px);margin:0;font-weight:700}
+  .sun-note{display:inline-block;background:#fff;border:2px dashed var(--violet);border-radius:14px;
+    padding:6px 14px;transform:rotate(-2deg);margin-top:10px}
+  /* свиток-фильтр */
+  .scroll-filter{background:#FBF6E7;border:2px solid #C9B98A;border-radius:16px 16px 22px 22px;
+    padding:12px 18px;margin:26px auto 0;max-width:560px;box-shadow:0 8px 18px rgba(62,58,82,.12);
+    background-image:linear-gradient(rgba(62,58,82,.05) 1px,transparent 1px);background-size:100% 22px}
+  .age{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:6px 16px;font-family:Fredoka;
+    font-weight:600;font-size:14px;cursor:pointer;margin:3px}
+  .age.on{background:var(--sun);box-shadow:0 3px 0 var(--ink)}
+  /* путь */
+  .path-zone{position:relative;margin-top:8px}
+  .stop{position:relative;text-align:center;margin-top:-24px}
+  .stop-circle{display:inline-flex;align-items:center;justify-content:center;width:74px;height:74px;
+    border-radius:50%;background:#fff;border:4px solid var(--violet);font-size:34px;
+    box-shadow:0 6px 0 rgba(155,123,222,.35);position:relative;z-index:2}
+  .stop-name{font-family:Neucha;font-size:20px;margin-top:6px}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}
+  .reveal.vis{opacity:1;transform:none}
+  /* игрушки */
+  .toys{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:18px}
+  .toy{background:#fff;border-radius:18px;padding:14px;box-shadow:0 6px 16px rgba(62,58,82,.1);
+    border:2px solid transparent;position:relative}
+  .toy:hover{border-color:var(--violet)}
+  .toy.hidden{display:none}
+  .toy .face{font-size:44px;line-height:1.15}
+  .toy b{display:block;font-size:16px;margin-top:4px}
+  .toy .desc{font-family:Neucha;font-size:15px;color:#7A7590;line-height:1.25}
+  .abadge{position:absolute;top:10px;right:10px;background:var(--sun);border-radius:999px;
+    font-size:12px;font-weight:700;padding:2px 10px;border:2px solid var(--ink)}
+  .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .price{font-weight:700;font-size:17px}
+  .bag-add{background:var(--violet);color:#fff;border:none;border-radius:999px;padding:7px 14px;
+    font-family:Fredoka;font-weight:600;font-size:13px;cursor:pointer;box-shadow:0 3px 0 #6F52B0}
+  .bag-add:active{transform:translateY(2px);box-shadow:0 1px 0 #6F52B0}
+  /* мешок-корзина */
+  .bag-btn{position:fixed;right:16px;bottom:18px;z-index:60;width:66px;height:66px;border-radius:50%;
+    background:var(--sun);border:3px solid var(--ink);font-size:30px;cursor:pointer;
+    box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center}
+  .bag-badge{position:absolute;top:-7px;right:-7px;background:var(--violet);color:#fff;border:3px solid #fff;
+    border-radius:999px;min-width:26px;font-size:13px;font-weight:700;padding:1px 5px}
+  .bag-panel{position:fixed;inset:0;z-index:70;background:rgba(62,58,82,.4)}
+  .bag-inner{position:absolute;right:0;top:0;bottom:0;width:min(370px,100%);background:linear-gradient(180deg,#EFE6D0,#E4D8BC);
+    border-left:4px solid var(--ink);padding:18px;overflow-y:auto;
+    background-image:radial-gradient(rgba(62,58,82,.08) 1px,transparent 1.5px);background-size:14px 14px}
+  .bag-row{background:rgba(255,255,255,.85);border-radius:14px;padding:8px 12px;margin-bottom:10px;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600;font-size:14px}
+  .order input{width:100%;border:2px solid var(--ink);border-radius:14px;padding:10px 14px;margin-top:8px;
+    font-family:Fredoka;background:#fff;box-sizing:border-box}
+  .go{width:100%;margin-top:12px;background:var(--violet);color:#fff;border:3px solid var(--ink);border-radius:999px;
+    padding:12px;font-family:Fredoka;font-weight:700;font-size:16px;cursor:pointer;box-shadow:0 4px 0 var(--ink)}
+  .go:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+  /* деревянная табличка */
+  .sign{margin:44px auto 40px;width:fit-content;background:linear-gradient(180deg,#B98A55,#8F6438);
+    color:#FDF6E8;border:4px solid #6E4C26;border-radius:12px;padding:14px 24px;text-align:center;
+    box-shadow:0 8px 0 #55391B,0 14px 24px rgba(62,58,82,.25);transform:rotate(-1.5deg)}
+  .sign a{color:var(--sun);font-weight:700}
+  .toy .face{transition:transform .2s}
+  .toy:hover .face{transform:scale(1.12) rotate(-4deg)}
+  .bag-add:hover{background:#7B5CD6}
+  .scroll-filter b{letter-spacing:.02em}
+  @media(max-width:390px){
+    .stop-circle{width:62px;height:62px;font-size:28px}
+    .bag-btn{width:58px;height:58px;font-size:26px}
+    .toys{grid-template-columns:1fr}
+  }
 </style>
 </head>
-<body class="text-slate-700 font-nunito overflow-x-hidden">
+<body>
 
-<header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b-4 border-blue/20">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-comfortaa font-bold text-2xl flex items-center gap-1">
-      <span class="text-blue">✨ Лукоморье</span>
-    </a>
-    <input id="search" type="search" placeholder="Найти: конструктор, мишка, настолка…"
-      class="flex-1 min-w-0 bg-white border-2 border-blue/30 rounded-full px-4 py-2 text-sm outline-none focus:border-red transition">
-    <button id="cartBtn" class="relative shrink-0 bg-red text-white font-comfortaa font-bold px-4 py-2 rounded-full hover:bg-blue transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-green text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
+<header>
+  <h1>🌿 Лукоморье</h1>
+  <p class="hand" style="font-size:20px;color:#6F52B0;margin:4px 0 0">магазин игрушек со сказочным путём</p>
+  <span class="sun-note hand">пройди тропу до конца — в конце подарок 🎁</span>
+
+  <div class="scroll-filter">
+    <b class="hand" style="font-size:18px">Свиток возрастов:</b>
+    <div id="ages">
+      <button class="age on" data-age="all">Все</button>
+      <button class="age" data-age="3">3+</button>
+      <button class="age" data-age="6">6+</button>
+      <button class="age" data-age="10">10+</button>
+    </div>
   </div>
 </header>
 
-<section class="relative border-b-4 border-blue/20 overflow-hidden">
-  <div class="cloudlet w-32 h-10 top-8 left-8"></div>
-  <div class="cloudlet w-20 h-8 top-20 right-16"></div>
-  <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 text-center relative">
-    <p class="font-comfortaa text-green text-lg mb-2">🎈 Весёлый вторник: −15% на всё по промокоду ВЕСЕЛЫЙВТ</p>
-    <h1 class="font-comfortaa font-bold text-4xl md:text-6xl leading-tight">
-      Чудеса начинаются <span class="text-red">здесь</span>
-    </h1>
-    <p class="mt-4 text-slate-600 max-w-xl mx-auto">Конструкторы, мягкие друзья и настолки, после которых дети откладывают планшеты. Сертифицировано, безопасно, бесконечно интересно.</p>
-    <div class="mt-7 flex flex-wrap justify-center gap-3">
-      <a href="#catalog" class="bg-blue text-white font-comfortaa font-bold px-7 py-3 rounded-full hover:bg-red transition shadow-lg shadow-blue/30">В страну чудес ↓</a>
-      <span class="bg-white px-4 py-3 rounded-full font-bold text-sm border-2 border-green/50">🚚 Бесплатно от 3000 ₽</span>
+<div class="wrap">
+  <div class="path-zone">
+    <!-- извилистая тропа -->
+    <svg viewBox="0 0 400 320" style="width:100%;max-width:420px;display:block;margin:0 auto" aria-hidden="true">
+      <ellipse cx="60" cy="40" rx="34" ry="42" fill="#9BC49B" opacity=".5"/>
+      <ellipse cx="350" cy="90" rx="38" ry="46" fill="#9BC49B" opacity=".4"/>
+      <ellipse cx="45" cy="200" rx="40" ry="48" fill="#87B487" opacity=".45"/>
+      <ellipse cx="355" cy="250" rx="34" ry="44" fill="#87B487" opacity=".4"/>
+      <path d="M200 10 C 150 60, 260 90, 210 130 C 160 170, 90 160, 120 210 C 145 250, 250 240, 210 300"
+            fill="none" stroke="#9B7BDE" stroke-width="5" stroke-dasharray="2 14" stroke-linecap="round"/>
+      <circle cx="200" cy="10" r="10" fill="#FFD35C" stroke="#3E3A52" stroke-width="2"/>
+      <circle cx="210" cy="130" r="10" fill="#FF9ED2" stroke="#3E3A52" stroke-width="2"/>
+      <circle cx="120" cy="210" r="10" fill="#7BD3F7" stroke="#3E3A52" stroke-width="2"/>
+      <circle cx="210" cy="300" r="10" fill="#9BE564" stroke="#3E3A52" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <section class="stop reveal">
+    <span class="stop-circle">🌳</span>
+    <div class="stop-name">Дуб Лукоморья</div>
+    <div class="toys">
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🦉</div><b>Сова-грелка «Учёная»</b><div class="desc">с мятной начинкой, греет крылышки</div><div class="price-row"><span class="price">1 290 ₽</span><button class="bag-add" data-id="t1" data-name="Сова-грелка «Учёная»" data-price="1290">+ в мешок</button></div></div>
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🌰</div><b>Погремушка «Жёлудь»</b><div class="desc">дерево берёзы, тихий шелест</div><div class="price-row"><span class="price">590 ₽</span><button class="bag-add" data-id="t2" data-name="Погремушка «Жёлудь»" data-price="590">+ в мешок</button></div></div>
     </div>
-    <div class="mt-6 text-6xl">🧸 🚂 🦄 🎮 🐻</div>
+  </section>
+
+  <section class="stop reveal">
+    <span class="stop-circle">🏠</span>
+    <div class="stop-name">Избушка</div>
+    <div class="toys">
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">🪵</div><b>Конструктор «Избушка на курьих ножках»</b><div class="desc">122 детали, ножки поворачиваются</div><div class="price-row"><span class="price">2 490 ₽</span><button class="bag-add" data-id="t3" data-name="Конструктор «Избушка»" data-price="2490">+ в мешок</button></div></div>
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🔥</div><b>Ночник «Печка»</b><div class="desc">тёплый свет, таймер на 30 минут</div><div class="price-row"><span class="price">1 690 ₽</span><button class="bag-add" data-id="t4" data-name="Ночник «Печка»" data-price="1690">+ в мешок</button></div></div>
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">🐈‍⬛</div><b>Кот-марионетка Баюн</b><div class="desc">на трёх нитях, рассказывает хвостом</div><div class="price-row"><span class="price">1 350 ₽</span><button class="bag-add" data-id="t5" data-name="Кот-марионетка Баюн" data-price="1350">+ в мешок</button></div></div>
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🪟</div><b>Окошко-сюрприз «Светелка»</b><div class="desc">со ставнем, за ним прячется птичка</div><div class="price-row"><span class="price">1 150 ₽</span><button class="bag-add" data-id="t15" data-name="Окошко-сюрприз «Светелка»" data-price="1150">+ в мешок</button></div></div>
+    </div>
+  </section>
+
+  <section class="stop reveal">
+    <span class="stop-circle">🧸</span>
+    <div class="stop-name">Кладовая чудес</div>
+    <div class="toys">
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">🧸</div><b>Мишка Тишка из тик-така</b><div class="desc">шерсть, живые глазки, 38 см</div><div class="price-row"><span class="price">2 190 ₽</span><button class="bag-add" data-id="t6" data-name="Мишка Тишка" data-price="2190">+ в мешок</button></div></div>
+      <div class="toy" data-age="10"><span class="abadge">10+</span><div class="face">🧩</div><b>Сундучок загадок кощеев</b><div class="desc">50 задач на смекалку с замочками</div><div class="price-row"><span class="price">1 790 ₽</span><button class="bag-add" data-id="t7" data-name="Сундучок загадок" data-price="1790">+ в мешок</button></div></div>
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🧶</div><b>Волшебный клубок-путеводитель</b><div class="desc">катится и смеётся, ведёт по квартире</div><div class="price-row"><span class="price">890 ₽</span><button class="bag-add" data-id="t8" data-name="Волшебный клубок" data-price="890">+ в мешок</button></div></div>
+      <div class="toy" data-age="10"><span class="abadge">10+</span><div class="face">🔐</div><b>Дупло-секретер с шифром</b><div class="desc">деревянный сейф, код ищется в подсказках</div><div class="price-row"><span class="price">1 450 ₽</span><button class="bag-add" data-id="t13" data-name="Дупло-секретер с шифром" data-price="1450">+ в мешок</button></div></div>
+    </div>
+  </section>
+
+  <section class="stop reveal">
+    <span class="stop-circle">🎠</span>
+    <div class="stop-name">Карусель</div>
+    <div class="toys">
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🐴</div><b>Лошадка-качалка «Юлай»</b><div class="desc">из липы, грива из шерсти</div><div class="price-row"><span class="price">3 490 ₽</span><button class="bag-add" data-id="t9" data-name="Лошадка-качалка «Юлай»" data-price="3490">+ в мешок</button></div></div>
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">🎡</div><b>Настольная карусель-механика</b><div class="desc">заводная, звери меняются местами</div><div class="price-row"><span class="price">2 290 ₽</span><button class="bag-add" data-id="t10" data-name="Карусель-механика" data-price="2290">+ в мешок</button></div></div>
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">🐻</div><b>Заводной медведь-танцор</b><div class="desc">механика часового мастера Прохора</div><div class="price-row"><span class="price">2 190 ₽</span><button class="bag-add" data-id="t14" data-name="Заводной медведь-танцор" data-price="2190">+ в мешок</button></div></div>
+    </div>
+  </section>
+
+  <section class="stop reveal">
+    <span class="stop-circle">🎁</span>
+    <div class="stop-name">Подарочная</div>
+    <div class="toys">
+      <div class="toy" data-age="6"><span class="abadge">6+</span><div class="face">📜</div><b>Свиток сказок на 12 ночей</b><div class="desc">по главе на ночь, сургучная печать</div><div class="price-row"><span class="price">990 ₽</span><button class="bag-add" data-id="t11" data-name="Свиток сказок" data-price="990">+ в мешок</button></div></div>
+      <div class="toy" data-age="10"><span class="abadge">10+</span><div class="face">🗺️</div><b>Карта Лукоморья светящаяся</b><div class="desc">в темноте проявляются тропы</div><div class="price-row"><span class="price">1 190 ₽</span><button class="bag-add" data-id="t12" data-name="Карта Лукоморья" data-price="1190">+ в мешок</button></div></div>
+      <div class="toy" data-age="3"><span class="abadge">3+</span><div class="face">🎀</div><b>Ленточка-оберег «Путь»</b><div class="desc">плетёная, с колокольчиком на конце</div><div class="price-row"><span class="price">450 ₽</span><button class="bag-add" data-id="t16" data-name="Ленточка-оберег «Путь»" data-price="450">+ в мешок</button></div></div>
+    </div>
+  </section>
+</div>
+
+<section class="reveal" style="margin-top:36px;text-align:center">
+  <div class="hand" style="font-size:22px;color:#6F52B0">почему в Лукоморье ходят тропой, а не полками:</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px">
+    <div style="background:#fff;border-radius:16px;padding:14px;box-shadow:0 6px 14px rgba(62,58,82,.1)"><span style="font-size:30px">✨</span><div class="hand" style="font-size:18px">каждая игрушка — глава одной большой сказки</div></div>
+    <div style="background:#fff;border-radius:16px;padding:14px;box-shadow:0 6px 14px rgba(62,58,82,.1)"><span style="font-size:30px">🪵</span><div class="hand" style="font-size:18px">дерево из Владимирской области, краски на воде</div></div>
+    <div style="background:#fff;border-radius:16px;padding:14px;box-shadow:0 6px 14px rgba(62,58,82,.1)"><span style="font-size:30px">🎓</span><div class="hand" style="font-size:18px">возраст на бейдже ставят наши педагоги, не маркетологи</div></div>
   </div>
 </section>
 
-<main class="max-w-6xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-white border-2 border-blue/30 rounded-full px-4 py-2 text-sm font-bold outline-none focus:border-red">
-      <option value="pop">Популярные</option>
-      <option value="asc">Дешевле сначала</option>
-      <option value="desc">Дороже сначала</option>
-    </select>
-  </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-slate-500 py-16 font-comfortaa">Волшебство закончилось… но скоро привезём!</p>
+<div class="sign">
+  Сказку сверстала <a href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a><br>
+  <span style="font-size:12px">kokaomefedron.github.io/NEONFORGE</span>
+</div>
 
-  <div class="mt-12 bg-white bouncy p-6 text-center font-comfortaa text-lg text-blue border-2 border-dashed border-red/40">
-    «Настолка села на неделю. Дети играют, родители отдыхают. Магазин, спасибо!» — семья Петровых 👨‍👩‍👧‍👦
-  </div>
-</main>
+<button class="bag-btn" onclick="toggleBag()">🎒<span class="bag-badge" id="badge">0</span></button>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="bg-white bouncy border-4 border-blue/30 p-6 md:p-8 shadow-xl shadow-blue/10">
-    <h2 class="font-comfortaa font-bold text-2xl mb-1">Оформить заказ</h2>
-    <p class="text-slate-500 text-sm mb-5">Курьер-волшебник приедет в удобное время 🪄</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя родителя" class="bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
-      <input required type="tel" placeholder="Телефон" class="bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
-      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-sky1/60 border-2 border-blue/20 rounded-2xl px-4 py-3 text-sm outline-none focus:border-blue">
-      <button type="submit" class="sm:col-span-2 bg-green text-white font-comfortaa font-bold text-lg py-4 rounded-2xl hover:bg-blue transition">Собрать чудо!</button>
+<div class="bag-panel" id="bagPanel" style="display:none">
+  <div class="bag-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <b style="font-size:20px">🎒 Мешок</b>
+      <button class="age" onclick="toggleBag()">✕</button>
+    </div>
+    <div id="bagBody" class="mt-3"></div>
+    <label class="bag-row" style="background:var(--sun);cursor:pointer">
+      <span>Подарочная обёртка</span><span><input type="checkbox" id="wrap"> +300 ₽</span>
+    </label>
+    <div class="bag-row" style="background:var(--violet);color:#fff"><span>ИТОГО</span><b id="total">0 ₽</b></div>
+    <form class="order" id="orderForm">
+      <b class="hand" style="font-size:18px">Письмо Деду-Курьеру ✉️</b>
+      <input name="parent" placeholder="Имя родителя" required>
+      <input name="phone" placeholder="Телефон" required pattern="[0-9+()\-\s]{6,}">
+      <input name="child" placeholder="Имя ребёнка" required>
+      <button class="go" type="submit">Отправить посылку</button>
     </form>
-    <p id="orderMsg" class="hidden mt-4 text-green font-comfortaa font-bold text-center"></p>
   </div>
-</section>
-
-<footer class="border-t-4 border-blue/20 py-10 bg-white/70">
-  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-slate-600">
-    <div>
-      <p class="font-comfortaa font-bold text-blue text-lg mb-2">✨ Лукоморье</p>
-      <p>Москва, ул. Сказочная, 5<br>Ежедневно 10:00–20:00</p>
-    </div>
-    <div>
-      <p class="text-slate-700 font-bold mb-2">Связь</p>
-      <p>+7 (499) 777-33-22<br>chudo@lukomorye.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-slate-400 text-xs leading-relaxed">© 2026 «Лукоморье»<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-blue underline hover:text-red">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
-</footer>
-
-<div id="cartOverlay" class="fixed inset-0 bg-blue/30 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white border-l-4 border-blue/30 z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b-2 border-blue/20">
-    <p class="font-comfortaa font-bold text-lg">Мешок чудес</p>
-    <button id="cartClose" class="text-slate-400 hover:text-red text-2xl leading-none">×</button>
-  </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t-2 border-blue/20">
-    <div class="flex justify-between font-comfortaa font-bold text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-red">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-blue text-white font-comfortaa font-bold py-3 rounded-2xl hover:bg-red transition">К оформлению</button>
-  </div>
-</aside>
+</div>
 
 <script>
-const products = [
-  { id:1, name:'Конструктор «Замок дракона», 640 дет.', cat:'Конструкторы', age:'6+', price:3290, emoji:'🐉', desc:'Подъёмный мост, светящаяся башня и 3 минифигурки', grad:'linear-gradient(135deg,#2E86DE,#8ec9ff)' },
-  { id:2, name:'Конструктор «Космодром», 420 дет.', cat:'Конструкторы', age:'6+', price:2790, emoji:'🚀', desc:'Ракета, ровер и стартовая площадка с маячком', grad:'linear-gradient(135deg,#3b3b6d,#6c5ce7)' },
-  { id:3, name:'Мягкий мишка Барни, 45 см', cat:'Мягкие игрушки', age:'0+', price:1690, emoji:'🧸', desc:'Антистресс-плюш, машинная стирка, обнимашка №1', grad:'linear-gradient(135deg,#d4a06a,#f3d5a7)' },
-  { id:4, name:'Единорог Пузырь на колёсах', cat:'Мягкие игрушки', age:'3+', price:1290, emoji:'🦄', desc:'Каталка с ручкой, радужная грива, колёсики тихие', grad:'linear-gradient(135deg,#EB4747,#ffc3c3)' },
-  { id:5, name:'Настолка «Пираты бюджета», 2–6 игроков', cat:'Настолки', age:'10+', price:1990, emoji:'🏴‍☠️', desc:'Стратегия на 45 минут. Дети считают, родители думать', grad:'linear-gradient(135deg,#2ECC71,#b7f5d0)' },
-  { id:6, name:'Настолка «Зообульдозер», детская', cat:'Настолки', age:'3+', price:1290, emoji:'🦒', desc:'Сортировка зверей: внимание и цвета в игре', grad:'linear-gradient(135deg,#FFC93C,#fff3c4)' },
-  { id:7, name:'Деревянная железная дорога, 68 дет.', cat:'Конструкторы', age:'3+', price:2490, emoji:'🚂', desc:'Мост, тоннель, магнитные вагончики, совместимо с классикой', grad:'linear-gradient(135deg,#6F4E37,#c9a97e)' },
-  { id:8, name:'Набор «Юный палеонтолог»', cat:'Настолки', age:'6+', price:1590, emoji:'🦖', desc:'Раскопки динозавра, кисточка, книга-энциклопедия', grad:'linear-gradient(135deg,#5d4037,#a1887f)' },
-  { id:9, name:'Плюшевый кит Синий, 60 см', cat:'Мягкие игрушки', age:'0+', price:2190, emoji:'🐳', desc:'Огромный, мягкий, дышит безопасностью', grad:'linear-gradient(135deg,#2E86DE,#cfe8ff)' },
-  { id:10, name:'Игровая приставка-планшет «Турбо-малыш»', cat:'Настолки', age:'6+', price:3990, emoji:'🎮', desc:'100 обучающих игр, режим родительского контроля', grad:'linear-gradient(135deg,#EB4747,#2E86DE)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*900)+100;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+  const cart=[], fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+  document.querySelectorAll('.bag-add').forEach(b=>b.addEventListener('click',()=>{
+    const f=cart.find(i=>i.id===b.dataset.id);
+    f?f.qty++:cart.push({id:b.dataset.id,name:b.dataset.name,price:+b.dataset.price,qty:1});
+    b.textContent='в мешке ✓'; setTimeout(()=>b.textContent='+ в мешок',800);
+    render();
+  }));
+  function chQty(id,d){
+    const i=cart.find(x=>x.id===id); if(!i)return;
+    i.qty+=d; if(i.qty<=0)cart.splice(cart.indexOf(i),1); render();
+  }
+  function render(){
+    document.getElementById('badge').textContent=cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('bagBody').innerHTML=cart.length
+      ?cart.map(i=>`<div class="bag-row"><span>${i.name}<br><small style="color:#7A7590">${fmt(i.price)} × ${i.qty}</small></span>
+        <span><button class="age" onclick="chQty('${i.id}',-1)">−</button> ${i.qty} <button class="age" onclick="chQty('${i.id}',1)">+</button></span></div>`).join('')
+      :'<div class="bag-row">Мешок пустой — набирай на тропе!</div>';
+    const sum=cart.reduce((s,i)=>s+i.price*i.qty,0)+(document.getElementById('wrap').checked&&cart.length?300:0);
+    document.getElementById('total').textContent=fmt(sum);
+  }
+  document.getElementById('wrap').addEventListener('change',render);
+  function toggleBag(){const p=document.getElementById('bagPanel');p.style.display=p.style.display==='none'?'block':'none';}
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-bold border-2 transition ${c===activeCat?'bg-red text-white border-red':'border-blue/30 text-slate-600 hover:border-green hover:text-green'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="bg-white bouncy border-2 border-blue/20 overflow-hidden hover:border-green hover:-translate-y-1 hover:shadow-lg hover:shadow-green/20 transition flex flex-col group">
-      <div class="relative h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-125 group-hover:rotate-6 transition-transform duration-300">${p.emoji}</span>
-        <span class="absolute top-2 left-2 bg-white/90 text-blue font-comfortaa font-bold text-xs px-2 py-1 rounded-full">${p.age}</span>
-        <span class="absolute top-2 right-2 bg-yellow-300 text-slate-700 font-bold text-[10px] px-2 py-1 rounded-full">Весёлый вторник −15%</span>
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] font-bold uppercase tracking-wider text-green mb-1">${p.cat}</p>
-        <h3 class="font-bold text-sm leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-slate-500 mt-1">${p.desc}</p>
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <p class="font-comfortaa font-bold text-lg text-red">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="bg-blue text-white text-sm font-bold px-3 py-2 rounded-full hover:bg-green transition">+ Хочу!</button>
-        </div>
-      </div>
-    </article>`).join('');
-}
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border-2 border-blue/20 rounded-2xl p-3">
-      <div class="w-11 h-11 rounded-full flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-bold truncate">${p.name}</p>
-        <p class="text-xs text-red font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border-2 border-blue/20 rounded-full hover:border-red hover:text-red">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border-2 border-blue/20 rounded-full hover:border-red hover:text-red">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-slate-300 hover:text-red ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-slate-400 py-10 text-sm font-comfortaa">Мешок пока пустой 🪄</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
-});
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  document.getElementById('orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    document.querySelector('.bag-inner').innerHTML=`<div class="text-center" style="padding-top:60px">
+      <div style="font-size:64px">📮</div><b style="font-size:24px">Посылка собрана!</b>
+      <p class="hand" style="font-size:19px;color:#6F52B0">Дед-Курьер уже оседлал коня. Ждите звонок в течение часа.</p>
+      <button class="go" onclick="location.reload()">Гулять по тропе снова</button></div>`;
+  });
+
+  document.querySelectorAll('#ages .age').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('#ages .age').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const a=b.dataset.age;
+    document.querySelectorAll('.toy').forEach(t=>t.classList.toggle('hidden',a!=='all'&&t.dataset.age!==a));
+  }));
+
+  // появление тропы и остановок
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}
+  }),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>

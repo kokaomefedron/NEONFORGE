@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Вставляет 40 карточек кейсов в index.html + добавляет фильтр Custom.
-Запускать после make_previews.py. Создаёт бэкап index.html.bak-cases."""
+УСТАРЕЛ: кейсы переделаны в папки (#casesFolders), карточки уже внутри index.html.
+Скрипт оставлен для истории — при запуске упадёт (маркер casesGrid больше не существует)."""
 import re, subprocess, sys, os
 
 PAGE = r"C:\Users\swap\Desktop\ббаки_успех\index.html"

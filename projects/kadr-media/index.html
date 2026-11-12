@@ -4,193 +4,402 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Кадр — медиа-агентство, Москва</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: { extend: {
-    colors: { blk:'#0A0A0A', blk2:'#141414', red:'#FF3B30' },
-    fontFamily: { tight:['"Inter Tight"','sans-serif'], georgia:['Georgia','serif'] }
-  } }
-}
-</script>
+<meta name="description" content="Медиа-агентство «Кадр»: реклама, видеопродакшн, спецпроекты. 340 съёмочных дней в 2025 году.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
-  html{scroll-behavior:smooth}
-  body{font-family:'Inter Tight',sans-serif}
-  .frame-1{background:linear-gradient(135deg,#2A2A2A,#0A0A0A 70%);position:relative}
-  .frame-1::after{content:"";position:absolute;inset:10px;border:1px solid #333}
-  .frame-2{background:linear-gradient(160deg,#3A3A3A,#101010 70%);position:relative}
-  .frame-2::after{content:"";position:absolute;inset:10px;border:1px solid #333}
-  .frame-3{background:linear-gradient(200deg,#222,#0A0A0A 60%);position:relative}
-  .frame-3::after{content:"";position:absolute;inset:10px;border:1px solid #333}
-  .frame-4{background:linear-gradient(110deg,#444,#161616 65%);position:relative}
-  .frame-4::after{content:"";position:absolute;inset:10px;border:1px solid #333}
+:root{
+  --black:#0A0A0A;
+  --white:#F5F5F2;
+  --red:#FF3B30;
+  --grey:#6E6E6A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Inter Tight',Arial,sans-serif;
+  font-size:15.5px;
+  line-height:1.55;
+  padding-bottom:96px; /* место под нижнюю плёнку */
+}
+.q{font-family:Georgia,'Times New Roman',serif;font-style:italic}
+
+/* перфорация плёнки */
+.perf{
+  height:22px;
+  background-image:repeating-linear-gradient(90deg,
+    transparent 0 26px, #1E1E1C 26px 48px);
+  position:relative;
+}
+.perf::after{
+  content:"";
+  position:absolute;inset:5px 0;
+  background-image:repeating-linear-gradient(90deg,
+    transparent 0 30px, rgba(245,245,242,.14) 30px 44px);
+  border-radius:3px;
+}
+.perf.bottom::after{inset:auto 0 5px 0;top:auto;bottom:5px}
+
+/* ---------- головка плёнки ---------- */
+.leader{
+  max-width:1160px;margin:0 auto;
+  padding:40px 20px 10px;
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 26px;
+}
+.leader h1{
+  font-weight:800;
+  font-size:clamp(42px,9vw,96px);
+  letter-spacing:-.02em;
+  line-height:.95;
+}
+.leader h1 .red{color:var(--red)}
+.leader .meta{
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);
+  padding-bottom:10px;
+}
+.leader .meta b{color:var(--white);font-weight:500}
+.slate{
+  max-width:1160px;margin:6px auto 0;
+  padding:0 20px 26px;
+  font-size:13px;color:var(--grey);
+  border-bottom:1px solid #1E1E1C;
+}
+.slate b{color:var(--white);font-weight:500}
+
+/* ---------- секции ---------- */
+section{max-width:1160px;margin:0 auto;padding:46px 20px 8px}
+.sec-tag{
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);
+  font-weight:600;margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.sec-tag::after{content:"";flex:1;height:1px;background:#1E1E1C}
+.sec-tag .no{color:var(--grey)}
+
+/* ---------- контактный лист ---------- */
+.sheet{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(168px,1fr));
+  gap:14px;
+  padding:26px 0;
+}
+.frame{
+  position:relative;
+  aspect-ratio:16/10;
+  border-radius:3px;
+  overflow:hidden;
+  cursor:pointer;
+  background:#141412;
+  outline:1px solid #23231F;
+}
+.frame .fimg{position:absolute;inset:0}
+.frame .fno{
+  position:absolute;top:7px;left:9px;
+  font-size:10px;letter-spacing:.14em;color:rgba(245,245,242,.75);
+  font-weight:500;
+}
+.frame .fname{
+  position:absolute;left:9px;right:9px;bottom:7px;
+  font-size:11.5px;font-weight:500;color:var(--white);
+  opacity:0;transform:translateY(4px);
+  transition:opacity .2s,transform .2s;
+}
+/* градиенты-сцены */
+.sc1{background:linear-gradient(140deg,#2E3B2A 0%,#4A5E3C 55%,#141710 100%)}
+.sc2{background:linear-gradient(160deg,#3B2A2E 0%,#7A3038 60%,#170D10 100%)}
+.sc3{background:linear-gradient(120deg,#22303B 0%,#3E6178 55%,#0D1418 100%)}
+.sc4{background:linear-gradient(150deg,#40351F 0%,#8A6C2E 50%,#191307 100%)}
+.sc5{background:linear-gradient(135deg,#1F2723 0%,#4E5D55 60%,#0B0E0D 100%)}
+.sc6{background:linear-gradient(145deg,#332440 0%,#6E4B8A 55%,#120C16 100%)}
+.sc7{background:linear-gradient(155deg,#0E2A33 0%,#1E6E7A 60%,#071518 100%)}
+.sc8{background:linear-gradient(125deg,#3E2B22 0%,#9A5A38 55%,#180F0A 100%)}
+.sc9{background:linear-gradient(140deg,#26262B 0%,#5A5A66 55%,#0D0D0F 100%)}
+.sc10{background:linear-gradient(160deg,#313A20 0%,#6E8A2E 50%,#121507 100%)}
+.sc11{background:linear-gradient(130deg,#2A1F1F 0%,#6E3A3A 55%,#110B0B 100%)}
+.sc12{background:linear-gradient(150deg,#1F3328 0%,#3A8A5C 55%,#0B140E 100%)}
+
+/* красный маркер при hover */
+.frame .marker{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .18s}
+.frame:hover .marker,.frame:focus-within .marker{opacity:1}
+.frame:hover .fname{opacity:1;transform:none}
+.marker svg{position:absolute;inset:0;width:100%;height:100%}
+.marker circle{
+  fill:none;stroke:var(--red);stroke-width:2.4;
+  stroke-linecap:round;stroke-dasharray:200 46 140 30 180 24;
+  stroke-dashoffset:0;
+}
+
+/* ---------- showreel ---------- */
+.reel{
+  position:relative;
+  aspect-ratio:21/9;
+  border-radius:4px;
+  background:linear-gradient(115deg,#101014 0%,#26262E 45%,#0E0E12 100%);
+  outline:1px solid #23231F;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  overflow:hidden;
+}
+.reel .play{
+  width:86px;height:86px;border-radius:50%;
+  border:2px solid var(--white);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s,border-color .25s;
+}
+.reel:hover .play{transform:scale(1.08);border-color:var(--red)}
+.reel .play::before{
+  content:"";width:0;height:0;margin-left:6px;
+  border-style:solid;border-width:16px 0 16px 27px;
+  border-color:transparent transparent transparent var(--white);
+}
+.reel .rl{
+  position:absolute;left:20px;bottom:16px;
+  font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:rgba(245,245,242,.6);
+}
+.reel .rnd{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(10,10,10,.86);
+  font-size:14px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--red);font-weight:600;
+  opacity:0;pointer-events:none;
+}
+.reel.rendering .rnd{opacity:1}
+.reel.rendering .play{animation:shake .4s linear}
+@keyframes shake{
+  0%,100%{transform:translate(0,0)}
+  20%{transform:translate(-6px,3px) rotate(-2deg)}
+  40%{transform:translate(5px,-4px) rotate(2deg)}
+  60%{transform:translate(-4px,-3px)}
+  80%{transform:translate(4px,2px)}
+}
+
+/* ---------- услуги: сценарные строки ---------- */
+.scene{
+  display:grid;
+  grid-template-columns:74px 1fr auto;
+  gap:8px 22px;
+  align-items:baseline;
+  padding:20px 4px;
+  border-bottom:1px solid #1E1E1C;
+}
+.scene:last-child{border-bottom:none}
+.scene .sno{
+  font-weight:800;font-size:26px;color:var(--red);letter-spacing:-.02em;
+}
+.scene .st{
+  font-weight:600;font-size:19px;
+}
+.scene .sd{grid-column:2;color:var(--grey);font-size:14px;max-width:62ch}
+.scene .sp{
+  grid-row:1 / span 2;
+  font-size:13px;color:var(--white);white-space:nowrap;text-align:right;
+}
+.scene .sp b{color:var(--red);font-weight:600}
+@media(max-width:620px){
+  .scene{grid-template-columns:54px 1fr}
+  .scene .sp{grid-row:auto;grid-column:2;text-align:left}
+}
+
+/* ---------- команда: титры ---------- */
+.credits{columns:2;column-gap:40px;padding:8px 0}
+@media(max-width:620px){.credits{columns:1}}
+.credits .cr{
+  break-inside:avoid;
+  display:flex;justify-content:space-between;gap:14px;
+  padding:9px 2px;border-bottom:1px solid #161614;
+  font-size:14px;
+}
+.credits .cr .role{color:var(--grey);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding-top:2px}
+.credits .cr b{font-weight:600}
+
+/* ---------- нижняя киноплёнка ---------- */
+.strip{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:#0D0D0B;
+  border-top:1px solid #23231F;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  display:flex;gap:10px;
+  overflow-x:auto;scrollbar-width:none;
+}
+.strip::-webkit-scrollbar{display:none}
+.mini{
+  flex:0 0 auto;
+  width:96px;
+  text-decoration:none;color:var(--grey);
+  display:flex;flex-direction:column;gap:5px;
+}
+.mini .th{
+  height:44px;border-radius:3px;
+  outline:1px solid #23231F;
+  position:relative;overflow:hidden;
+  transition:outline-color .2s;
+}
+.mini .th::after{
+  content:"";position:absolute;inset:4px 5px;
+  background-image:repeating-linear-gradient(90deg,transparent 0 7px,rgba(10,10,10,.25) 7px 9px);
+}
+.mini .tl{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap}
+.mini:hover{color:var(--white)}
+.mini:hover .th{outline-color:var(--grey)}
+.mini.on{color:var(--white)}
+.mini.on .th{outline:2.5px solid var(--red)}
+.mini.on .tl{color:var(--red)}
+.th-works{background:linear-gradient(140deg,#2E3B2A,#4A5E3C)}
+.th-serv{background:linear-gradient(140deg,#3B2A2E,#7A3038)}
+.th-team{background:linear-gradient(140deg,#22303B,#3E6178)}
+.th-contacts{background:linear-gradient(140deg,#40351F,#8A6C2E)}
+.th-studio{background:repeating-linear-gradient(90deg,#141412 0 8px,#0A0A0A 8px 10px)}
+.th-studio::before{
+  content:"N.";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:var(--red);font-weight:800;font-size:15px;z-index:2;
+}
+.mini .tl{display:block}
+.mini .tl small{text-transform:none;letter-spacing:.02em;color:var(--grey)}
+
+/* ---------- контакты ---------- */
+.c-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px 34px;padding-top:6px}
+.c-grid .ccl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);margin-bottom:4px}
+.c-grid a{color:var(--white);text-decoration:none;border-bottom:1px solid #23231F}
+.c-grid a:hover{color:var(--red);border-bottom-color:var(--red)}
 </style>
 </head>
-<body class="bg-blk text-white antialiased">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-blk/95 backdrop-blur border-b border-[#2A2A2A]">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <a href="#about" class="flex items-center gap-2">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="2" y="5" width="22" height="16" stroke="#FF3B30" stroke-width="2"/><path d="M10 10l7 3-7 3z" fill="#FF3B30"/></svg>
-      <span class="font-tight font-extrabold text-xl tracking-tight">КАДР<span class="text-red">.</span></span>
-    </a>
-    <nav class="hidden md:flex gap-6 text-sm font-semibold">
-      <a href="#about" class="hover:text-red transition">Агентство</a>
-      <a href="#services" class="hover:text-red transition">Услуги</a>
-      <a href="#projects" class="hover:text-red transition">Работы</a>
-      <a href="#jobs" class="hover:text-red transition">Вакансии</a>
-      <a href="#contacts" class="hover:text-red transition">Контакты</a>
-    </nav>
-    <button id="burger" class="md:hidden p-2" aria-label="Меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#FF3B30" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-  </div>
-  <nav id="mobnav" class="hidden md:hidden border-t border-[#2A2A2A] bg-blk px-5 py-4 flex flex-col gap-4 text-sm font-semibold">
-    <a href="#about">Агентство</a><a href="#services">Услуги</a><a href="#projects">Работы</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
-  </nav>
+<div class="perf"></div>
+
+<header class="leader">
+  <h1>КАДР<span class="red">.</span></h1>
+  <div class="meta"><b>медиа-агентство</b> · Москва · 2013—2026 · <b>340 съёмочных дней</b> в 2025</div>
 </header>
+<p class="slate">Сцена 01 · съёмка начата · <b>реклама, видеопродакшн, спецпроекты</b> · дубль один — рабочий</p>
 
-<!-- HERO -->
-<section id="about" class="pt-24 pb-16">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-[#8A8A8A] text-sm font-semibold mb-4">Медиа-агентство · Москва · с 2016 года</p>
-    <h1 class="font-tight text-5xl md:text-7xl font-extrabold tracking-tight leading-none mb-6">Мы снимаем так,<br>что <span class="text-red">невозможно</span><br>перелистнуть</h1>
-    <p class="max-w-lg text-[#A8A8A8] leading-relaxed mb-10">Видеопродакшн, реклама, SMM и дизайн для брендов, которым нужен голос, а не «контент-план ради плана». 210 съёмочных проектов с 2016 года.</p>
-    <div class="grid grid-cols-3 gap-4 max-w-lg">
-      <div class="border-t-2 border-red pt-4"><div class="font-tight text-4xl font-extrabold"><span class="counter" data-to="10">0</span></div><p class="text-xs text-[#8A8A8A] mt-1">лет на рынке</p></div>
-      <div class="border-t-2 border-red pt-4"><div class="font-tight text-4xl font-extrabold"><span class="counter" data-to="210">0</span></div><p class="text-xs text-[#8A8A8A] mt-1">проектов</p></div>
-      <div class="border-t-2 border-red pt-4"><div class="font-tight text-4xl font-extrabold"><span class="counter" data-to="95">0</span></div><p class="text-xs text-[#8A8A8A] mt-1">клиентов</p></div>
-    </div>
+<section id="works">
+  <div class="sec-tag"><span class="no">С02</span>Работы · контактный лист</div>
+  <div class="sheet">
+    <div class="frame" tabindex="0"><div class="fimg sc1"></div><span class="fno">12A</span><span class="fname">«Северный ветер» — авиакомпания, 60″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc2"></div><span class="fno">13B</span><span class="fname">«Тесто» — сеть пекарен, 30″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc3"></div><span class="fno">14A</span><span class="fname">«Глубина» — бренд воды, 45″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc4"></div><span class="fno">15C</span><span class="fname">«Урожай» — агрохолдинг, спецпроект</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc5"></div><span class="fno">16A</span><span class="fname">«Город не спит» — доставка, 20″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc6"></div><span class="fno">17B</span><span class="fname">«Палитра» — салаты краски, OOH</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc7"></div><span class="fno">18A</span><span class="fname">«Чистая линия» — фильтры, 15″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc8"></div><span class="fno">19C</span><span class="fname">«Мастерская» — инструменты, 30″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc9"></div><span class="fno">20A</span><span class="fname">«Механика» — электрокары, 60″</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc10"></div><span class="fno">21B</span><span class="fname">«Лето в лесу» — туроператор</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc11"></div><span class="fno">22A</span><span class="fname">«Первый ряд» — сеть кинотеатров</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+    <div class="frame" tabindex="0"><div class="fimg sc12"></div><span class="fno">23B</span><span class="fname">«Хлорофилл» — маркетплейс растений</span><div class="marker"><svg viewBox="0 0 100 62" preserveAspectRatio="none"><circle cx="50" cy="31" r="44"/></svg></div></div>
+  </div>
+  <p style="font-size:12.5px;color:var(--grey)">Кадры 12A–23B · наведите, чтобы увидеть проект · полный каталог из 87 работ — по запросу на почту.</p>
+</section>
+
+<section id="showreel">
+  <div class="sec-tag"><span class="no">С03</span>Showreel 2025</div>
+  <div class="reel" id="reel" role="button" tabindex="0" aria-label="Показать showreel">
+    <div class="play"></div>
+    <span class="rl">02:47 · 4K · звук включите</span>
+    <div class="rnd">Рендер в пути — expected soon</div>
   </div>
 </section>
 
-<!-- SHOWREEL -->
-<section class="px-5 max-w-6xl mx-auto pb-20">
-  <div class="relative bg-blk2 border border-[#2A2A2A] rounded-lg h-64 md:h-96 flex items-center justify-center overflow-hidden" style="background:linear-gradient(120deg,#1A1A1A,#0A0A0A 50%,#1A1A1A)">
-    <button class="w-20 h-20 rounded-full bg-red flex items-center justify-center hover:scale-110 transition" aria-label="Смотреть шоурил">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-    </button>
-    <p class="absolute bottom-5 left-5 text-xs font-semibold uppercase tracking-widest text-[#8A8A8A]">Showreel 2026 · 01:47</p>
+<section id="services">
+  <div class="sec-tag"><span class="no">С04</span>Услуги · четыре строки сценария</div>
+  <div class="scene">
+    <span class="sno">087</span><span class="st">Рекламные ролики</span>
+    <span class="sp">от <b>850 000 ₽</b></span>
+    <p class="sd">От идеи до мастера: сценарий, кастинг, съёмка, постпродакшн. Средний ролик — 14 дней от брифа до сдачи, в бюджет входит одна пересъёмка.</p>
+  </div>
+  <div class="scene">
+    <span class="sno">088</span><span class="st">Видеопродакшн контента</span>
+    <span class="sp">от <b>180 000 ₽</b>/мес</span>
+    <p class="sd">Съёмочная команда на аутсорсе: 12 роликов в месяц для соцсетей и сайта, съёмочный день в студии у м. Электрозаводская.</p>
+  </div>
+  <div class="scene">
+    <span class="sno">089</span><span class="st">Спецпроекты</span>
+    <span class="sp">от <b>2,4 млн ₽</b></span>
+    <p class="sd">Фильмы о бренде, документальные серии, съёмка производства. Работаем с закрытыми объектами и логистикой в полях.</p>
+  </div>
+  <div class="scene">
+    <span class="sno">090</span><span class="st">Медиастратегия и закупки</span>
+    <span class="sp">от <b>9 %</b> бюджета</span>
+    <p class="sd">План кампании по каналам, отчётность по факту показов. Работаем с ТВ, OOH и digital; экранизируем KPI раз в неделю.</p>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="py-20 border-y border-[#2A2A2A] bg-blk2">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-tight text-3xl md:text-4xl font-extrabold tracking-tight mb-12">Услуги</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-[#2A2A2A]">
-      <div class="bg-blk2 p-7"><p class="text-red font-tight font-extrabold text-sm mb-3">01</p><h3 class="font-tight font-bold text-lg mb-2">Видеопродакшн</h3><p class="text-sm text-[#9A9A9A] leading-relaxed">Рекламные ролики, корпоративные фильмы, съёмки «под ключ»: сценарий, кастинг, постпродакшн.</p></div>
-      <div class="bg-blk2 p-7"><p class="text-red font-tight font-extrabold text-sm mb-3">02</p><h3 class="font-tight font-bold text-lg mb-2">Реклама</h3><p class="text-sm text-[#9A9A9A] leading-relaxed">Кампании в digital и OOH: медиастратегия, продюсирование, отчёт по CPA, а не по «охватам».</p></div>
-      <div class="bg-blk2 p-7"><p class="text-red font-tight font-extrabold text-sm mb-3">03</p><h3 class="font-tight font-bold text-lg mb-2">SMM</h3><p class="text-sm text-[#9A9A9A] leading-relaxed">Ведение каналов брендов: производство встроенного видео, коллаборации, сообщества.</p></div>
-      <div class="bg-blk2 p-7"><p class="text-red font-tight font-extrabold text-sm mb-3">04</p><h3 class="font-tight font-bold text-lg mb-2">Дизайн</h3><p class="text-sm text-[#9A9A9A] leading-relaxed">Айдентика, motion-дизайн, упаковка кампаний. Собственная дизайн-группа из 6 человек.</p></div>
-    </div>
+<section id="team">
+  <div class="sec-tag"><span class="no">С05</span>Команда · титры</div>
+  <div class="credits">
+    <div class="cr"><b>Марк Заславский</b><span class="role">режиссёр</span></div>
+    <div class="cr"><b>Ольга Ким</b><span class="role">продюсер</span></div>
+    <div class="cr"><b>Тимур Гаджиев</b><span class="role">оператор-постановщик</span></div>
+    <div class="cr"><b>Ника Соловьёва</b><span class="role">арт-директор</span></div>
+    <div class="cr"><b>Егор Панкратов</b><span class="role">монтаж</span></div>
+    <div class="cr"><b>Лиза Мельник</b><span class="role">кастинг-директор</span></div>
+    <div class="cr"><b>Артём Волков</b><span class="role">звук</span></div>
+    <div class="cr"><b>Даша Гринберг</b><span class="role">клиентский сервис</span></div>
+  </div>
+  <p class="q" style="max-width:52ch;color:#BDBDB8;font-size:17px">«Мы снимаем не ролики — мы снимаем день клиента, когда его бренд ведёт себя честно». — М. Заславский</p>
+</section>
+
+<section id="contacts">
+  <div class="sec-tag"><span class="no">С06</span>Контакты · конец дня</div>
+  <div class="c-grid">
+    <div><div class="ccl">Студия</div>Москва, ул. Электрозаводская, 21, стр. 4, цех Б</div>
+    <div><div class="ccl">Телефон</div><a href="tel:+74959891111">+7 (495) 989-11-11</a></div>
+    <div><div class="ccl">Почта</div><a href="mailto:scene@kadr.media">scene@kadr.media</a></div>
+    <div><div class="ccl">Бриф</div>Отвечаем на бриф за один рабочий день, оценка — за три</div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="projects" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-tight text-3xl md:text-4xl font-extrabold tracking-tight mb-12">Избранные работы</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div><div class="frame-1 h-48 rounded"></div><p class="mt-3 font-semibold text-sm">«Зима не ждёт» — кампания для Дудь Спорт</p><p class="text-xs text-[#8A8A8A]">Рекламный ролик · 2025</p></div>
-      <div><div class="frame-2 h-48 rounded"></div><p class="mt-3 font-semibold text-sm">Сериал мини-формата «Оборот» для ЧЗМК</p><p class="text-xs text-[#8A8A8A]">Бренд-медиа · 2026</p></div>
-      <div><div class="frame-3 h-48 rounded"></div><p class="mt-3 font-semibold text-sm">Ребрендинг сети кофеен «Тёмный»</p><p class="text-xs text-[#8A8A8A]">Айдентика + motion · 2025</p></div>
-      <div><div class="frame-4 h-48 rounded"></div><p class="mt-3 font-semibold text-sm">Запуск канала фонда «Тихий свет»</p><p class="text-xs text-[#8A8A8A]">Соцпроект · 2026</p></div>
-    </div>
-    <blockquote class="mt-16 max-w-3xl mx-auto text-center">
-      <p class="font-georgia italic text-2xl md:text-3xl text-[#D0D0D0] leading-snug">«Ребята не снимают ролики — они строят репутацию бренда кадр за кадром».</p>
-      <footer class="mt-4 text-xs uppercase tracking-widest text-[#8A8A8A]">— Директор по маркетингу, сеть «Тёмный»</footer>
-    </blockquote>
-  </div>
-</section>
+<div class="perf bottom" style="max-width:1160px;margin:40px auto 0"></div>
 
-<!-- CLIENTS -->
-<section class="py-14 border-y border-[#2A2A2A] bg-blk2">
-  <p class="text-center text-xs uppercase tracking-[0.25em] text-[#6A6A6A] mb-6">С нами работают</p>
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-tight font-extrabold text-[#3F3F3F] text-xl uppercase tracking-tight">
-    <span>Дудь Спорт</span><span>ЧЗМК</span><span>Тёмный</span><span>Норд Фьюэл</span><span>Вектор Банк</span>
-  </div>
-</section>
-
-<!-- TEAM + VACANCIES -->
-<section id="jobs" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-tight text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Команда и вакансии</h2>
-    <p class="text-sm text-[#9A9A9A] mb-10 max-w-xl">38 человек: режиссёры, продюсеры, дизайнеры, аккаунты. Мы набираем только тех, у кого есть собственный вкус.</p>
-    <div class="space-y-4 max-w-4xl">
-      <div class="border border-[#2A2A2A] rounded">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Режиссёр монтажа</span><span class="text-red font-extrabold whitespace-nowrap">от 150 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9A9A9A] leading-relaxed">Premiere/DaVinci, опыт коммерческих проектов от 2 лет, портфолио обязательно. Своя станция — плюс, но есть и в офисе.</div>
-      </div>
-      <div class="border border-[#2A2A2A] rounded">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Смм-продюсер</span><span class="text-red font-extrabold whitespace-nowrap">от 130 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9A9A9A] leading-relaxed">Ведение 3–4 брендовых каналов, работа с инфлюенсерами. Требуем кейсы с оцифрованным результатом.</div>
-      </div>
-      <div class="border border-[#2A2A2A] rounded">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-semibold">Motion-дизайнер</span><span class="text-red font-extrabold whitespace-nowrap">от 140 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9A9A9A] leading-relaxed">After Effects, 3D — приветствуется (C4D/Blender). Гибридный формат, офис у Курской.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACTS -->
-<section id="contacts" class="py-20 bg-blk2 border-t border-[#2A2A2A]">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
-    <div>
-      <h2 class="font-tight text-3xl font-extrabold tracking-tight mb-6">Расскажите о задаче</h2>
-      <p class="text-sm text-[#9A9A9A] leading-relaxed mb-6">Отвечаем в течение дня. Бриф пришлём, но можем начать и с трёх предложений в письме.</p>
-      <ul class="space-y-3 text-sm">
-        <li>📍 Москва, ул. Земляной Вал, 24, лофт «Красный Октябрь-2»</li>
-        <li>📞 +7 (495) 118-77-03</li>
-        <li>✉️ hi@kadr.media</li>
-        <li>🕘 Пн–Пт 10:00–20:00</li>
-      </ul>
-    </div>
-    <form id="cform" class="space-y-4">
-      <input required class="w-full bg-blk border border-[#2A2A2A] rounded px-4 py-3 text-sm outline-none focus:border-red" placeholder="Имя / бренд">
-      <input required type="email" class="w-full bg-blk border border-[#2A2A2A] rounded px-4 py-3 text-sm outline-none focus:border-red" placeholder="Почта">
-      <textarea class="w-full bg-blk border border-[#2A2A2A] rounded px-4 py-3 text-sm outline-none focus:border-red" rows="4" placeholder="Что хотите снять / запустить"></textarea>
-      <button class="w-full py-3 bg-red text-white font-extrabold rounded hover:brightness-110 transition">Отправить бриф</button>
-      <p id="cok" class="hidden text-red text-sm text-center font-bold">Спасибо! Мы свяжемся.</p>
-    </form>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="py-10 border-t border-[#2A2A2A]">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#5F5F5F] leading-relaxed">
-    <div>
-      <p class="text-white font-tight font-extrabold text-base mb-3">ООО «Кадр Медиа»</p>
-      <p>ИНН 7709876543 · КПП 770901001 · ОГРН 1167746876543</p>
-      <p>Р/с 40702810900000097531 в АО «Сити Банк», БИК 044525225</p>
-      <p>Адрес: 105062, Москва, ул. Земляной Вал, 24</p>
-    </div>
-    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-red underline">kokaomefedron.github.io/NEONFORGE</a></p>
-  </div>
-</footer>
+<!-- нижняя киноплёнка -->
+<nav class="strip" aria-label="Навигация по плёнке">
+  <a class="mini" href="#works" data-s="works"><span class="th th-works"></span><span class="tl">Работы</span></a>
+  <a class="mini" href="#services" data-s="services"><span class="th th-serv"></span><span class="tl">Услуги</span></a>
+  <a class="mini" href="#team" data-s="team"><span class="th th-team"></span><span class="tl">Команда</span></a>
+  <a class="mini" href="#contacts" data-s="contacts"><span class="th th-contacts"></span><span class="tl">Контакты</span></a>
+  <a class="mini" href="https://kokaomefedron.github.io/NEONFORGE" rel="noopener" title="Снято NEONFORGE">
+    <span class="th th-studio"></span>
+    <span class="tl">Снято <small>NEONFORGE — kokaomefedron.github.io/NEONFORGE</small></span>
+  </a>
+</nav>
 
 <script>
-document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
-document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
-document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) {
-    const el = e.target, to = +el.dataset.to; let n = 0;
-    const step = Math.max(1, Math.round(to / 60));
-    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
-    io.unobserve(el);
+(function(){
+  /* подсветка активной секции в нижней плёнке */
+  var minis = Array.prototype.slice.call(document.querySelectorAll('.mini[data-s]'));
+  var map = {};
+  minis.forEach(function(m){ map[m.getAttribute('data-s')] = m; });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        minis.forEach(function(m){ m.classList.remove('on'); });
+        var m = map[e.target.id];
+        if (m) m.classList.add('on');
+      }
+    });
+  }, { rootMargin:'-40% 0px -50% 0px', threshold:0 });
+  minis.forEach(function(m){
+    var s = document.getElementById(m.getAttribute('data-s'));
+    if (s) obs.observe(s);
+  });
+
+  /* showreel: честная заглушка */
+  var reel = document.getElementById('reel');
+  function fakePlay(){
+    if (reel.classList.contains('rendering')) return;
+    reel.classList.add('rendering');
+    setTimeout(function(){ reel.classList.remove('rendering'); }, 1800);
   }
-}), { threshold: .5 });
-document.querySelectorAll('.counter').forEach(c => io.observe(c));
-document.getElementById('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('cok').classList.remove('hidden');
-  e.target.reset();
-});
+  reel.addEventListener('click', fakePlay);
+  reel.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fakePlay(); }
+  });
+})();
 </script>
 </body>
 </html>

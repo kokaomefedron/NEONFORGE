@@ -4,213 +4,382 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Baltic Advisory — стратегический консалтинг, Калининград</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: { extend: {
-    colors: { bone:'#F8F7F4', navyb:'#16324F', gold:'#C5A55A' },
-    fontFamily: { disp:['"Cormorant Garamond"','serif'], sans:['Montserrat','sans-serif'] }
-  } }
-}
-</script>
+<meta name="description" content="Baltic Advisory: стратегия, финансы, организационное развитие. Калининград и вся Россия, с 2011 года.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  html{scroll-behavior:smooth}
-  body{font-family:Montserrat,sans-serif}
-  .goldline{height:1px;background:linear-gradient(90deg,#C5A55A,transparent)}
-  .phase{border-left:2px solid #C5A55A}
+:root{
+  --paper:#F8F7F4;
+  --navy:#16324F;
+  --gold:#C5A55A;
+  --gold-soft:rgba(197,165,90,.4);
+  --muted:#6E7684;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--navy);
+  font-family:'Montserrat',Arial,sans-serif;
+  font-size:15px;
+  line-height:1.7;
+}
+h1,h2,.cg{font-family:'Cormorant Garamond',Georgia,serif}
+.gold-rule{height:1px;background:linear-gradient(90deg,var(--gold),rgba(197,165,90,0));}
+
+/* ---------- шапка отчёта ---------- */
+.report-head{
+  max-width:1060px;margin:0 auto;
+  padding:70px 24px 30px;
+}
+.report-head .over{
+  font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);
+  font-weight:600;margin-bottom:14px;
+}
+.report-head h1{
+  font-weight:600;
+  font-size:clamp(40px,7.5vw,84px);
+  line-height:1.02;
+  letter-spacing:-.01em;
+}
+.report-head h1 em{font-style:italic;color:var(--gold);font-weight:500}
+.report-head .lead{
+  margin-top:18px;max-width:56ch;color:var(--muted);
+  font-size:15.5px;
+}
+.report-head .fine{
+  margin-top:26px;display:flex;gap:10px 34px;flex-wrap:wrap;
+  font-size:12px;letter-spacing:.08em;color:var(--muted);
+}
+.report-head .fine b{color:var(--navy);font-weight:600}
+
+/* ---------- вертикальный индекс ---------- */
+.index{
+  position:fixed;
+  top:26px;right:0;
+  z-index:30;
+  display:flex;flex-direction:column;align-items:flex-end;gap:2px;
+  background:var(--paper);
+  border-left:1px solid var(--gold-soft);
+  padding:10px 0 10px 0;
+}
+.index a{
+  display:flex;align-items:baseline;gap:8px;
+  text-decoration:none;color:var(--muted);
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 16px;
+  transition:color .2s;
+  writing-mode:horizontal-tb;
+}
+.index a .in{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;color:var(--gold);font-weight:600;
+}
+.index a:hover{color:var(--navy)}
+.index a.on{color:var(--navy)}
+.index a.on .in{color:var(--gold)}
+@media(max-width:860px){
+  .index{flex-direction:row;justify-content:center;left:0;right:0;top:0;
+    border-left:none;border-bottom:1px solid var(--gold-soft);padding:2px 0;
+    overflow-x:auto;scrollbar-width:none}
+  .index::-webkit-scrollbar{display:none}
+  .index a{padding:8px 10px;font-size:9px}
+  .index a .in{font-size:11px}
+  .index a .t{display:none}
+}
+
+/* ---------- развороты ---------- */
+.spread{
+  max-width:1060px;margin:0 auto;
+  padding:64px 24px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px 64px;
+  border-top:1px solid var(--gold-soft);
+}
+@media(min-width:861px){
+  .spread.flip .s-text{order:2}
+  .spread.flip .s-nums{order:1}
+}
+@media(max-width:860px){
+  .spread{grid-template-columns:1fr;gap:30px;padding:44px 20px}
+}
+.s-text .chap{
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600;
+  margin-bottom:10px;
+}
+.s-text h2{
+  font-weight:600;font-size:clamp(26px,4vw,38px);line-height:1.1;margin-bottom:16px;
+}
+.s-text p{color:var(--muted);margin-bottom:12px}
+.s-text p b{color:var(--navy);font-weight:600}
+.s-text .bullet{list-style:none;margin:8px 0 14px}
+.s-text .bullet li{
+  padding:7px 0 7px 24px;position:relative;color:var(--muted);font-size:14.5px;
+  border-bottom:1px solid rgba(22,50,79,.06);
+}
+.s-text .bullet li::before{content:"·";position:absolute;left:6px;color:var(--gold);font-weight:700}
+.s-text .bullet li b{color:var(--navy)}
+
+/* цифровые колонки */
+.s-nums{display:flex;flex-direction:column;gap:22px;justify-content:center}
+.big-num{border-left:2px solid var(--gold);padding-left:18px}
+.big-num .bn{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:700;
+  font-size:clamp(44px,6vw,72px);
+  line-height:.95;color:var(--navy);
+}
+.big-num .bn small{font-size:.4em;color:var(--gold);font-weight:600}
+.big-num .bl{font-size:12px;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.big-num .fs{font-size:10.5px;color:#9AA0AB;margin-top:2px}
+.big-num .fs sup{color:var(--gold)}
+
+/* ---------- методология: ступени ---------- */
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+@media(min-width:861px){
+  .steps .step1{margin-left:0}
+  .steps .step2{margin-left:9%}
+  .steps .step3{margin-left:18%}
+  .steps .step4{margin-left:27%}
+}
+.stepx{
+  border:1px solid var(--gold-soft);
+  background:#fff;
+  padding:16px 20px;
+  display:flex;gap:18px;align-items:baseline;
+}
+.stepx .sn{
+  font-family:'Cormorant Garamond',serif;
+  font-size:34px;font-weight:700;color:var(--gold);
+  line-height:1;flex:0 0 auto;
+}
+.stepx .st{flex:1}
+.stepx .st b{display:block;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--navy);line-height:1.2}
+.stepx .st span{font-size:12.5px;color:var(--muted)}
+.stepx .wk{flex:0 0 auto;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:600}
+
+/* ---------- эксперты ---------- */
+.experts{display:flex;gap:22px;flex-wrap:wrap;margin-top:8px}
+.exp{text-align:center;width:104px}
+.exp .mi{
+  width:64px;height:64px;border-radius:50%;margin:0 auto 8px;
+  border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;color:var(--gold);
+  background:#fff;
+  transition:all .25s;
+}
+.exp:hover .mi{background:var(--navy);color:var(--gold);border-color:var(--navy)}
+.exp .en{font-size:12px;font-weight:600;color:var(--navy);line-height:1.3}
+.exp .er{font-size:10.5px;color:var(--muted);letter-spacing:.02em}
+
+/* ---------- публикации ---------- */
+.clips{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+@media(max-width:700px){.clips{grid-template-columns:1fr}}
+.clip{
+  background:#fff;border:1px solid rgba(22,50,79,.1);
+  padding:18px 18px 16px;
+  position:relative;
+  transition:transform .25s,box-shadow .25s;
+}
+.clip:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(22,50,79,.08)}
+.clip::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);
+}
+.clip .cd{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.clip .ct{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;line-height:1.25;color:var(--navy);margin-bottom:6px}
+.clip .ce{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- колофон ---------- */
+.colophon{
+  max-width:1060px;margin:0 auto;
+  padding:40px 24px 56px;
+  border-top:2px solid var(--navy);
+  display:flex;flex-wrap:wrap;gap:10px 44px;align-items:baseline;
+  font-size:12px;color:var(--muted);letter-spacing:.05em;
+}
+.colophon .studio{color:var(--navy)}
+.colophon .studio a{
+  color:var(--gold);text-decoration:none;font-weight:600;
+  border-bottom:1px solid var(--gold-soft);
+}
+.colophon .studio a:hover{border-bottom-color:var(--gold)}
+@media(max-width:860px){
+  body{padding-top:42px}
+}
 </style>
 </head>
-<body class="bg-bone text-[#3A4A5A] antialiased">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-bone/95 backdrop-blur border-b border-navyb/15">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <a href="#about" class="flex items-center gap-3">
-      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="1.5" y="1.5" width="27" height="27" rx="13.5" stroke="#16324F" stroke-width="1.5"/><path d="M15 6l2.5 6.2L24 13l-5 4.4L20.5 24 15 20.2 9.5 24 11 17.4 6 13l6.5-.8z" fill="#C5A55A"/></svg>
-      <span class="font-disp text-xl font-semibold text-navyb">Baltic Advisory</span>
-    </a>
-    <nav class="hidden md:flex gap-6 text-xs font-medium uppercase tracking-widest">
-      <a href="#about" class="hover:text-gold transition">О фирме</a>
-      <a href="#services" class="hover:text-gold transition">Услуги</a>
-      <a href="#projects" class="hover:text-gold transition">Кейсы</a>
-      <a href="#jobs" class="hover:text-gold transition">Вакансии</a>
-      <a href="#contacts" class="hover:text-gold transition">Контакты</a>
-    </nav>
-    <button id="burger" class="md:hidden p-2" aria-label="Меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#16324F" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
+<!-- вертикальный индекс -->
+<nav class="index" aria-label="Оглавление отчёта">
+  <a href="#r1" data-s="r1"><span class="in">01</span><span class="t">Стратегия</span></a>
+  <a href="#r2" data-s="r2"><span class="in">02</span><span class="t">Финансы</span></a>
+  <a href="#r3" data-s="r3"><span class="in">03</span><span class="t">Люди</span></a>
+  <a href="#r4" data-s="r4"><span class="in">04</span><span class="t">Методология</span></a>
+  <a href="#r5" data-s="r5"><span class="in">05</span><span class="t">Контакты</span></a>
+</nav>
+
+<header class="report-head">
+  <div class="over">Годовой отчёт · 2025 · 11-й год практики</div>
+  <h1>Baltic Advisory.<br>Стратегия, <em>проверенная</em> цифрами.</h1>
+  <p class="lead">Консалтинговое бюро из Калининграда: работаем со стратегией, финансами
+  и людьми в компаниях среднего бизнеса. 174 проекта с 2011 года, из них 61 — с повторным
+  приглашением. Не продаём часы — продаём измеримый результат.</p>
+  <div class="fine">
+    <span><b>Калининград</b> · Пл. Победы, 4, башня «Ветразь»</span>
+    <span><b>Команда</b> · 19 консультантов</span>
+    <span><b>Отрасли</b> · логистика, рыбопереработка, девелопмент, B2B-услуги</span>
   </div>
-  <nav id="mobnav" class="hidden md:hidden border-t border-navyb/10 bg-bone px-5 py-4 flex flex-col gap-4 text-xs font-medium uppercase tracking-widest">
-    <a href="#about">О фирме</a><a href="#services">Услуги</a><a href="#projects">Кейсы</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
-  </nav>
 </header>
 
-<!-- HERO -->
-<section id="about" class="py-24">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-5">Стратегический консалтинг · Калининград · с 2012 года</p>
-    <h1 class="font-disp text-4xl md:text-6xl font-semibold text-navyb leading-tight mb-6">Решения, за которые <span class="italic text-gold">отвечаем репутацией</span></h1>
-    <p class="max-w-xl text-sm leading-relaxed text-[#5A6A7A] mb-10">Консультируем собственников и топ-менеджмент: стратегия, финансовая архитектура, HR и операционная трансформация. 9 из 10 клиентов возвращаются с новой задачей.</p>
-    <div class="grid grid-cols-3 gap-6 max-w-xl">
-      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="14">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">лет практики</p></div>
-      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="260">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">проектов</p></div>
-      <div><div class="font-disp text-5xl font-semibold text-navyb"><span class="counter" data-to="90">0</span></div><div class="goldline my-2"></div><p class="text-[11px] uppercase tracking-widest text-[#8A97A5]">клиентов</p></div>
-    </div>
+<!-- разворот 01 -->
+<section class="spread" id="r1">
+  <div class="s-text">
+    <div class="chap">Раздел 01 · Стратегия</div>
+    <h2>Стратегия на одну страницу, а не на сто</h2>
+    <p>Мы приносим документ, который совет директоров осилит за вечер, и модель,
+    которая отвечает на вопрос «что будет с деньгами, если...». Стратегический спринт
+    занимает <b>8 недель</b> и заканчивается не презентацией, а подписанным планом
+    с ответственными.</p>
+    <ul class="bullet">
+      <li><b>Диагностика.</b> 40 интервью, P&amp;L за 3 года, карта решений компании.</li>
+      <li><b>Стратегические выборы.</b> 3–5 сценариев, каждый с проверкой на устойчивость.</li>
+      <li><b>План на 12 месяцев.</b> Квартальные контрольные точки, ревизия раз в квартал.</li>
+    </ul>
+    <p>Половина клиентов возвращается за внедрением — и это лучший показатель,
+    чем любые премии.</p>
+  </div>
+  <div class="s-nums">
+    <div class="big-num"><div class="bn">174</div><div class="bl">проекта с 2011 года</div><div class="fs">за вычетом исследований с суммой менее 400 тыс. ₽</div></div>
+    <div class="big-num"><div class="bn">61<small> /174</small></div><div class="bl">с повторным приглашением</div><div class="fs"><sup>1</sup> компании, пригласившие нас вторично за 3 года</div></div>
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="py-20 bg-white border-y border-navyb/10">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Практики</p>
-    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Услуги</h2>
-    <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
-      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Стратегия</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Выход на новые рынки, стратегические сессии, реструктуризация бизнес-портфеля. Гарантия внедрения: работаем с командой до первых KPI.</p></div>
-      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Финансовый консалтинг</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Финмодель, управленческая отчётность, подготовка к due diligence и привлечению финансирования. Опыт сделок на 11 млрд ₽.</p></div>
-      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">HR-консалтинг</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Организационный дизайн, системы вознаграждения, развитие управленческого резерва. Средний срок закрытия ключевых вакансий клиентов — 34 дня.</p></div>
-      <div class="phase pl-6"><h3 class="font-disp text-2xl text-navyb mb-2">Операционная трансформация</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Lean-программы, перестройка процессов, внедрение KPI-систем. Фокус на экономический эффект, а не на презентациях.</p></div>
-    </div>
+<!-- разворот 02 -->
+<section class="spread flip" id="r2">
+  <div class="s-text">
+    <div class="chap">Раздел 02 · Финансы</div>
+    <h2>Финансовая модель как рабочий инструмент</h2>
+    <p>Строим модели в Excel, но живые: обновляемые в квартал, с проверкой фактом.
+    Типовые задачи — <b>юнит-экономика</b>, инвестиционные решения, план-факт
+    и подготовка к сделке.</p>
+    <ul class="bullet">
+      <li><b>Модель компании целиком.</b> Три сценария, чувствительность к курсу и ставкам.</li>
+      <li><b>Готовность к сделке.</b> Финансовая чистка перед продажей доли: у 9 из 12 клиентов цена выросла.</li>
+      <li><b>План-факт.</b> Бюджет, который доживает до февраля — это уже наша заслуга.</li>
+    </ul>
+    <p>Средний горизонт проекта — 10 недель, стоимость — от 780 000 ₽.</p>
+  </div>
+  <div class="s-nums">
+    <div class="big-num"><div class="bn">3.4<small>× ROI</small></div><div class="bl">медиана окупаемости проектов за 2 года</div><div class="fs"><sup>2</sup> по 38 проектам с замеренным эффектом</div></div>
+    <div class="big-num"><div class="bn">9<small> /12</small></div><div class="bl">сделок с ростом цены после подготовки</div><div class="fs">средний прирост оценки — 17 %</div></div>
   </div>
 </section>
 
-<!-- METHODOLOGY -->
-<section class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Методология</p>
-    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Четыре фазы проекта</h2>
-    <div class="grid md:grid-cols-4 gap-6">
-      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">I</p><h3 class="font-semibold text-navyb text-sm mb-2">Диагностика</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">2–4 недели: интервью с менеджментом, анализ данных, карта узких мест.</p></div>
-      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">II</p><h3 class="font-semibold text-navyb text-sm mb-2">Гипотезы</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">3–5 недель: проверенные на данных гипотезы роста с оценкой эффекта.</p></div>
-      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">III</p><h3 class="font-semibold text-navyb text-sm mb-2">Внедрение</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">8–16 недель: работаем внутри команд клиента, еженедельные контроли.</p></div>
-      <div class="bg-white rounded-lg border border-navyb/10 p-6"><p class="font-disp text-gold text-4xl mb-3">IV</p><h3 class="font-semibold text-navyb text-sm mb-2">Закрепление</h3><p class="text-xs text-[#5A6A7A] leading-relaxed">Аудит эффекта через 6 месяцев. Часть гонорара — за результат.</p></div>
-    </div>
+<!-- разворот 03 -->
+<section class="spread" id="r3">
+  <div class="s-text">
+    <div class="chap">Раздел 03 · Люди</div>
+    <h2>Организация, которая держит стратегию</h2>
+    <p>Даже лучшая стратегия ломается о оргструктуру. Мы проектируем роли,
+    ответственности и управленческий ритм: от <b>матрицы решений</b> до регламента
+    еженедельного совещания.</p>
+    <ul class="bullet">
+      <li><b>Оргдизайн.</b> Структура под цели, а не под фамилии. Средний проект — 6 недель.</li>
+      <li><b>Оценка руководителей.</b> Профиль компетенций + интервью 360°, честный отчёт собственнику.</li>
+      <li><b>Ритм управления.</b> Совещания, дашборды, делегирование — внедряем вместе с командой.</li>
+    </ul>
+    <p>Работаем в связке с HR-директором клиента: цели общие, зоны ответственности разделены.</p>
+  </div>
+  <div class="s-nums">
+    <div class="big-num"><div class="bn">19</div><div class="bl">консультантов в бюро</div><div class="fs">10 — с опытом в операционном менеджменте</div></div>
+    <div class="big-num"><div class="bn">92<small> %</small></div><div class="bl">клиентов, завершивших проект по плану</div><div class="fs">средний NPS 2025 года — 68</div></div>
   </div>
 </section>
 
-<!-- CASES -->
-<section id="projects" class="py-20 bg-white border-y border-navyb/10">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Результаты</p>
-    <h2 class="font-disp text-3xl md:text-4xl font-semibold text-navyb mb-12">Кейсы</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">+38%</p><h3 class="text-navyb font-semibold text-sm mb-2">EBITDA производственного холдинга</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Перестройка продуктовой линейки и логистики за 11 месяцев. Гонорар на 30% привязан к результату.</p></div>
-      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">ROI 240%</p><h3 class="text-navyb font-semibold text-sm mb-2">Программа трансформации ритейлера</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Оптимизация складов и ассортимента: окупаемость проекта за 14 месяцев, оцифрованный эффект — 190 млн ₽/год.</p></div>
-      <div class="border border-navyb/10 rounded-lg p-7"><p class="font-disp text-4xl text-gold mb-3">×2,1</p><h3 class="text-navyb font-semibold text-sm mb-2">Рост стоимости IT-компании перед сделкой</h3><p class="text-sm text-[#5A6A7A] leading-relaxed">Подготовка к продаже за 9 месяцев: финмодель, отчётность, org-структура. Сделка закрыта выше ожиданий собственника.</p></div>
+<!-- разворот 04 -->
+<section class="spread flip" id="r4">
+  <div class="s-text">
+    <div class="chap">Раздел 04 · Методология</div>
+    <h2>Четыре ступени, никакого волшебства</h2>
+    <p>Каждый проект идёт по четырём фазам; переход к следующей требует подписи
+    заказчика. Ступени нарочно смещены — как лестница, по которой идёт проект.</p>
+    <div class="steps">
+      <div class="stepx step1"><span class="sn">I</span><span class="st"><b>Диагностика</b><span>Интервью, данные, карта проблем — без рекомендаций на этом этапе.</span></span><span class="wk">2 нед</span></div>
+      <div class="stepx step2"><span class="sn">II</span><span class="st"><b>Выбор направления</b><span>Сценарии и стратегические альтернативы, защита перед советом.</span></span><span class="wk">3 нед</span></div>
+      <div class="stepx step3"><span class="sn">III</span><span class="st"><b>Проектирование</b><span>План, оргдизайн, финансовая модель под выбранное направление.</span></span><span class="wk">2 нед</span></div>
+      <div class="stepx step4"><span class="sn">IV</span><span class="st"><b>Внедрение</b><span>Сопровождение до первых контрольных точек, ревизия раз в квартал.</span></span><span class="wk">3–9 мес</span></div>
     </div>
+    <p style="margin-top:18px">Три эксперта бюро ведут наш журнал «Записки консультанта» — публикация
+    раз в две недели, без продающих абзацев.</p>
   </div>
-</section>
-
-<!-- EXPERTS + PUBLICATIONS -->
-<section class="py-20">
-  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-14">
-    <div>
-      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Эксперты</p>
-      <h2 class="font-disp text-3xl font-semibold text-navyb mb-8">Кто ведёт проекты</h2>
-      <div class="space-y-5">
-        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-navyb text-gold flex items-center justify-center font-disp text-xl shrink-0">АГ</div><div><p class="text-navyb font-semibold">А. Гринёв</p><p class="text-xs text-[#5A6A7A] mt-1">Управляющий партнёр, ex-CFO федерального ритейлера. INSEAD.</p></div></div>
-        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-gold text-navyb flex items-center justify-center font-disp text-xl shrink-0">ИС</div><div><p class="text-navyb font-semibold">И. Северцев</p><p class="text-xs text-[#5A6A7A] mt-1">Партнёр, практика стратегии. 15 лет в промышленном консалтинге.</p></div></div>
-        <div class="flex gap-4"><div class="w-14 h-14 rounded-full bg-navyb text-gold flex items-center justify-center font-disp text-xl shrink-0">ОЛ</div><div><p class="text-navyb font-semibold">О. Лазарева</p><p class="text-xs text-[#5A6A7A] mt-1">Партнёр, HR-практика. Бывший директор по персоналу группы компаний.</p></div></div>
+  <div class="s-nums">
+    <div class="experts-wrap" style="display:flex;flex-direction:column;gap:22px;justify-content:center">
+      <div>
+        <div class="big-num" style="margin-bottom:18px"><div class="bn">38<small> журналов</small></div><div class="bl">выпущено с 2022 года</div></div>
       </div>
-    </div>
-    <div>
-      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Публикации</p>
-      <h2 class="font-disp text-3xl font-semibold text-navyb mb-8">Мы пишем о том, что делаем</h2>
-      <div class="space-y-4">
-        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">14.09.2026 · Стратегия</p><h3 class="text-navyb font-semibold text-sm">Почему средние компании проигрывают в марже: три системные ошибки</h3></article>
-        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">02.07.2026 · Финансы</p><h3 class="text-navyb font-semibold text-sm">Финмодель, которую читает банк: чек-лист из 12 пунктов</h3></article>
-        <article class="bg-white border border-navyb/10 rounded-lg p-5"><p class="text-xs text-gold font-semibold mb-1">19.04.2026 · HR</p><h3 class="text-navyb font-semibold text-sm">Матрица вознаграждения: как перестать переплачивать за лояльность</h3></article>
+      <div class="experts">
+        <div class="exp"><div class="mi">А.Г.</div><div class="en">Андрей Гринёв</div><div class="er">партнёр · стратегия</div></div>
+        <div class="exp"><div class="mi">Е.М.</div><div class="en">Елена Мазур</div><div class="er">партнёр · финансы</div></div>
+        <div class="exp"><div class="mi">П.С.</div><div class="en">Пётр Салаев</div><div class="er">партнёр · люди</div></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- CLIENTS -->
-<section class="py-14 bg-navyb">
-  <p class="text-center text-xs uppercase tracking-[0.3em] text-gold mb-6">Клиенты</p>
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-disp text-[#7E93A8] text-lg font-semibold">
-    <span>ЯнтарьПром</span><span>Балтийский Логистик</span><span>РегионЭнергоСбыт</span><span>КалКабель</span><span>Северная Птица</span>
-  </div>
-</section>
-
-<!-- VACANCIES -->
-<section id="jobs" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Карьера</p>
-    <h2 class="font-disp text-3xl font-semibold text-navyb mb-12">Вакансии</h2>
-    <div class="space-y-4 max-w-4xl">
-      <div class="bg-white border border-navyb/10 rounded-lg">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Консультант (стратегия)</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 160 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Опыт в консалтинге или аналитике от 2 лет, продвинутое владение Excel и SQL. Командировки по РФ 30% времени.</div>
-      </div>
-      <div class="bg-white border border-navyb/10 rounded-lg">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Старший консультант (финансы)</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 230 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Финмоделирование, due diligence, опыт ведения проектных команд. CFA/ACCA — плюс. Офис в Калининграде, релокационный пакет.</div>
-      </div>
-      <div class="bg-white border border-navyb/10 rounded-lg">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-navyb font-semibold">Аналитик данных</span><span class="font-disp text-gold text-2xl whitespace-nowrap">от 130 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#5A6A7A] leading-relaxed">Power BI, Python, работа с клиентскими массивами. Перспектива роста в консультанты через 18 месяцев.</div>
+      <div class="clips">
+        <article class="clip"><div class="cd">12 · 03 · 2026</div><div class="ct">Почему юнит-экономика врёт в холдингах</div><div class="ce">Пересчитываем вклад отраслей…</div></article>
+        <article class="clip"><div class="cd">26 · 02 · 2026</div><div class="ct">Сделка без чистых рук: чек-лист</div><div class="ce">12 документов, которые просят…</div></article>
+        <article class="clip"><div class="cd">11 · 02 · 2026</div><div class="ct">Совещание за 40 минут</div><div class="ce">Регламент, который выдержал…</div></article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACTS -->
-<section id="contacts" class="py-20 bg-white border-t border-navyb/10">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
-    <div>
-      <p class="text-gold text-xs font-semibold uppercase tracking-[0.3em] mb-3">Контакты</p>
-      <h2 class="font-disp text-3xl font-semibold text-navyb mb-6">Первая встреча — бесплатно</h2>
-      <p class="text-sm text-[#5A6A7A] leading-relaxed mb-6">Час разговоров о вашей задаче без презентаций. Если пользы не будет — так и скажем.</p>
-      <ul class="space-y-3 text-sm">
-        <li>📍 Калининград, пл. Победы, 10, БЦ «Меридиан», 6 этаж</li>
-        <li>📞 +7 (4012) 72-06-15</li>
-        <li>✉️ office@baltic-advisory.ru</li>
-        <li>🕘 Пн–Пт 9:00–19:00</li>
-      </ul>
-    </div>
-    <form id="cform" class="space-y-4">
-      <input required class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" placeholder="Имя">
-      <input required type="email" class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" placeholder="Корпоративная почта">
-      <textarea class="w-full bg-bone border border-navyb/20 rounded px-4 py-3 text-sm outline-none focus:border-gold" rows="4" placeholder="Суть задачи"></textarea>
-      <button class="w-full py-3 bg-navyb text-white rounded font-semibold text-sm uppercase tracking-widest hover:bg-[#1E4266] transition">Запросить встречу</button>
-      <p id="cok" class="hidden text-gold text-sm text-center font-semibold">Спасибо! Мы свяжемся.</p>
-    </form>
+<!-- разворот 05 -->
+<section class="spread" id="r5" style="border-bottom:none">
+  <div class="s-text">
+    <div class="chap">Раздел 05 · Контакты</div>
+    <h2>Первая встреча — бесплатная и по делу</h2>
+    <p>Мы начинаем с 90-минутной встречи: разбираем вашу ситуацию, называем
+    три гипотезы и честно говорим, нужен ли вам внешний консультант. Иногда ответ — нет.</p>
+    <ul class="bullet">
+      <li><b>Бюро:</b> 236006, Калининград, пл. Победы, 4, башня «Ветразь», офис 610.</li>
+      <li><b>Телефон:</b> +7 (4012) 30-30-30, будни 9:00–19:00.</li>
+      <li><b>Почта:</b> welcome@baltic-advisory.ru — отвечаем в течение рабочего дня.</li>
+      <li><b>Встречи онлайн:</b> по всей России, без наценки за расстояние.</li>
+    </ul>
+  </div>
+  <div class="s-nums">
+    <div class="big-num"><div class="bn">90<small> мин</small></div><div class="bl">первая встреча, без счёта</div></div>
+    <div class="big-num"><div class="bn">780<small> тыс. ₽</small></div><div class="bl">стартовая стоимость проекта</div></div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="py-10 bg-bone border-t border-navyb/10">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#8A97A5] leading-relaxed">
-    <div>
-      <p class="text-navyb font-disp font-semibold text-base mb-3">ООО «Балтик Адвайзори»</p>
-      <p>ИНН 3906234567 · КПП 390601001 · ОГРН 1123906234567</p>
-      <p>Р/с 40702810600000011223 в АО «Калиниградский Банк», БИК 041203601</p>
-      <p>Адрес: 236016, Калининград, пл. Победы, 10</p>
-    </div>
-    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-gold underline">kokaomefedron.github.io/NEONFORGE</a></p>
-  </div>
+<footer class="colophon">
+  <span class="studio">свёрстано бюро <a href="https://kokaomefedron.github.io/NEONFORGE" rel="noopener">NEONFORGE</a> — kokaomefedron.github.io/NEONFORGE</span>
+  <span>© 2011–2026 Baltic Advisory, ООО «Балтик Адвайзори», ОГРН 1113926001234</span>
+  <span>Данные проектов округлены; конфиденциальные суммы не раскрываются.</span>
 </footer>
 
 <script>
-document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
-document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
-document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) {
-    const el = e.target, to = +el.dataset.to; let n = 0;
-    const step = Math.max(1, Math.round(to / 60));
-    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
-    io.unobserve(el);
-  }
-}), { threshold: .5 });
-document.querySelectorAll('.counter').forEach(c => io.observe(c));
-document.getElementById('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('cok').classList.remove('hidden');
-  e.target.reset();
-});
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.index a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('data-s')] = a; });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        links.forEach(function(a){ a.classList.remove('on'); });
+        var a = map[e.target.id];
+        if (a) a.classList.add('on');
+      }
+    });
+  }, { rootMargin:'-30% 0px -55% 0px', threshold:0 });
+  links.forEach(function(a){
+    var s = document.getElementById(a.getAttribute('data-s'));
+    if (s) obs.observe(s);
+  });
+})();
 </script>
 </body>
 </html>

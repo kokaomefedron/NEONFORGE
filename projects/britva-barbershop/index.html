@@ -3,248 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>БРИТВА — барбершоп в Казани</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Бритва — барбершоп в Казани</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#FFD500',
-        dark: '#111111',
-        darker: '#0B0B0B'
-      },
-      fontFamily: {
-        display: ['"Bebas Neue"', 'sans-serif'],
-        body: ['Oswald', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  html { scroll-behavior: smooth; }
-  body { background: #111111; }
-  .hard { border: 4px solid #111; }
-  .price-row { transition: transform .15s ease, background .15s ease; }
-  .price-row:hover { transform: translateX(8px); background: #1C1C1C; }
-  .tape {
-    background: repeating-linear-gradient(-45deg, #FFD500 0 14px, #111 14px 28px);
-  }
+:root{
+  --paper:#F4F1EA; --ink:#111; --stamp:#C0392B; --yellow:#FFD500; --line:#3a352c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:#9d9a93;
+  background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px),
+                   repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 4px);
+  font-family:'Space Mono',monospace; color:var(--ink);
+  padding:48px 16px 80px; overflow-x:hidden;
+  display:flex; justify-content:center;
+}
+@media(min-width:1000px){body{padding:64px 90px}}
+
+/* вертикальная надпись сбоку */
+.studio-side{
+  position:fixed; left:14px; top:50%; transform:rotate(180deg) translateY(50%);
+  writing-mode:vertical-rl; font-size:10px; letter-spacing:2px; color:rgba(20,18,14,.65);
+  text-transform:lowercase; z-index:40; white-space:nowrap;
+}
+.studio-side a{color:#141410; text-decoration:underline dotted}
+@media(max-width:1000px){.studio-side{position:static; writing-mode:horizontal-tb; transform:none; margin:14px auto 0; text-align:center; display:block}}
+
+/* ===== КВИТАНЦИЯ ===== */
+.receipt{
+  width:100%; max-width:760px; background:var(--paper);
+  padding:54px 44px 46px; position:relative;
+  box-shadow:0 2px 0 rgba(0,0,0,.25), 0 18px 40px rgba(0,0,0,.45);
+  transition:transform .25s ease;
+}
+.receipt::before,.receipt::after{
+  content:""; position:absolute; left:0; right:0; height:14px;
+  background:
+    linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x,
+    linear-gradient(-135deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x;
+  background-position:0 0;
+}
+.receipt::before{top:-13px; transform:rotate(180deg)}
+.receipt::after{bottom:-13px;
+  background:
+    linear-gradient(45deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x,
+    linear-gradient(-45deg, var(--paper) 50%, transparent 50%) 0 0/14px 14px repeat-x;}
+@media(max-width:560px){.receipt{padding:38px 22px 34px}}
+
+/* шапка чека */
+.r-head{border-bottom:2px solid var(--ink); padding-bottom:18px; margin-bottom:20px; position:relative}
+.r-head h1{
+  font-family:'Bebas Neue',sans-serif; font-size:clamp(54px,10vw,84px); line-height:.9;
+  letter-spacing:4px; font-weight:400;
+}
+.r-head .sub{font-size:12px; margin-top:8px; letter-spacing:.5px}
+.r-head .no{
+  position:absolute; right:0; top:6px; text-align:right; font-size:11px; line-height:1.7;
+}
+@media(max-width:560px){.r-head .no{position:static; text-align:left; margin-top:10px}}
+
+/* отрывной корешок */
+.stubs{display:flex; gap:10px; margin:22px 0 30px; flex-wrap:wrap}
+.stub{
+  font-family:'Space Mono',monospace; font-size:12px; letter-spacing:1px;
+  padding:9px 16px; border:1px dashed var(--ink); background:var(--paper);
+  cursor:pointer; text-transform:uppercase; position:relative;
+  box-shadow:2px 2px 0 rgba(0,0,0,.18); transition:.15s;
+}
+.stub:hover{transform:translateY(-2px) rotate(-1deg); background:var(--yellow)}
+.stub b{font-weight:700}
+.stub::after{
+  content:"✂"; position:absolute; left:-9px; top:-9px; font-size:12px; opacity:.55;
+}
+
+/* штамп */
+.stamp{
+  position:absolute; top:120px; right:24px; transform:rotate(-8deg);
+  border:3px double var(--stamp); color:var(--stamp); padding:8px 14px;
+  font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  opacity:.82; mix-blend-mode:multiply; pointer-events:none; z-index:2;
+}
+.stamp::before{content:"КВИТАНЦИЯ № 0417"; display:block; font-size:9px; letter-spacing:3px; margin-bottom:2px; font-weight:400}
+@media(max-width:560px){.stamp{position:static; display:inline-block; margin:10px 0 4px; transform:rotate(-4deg)}}
+
+h2.sec{
+  font-family:'Bebas Neue',sans-serif; font-size:30px; letter-spacing:3px; font-weight:400;
+  margin:40px 0 14px; border-bottom:1px solid var(--ink); padding-bottom:6px;
+  display:flex; justify-content:space-between; align-items:baseline;
+}
+h2.sec small{font-family:'Space Mono',monospace; font-size:10px; letter-spacing:1px}
+
+/* прайс-строки чека */
+.check{list-style:none}
+.check li{
+  display:flex; align-items:baseline; gap:8px; padding:7px 0; font-size:13.5px;
+}
+.check .nm{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52%}
+.check .dots{
+  flex:1; border-bottom:2px dotted #6b6559; transform:translateY(-4px); min-width:20px;
+}
+.check .pr{white-space:nowrap; font-weight:700}
+.check .pr em{font-style:normal; font-weight:400; color:#5a544a; font-size:11px; margin-left:6px}
+.total{
+  display:flex; justify-content:space-between; border-top:2px solid var(--ink);
+  margin-top:14px; padding-top:10px; font-weight:700; font-size:14px; letter-spacing:1px;
+}
+.total .cross{color:var(--stamp)}
+
+/* мастера — вклеенные фото */
+.guys{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:8px}
+@media(max-width:620px){.guys{grid-template-columns:1fr; max-width:320px; margin-left:auto; margin-right:auto}}
+.guy{position:relative; padding:6px 6px 14px; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,.18)}
+.guy::before{
+  content:""; position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-2deg);
+  width:70px; height:22px; background:rgba(240,232,200,.75);
+  box-shadow:0 1px 3px rgba(0,0,0,.2); border-left:1px dashed rgba(0,0,0,.1); border-right:1px dashed rgba(0,0,0,.1);
+}
+.guy:nth-child(2)::before{transform:translateX(-50%) rotate(2deg)}
+.guy:nth-child(3)::before{transform:translateX(-50%) rotate(-1deg)}
+.guy .ph{
+  height:150px;
+  background:linear-gradient(160deg,#5c534a 0%,#2e2a25 55%,#1a1714 100%);
+  position:relative; overflow:hidden;
+}
+.guy:nth-child(2) .ph{background:linear-gradient(160deg,#7a6a52 0%,#3d3123 55%,#221b12 100%)}
+.guy:nth-child(3) .ph{background:linear-gradient(160deg,#4e5450 0%,#262b28 55%,#151816 100%)}
+.guy .ph::after{
+  content:"●"; position:absolute; bottom:8px; right:10px; color:rgba(255,255,255,.15); font-size:9px;
+}
+.guy h3{font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; margin-top:10px; font-weight:400}
+.guy p{font-size:11px; line-height:1.6; color:#4c463d}
+.guy .tag{
+  display:inline-block; margin-top:6px; font-size:10px; background:var(--yellow); padding:2px 7px; font-weight:700;
+}
+
+/* запись — отрывной низ */
+.tear{
+  margin-top:44px; border-top:2px dashed var(--ink); padding-top:24px;
+  position:relative;
+}
+.tear::before{content:"✂"; position:absolute; top:-13px; left:6px; font-size:16px; opacity:.6}
+.tear .lbl{font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#5a544a}
+.tear a.tel{
+  display:inline-block; font-family:'Bebas Neue',sans-serif; font-size:clamp(34px,7vw,56px);
+  color:var(--ink); text-decoration:none; letter-spacing:2px; margin-top:6px;
+}
+.tear a.tel:hover{color:var(--stamp)}
+.tear .tg{font-size:12.5px; margin-top:8px}
+.tear .tg b{background:var(--yellow); padding:1px 6px}
+
+.r-bottom{
+  margin-top:36px; text-align:center; font-size:10px; letter-spacing:1px; color:#5a544a; line-height:1.8;
+}
+.r-bottom .sq{display:inline-block; width:8px; height:8px; border:1px solid var(--ink); margin:0 6px}
 </style>
 </head>
-<body class="bg-dark text-white font-body antialiased">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-dark border-b-4 border-primary">
-  <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
-    <a href="#hero" class="font-display text-3xl text-primary tracking-wide">БРИТВА<span class="text-white">✂</span></a>
-    <nav class="hidden md:flex gap-6 text-sm uppercase tracking-widest font-medium">
-      <a href="#price" class="hover:text-primary transition">Прайс</a>
-      <a href="#masters" class="hover:text-primary transition">Мастера</a>
-      <a href="#works" class="hover:text-primary transition">Работы</a>
-      <a href="#book" class="hover:text-primary transition">Запись</a>
-    </nav>
-    <a href="#book" class="font-display bg-primary text-dark px-5 py-2 text-lg tracking-wide hover:bg-white transition">ЗАПИСАТЬСЯ</a>
-  </div>
-</header>
+<span class="studio-side">nakopirvano <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener">NEONFORGE — kokaomefedron.github.io/NEONFORGE</a></span>
 
-<!-- HERO: split -->
-<section id="hero" class="grid lg:grid-cols-2">
-  <div class="px-6 py-20 md:py-32 lg:pr-12 flex flex-col justify-center">
-    <p class="uppercase tracking-[0.3em] text-xs text-gray-400 mb-6">Барбершоп · Казань · с 2016</p>
-    <h1 class="font-display leading-[0.9] text-6xl md:text-8xl mb-8">
-      <span class="block">ОСТРЫЕ СТРИЖКИ.</span>
-      <span class="block text-primary">ТУПОЙ БРИФИНГ</span>
-      <span class="block">НЕ ПРИГЛАШАЕМ.</span>
-    </h1>
-    <p class="text-gray-400 text-lg max-w-md mb-10">Садимся в кресло, дважды уточняем, что ты хочешь, и делаем так, что через неделю всё ещё лежит правильно.</p>
-    <div class="flex gap-4">
-      <a href="#book" class="font-display bg-primary text-dark px-8 py-4 text-2xl hover:bg-white transition">ЗАПИСАТЬСЯ →</a>
-      <a href="#price" class="font-display border-4 border-white px-8 py-4 text-2xl hover:border-primary hover:text-primary transition">ПРАЙС</a>
-    </div>
-  </div>
-  <div class="relative bg-darker border-l-0 lg:border-l-4 border-primary min-h-[320px] flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 opacity-10" style="background:repeating-linear-gradient(90deg,#FFD500 0 2px,transparent 2px 60px)"></div>
-    <div class="relative w-56 h-56 md:w-72 md:h-72 bg-primary rotate-12 flex items-center justify-center shadow-[16px_16px_0_#000]">
-      <div class="text-dark text-center rotate-[-4deg]">
-        <p class="font-display text-6xl md:text-7xl leading-none">★ 4.9</p>
-        <p class="font-medium uppercase tracking-widest text-sm mt-2">387 отзывов<br>на картах</p>
-      </div>
-    </div>
-  </div>
-</section>
+<article class="receipt" id="receipt">
 
-<!-- PRICE -->
-<section id="price" class="max-w-4xl mx-auto px-4 py-20">
-  <h2 class="font-display text-6xl md:text-7xl mb-2 text-primary">ПРАЙС</h2>
-  <div class="h-1 bg-primary w-24 mb-10"></div>
-  <div class="divide-y-2 divide-gray-800 border-y-2 border-gray-800">
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">МУЖСКАЯ СТРИЖКА</span><span class="font-display text-3xl text-primary">900 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">СТРИЖКА + БОРОДА</span><span class="font-display text-3xl text-primary">1 500 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">КОРОЛЕВСКОЕ БРИТЬЁ</span><span class="font-display text-3xl text-primary">1 100 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">ОФОРМЛЕНИЕ БОРОДЫ</span><span class="font-display text-3xl text-primary">700 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">ДЕТСКАЯ СТРИЖКА (ДО 12)</span><span class="font-display text-3xl text-primary">700 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">КАМУФЛЯЖ СЕДИНЫ</span><span class="font-display text-3xl text-primary">600 ₽</span>
-    </div>
-    <div class="price-row flex justify-between items-baseline px-2 py-5 cursor-default">
-      <span class="font-display text-3xl">COMBO: ВСЁ СРАЗУ</span><span class="font-display text-3xl text-primary">2 100 ₽</span>
-    </div>
-  </div>
-</section>
+  <header class="r-head">
+    <h1>БРИТВА</h1>
+    <div class="sub">барбершоп · Казань, ул. Баумана, 44, цоколь · ежедневно 10:00–22:00</div>
+    <div class="no">ЧК-2026/0417<br>от 12.11.2026</div>
+  </header>
 
-<!-- MASTERS -->
-<section id="masters" class="max-w-6xl mx-auto px-4 py-20 bg-darker border-y-4 border-primary">
-  <h2 class="font-display text-6xl md:text-7xl mb-10 text-primary">МАСТЕРА</h2>
-  <div class="grid md:grid-cols-3 gap-8">
-    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
-      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">РМ</div>
-      <h3 class="font-display text-3xl text-primary mb-1">РУСТАМ М.</h3>
-      <p class="text-gray-400 text-sm mb-3">Топ-барбер · 8 лет · ножницы и машинка — оба инструмента как продолжение руки. Любит фейды и классику 60-х.</p>
-      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Пн, Ср, Чт, Сб</p>
-    </div>
-    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
-      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">ИГ</div>
-      <h3 class="font-display text-3xl text-primary mb-1">ИЛЬНАЗ Г.</h3>
-      <p class="text-gray-400 text-sm mb-3">Барбер · 5 лет · король оформления бороды. Если борода должна «держать форму месяц» — это к нему.</p>
-      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Вт, Чт, Пт, Вс</p>
-    </div>
-    <div class="hard bg-dark p-8 shadow-[10px_10px_0_#FFD500]">
-      <div class="w-20 h-20 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">ДК</div>
-      <h3 class="font-display text-3xl text-primary mb-1">ДАМИР К.</h3>
-      <p class="text-gray-400 text-sm mb-3">Младший барбер · 2 года · король детских стрижек: не боится ни мультиков, ни слёз, ни копья из чипсов.</p>
-      <p class="text-xs uppercase tracking-widest text-gray-500">Ждёт вас: Ежедневно</p>
-    </div>
-  </div>
-</section>
+  <div class="stamp">Оплата по факту красоты</div>
 
-<!-- WORKS -->
-<section id="works" class="max-w-6xl mx-auto px-4 py-20">
-  <h2 class="font-display text-6xl md:text-7xl mb-10 text-primary">РАБОТЫ</h2>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(135deg,#2B2B2B,#3D3D3D 55%,#191919)">
-      <p class="font-display text-xl text-primary">ФЕЙД 0.5</p>
-    </div>
-    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(200deg,#444,#222 60%,#111)">
-      <p class="font-display text-xl text-primary">АЙНЛИНЕР</p>
-    </div>
-    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(45deg,#1C1C1C,#333 50%,#2A2A2A)">
-      <p class="font-display text-xl text-primary">БОРДА + БРИТЬЁ</p>
-    </div>
-    <div class="hard h-56 flex items-end p-4 shadow-[8px_8px_0_#FFD500]" style="background:linear-gradient(160deg,#383838,#161616 70%)">
-      <p class="font-display text-xl text-primary">ПОМПАДУР</p>
-    </div>
-  </div>
-  <div class="tape h-3 mt-10"></div>
-</section>
+  <nav class="stubs" aria-label="разделы">
+    <button class="stub" data-go="s-price"><b>Услуги</b> · талон 1</button>
+    <button class="stub" data-go="s-guys"><b>Мастера</b> · талон 2</button>
+    <button class="stub" data-go="s-book"><b>Запись</b> · талон 3</button>
+  </nav>
 
-<!-- BOOKING -->
-<section id="book" class="max-w-2xl mx-auto px-4 py-20">
-  <h2 class="font-display text-6xl mb-6 text-primary">ЗАПИСЬ ОНЛАЙН</h2>
-  <form id="bookForm" class="hard bg-dark shadow-[12px_12px_0_#FFD500] p-8 space-y-4">
-    <input required placeholder="ИМЯ" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 uppercase tracking-wider placeholder:text-gray-500 focus:outline-none">
-    <input required type="tel" placeholder="ТЕЛЕФОН" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 uppercase tracking-wider placeholder:text-gray-500 focus:outline-none">
-    <div class="grid grid-cols-2 gap-4">
-      <select class="bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
-        <option>Рустам М.</option><option>Ильназ Г.</option><option>Дамир К.</option><option>Любой свободный</option>
-      </select>
-      <select class="bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
-        <option>Стрижка — 900 ₽</option><option>Стрижка + борода — 1500 ₽</option><option>Королевское бритьё — 1100 ₽</option><option>Combo — 2100 ₽</option>
-      </select>
-    </div>
-    <input type="date" class="w-full bg-darker border-2 border-gray-700 focus:border-primary px-4 py-3 focus:outline-none">
-    <button type="submit" class="w-full font-display text-3xl bg-primary text-dark py-4 hover:bg-white transition">ЗАПИСАТЬСЯ ✂</button>
-    <p id="bookMsg" class="hidden text-center font-display text-2xl text-primary">Заявка отправлена!</p>
-  </form>
-</section>
+  <section id="s-price">
+    <h2 class="sec">Прайс <small>без НДС, с чаем в подарок</small></h2>
+    <ul class="check">
+      <li><span class="nm">СТРИЖКА</span><span class="dots"></span><span class="pr">1 200 ₽<em>60 мин</em></span></li>
+      <li><span class="nm">СТРИЖКА МАШИНКОЙ (одна длина)</span><span class="dots"></span><span class="pr">700 ₽<em>30 мин</em></span></li>
+      <li><span class="nm">ОФОРМЛЕНИЕ БОРОДЫ</span><span class="dots"></span><span class="pr">900 ₽<em>45 мин</em></span></li>
+      <li><span class="nm">КОМПЛЕКС: ГОЛОВА + БОРОДА</span><span class="dots"></span><span class="pr">1 900 ₽<em>90 мин</em></span></li>
+      <li><span class="nm">КОРОЛЕВСКОЕ БРИТЬЁ ОПАСНОЙ БРИТВОЙ</span><span class="dots"></span><span class="pr">1 500 ₽<em>50 мин</em></span></li>
+      <li><span class="nm">КАМУФЛЯЖ СЕДИНЫ</span><span class="dots"></span><span class="pr">800 ₽</span></li>
+      <li><span class="nm">ДЕТСКАЯ СТРИЖКА (до 12 лет)</span><span class="dots"></span><span class="pr">800 ₽</span></li>
+      <li><span class="nm">БРИТЬЁ ГОЛОВЫ НАГОЛО</span><span class="dots"></span><span class="pr">900 ₽</span></li>
+      <li><span class="nm">КОМПЛЕКС: СТРИЖКА МАШИНКОЙ + БОРОДА</span><span class="dots"></span><span class="pr">1 400 ₽</span></li>
+      <li><span class="nm">УХОД: МАСЛО + БАЛЬЗАМ ДЛЯ БОРОДЫ</span><span class="dots"></span><span class="pr">350 ₽</span></li>
+      <li><span class="nm">ТОНИРОВАНИЕ СЕДИНЫ (борода)</span><span class="dots"></span><span class="pr">1 100 ₽</span></li>
+    </ul>
+    <div class="total"><span>ИТОГО ЗА ВИЗИТ</span><span class="cross">от 700 ₽</span></div>
+    <p class="r-bottom" style="text-align:left; margin-top:10px">
+      чаевые не обязательны · чай и кофе в зоне ожидания — бесплатно<br>
+      вторник — день комплексов: −10% на «голова + борода» без исключений
+    </p>
+  </section>
 
-<!-- REVIEWS -->
-<section class="max-w-6xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-5xl md:text-6xl mb-8 text-primary">ГОВОРЯТ КЛИЕНТЫ</h2>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
-      <p class="text-gray-300 mb-4">«Хожу к Рустаму два года. Ни разу не пришлось переделывать. Форма фейда держится неделю без вопроса.»</p>
-      <p class="font-display text-xl text-primary">Тимур А. ★★★★★</p>
+  <section id="s-guys">
+    <h2 class="sec">Мастера <small>все с портфолио в Instagram</small></h2>
+    <div class="guys">
+      <article class="guy">
+        <div class="ph" aria-label="фото мастера Рината"></div>
+        <h3>Ринат</h3>
+        <p>Топ-барбер, стаж 9 лет. Классические стрижки, опасная бритва, бороды любой сложности.</p>
+        <span class="tag">запись за 3 дня</span>
+      </article>
+      <article class="guy">
+        <div class="ph" aria-label="фото мастера Ильдара"></div>
+        <h3>Ильдар</h3>
+        <p>Фейды и текстуры — его стихия. Работает быстро, болтает редко, результат всегда чистый.</p>
+        <span class="tag">есть окна сегодня</span>
+      </article>
+      <article class="guy">
+        <div class="ph" aria-label="фото мастера Тимура"></div>
+        <h3>Тимур</h3>
+        <p>Младший мастер, но уже с очередью. Детские стрижки, машинкой, камуфляж седины.</p>
+        <span class="tag">−15% до конца месяца</span>
+      </article>
     </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
-      <p class="text-gray-300 mb-4">«Сына 6 лет стричь раньше было пыткой. Дамир включил мультики — стрижка за 20 минут, оба довольны.»</p>
-      <p class="font-display text-xl text-primary">Елена В. ★★★★★</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] hard bg-darker p-6 shadow-[8px_8px_0_#FFD500]">
-      <p class="text-gray-300 mb-4">«Королевское бритьё у Ильназа — это ритуал: горячее полотенце, опасная бритва, виски после. Мужик отдыхает.»</p>
-      <p class="font-display text-xl text-primary">Роман Ш. ★★★★★</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- FAQ -->
-<section class="max-w-3xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-5xl md:text-6xl mb-8 text-primary">FAQ</h2>
-  <div class="divide-y-2 divide-gray-800 border-y-2 border-gray-800">
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">НУЖНА ЛИ ЗАПИСЬ ЗАРАНЕЕ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Вечера пятницы и субботы забиты на неделю вперёд. В будни до 17:00 часто можно прийти и без записи, но лучше позвонить.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">СКОЛЬКО ДЛИТСЯ СТРИЖКА?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Стандарт — 45–60 минут со всем ритуалом: консультация, стрижка, мытьё, стайлинг. Торопимся, но не спешим.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">ЕСТЬ ЛИ ПАРКОВКА?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Да, свободная парковка во дворе и по соседней улице. Скажите мастеру, что вы на машине, — подскажем свободный ряд.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-4 text-left font-display text-2xl">ОПЛАТА КАРТОЙ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-4 text-gray-400 text-sm">Карта, наличные, СБП. Чаевые — на усмотрение, ящик для них у стойки, не под давлением.</div>
-    </div>
-  </div>
-</section>
+  <section id="s-book" class="tear">
+    <div class="lbl">— оторвите и звоните —</div>
+    <a class="tel" href="tel:+78432020114">+7 (843) 202-01-14</a>
+    <p class="tg">позвонить или написать в Telegram: <b>@britva_kazan</b><br>
+    онлайн-запись отвечает круглосуточно, мастер подтвердит в течение часа.</p>
+  </section>
 
-<!-- FOOTER -->
-<footer class="border-t-4 border-primary bg-darker">
-  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
-    <div>
-      <p class="font-display text-3xl text-primary mb-2">БРИТВА ✂</p>
-      <p class="text-gray-400">Казань, ул. Баумана, 44<br>Ежедневно 10:00 — 21:00</p>
-    </div>
-    <div class="text-gray-400">
-      <p class="text-white font-medium mb-2 uppercase tracking-widest">Контакты</p>
-      <p>📞 <a href="tel:+78432254088" class="hover:text-primary">+7 843 225-40-88</a></p>
-      <p>✈️ <a href="https://t.me/britva_kzn" class="hover:text-primary">@britva_kzn</a></p>
-    </div>
-    <div class="text-gray-400">
-      <p class="text-white font-medium mb-2 uppercase tracking-widest">Демо</p>
-      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
-    </div>
-  </div>
-</footer>
+  <section style="margin-top:34px">
+    <h2 class="sec">Правила <small>короче, чем у банка</small></h2>
+    <ul class="check">
+      <li><span class="nm">ОПЛАТА</span><span class="dots"></span><span class="pr">факт красоты: карта/наличные/СБП</span></li>
+      <li><span class="nm">ОПАЗДЫВАНИЕ до 15 минут</span><span class="dots"></span><span class="pr">успеем, окно держим</span></li>
+      <li><span class="nm">ОПАЗДЫВАНИЕ больше 15</span><span class="dots"></span><span class="pr">запись переносится</span></li>
+      <li><span class="nm">ОТМЕНА</span><span class="dots"></span><span class="pr">звонок или сообщение — свободно</span></li>
+      <li><span class="nm">ГАРАНТИЯ НА СТРИЖКУ</span><span class="dots"></span><span class="pr">3 дня · подровняем бесплатно</span></li>
+      <li><span class="nm">С ДЕТЬМИ</span><span class="dots"></span><span class="pr">игровая зона + мультики</span></li>
+    </ul>
+    <p style="font-size:11px; color:#5a544a; margin-top:10px; line-height:1.7">
+      после стрижки — фиксация воском по желанию, бесплатно; если делаете «как в прошлый раз» —
+      у мастера хранится ваша карточка с длинами насадок и примечаниями, так что можно вообще молчать.
+    </p>
+  </section>
+
+  <section>
+    <p class="r-bottom">
+      спасибо за визит · приходите мокрыми, уходите красивыми <span class="sq"></span> скидка 10% на комплекс по вторникам
+      <br>БРИТВА · КАЗАНЬ · БАУМАНА 44 · ЧК-2026/0417 · до встречи через три недели
+    </p>
+  </section>
+
+</article>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const a = btn.nextElementSibling;
-    a.classList.toggle('hidden');
-    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+(function(){
+  var isDesktop=window.matchMedia('(min-width:1001px) and (pointer:fine)').matches;
+  var r=document.getElementById('receipt');
+  document.querySelectorAll('.stub').forEach(function(s){
+    s.addEventListener('click',function(){
+      var t=document.getElementById(s.dataset.go);
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
   });
-});
-document.getElementById('bookForm').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('bookMsg').classList.remove('hidden');
-  e.target.querySelector('button[type=submit]').disabled = true;
-});
+  if(isDesktop){
+    var wrap=document.createElement('div');
+    r.parentNode.insertBefore(wrap,r); wrap.appendChild(r);
+    document.addEventListener('mousemove',function(e){
+      var dx=(e.clientX/window.innerWidth-0.5);
+      var dy=(e.clientY/window.innerHeight-0.5);
+      r.style.transform='rotate('+(dx*1.4).toFixed(2)+'deg) translateY('+(dy*4).toFixed(1)+'px)';
+    });
+  }
+})();
 </script>
 </body>
 </html>

@@ -3,182 +3,448 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Кодекс — ИТ-компания, Москва</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: { extend: {
-    colors: { ink:'#0B0E14', ink2:'#12161F', volt:'#6E56CF', mint:'#4ADE80' },
-    fontFamily: { mono:['"JetBrains Mono"','monospace'], sans:['Inter','sans-serif'] }
-  } }
-}
-</script>
+<title>Кодекс — разработка корпоративного ПО, Москва</title>
+<meta name="description" content="Кодекс: ИТ-компания. Корпоративные системы, автоматизация, интеграции. 12 лет, 140+ релизов в год.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  html{scroll-behavior:smooth}
-  .badge{font-family:'JetBrains Mono',monospace;border:1px solid #2A3040;background:#12161F;color:#9CA3AF}
-  .glow{background:radial-gradient(ellipse at 20% 0%,rgba(110,86,207,.25),transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(74,222,128,.12),transparent 55%)}
-  .card{background:#12161F;border:1px solid #232838}
-  .card:hover{border-color:#6E56CF55}
+:root{
+  --bg:#0B0E14;
+  --panel:#11151D;
+  --panel2:#0E121A;
+  --border:#1E2430;
+  --tag:#6E56CF;
+  --str:#4ADE80;
+  --kw:#7DD3FC;
+  --com:#F59E0B;
+  --fg:#C9D1D9;
+  --dim:#5B6472;
+  --sel:rgba(110,86,207,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--fg);
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;
+  line-height:1.6;
+}
+.prose{font-family:'Inter',sans-serif;font-size:14.5px;line-height:1.65;color:var(--dim)}
+.prose b{color:var(--fg);font-weight:600}
+
+/* ---------- окно редактора ---------- */
+.ide{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+}
+.topbar{
+  display:flex;
+  align-items:stretch;
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  height:38px;
+  flex:0 0 38px;
+}
+.logo-tab{
+  display:flex;align-items:center;gap:8px;
+  padding:0 14px;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.06em;
+  border-right:1px solid var(--border);
+  color:var(--tag);
+}
+.logo-tab .dot{width:8px;height:8px;border-radius:2px;background:var(--tag)}
+.filetab{
+  display:flex;align-items:center;gap:7px;
+  padding:0 16px;
+  font-size:12.5px;
+  color:var(--dim);
+  border-right:1px solid var(--border);
+  background:transparent;
+  border-top:2px solid transparent;
+  cursor:pointer;
+  font-family:'JetBrains Mono',monospace;
+  white-space:nowrap;
+  transition:background .15s;
+}
+.filetab:hover{background:rgba(255,255,255,.03)}
+.filetab.active{
+  color:var(--fg);
+  background:var(--bg);
+  border-top-color:var(--tag);
+}
+.filetab .ext{color:var(--kw)}
+.filetab.active .ext{color:var(--tag)}
+.topbar .spacer{flex:1}
+.topbar .clock{
+  display:flex;align-items:center;padding:0 16px;font-size:11px;color:var(--dim);letter-spacing:.08em;
+}
+.clock .live{color:var(--str);margin-right:8px}
+.clock .live::before{content:"● ";animation:blink 1.4s steps(1) infinite}
+@keyframes blink{50%{opacity:.2}}
+
+/* ---------- основная область ---------- */
+.main{display:flex;flex:1;min-height:0}
+.tree{
+  width:210px;flex:0 0 210px;
+  background:var(--panel2);
+  border-right:1px solid var(--border);
+  padding:14px 0;
+  overflow-y:auto;
+}
+.tree .th{
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+  padding:0 16px 10px;
+}
+.tree .root{
+  font-size:12px;color:var(--fg);padding:4px 16px 10px;display:flex;gap:8px;align-items:center;
+}
+.tree .root::before{content:"▸";color:var(--tag);font-size:10px}
+.tfile{
+  display:block;width:100%;text-align:left;
+  background:none;border:none;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;color:var(--dim);
+  padding:6px 16px 6px 30px;
+  cursor:pointer;
+  position:relative;
+  transition:color .15s;
+}
+.tfile::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:1px;background:var(--border)}
+.tfile:hover{color:var(--fg);background:rgba(255,255,255,.03)}
+.tfile.active{color:var(--fg);background:var(--sel)}
+.tfile .ext{color:var(--tag)}
+.tfile .n{color:var(--dim);font-size:11px;margin-left:8px}
+
+/* ---------- центральный контент ---------- */
+.center{flex:1;overflow-y:auto;min-width:0;padding-bottom:30px}
+.fileview{display:none;padding:26px 30px}
+.fileview.active{display:block}
+.path{
+  font-size:11px;color:var(--dim);letter-spacing:.08em;margin-bottom:18px;
+  border-bottom:1px solid var(--border);padding-bottom:12px;
+}
+.path .seg{color:var(--kw)}
+
+/* код-листинг */
+.code{font-size:13px;line-height:1.75;white-space:pre;overflow-x:auto}
+.code .ln{color:#2A3140;display:inline-block;width:2.6em;user-select:none}
+.code .k{color:var(--kw)}
+.code .t{color:var(--tag)}
+.code .s{color:var(--str)}
+.code .c{color:var(--com);font-style:italic}
+.code .f{color:var(--fg);font-weight:500}
+.code .n{color:#E8A3D8}
+
+.h2{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
+  margin:26px 0 12px;
+}
+.h2::before{content:"// ";color:var(--com)}
+
+/* консольные карточки */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:4px}
+.card{
+  border:1px solid var(--border);
+  background:var(--panel);
+  padding:14px 16px;
+  font-size:13px;
+}
+.card .cc{color:var(--com);font-size:11px;letter-spacing:.06em;margin-bottom:6px}
+.card .ct{color:var(--str);font-weight:700;font-size:14px;margin-bottom:6px}
+.card .cd{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--dim);line-height:1.55}
+.card .cd b{color:var(--fg);font-weight:600}
+
+/* кейсы */
+.case{
+  border:1px solid var(--border);background:var(--panel);
+  padding:14px 18px;margin-bottom:12px;
+  font-size:13px;line-height:1.7;
+}
+.case:hover{border-color:#2A3140}
+.case .num{color:var(--str)}
+.case .big{color:var(--com);font-weight:700;font-size:15px}
+
+/* вакансии struct */
+.job{border:1px solid var(--border);background:var(--panel);padding:14px 18px;margin-bottom:12px;font-size:13px}
+.job:hover{border-color:#2A3140}
+.job .apply{
+  display:inline-block;margin-top:8px;
+  border:1px solid var(--tag);color:var(--tag);
+  padding:4px 12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;transition:all .2s;
+}
+.job .apply:hover{background:var(--tag);color:#0B0E14}
+
+/* about */
+.about-big{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(20px,3.2vw,30px);
+  font-weight:600;line-height:1.35;color:var(--fg);
+  margin:8px 0 18px;
+}
+.about-big .hl{color:var(--tag)}
+.about-big .sl{color:var(--str)}
+.about-big .kb{color:var(--kw)}
+
+/* select на мобиле */
+.mnav{display:none}
+
+/* статус-бар */
+.statusbar{
+  flex:0 0 26px;height:26px;
+  background:var(--panel);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  font-size:11px;color:var(--dim);
+  padding:0 10px;gap:0;overflow:hidden;white-space:nowrap;
+}
+.statusbar span{padding:0 8px;border-right:1px solid var(--border)}
+.statusbar .sb-studio{
+  color:var(--tag);margin-left:auto;padding:0 0 0 8px;border-right:none;
+}
+.statusbar a{color:var(--tag);text-decoration:none}
+.statusbar a:hover{text-decoration:underline}
+.statusbar .ok{color:var(--str)}
+
+@media(max-width:760px){
+  .tree{display:none}
+  .mnav{
+    display:block;margin:14px 16px 0;
+    width:calc(100% - 32px);
+    background:var(--panel);color:var(--fg);
+    border:1px solid var(--border);
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    padding:10px 12px;
+  }
+  .filetab{display:none}
+  .filetab.mobile-active{
+    display:flex;border-top-color:var(--tag);
+  }
+  .fileview{padding:18px 16px}
+  .statusbar .hide-m{display:none}
+}
 </style>
 </head>
-<body class="bg-ink text-[#C7CBD4] antialiased" style="font-family:Inter,sans-serif">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-ink/90 backdrop-blur border-b border-[#232838]">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <a href="#about" class="flex items-center gap-2">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="2" width="24" height="24" rx="6" stroke="#6E56CF" stroke-width="2"/><path d="M11 10l-3 4 3 4M17 10l3 4-3 4" stroke="#4ADE80" stroke-width="2" stroke-linecap="round"/></svg>
-      <span class="font-mono font-bold text-white">kodeks<span class="text-volt">_</span>it</span>
-    </a>
-    <nav class="hidden md:flex gap-6 text-sm">
-      <a href="#about" class="hover:text-mint transition">О компании</a>
-      <a href="#services" class="hover:text-mint transition">Услуги</a>
-      <a href="#projects" class="hover:text-mint transition">Кейсы</a>
-      <a href="#jobs" class="hover:text-mint transition">Вакансии</a>
-      <a href="#contacts" class="hover:text-mint transition">Контакты</a>
+<div class="ide">
+
+  <header class="topbar">
+    <div class="logo-tab"><span class="dot"></span>KODEKS</div>
+    <button class="filetab" data-f="about"><span class="nm">about</span><span class="ext">.ts</span></button>
+    <button class="filetab" data-f="services"><span class="nm">services</span><span class="ext">.go</span></button>
+    <button class="filetab" data-f="cases"><span class="nm">cases</span><span class="ext">.py</span></button>
+    <button class="filetab" data-f="jobs"><span class="nm">jobs</span><span class="ext">.rs</span></button>
+    <div class="spacer"></div>
+    <div class="clock"><span class="live">prod</span>12 лет · 140 релизов/год</div>
+  </header>
+
+  <div class="main">
+
+    <nav class="tree" aria-label="Файлы проекта">
+      <div class="th">Проводник</div>
+      <div class="root">kodeks/</div>
+      <button class="tfile" data-f="about">about<span class="ext">.ts</span><span class="n">2 kb</span></button>
+      <button class="tfile" data-f="services">services<span class="ext">.go</span><span class="n">6 kb</span></button>
+      <button class="tfile" data-f="cases">cases<span class="ext">.py</span><span class="n">4 kb</span></button>
+      <button class="tfile" data-f="jobs">jobs<span class="ext">.rs</span><span class="n">3 kb</span></button>
+      <div class="th" style="padding-top:22px">Ветка</div>
+      <div class="root" style="color:var(--str)">main · clean</div>
     </nav>
-    <button id="burger" class="md:hidden p-2" aria-label="Меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#6E56CF" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-  </div>
-  <nav id="mobnav" class="hidden md:hidden border-t border-[#232838] bg-ink px-5 py-4 flex flex-col gap-4 text-sm">
-    <a href="#about">О компании</a><a href="#services">Услуги</a><a href="#projects">Кейсы</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
-  </nav>
-</header>
 
-<!-- HERO -->
-<section id="about" class="glow py-24">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="font-mono text-mint text-sm mb-4">// it-компания · москва · est. 2013</p>
-    <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-6">Пишем софт, который <span class="text-volt">работает в проде</span>, а не в презентации</h1>
-    <p class="max-w-xl text-[#9CA3AF] leading-relaxed mb-8">Разработка ПО, внедрение 1С, ИБ-аудит и DevOps для среднего и крупного бизнеса. 190 сотрудников, 4 региона разработки, свой ЦОД-партнёр в Москве.</p>
-    <div class="grid grid-cols-3 gap-4 max-w-xl mb-10">
-      <div class="card rounded-xl p-4 text-center"><div class="font-mono text-3xl text-volt"><span class="counter" data-to="13">0</span></div><p class="text-xs text-[#6B7280] mt-1">лет на рынке</p></div>
-      <div class="card rounded-xl p-4 text-center"><div class="font-mono text-3xl text-volt"><span class="counter" data-to="420">0</span></div><p class="text-xs text-[#6B7280] mt-1">проектов</p></div>
-      <div class="card rounded-xl p-4 text-center"><div class="font-mono text-3xl text-volt"><span class="counter" data-to="180">0</span></div><p class="text-xs text-[#6B7280] mt-1">клиентов</p></div>
-    </div>
-    <div class="flex flex-wrap gap-2">
-      <span class="badge px-3 py-1.5 rounded-md text-xs">Go</span>
-      <span class="badge px-3 py-1.5 rounded-md text-xs">Kotlin</span>
-      <span class="badge px-3 py-1.5 rounded-md text-xs">React</span>
-      <span class="badge px-3 py-1.5 rounded-md text-xs">PostgreSQL</span>
-      <span class="badge px-3 py-1.5 rounded-md text-xs">Kubernetes</span>
-      <span class="badge px-3 py-1.5 rounded-md text-xs">1С:ERP</span>
-    </div>
-  </div>
-</section>
+    <div class="center">
 
-<!-- SERVICES -->
-<section id="services" class="py-20 border-y border-[#232838] bg-ink2">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">Услуги</h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="card rounded-xl p-7"><h3 class="font-mono text-white mb-2"><span class="text-volt">01 /</span> Разработка ПО</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">Веб-сервисы, мобильные приложения, интеграции. Команды от 3 до 15 человек, Scrum, релизы каждые две недели.</p></div>
-      <div class="card rounded-xl p-7"><h3 class="font-mono text-white mb-2"><span class="text-volt">02 /</span> Внедрение 1С</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">1С:ERP, УТ, ЗУП под ключ: аудит процессов, перенос данных, обучение. 1С-Советник аттестованных специалистов — 9.</p></div>
-      <div class="card rounded-xl p-7"><h3 class="font-mono text-white mb-2"><span class="text-mint">03 /</span> ИБ-аудит</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">Пентесты, анализ защищённости, построение ИСМ по 152-ФЗ и ISO 27001. Отчёт с приоритезацией рисков за 2 недели.</p></div>
-      <div class="card rounded-xl p-7"><h3 class="font-mono text-white mb-2"><span class="text-mint">04 /</span> DevOps</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">CI/CD, Kubernetes, мониторинг и SRE. Сокращаем time-to-deploy с дней до минут, выкатка без даунтайма.</p></div>
+      <select class="mnav" id="mnav" aria-label="Выбор раздела">
+        <option value="about">about.ts — о компании</option>
+        <option value="services">services.go — услуги</option>
+        <option value="cases">cases.py — кейсы</option>
+        <option value="jobs">jobs.rs — вакансии</option>
+      </select>
+
+      <!-- ============ about.ts ============ -->
+      <article class="fileview" id="fv-about">
+        <div class="path">kodeks/<span class="seg">about</span>.ts · экспорт: факты, команда</div>
+        <p class="about-big">Мы пишем <span class="hl">корпоративные системы</span>, которые работают
+        <span class="sl">без downtime</span> и переживают
+        <span class="kb">рост компании в 10 раз</span> без переписывания.</p>
+        <p class="prose"><b>«Кодекс»</b> — ИТ-компания из Москвы, основана в 2014 году.
+        Собираем промышленное ПО: учёт, логистика, документооборот, интеграции.
+        В штате 68 инженеров, из них 19 — senior и выше. Работаем по договору с фиксированным
+        SLA: критический инцидент берём в работу за <b>15 минут</b>, круглосуточно.</p>
+        <div class="h2">ближайшие факты</div>
+        <div class="cards">
+          <div class="card"><div class="cc">// core_values[0]</div><div class="ct">Читаемый код</div><div class="cd">Каждая строка проходит ревью двух инженеров. Мы отдаём исходники <b>клиенту всегда</b>.</div></div>
+          <div class="card"><div class="cc">// core_values[1]</div><div class="ct">Один релиз в неделю</div><div class="cd">Непрерывная поставка с <b>2017 года</b>. Откат — одна команда, риск ≈ 0.</div></div>
+          <div class="card"><div class="cc">// core_values[2]</div><div class="ct">Свои в проде</div><div class="cd">Дежурная смена составлена из <b>авторов системы</b>, а не аутсорс-саппорта.</div></div>
+        </div>
+        <div class="h2">технологический стек</div>
+        <div class="code">const stack = [
+  <span class="s">"Go · PostgreSQL · Kafka"</span>,      <span class="c">// бэкенд и шины данных</span>
+  <span class="s">"TypeScript · React"</span>,            <span class="c">// фронтенд</span>
+  <span class="s">"Kubernetes · Terraform"</span>,        <span class="c">// инфраструктура как код</span>
+] <span class="k">satisfies</span> <span class="t">Record</span>&lt;<span class="t">string</span>&gt;[];</div>
+      </article>
+
+      <!-- ============ services.go ============ -->
+      <article class="fileview" id="fv-services">
+        <div class="path">kodeks/<span class="seg">services</span>.go · пакет: main · экспортированные функции</div>
+        <div class="code"><span class="k">package</span> <span class="f">main</span>
+
+<span class="c">// Разработка корпоративной системы под ключ: от ТЗ до промэксплуатации.</span>
+<span class="c">// Сроки: MVP от 4 месяцев, промышленная версия от 9.</span>
+<span class="k">func</span> <span class="f">DeliverEnterpriseSoftware</span>() <span class="t">Service</span> {
+    <span class="k">return</span> <span class="t">Service</span>{ SLA: <span class="s">"99,9%"</span>, Модель: <span class="s">"фикс или T&amp;M"</span> }
+}
+
+<span class="c">// Автоматизация: учёт, закупки, документооборот, склад.</span>
+<span class="c">// Средний эффект заказчиков — минус 40% ручных операций.</span>
+<span class="k">func</span> <span class="f">AutomateBusinessProcesses</span>(процессы <span class="t">int</span>) <span class="t">Result</span> {
+    <span class="k">return</span> <span class="t">Result</span>{ РучныхОпераций: −<span class="n">40</span> }
+}
+
+<span class="c">// Интеграции: 1С, ERP, банки, госсистемы, ЭДО.</span>
+<span class="c">// 60+ готовых коннекторов, типовой проект — 3 недели.</span>
+<span class="k">func</span> <span class="f">IntegrateLegacySystems</span>(система <span class="t">string</span>) <span class="t">Connector</span> { <span class="c">/* 60+ адаптеров */</span> }
+
+<span class="c">// Сопровождение: команда поддержки в часах пиковых нагрузок.</span>
+<span class="k">func</span> <span class="f">Support24x7</span>() <span class="t">Team</span> {
+    <span class="k">return</span> <span class="t">Team</span>{ ВремяРеакции: <span class="s">"15 мин"</span>, Дежурство: <span class="s">"авторы системы"</span> }
+}
+
+<span class="c">// Аудит ИТ-ландшафта: дорожная карта за 2 недели.</span>
+<span class="k">func</span> <span class="f">AuditItLandscape</span>() <span class="t">Roadmap</span> { <span class="c">/* отчёт + план на 18 месяцев */</span> }</div>
+
+        <div class="h2">комментарии к функциям (для людей)</div>
+        <div class="cards">
+          <div class="card"><div class="cc">// DeliverEnterpriseSoftware</div><div class="ct">Разработка под ключ</div><div class="cd">От 1,8 млн ₽ за MVP. Проект ведёт <b>пара архитектор+ПМ</b>, демо — каждые 2 недели.</div></div>
+          <div class="card"><div class="cc">// AutomateBusinessProcesses</div><div class="ct">Автоматизация</div><div class="cd">Оцифровка процессов, роутинг согласований, мобильный цех. <b>Окупается за 7–14 мес.</b></div></div>
+          <div class="card"><div class="cc">// IntegrateLegacySystems</div><div class="ct">Интеграции</div><div class="cd">Шина данных, развязка через Kafka, миграция без остановки учёта. <b>3 недели на типовой коннектор.</b></div></div>
+          <div class="card"><div class="cc">// Support24x7</div><div class="ct">Сопровождение 24×7</div><div class="cd">От 180 000 ₽/мес. Дежурство в праздники, <b>отчёт по инцидентам — автоматически</b>.</div></div>
+          <div class="card"><div class="cc">// AuditItLandscape</div><div class="ct">ИТ-аудит</div><div class="cd">450 000 ₽ за экспресс-аудит. Покажем узкие места и <b>посчитаем TCO на 3 года</b>.</div></div>
+        </div>
+      </article>
+
+      <!-- ============ cases.py ============ -->
+      <article class="fileview" id="fv-cases">
+        <div class="path">kodeks/<span class="seg">cases</span>.py · результаты: замерены, не оценены</div>
+        <div class="code"><span class="k">class</span> <span class="t">Case</span>:
+    <span class="k">def</span> <span class="f">__init__</span>(self, client, system, effect): ...
+
+<span class="c"># —————————————————————————————————————————————</span>
+<span class="c"># Дистрибутор стройматериалов · WMS + TMS · 2024</span>
+<span class="c"># эффект: −40% операций, −18% простой техники</span>
+dist_case = <span class="t">Case</span>(
+    system=<span class="s">"управление складом 32 000 м²"</span>,
+    effect=<span class="s">"0.6 FTE высвобождено, сборка 98.7% с первой попытки"</span>,
+)
+
+<span class="c"># —————————————————————————————————————————————</span>
+<span class="c"># Производство медтехники · ЭДО и контроль качества · 2023–2025</span>
+<span class="c"># эффект: −72% бумажных согласований, аудит ISO 13485 пройден без замечаний</span>
+med_case = <span class="t">Case</span>(
+    system=<span class="s">"маршрутизация 14 000 актов/год"</span>,
+    effect=<span class="s">"цикл согласования: 11 дней → 1.5 дня"</span>,
+)
+
+<span class="c"># —————————————————————————————————————————————</span>
+<span class="c"># Федеральный ритейлер · шина данных · 2025</span>
+<span class="c"># эффект: 240 интеграций унифицировано в одну шину</span>
+retail_case = <span class="t">Case</span>(
+    system=<span class="s">"Kafka, 3.1 млрд сообщений/мес"</span>,
+    effect=<span class="s">"время наладки новой витрины данных: 6 нед → 3 дня"</span>,
+)</div>
+
+        <div class="h2">сводные цифры</div>
+        <div class="cards">
+          <div class="card"><div class="cc"># агрегат: ops</div><div class="ct big">−40% ручных операций</div><div class="cd">медиана по 19 внедрениям автоматизации с 2021 года</div></div>
+          <div class="card"><div class="cc"># агрегат: speed</div><div class="ct big">×4.5 быстрее согласований</div><div class="cd">документооборот, среднее по 7 заказчикам</div></div>
+          <div class="card"><div class="cc"># агрегат: stability</div><div class="ct big">99,96% uptime</div><div class="cd">за 2025 год по всем системам на сопровождении</div></div>
+        </div>
+      </article>
+
+      <!-- ============ jobs.rs ============ -->
+      <article class="fileview" id="fv-jobs">
+        <div class="path">kodeks/<span class="seg">jobs</span>.rs · openings: 5 · location: Москва/удалённо</div>
+        <div class="code"><span class="c">// Каждая вакансия — честная вилка и понятные задачи.</span>
+<span class="c">// Пишем на jobs@kodeks.dev, прикладываем github/gitlab.</span>
+
+<span class="k">struct</span> <span class="t">Job</span> {
+    title: <span class="s">"Backend (Go)"</span>,
+    level: <span class="t">Senior</span>,
+    salary: <span class="n">280_000</span>..<span class="n">340_000</span>,  <span class="c">// ₽/мес, на руки</span>
+}
+
+<span class="k">struct</span> <span class="t">Job</span> {
+    title: <span class="s">"Frontend (React/TS)"</span>,
+    level: <span class="t">Middle+</span>,
+    salary: <span class="n">190_000</span>..<span class="n">240_000</span>,
+}
+
+<span class="k">struct</span> <span class="t">Job</span> {
+    title: <span class="s">"DevOps (K8s/GitOps)"</span>,
+    level: <span class="t">Middle/Senior</span>,
+    salary: <span class="n">220_000</span>..<span class="n">310_000</span>,
+}
+
+<span class="k">struct</span> <span class="t">Job</span> {
+    title: <span class="s">"Аналитик (интеграции)"</span>,
+    level: <span class="t">Middle</span>,
+    salary: <span class="n">160_000</span>..<span class="n">210_000</span>,
+}</div>
+
+        <div class="h2">что входит в пакет</div>
+        <div class="cards">
+          <div class="card"><div class="cc">// benefits[0]</div><div class="ct">Бюджет обучения</div><div class="cd"><b>60 000 ₽/год</b> на конференции и курсы, дни на обучение без вычета из отпуска</div></div>
+          <div class="card"><div class="cc">// benefits[1]</div><div class="ct">Формат</div><div class="cd">Гибрид: 2 дня в офисе у <b>м. Деловой центр</b>, дежурства оплачиваются ×2</div></div>
+          <div class="card"><div class="cc">// benefits[2]</div><div class="ct">Отп Benson</div><div class="cd">28 дней + выходной в день рождения. ДМС после <b>испытательного срока</b></div></div>
+        </div>
+        <div class="h2">отклик</div>
+        <p class="prose">Резюме и пара строк о себе — на <b>jobs@kodeks.dev</b>. Отвечаем всем в течение
+        3 рабочих дней; тестовое задаём только по договорённости и оплачиваем его, если оно больше 4 часов.</p>
+      </article>
+
     </div>
   </div>
-</section>
 
-<!-- CASES -->
-<section id="projects" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">Кейсы</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="card rounded-xl p-7"><p class="font-mono text-mint text-3xl mb-3">−40%</p><h3 class="text-white font-medium mb-2">Автоматизация склада</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">WMS-система + интеграция с 1С для дистрибьютора продуктов. Меньше ручных операций, скорость сборки заказа выросла в 1,7 раза.</p></div>
-      <div class="card rounded-xl p-7"><p class="font-mono text-mint text-3xl mb-3">3,1 сек</p><h3 class="text-white font-medium mb-2">Нагрузочное ядро финтеха</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">Переписали сервис платежей с PHP на Go: время ответа упало с 12 до 3,1 секунды под пиковой нагрузкой 4 000 RPS.</p></div>
-      <div class="card rounded-xl p-7"><p class="font-mono text-mint text-3xl mb-3">0 инцидентов</p><h3 class="text-white font-medium mb-2">DevOps для ритейл-сети</h3><p class="text-sm text-[#9CA3AF] leading-relaxed">Перевели 14 сервисов в Kubernetes, выстроили CI/CD и мониторинг. Год без продовых инцидентов при ежедневных релизах.</p></div>
-    </div>
-  </div>
-</section>
+  <footer class="statusbar">
+    <span>UTF-8</span>
+    <span class="hide-m">LF</span>
+    <span>Moscow, UTC+3</span>
+    <span class="ok">✓ prod-ready</span>
+    <span class="hide-m">main* (2 commits ahead)</span>
+    <span class="sb-studio">written in <a href="https://kokaomefedron.github.io/NEONFORGE" rel="noopener">NEONFORGE</a> · kokaomefedron.github.io/NEONFORGE</span>
+  </footer>
 
-<!-- CLIENTS -->
-<section class="py-14 border-y border-[#232838] bg-ink2">
-  <p class="text-center text-xs uppercase tracking-[0.25em] text-[#6B7280] mb-6">Клиенты</p>
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-mono text-[#4B5563] text-base">
-    <span>СберЛизинг</span><span>Аптека36.6</span><span>ТэкДон</span><span>Гринфилд</span><span>СтройБаза №1</span><span>МедЛогистика</span>
-  </div>
-</section>
-
-<!-- VACANCIES -->
-<section id="jobs" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">Вакансии</h2>
-    <div class="space-y-4">
-      <div class="card rounded-xl">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-white font-medium">Backend-разработчик (Go / Kotlin)</span><span class="font-mono text-mint whitespace-nowrap">250 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9CA3AF] leading-relaxed">Опыт от 3 лет, PostgreSQL, gRPC, Docker. Удалёнка из РФ или офис на Павелецкой. Ревью наставника, лекторий внутри компании.</div>
-      </div>
-      <div class="card rounded-xl">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-white font-medium">Frontend-разработчик (React)</span><span class="font-mono text-mint whitespace-nowrap">180 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9CA3AF] leading-relaxed">React + TypeScript, опыт с высоконагруженными интерфейсами, дизайн-системы. Гибрид: 2 дня в офисе.</div>
-      </div>
-      <div class="card rounded-xl">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="text-white font-medium">QA-инженер (автоматизация)</span><span class="font-mono text-mint whitespace-nowrap">120 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#9CA3AF] leading-relaxed">Python/Java, автотесты на Playwright/Selenide, CI. Обязателен опыт построения тестовых контуров с нуля.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACTS -->
-<section id="contacts" class="py-20 bg-ink2 border-t border-[#232838]">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
-    <div>
-      <p class="font-mono text-mint text-sm mb-3">// contacts</p>
-      <h2 class="text-3xl font-bold text-white mb-6">Обсудим ваш проект</h2>
-      <p class="text-sm text-[#9CA3AF] leading-relaxed mb-6">Ответим на заявку в течение 2 часов в рабочее время. NDA подпишем до первого созвона.</p>
-      <ul class="space-y-3 text-sm">
-        <li>📍 Москва, ул. Летниковская, 10, БЦ «Летниковский»</li>
-        <li>📞 +7 (495) 641-22-90</li>
-        <li>✉️ hello@kodeks-it.ru</li>
-        <li>🕘 Пн–Пт 10:00–19:00</li>
-      </ul>
-    </div>
-    <form id="cform" class="space-y-4">
-      <input required class="w-full bg-ink border border-[#2A3040] rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-volt" placeholder="Имя">
-      <input required type="email" class="w-full bg-ink border border-[#2A3040] rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-volt" placeholder="Рабочая почта">
-      <textarea class="w-full bg-ink border border-[#2A3040] rounded-lg px-4 py-3 text-sm text-white outline-none focus:border-volt" rows="4" placeholder="Задача"></textarea>
-      <button class="w-full py-3 bg-volt text-white rounded-lg font-medium hover:brightness-110 transition">Отправить заявку</button>
-      <p id="cok" class="hidden text-mint font-mono text-sm text-center">Спасибо! Мы свяжемся.</p>
-    </form>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="py-10 border-t border-[#232838]">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#4B5563] leading-relaxed">
-    <div>
-      <p class="text-white font-mono text-base mb-3">ООО «Кодекс»</p>
-      <p>ИНН 7724567891 · КПП 772401001 · ОГРН 1137746789123</p>
-      <p>Р/с 40702810500000067890 в АО «Тинькофф Банк», БИК 044525974</p>
-      <p>Адрес: 115114, Москва, ул. Летниковская, 10</p>
-    </div>
-    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-volt underline">kokaomefedron.github.io/NEONFORGE</a></p>
-  </div>
-</footer>
+</div>
 
 <script>
-document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
-document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
-document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) {
-    const el = e.target, to = +el.dataset.to; let n = 0;
-    const step = Math.max(1, Math.round(to / 60));
-    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
-    io.unobserve(el);
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.filetab'));
+  var files = Array.prototype.slice.call(document.querySelectorAll('.tfile'));
+  var views = Array.prototype.slice.call(document.querySelectorAll('.fileview'));
+  var mnav = document.getElementById('mnav');
+
+  function open(id){
+    tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-f') === id); });
+    files.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-f') === id); });
+    views.forEach(function(v){ v.classList.toggle('active', v.id === 'fv-' + id); });
+    mnav.value = id;
+    document.querySelector('.center').scrollTop = 0;
   }
-}), { threshold: .5 });
-document.querySelectorAll('.counter').forEach(c => io.observe(c));
-document.getElementById('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('cok').classList.remove('hidden');
-  e.target.reset();
-});
+
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ open(t.getAttribute('data-f')); }); });
+  files.forEach(function(t){ t.addEventListener('click', function(){ open(t.getAttribute('data-f')); }); });
+  mnav.addEventListener('change', function(){ open(mnav.value); });
+
+  open('about');
+})();
 </script>
 </body>
 </html>

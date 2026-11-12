@@ -3,181 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Хроника — 15 лет «Атлант Групп» | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=PT+Serif:wght@700&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { paper:'#F5F7FB', card:'#FFFFFF', navy:'#17418F', ink:'#1C2430', line:'#D7DEEA' },
-  fontFamily: { man:['Manrope','system-ui','sans-serif'], serif:['"PT Serif"','serif'] }
-}}};
-</script>
+<title>Хроника Атлант Групп — 15 лет</title>
+<link href="https://fonts.googleapis.com/css2?family=Prata&display=swap" rel="stylesheet">
 <style>
-  html{-webkit-tap-highlight-color:transparent}
-  #track{scroll-snap-type:x mandatory;-ms-overflow-style:none;scrollbar-width:none}
-  #track::-webkit-scrollbar{display:none}
-  .ev{scroll-snap-align:start}
+  :root{--coal:#191C22;--gold:#C8A96B;--cream:#EFE9DD;--line:rgba(200,169,107,.25)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--coal);color:var(--cream);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+  .prata{font-family:'Prata',serif}
+  a{color:inherit}
+
+  /* Левая шкала */
+  .rail{position:fixed;left:28px;top:0;bottom:0;width:2px;background:var(--line);z-index:10}
+  .rail-fill{position:absolute;top:0;width:100%;background:var(--gold);height:0%}
+  .rail-year{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:11;
+    writing-mode:vertical-rl;font-family:'Prata',serif;font-size:15px;color:var(--gold);letter-spacing:.2em}
+
+  /* Колесо лет */
+  .wheel{position:fixed;top:0;left:0;right:0;z-index:20;pointer-events:none;
+    padding:5vh 0;height:90vh;display:flex;flex-direction:column;justify-content:center;
+    mask-image:linear-gradient(transparent,black 30%,black 70%,transparent);
+    -webkit-mask-image:linear-gradient(transparent,black 30%,black 70%,transparent)}
+  .wheel-inner{display:flex;flex-direction:column;align-items:center;gap:4vh}
+  .year-item{font-family:'Prata',serif;font-size:clamp(22px,3.2vw,34px);color:var(--cream);
+    opacity:.28;transition:all .5s cubic-bezier(.2,.8,.2,1);transform:scale(.72)}
+  .year-item.near{opacity:.5;transform:scale(.88)}
+  .year-item.active{font-size:clamp(64px,12vw,140px);opacity:1;transform:scale(1);
+    color:var(--gold);text-shadow:0 0 60px rgba(200,169,107,.25)}
+  .year-item{pointer-events:auto;cursor:pointer}
+
+  /* Контент-колонка */
+  .story{margin-left:clamp(90px,14vw,220px);margin-right:6vw;padding-top:12vh}
+  .year-section{min-height:100vh;padding:18vh 0 10vh;display:flex;flex-direction:column;gap:24px}
+  .year-label{font-size:12px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold)}
+  .card{display:flex;gap:20px;padding:22px;border:1px solid var(--line);
+    background:rgba(239,233,221,.03);max-width:560px;
+    opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .card.show{opacity:1;transform:none}
+  .card:hover{border-color:var(--gold);background:rgba(239,233,221,.06)}
+  .ph{width:74px;height:74px;flex-shrink:0;border:1px solid var(--line);position:relative;overflow:hidden}
+  .ph::after{content:'';position:absolute;inset:5px;border:1px solid rgba(239,233,221,.25)}
+  .ph::before{content:'';position:absolute;top:0;left:0;right:0;height:14px;background:rgba(239,233,221,.08)}
+  .card h3{font-family:'Prata',serif;font-size:17px;color:var(--gold);margin-bottom:4px}
+  .card .date{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,233,221,.45);margin-bottom:8px}
+  .card p{font-size:14px;color:rgba(239,233,221,.8)}
+
+  /* Шапка и итоги */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+    margin-left:clamp(90px,14vw,220px);margin-right:6vw}
+  .hero h1{font-family:'Prata',serif;font-size:clamp(34px,6vw,72px);line-height:1.15;color:var(--cream)}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero .sub{margin-top:20px;max-width:420px;color:rgba(239,233,221,.65);font-size:15px}
+  .hero .scroll-hint{margin-top:40px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+    animation:hint 2.2s ease infinite}
+  @keyframes hint{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(8px);opacity:.5}}
+
+  .finale{min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:34px;
+    margin-left:clamp(90px,14vw,220px);margin-right:6vw;padding:14vh 0}
+  .finale h2{font-family:'Prata',serif;font-size:clamp(26px,4vw,44px);color:var(--gold)}
+  .finale .thanks{max-width:520px;font-size:14px;color:rgba(239,233,221,.6)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+  .stat{background:var(--coal);padding:28px 22px}
+  .stat b{font-family:'Prata',serif;font-size:clamp(30px,4vw,46px);color:var(--cream);display:block}
+  .stat span{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(239,233,221,.5)}
+
+  footer{padding:34px 6vw 40px clamp(90px,14vw,220px);border-top:1px solid var(--line);
+    font-size:12px;color:rgba(239,233,221,.4)}
+  footer a{color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* Архивная полоса-цитата */
+  .quote{margin:10vh clamp(90px,14vw,220px) 6vh 6vw;padding:34px 38px;
+    border-left:3px solid var(--gold);background:rgba(239,233,221,.04);max-width:640px}
+  .quote p{font-family:'Prata',serif;font-size:clamp(17px,2.4vw,22px);line-height:1.55;color:var(--cream)}
+  .quote .who{margin-top:14px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+
+  /* Полоса цифр-вех */
+  .milestones{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin:0 6vw 0 clamp(90px,14vw,220px)}
+  .mst{flex:1 1 130px;padding:20px 18px;border-right:1px solid var(--line);text-align:left}
+  .mst:last-child{border-right:none}
+  .mst b{font-family:'Prata',serif;font-size:22px;color:var(--gold);display:block}
+  .mst span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,233,221,.45)}
+
+  /* Зерно плёнки поверх всего */
+  .grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
+  .grain::before{content:'';position:absolute;inset:0;
+    background-image:repeating-conic-gradient(#000 0 .0001%,#fff 0 .0002%);
+    background-size:3px 3px}
+
+  /* Уголок архива в hero */
+  .archive-tag{position:absolute;top:0;right:6vw;padding:10px 16px;border:1px solid var(--line);
+    font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+    background:rgba(239,233,221,.03)}
+  .archive-tag i{font-style:normal;color:rgba(239,233,221,.4)}
+
+  ::selection{background:var(--gold);color:var(--coal)}
+  ::-webkit-scrollbar{width:10px;background:var(--coal)}
+  ::-webkit-scrollbar-thumb{background:#3A3F49;border-radius:5px}
+  @media(prefers-reduced-motion:reduce){
+    .scroll-hint,.year-item{transition:none;animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  @media(max-width:640px){
+    .rail{left:10px}.rail-year{left:2px}
+    .story,.hero,.finale{margin-left:64px}
+    .card{flex-direction:column}
+  }
 </style>
 </head>
-<body class="bg-paper text-ink font-man min-h-screen flex flex-col">
-<header class="px-4 py-4 border-b border-line bg-white">
-  <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
-    <div>
-      <h1 class="font-serif text-xl md:text-2xl text-navy">Хроника компании</h1>
-      <p class="text-xs text-ink/50">«Атлант Групп» · 2010—2025 · интерактивная летопись</p>
-    </div>
-    <div class="flex gap-2">
-      <button id="prev" class="w-11 h-11 rounded-full bg-navy text-white font-bold hover:brightness-110 active:scale-95 transition disabled:opacity-30" aria-label="Назад">←</button>
-      <button id="next" class="w-11 h-11 rounded-full bg-navy text-white font-bold hover:brightness-110 active:scale-95 transition" aria-label="Вперёд">→</button>
-    </div>
+<body>
+
+<div class="grain"></div>
+
+<div class="rail"><div class="rail-fill" id="rail-fill"></div></div>
+<div class="rail-year" id="rail-year">2011</div>
+
+<div class="wheel" id="wheel"></div>
+
+<section class="hero" id="top" style="position:relative">
+  <div class="archive-tag">Дело №15/26 <i>· архив открыт</i></div>
+  <div class="year-label">Корпоративная история</div>
+  <h1>Хроника <em>Атлант Групп</em> —<br>пятнадцать лет роста</h1>
+  <p class="sub">От арендованного кабинета на четыре стола до холдинга с тремя направлениями. Листайте вниз — год за годом.</p>
+  <div class="scroll-hint">↓ Листайте</div>
+</section>
+
+<main class="story" id="story"></main>
+
+<section class="quote">
+  <p>«Мы начинали с гаечного ключа и веры в то, что сделаем лучше других. Пятнадцать лет спустя вера не изменилась — ключей стало больше».</p>
+  <div class="who">— В. Атлантов, основатель</div>
+</section>
+
+<div class="milestones">
+  <div class="mst"><b>2011</b><span>первый офис</span></div>
+  <div class="mst"><b>2014</b><span>ISO 9001</span></div>
+  <div class="mst"><b>2018</b><span>свой автопарк</span></div>
+  <div class="mst"><b>2022</b><span>первый экспорт</span></div>
+  <div class="mst"><b>2026</b><span>3 корпуса</span></div>
+</div>
+
+<section class="finale">
+  <div class="year-label">2011 — 2026</div>
+  <h2>Итоги 15 лет</h2>
+  <div class="stats">
+    <div class="stat"><b>312</b><span>сотрудников</span></div>
+    <div class="stat"><b>1 740</b><span>проектов сдано</span></div>
+    <div class="stat"><b>9</b><span>городов присутствия</span></div>
+    <div class="stat"><b>×27</b><span>рост выручки</span></div>
   </div>
-</header>
+  <p class="thanks">Спасибо всем, кто был рядом эти пятнадцать лет — клиентам, партнёрам и, конечно, команде. Дальше — больше.</p>
+</section>
 
-<main class="flex-1 py-8">
-  <!-- прогресс-линия -->
-  <div class="max-w-6xl mx-auto px-4">
-    <div class="h-1.5 rounded-full bg-line relative overflow-hidden">
-      <div id="progress" class="absolute inset-y-0 left-0 bg-navy rounded-full transition-[width] duration-150" style="width:0%"></div>
-    </div>
-    <div class="flex justify-between text-[11px] text-ink/40 mt-1.5 font-mono"><span>2010</span><span>2025</span></div>
-  </div>
-
-  <!-- горизонтальный таймлайн -->
-  <div id="track" class="mt-6 flex gap-4 overflow-x-auto px-6 pb-6" style="scroll-padding-left:24px">
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2010</div>
-      <h2 class="font-bold mt-2">Основание компании</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Три инженера и арендованный кабинет 18 м² в Москве. Первый договор — настройка серверной для оптовой базы.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">3 сотрудника</span><span class="bg-navy/10 rounded-md px-2 py-1">1 контракт</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2012</div>
-      <h2 class="font-bold mt-2">Первый крупный контракт</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Интеграция складского учёта для федерального дистрибьютора. Проект на 8 месяцев — и репутация на годы.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">12 млн ₽ оборот</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2013</div>
-      <h2 class="font-bold mt-2">Свой офис</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Команда переехала в офис 240 м² рядом с Павелецкой. Появились первый отдел поддержки и внутренний регламент SLA.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">12 сотрудников</span><span class="bg-navy/10 rounded-md px-2 py-1">240 м²</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2014</div>
-      <h2 class="font-bold mt-2">Выход в регионы</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Открыты филиалы в Санкт-Петербурге и Казани. Начали работать с промышленными предприятиями Поволжья.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">2 филиала</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2016</div>
-      <h2 class="font-bold mt-2">Сотня клиентов</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Компании на сопровождении — сто. Сформирован round-the-clock дежурный инженерный пул.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">100 клиентов</span><span class="bg-navy/10 rounded-md px-2 py-1">24/7</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2017</div>
-      <h2 class="font-bold mt-2">Промышленная автоматизация</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Отдельное направление АСУ ТП. Прошли сертификацию ISO 9001 и получили допуск к объектам энергетики.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">ISO 9001</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2018</div>
-      <h2 class="font-bold mt-2">Первый свой продукт</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Собственный отдел разработки выпустил «Атлант.Склад» — WMS-систему для средней торговли. 14 внедрений за год.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">14 внедрений</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2019</div>
-      <h2 class="font-bold mt-2">Новый масштаб</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">250 сотрудников, офис 1 800 м², собственный учебный центр для инженеров. Запущена программа стажировок с вузами.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">250 сотрудников</span><span class="bg-navy/10 rounded-md px-2 py-1">1 800 м²</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2020</div>
-      <h2 class="font-bold mt-2">Удалённый год</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">За две недели перевели 90% сервисов в удалённый режим. Выручка при этом выросла на 34% — спрос на автоматизацию подскочил.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">+34% выручки</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2021</div>
-      <h2 class="font-bold mt-2">Международные проекты</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Первые контракты в Казахстане и Беларуси. Локализовали «Атлант.Склад» под две валютные учётные модели.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">3 страны</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2022</div>
-      <h2 class="font-bold mt-2">Платформа «Атлант.OS»</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Объединили наработки в единую платформу: 40 внедрений в год, средний срок проекта сократился с 7 до 4 месяцев.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">40 внедрений/год</span><span class="bg-navy/10 rounded-md px-2 py-1">−43% срок</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2023</div>
-      <h2 class="font-bold mt-2">Отраслевое признание</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">Проект автоматизации логистического хаба на 32 га — первое место отраслевой премии «Цифровая индустрия».</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">1-е место</span><span class="bg-navy/10 rounded-md px-2 py-1">32 га</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-line rounded-2xl p-5 shadow-sm">
-      <div class="font-serif text-4xl text-navy">2024</div>
-      <h2 class="font-bold mt-2">R&D-центр</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">500 сотрудников, открыт R&D-центр в Иннополисе. Начали пилоты предиктивной аналитики оборудования.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">500 сотрудников</span></div>
-    </article>
-
-    <article class="ev shrink-0 w-[280px] md:w-[320px] bg-card border border-navy/40 rounded-2xl p-5 shadow-md bg-gradient-to-br from-white to-navy/5">
-      <div class="font-serif text-4xl text-navy">2025</div>
-      <h2 class="font-bold mt-2">15 лет пути</h2>
-      <p class="text-sm text-ink/65 mt-2 leading-relaxed">1 200+ реализованных проектов, 9 филиалов, 98% клиентов продлевают сопровождение. Впереди — платформа нового поколения.</p>
-      <div class="flex gap-2 mt-3 text-[11px] font-mono text-navy"><span class="bg-navy/10 rounded-md px-2 py-1">1 200+ проектов</span><span class="bg-navy/10 rounded-md px-2 py-1">9 филиалов</span></div>
-    </article>
-  </div>
-
-  <section class="max-w-6xl mx-auto px-6 text-sm text-ink/60 leading-relaxed">
-    <h2 class="text-ink font-semibold mb-1">Как пользоваться</h2>
-    <ul class="list-disc list-inside space-y-0.5">
-      <li>Листайте ленту <b>горизонтально</b> — мышью, свайпом или колесом с Shift.</li>
-      <li>Кнопки <b>← →</b> в шапке листают по одной карточке.</li>
-      <li>Прогресс-линия сверху показывает, где вы находитесь в истории.</li>
-    </ul>
-  </section>
-</main>
-
-<footer class="px-4 py-5 text-center text-xs text-ink/40 border-t border-line bg-white">
-  Демо-проект студии <a class="text-navy hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-navy hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+<footer>
+  хроника свёрстана NEONFORGE — <a href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
 </footer>
 
 <script>
-(function(){
-  const track=document.getElementById('track'), progress=document.getElementById('progress'),
-        prev=document.getElementById('prev'), next=document.getElementById('next');
-  function cardStep(){ const c=track.querySelector('.ev'); return c? c.offsetWidth+16 : 336; }
-  prev.addEventListener('click',()=>track.scrollBy({left:-cardStep(),behavior:'smooth'}));
-  next.addEventListener('click',()=>track.scrollBy({left:cardStep(),behavior:'smooth'}));
-  function paint(){
-    const max=track.scrollWidth-track.clientWidth;
-    const p=max>0? track.scrollLeft/max : 1;
-    progress.style.width=(6+p*94)+'%';
-    prev.disabled=track.scrollLeft<=2;
-    next.disabled=track.scrollLeft>=max-2;
-  }
-  track.addEventListener('scroll',paint,{passive:true});
-  addEventListener('resize',paint);
-  paint();
-})();
+'use strict';
+const YEARS=[
+ {y:2011,ev:[
+  ['12 марта','Первая контора','Сняли 40 м² на окраине. Четыре стола, один компьютер и договор с первым клиентом — местный автосервис.'],
+  ['9 октября','Команда из трёх','Приняли второго инженера и бухгалтера на полставки. Оборот за год — 2,1 млн.'],
+  ['31 декабря','Первая ёлка','Вся команда — трое основателей и три сотрудника — отметила год пирогом в офисе.']]},
+ {y:2012,ev:[
+  ['27 февраля','Первый тендер','Выиграли муниципальный контракт на оснащение склада. Ночами сами собирали стеллажи.'],
+  ['31 декабря','Выручка ×3','Закрыли год с оборотом 6,4 млн. Купили первые двое фирменных курток.']]},
+ {y:2013,ev:[
+  ['19 марта','Диспетчерская','Поставили первую CRM. Клиентов больше не теряют в блокнотах.'],
+  ['2 декабря','Десятый клиент','Юбилейная табличка на стене. Половина — по рекомендациям.']]},
+ {y:2014,ev:[
+  ['5 июня','Свое производство','Открыли участок сборки — 400 м². Перестали зависеть от поставщиков.'],
+  ['18 ноября','Сертификация','Получили ISO 9001. Корочка на стене, доверие в тендерах.']]},
+ {y:2016,ev:[
+  ['1 апреля','Второй город','Филиал в Екатеринбурге. Три сотрудника, комната 25 м², амбиции на весь регион.'],
+  ['29 октября','Своя лаборатория','Тестовый стенд для оборудования. Брак больше не доезжает до клиента.']]},
+ {y:2018,ev:[
+  ['23 июля','Сотый сотрудник','Отметили в цеху: торт и обещания «не растерять качество».'],
+  ['14 декабря','Логистика','Свой автопарк: 6 машин. Доставка стала на два дня быстрее.']]},
+ {y:2019,ev:[
+  ['11 июня','Атлант Сервис','Открыли сервисное направление. Теперь обслуживаем то, что ставим.'],
+  ['31 декабря','Оборот 100 млн','Впервые пересекли сотню. Отметили тихо — все уставшие.']]},
+ {y:2020,ev:[
+  ['март','Пандемия','Половина клиентов заморозила заказы. Перешли на госзакупки — и выжили.'],
+  ['10 сентября','Цифровизация','Внедрили ERP. Бумажные накладки умерли в тот же день.']]},
+ {y:2022,ev:[
+  ['16 мая','Экспорт','Первый контракт в Казахстане. Два вагона оборудования через Тагиркент.'],
+  ['30 октября','Атлант Пром','Выделили промышленное направление в отдельную компанию.']]},
+ {y:2023,ev:[
+  ['21 февраля','Учебный центр','Свои курсы монтажников. Выпустили первую группу из 18 человек.'],
+  ['7 декабря','Премия отрасли','«Поставщик года» по версии ассоциации промышленников.']]},
+ {y:2024,ev:[
+  ['8 августа','300 человек','Третий производственный корпус. Праздник на стадионе.'],
+  ['20 ноября','Экология','Перешли на безотходный раскрой. Минус 12 % себестоимости.']]},
+ {y:2025,ev:[
+  ['3 марта','ИИ на производстве','Предиктивная аналитика: станки сами заказывают себе запчасти.'],
+  ['15 сентября','Пятый регион','Филиал в Новосибирске. География — от Калининграда до Кузбасса.']]},
+ {y:2026,ev:[
+  ['январь','Сегодня','Три направления, девять городов, 312 человек. История продолжается.']]}
+];
+const GRADS=[
+ 'linear-gradient(135deg,#C8A96B,#7A6338)','linear-gradient(135deg,#5E6B7A,#2C3440)',
+ 'linear-gradient(135deg,#8F7A4F,#3A3222)','linear-gradient(135deg,#4E5D50,#232B25)'
+];
+
+/* Колесо лет */
+const wheel=document.getElementById('wheel');
+wheel.innerHTML=`<div class="wheel-inner">${YEARS.map((Y,i)=>{
+  const before=Y.y<2011?'':'';
+  return `<div class="year-item" data-y="${Y.y}">${Y.y}</div>`;
+}).join('')}</div>`;
+
+/* Секции */
+const story=document.getElementById('story');
+story.innerHTML=YEARS.map((Y,ii)=>`
+  <section class="year-section" id="y${Y.y}" data-y="${Y.y}">
+    <div class="year-label prata">${Y.y} · ${ii+1}/${YEARS.length}</div>
+    ${Y.ev.map((e,j)=>`
+      <article class="card">
+        <div class="ph" style="background:${GRADS[(ii+j)%GRADS.length]}"></div>
+        <div>
+          <div class="date">${e[0]}</div>
+          <h3>${e[1]}</h3>
+          <p>${e[2]}</p>
+        </div>
+      </article>`).join('')}
+  </section>`).join('');
+
+/* Активный год */
+const yearEls=[...document.querySelectorAll('.year-item')];
+let activeYear=null;
+function setActive(y){
+  if(y===activeYear) return;
+  activeYear=y;
+  yearEls.forEach(el=>{
+    const n=+el.dataset.y;
+    el.classList.toggle('active',n===y);
+    el.classList.toggle('near',Math.abs(n-y)===1||Math.abs(n-y)===2);
+  });
+  document.getElementById('rail-year').textContent=y;
+}
+setActive(2011);
+
+/* IntersectionObserver для секций */
+const yearBySection=new Map();
+document.querySelectorAll('.year-section').forEach(s=>{
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting) setActive(+s.dataset.y);});
+  },{rootMargin:'-42% 0px -42% 0px'});
+  io.observe(s);
+});
+
+/* Появление карточек */
+const cardIO=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting) e.target.classList.add('show');});
+},{threshold:.2});
+document.querySelectorAll('.card').forEach(c=>cardIO.observe(c));
+
+/* Клик по году */
+yearEls.forEach(el=>el.addEventListener('click',()=>{
+  document.getElementById('y'+el.dataset.y).scrollIntoView({behavior:'smooth'});
+}));
+
+/* Шкала прогресса */
+function updRail(){
+  const h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('rail-fill').style.height=(scrollY/h*100)+'%';
+}
+addEventListener('scroll',updRail,{passive:true});
+updRail();
 </script>
 </body>
 </html>

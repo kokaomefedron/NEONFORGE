@@ -3,279 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>ГРОМ — кроссфит-бокс в Екатеринбурге</title>
+<title>ГРОМ — кроссфит-клуб в Екатеринбурге</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#FF5C00',
-        dark: '#0D0D0D',
-        panel: '#161616'
-      },
-      fontFamily: {
-        display: ['"Archivo Black"', 'sans-serif'],
-        body: ['Manrope', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  html { scroll-behavior: smooth; }
-  body { background: #0D0D0D; }
-  .diag {
-    background-image: repeating-linear-gradient(-45deg, #FF5C00 0 14px, transparent 14px 34px);
-  }
-  .diag-soft {
-    background-image: repeating-linear-gradient(-45deg, rgba(255,92,0,.12) 0 12px, transparent 12px 36px);
-  }
+html{scroll-behavior:smooth}
+body{background:#0D0D0D; font-family:'Manrope',sans-serif}
+.plakat{font-family:'Archivo Black',sans-serif}
+.stroke{ -webkit-text-stroke:2px #FF5C00; color:transparent }
+.stroke-thin{ -webkit-text-stroke:1.5px #EDE8E0; color:transparent }
+.band{ transform:skewY(-3deg) }
+.band > .inner{ transform:skewY(3deg) }
+.divider-orange{ height:8px; background:#FF5C00; transform:skewY(-3deg); margin:34px 0 }
+.flip{ perspective:900px; height:190px }
+.flip-in{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s }
+.flip:hover .flip-in{ transform:rotateX(180deg) }
+.face{ position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px }
+.back{ transform:rotateX(180deg) }
+.counter{ font-variant-numeric:tabular-nums }
+.stamp-btn{ clip-path:polygon(6% 12%,94% 0,100% 88%,4% 100%); }
+#menu{ transition:clip-path .5s cubic-bezier(.2,.9,.3,1) }
+@media(max-width:760px){ .cols{ grid-template-columns:1fr !important } }
 </style>
 </head>
-<body class="bg-dark text-neutral-100 font-body antialiased">
+<body class="text-[#EDE8E0] overflow-x-hidden">
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-dark/95 backdrop-blur border-b-4 border-primary">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="#hero" class="font-display text-2xl text-primary">ГРОМ⚡</a>
-    <nav class="hidden md:flex gap-7 font-bold text-sm">
-      <a href="#wod" class="hover:text-primary transition">Расписание WOD</a>
-      <a href="#coaches" class="hover:text-primary transition">Тренеры</a>
-      <a href="#pricing" class="hover:text-primary transition">Тарифы</a>
-      <a href="#trial" class="hover:text-primary transition">Пробная</a>
-    </nav>
-    <a href="#trial" class="font-display bg-primary text-dark px-5 py-2 text-sm hover:bg-white transition">ПЕРВАЯ БЕСПЛАТНО</a>
-  </div>
+<!-- ===== ШАПКА: только лого + гамбургер ===== -->
+<header class="fixed top-0 inset-x-0 z-40 flex items-center justify-between px-5 py-4 bg-[#0D0D0D]/90 backdrop-blur">
+  <a href="#top" class="plakat text-3xl tracking-widest text-[#EDE8E0]">ГРОМ<span class="text-[#FF5C00]">.</span></a>
+  <button id="burger" aria-label="меню" class="w-11 h-11 flex flex-col items-center justify-center gap-[5px] bg-[#FF5C00]">
+    <span class="block w-6 h-[3px] bg-black transition"></span>
+    <span class="block w-6 h-[3px] bg-black transition"></span>
+    <span class="block w-6 h-[3px] bg-black transition"></span>
+  </button>
 </header>
 
-<!-- HERO -->
-<section id="hero" class="diag-soft border-b-4 border-primary">
-  <div class="max-w-6xl mx-auto px-4 py-20 md:py-28">
-    <h1 class="font-display text-4xl md:text-7xl leading-tight mb-6">
-      ЗАЯВИ О СЕБЕ<br><span class="text-primary">ГРОМЧЕ</span>
+<!-- ===== ОРАНЖЕВЫЙ ТЕЙКОВЕР ===== -->
+<nav id="menu" class="fixed inset-0 z-50 bg-[#FF5C00] flex flex-col items-center justify-center gap-2 px-8"
+     style="clip-path:circle(0% at calc(100% - 45px) 45px)">
+  <a href="#stats"  class="menu-link plakat text-[13vw] md:text-[80px] leading-none text-black hover:italic">ФИГУРА</a>
+  <a href="#wod"    class="menu-link plakat text-[13vw] md:text-[80px] leading-none text-black hover:italic">WOD-ТАБЛО</a>
+  <a href="#tarif"  class="menu-link plakat text-[13vw] md:text-[80px] leading-none text-black hover:italic">ТАРИФЫ</a>
+  <a href="#zayav"  class="menu-link plakat text-[13vw] md:text-[80px] leading-none text-black hover:italic">ЗАЯВКА</a>
+  <p class="mt-10 text-black text-sm font-semibold tracking-wide">сделано NEONFORGE —
+    <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener" class="underline">kokaomefedron.github.io/NEONFORGE</a></p>
+</nav>
+
+<!-- ===== ПОЛОСА 1: главный плакат ===== -->
+<main id="top" class="pt-24">
+<section class="band bg-[#111]">
+  <div class="inner max-w-5xl mx-auto px-6 py-28 text-center">
+    <p class="plakat text-[#FF5C00] text-sm tracking-[0.4em] mb-6">КРОССФИТ-КЛУБ · ЕКАТЕРИНБУРГ · С 2015 ГОДА</p>
+    <h1 class="relative plakat leading-[0.92] text-[13vw] md:text-[96px]">
+      <span class="absolute inset-0 stroke" aria-hidden="true">ЗАЯВИ О СЕБЕ ГРОМЧЕ</span>
+      <span class="text-[#EDE8E0] opacity-90">ЗАЯВИ О СЕБЕ ГРОМЧЕ</span>
     </h1>
-    <p class="text-neutral-400 text-lg max-w-xl mb-10 font-medium">Кроссфит-бокс в центре Ебурга. 900 м² железа, резиновых плит и честной работы. Никакой магии — только тренировки, которые видно в зеркале.</p>
-    <div class="grid grid-cols-3 max-w-2xl gap-4 mb-10" id="stats">
-      <div class="bg-panel border-2 border-primary/30 p-5 text-center">
-        <p class="font-display text-3xl md:text-5xl text-primary" data-count="420" data-suffix="">0</p>
-        <p class="text-xs md:text-sm text-neutral-400 mt-1 font-bold uppercase">членов клуба</p>
-      </div>
-      <div class="bg-panel border-2 border-primary/30 p-5 text-center">
-        <p class="font-display text-3xl md:text-5xl text-primary" data-count="58" data-suffix="">0</p>
-        <p class="text-xs md:text-sm text-neutral-400 mt-1 font-bold uppercase">тренировок / неделю</p>
-      </div>
-      <div class="bg-panel border-2 border-primary/30 p-5 text-center">
-        <p class="font-display text-3xl md:text-5xl text-primary" data-count="173" data-suffix="">0</p>
-        <p class="text-xs md:text-sm text-neutral-400 mt-1 font-bold uppercase">личных рекордов за год</p>
-      </div>
-    </div>
-    <a href="#trial" class="inline-block font-display bg-primary text-dark px-10 py-5 text-xl hover:bg-white transition">ЗАПИСАТЬСЯ НА ПРОБУ →</a>
+    <p class="mt-8 max-w-xl mx-auto text-[#EDE8E0]/70 text-lg">Площадь 1900-го года, литейный цех № 3.
+    Штанги, канаты и люди, которые перестали бояться первого подхода.</p>
+    <a href="#zayav" class="stamp-btn inline-block mt-10 bg-[#FF5C00] text-black plakat text-xl px-12 py-5 rotate-[-2deg] hover:rotate-0 transition">ПЕРВОЕ ЗАНЯТИЕ — БЕСПЛАТНО</a>
   </div>
 </section>
 
-<!-- WOD -->
-<section id="wod" class="max-w-6xl mx-auto px-4 py-20">
-  <h2 class="font-display text-3xl md:text-5xl mb-2 text-primary">РАСПИСАНИЕ WOD</h2>
-  <p class="text-neutral-400 mb-10 font-medium">WOD публикуется в 21:00 предыдущего дня. Приходи на любой слот — масштабируем под уровень.</p>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">ПН · 07:00 / 12:30 / 18:30 / 20:00</p>
-      <p class="font-bold mb-1">WOD «Хелен»</p>
-      <p class="text-neutral-400 text-sm">3 раунда: бег 400 м · гиревой мах 21 · подтягивания 12. Время на часы, крики разрешены.</p>
-    </div>
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">ВТ · 07:00 / 12:30 / 18:30 / 20:00</p>
-      <p class="font-bold mb-1">Сила: присед 5×5</p>
-      <p class="text-neutral-400 text-sm">Приседания со штангой + WOD-добивка «АМРАП 10» на кольцах и бёрпи.</p>
-    </div>
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">СР · 07:00 / 12:30 / 18:30 / 20:00</p>
-      <p class="font-bold mb-1">WOD «Герой: Чад»</p>
-      <p class="text-neutral-400 text-sm">1000 м гребля · 80 бёрпи · 70 воздушных приседов · 60 ситапов. Сольёмся вместе.</p>
-    </div>
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">ЧТ · 07:00 / 12:30 / 18:30 / 20:00</p>
-      <p class="font-bold mb-1">Олимпийская штанга</p>
-      <p class="text-neutral-400 text-sm">Рывок и толчок в технику. Медленные веса, много повторений, злая спина в хорошем смысле.</p>
-    </div>
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">ПТ · 07:00 / 12:30 / 18:30 / 19:30</p>
-      <p class="font-bold mb-1">WOD «Франтаенс»</p>
-      <p class="text-neutral-400 text-sm">21-15-9: толчок гантелей · бёрпи-прыжок. Классика, от которой болит всё, кроме гордости.</p>
-    </div>
-    <div class="bg-panel border-l-8 border-primary p-6">
-      <p class="font-display text-primary text-xl mb-2">СБ · 10:00 / 12:00 · ВС · 11:00</p>
-      <p class="font-bold mb-1">Командный WOD + mobility</p>
-      <p class="text-neutral-400 text-sm">Пары на партнёрское фбу, воскресенье — растяжка и работа с бандажами. Идеально для новичков.</p>
-    </div>
-  </div>
-</section>
+<div class="divider-orange"></div>
 
-<!-- COACHES -->
-<section id="coaches" class="diag-soft border-y-4 border-primary py-20">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="font-display text-3xl md:text-5xl mb-10 text-primary">ТРЕНЕРЫ</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-dark border-2 border-primary/40 p-8">
-        <div class="w-24 h-24 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">СЛ</div>
-        <h3 class="font-display text-xl text-primary mb-1">СЕРГЕЙ ЛАПТЕВ</h3>
-        <p class="text-neutral-400 text-sm mb-3 font-bold">Head Coach · CF-L3 · 9 лет</p>
-        <p class="text-neutral-300 text-sm">Регионал-атлет 2019. Говорит три фразы за тренировку, и все три двигают штангу. Присед — его религия.</p>
+<!-- ===== ПОЛОСА 2: счётчики ===== -->
+<section id="stats" class="band bg-[#161616]">
+  <div class="inner max-w-5xl mx-auto px-6 py-20">
+    <div class="grid grid-cols-3 gap-4 text-center">
+      <div>
+        <div class="counter stroke-thin plakat text-[14vw] md:text-[110px] leading-none" data-to="412">0</div>
+        <p class="plakat text-xs md:text-base tracking-widest mt-2 text-[#FF5C00]">ЧЛЕНОВ КЛУБА</p>
       </div>
-      <div class="bg-dark border-2 border-primary/40 p-8">
-        <div class="w-24 h-24 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">АК</div>
-        <h3 class="font-display text-xl text-primary mb-1">АННА КОЗЛОВА</h3>
-        <p class="text-neutral-400 text-sm mb-3 font-bold">Тренер · CF-L2 · гимнастика</p>
-        <p class="text-neutral-300 text-sm">Учит делать первые кольцевые выходы и мыш-апы за 6 недель. Не кричит — но её «ещё один» слышно через зал.</p>
+      <div>
+        <div class="counter stroke-thin plakat text-[14vw] md:text-[110px] leading-none" data-to="18400">0</div>
+        <p class="plakat text-xs md:text-base tracking-widest mt-2 text-[#FF5C00]">ТРЕНИРОВОК ЗА ГОД</p>
       </div>
-      <div class="bg-dark border-2 border-primary/40 p-8">
-        <div class="w-24 h-24 mb-5 bg-primary text-dark font-display text-4xl flex items-center justify-center">ДМ</div>
-        <h3 class="font-display text-xl text-primary mb-1">ДМИТРИЙ МАЗУР</h3>
-        <p class="text-neutral-400 text-sm mb-3 font-bold">Тренер · CF-L2 · реабилитация</p>
-        <p class="text-neutral-300 text-sm">Ведёт группу «после травм» и всех, кто «ну я просто посмотреть». За месяц они почему-то платят абонемент.</p>
+      <div>
+        <div class="counter stroke-thin plakat text-[14vw] md:text-[110px] leading-none" data-to="37">0</div>
+        <p class="plakat text-xs md:text-base tracking-widest mt-2 text-[#FF5C00]">КЛУБНЫХ РЕКОРДОВ</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing" class="max-w-5xl mx-auto px-4 py-20">
-  <h2 class="font-display text-3xl md:text-5xl mb-10 text-primary">ТАРИФЫ</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-panel border-2 border-neutral-800 p-8">
-      <p class="font-bold uppercase text-neutral-400 mb-3">«Кросс»</p>
-      <p class="font-display text-4xl mb-1">5 900 ₽<span class="text-neutral-500 text-base font-body font-medium">/мес</span></p>
-      <p class="text-neutral-400 text-sm mb-6">8 тренировок в месяц. Хватает тем, кто ходит 2 раза в неделю и честно.</p>
-      <a href="#trial" class="text-primary font-bold border-b-2 border-primary hover:text-white hover:border-white transition">Выбрать →</a>
+<div class="divider-orange"></div>
+
+<!-- ===== ПОЛОСА 3: WOD-табло ===== -->
+<section id="wod" class="band bg-[#1C1206]">
+  <div class="inner max-w-5xl mx-auto px-6 py-20">
+    <h2 class="plakat text-4xl md:text-6xl mb-3">WOD-ТАБЛО</h2>
+    <p class="text-[#EDE8E0]/60 mb-10">наведи на день — табло перевернётся, как на стадионе</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">ПН</span><span class="text-xs text-[#EDE8E0]/50">день тяжёлой штанги</span></div>
+        <div class="face back bg-[#FF5C00] text-black"><span class="plakat text-lg">СТАНОВАЯ 5×5</span><span class="text-xs font-semibold">19:00 · 21:00</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">ВТ</span><span class="text-xs text-[#EDE8E0]/50">метабол</span></div>
+        <div class="face back bg-[#EDE8E0] text-black"><span class="plakat text-lg">ROW + ДВОЙНОЙ ПРЫЖОК</span><span class="text-xs font-semibold">7:30 · 18:00 · 20:00</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">СР</span><span class="text-xs text-[#EDE8E0]/50">гимнастика</span></div>
+        <div class="face back bg-[#FF5C00] text-black"><span class="plakat text-lg">ВЫХОД СИЛОЙ + КАНАТ</span><span class="text-xs font-semibold">19:00 · 21:00</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">ЧТ</span><span class="text-xs text-[#EDE8E0]/50">лёгкий день</span></div>
+        <div class="face back bg-[#EDE8E0] text-black"><span class="plakat text-lg">ТЕХНИКА + МОБИЛИТИ</span><span class="text-xs font-semibold">7:30 · 18:00</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">ПТ</span><span class="text-xs text-[#EDE8E0]/50">день рекордов</span></div>
+        <div class="face back bg-[#FF5C00] text-black"><span class="plakat text-lg">THRUSTER LADDER</span><span class="text-xs font-semibold">19:00 · 21:00</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">СБ</span><span class="text-xs text-[#EDE8E0]/50">командный WOD</span></div>
+        <div class="face back bg-[#EDE8E0] text-black"><span class="plakat text-lg">«ГРОМ ПО ПАРАМ» 4×4</span><span class="text-xs font-semibold">11:00, после — чай и штанга</span></div>
+      </div></div>
+      <div class="flip"><div class="flip-in">
+        <div class="face bg-[#0D0D0D] border-2 border-[#FF5C00]/40"><span class="plakat text-3xl">ВС</span><span class="text-xs text-[#EDE8E0]/50">открытый зал</span></div>
+        <div class="face back bg-[#EDE8E0] text-black"><span class="plakat text-lg">FREE OPEN GYM 10–14</span><span class="text-xs font-semibold">коуч в зале — на всякий случай</span></div>
+      </div></div>
     </div>
-    <div class="bg-primary text-dark p-8 shadow-[10px_10px_0_rgba(255,92,0,.35)]">
-      <p class="font-bold uppercase mb-3">«Гром» — хит</p>
-      <p class="font-display text-4xl mb-1">7 900 ₽<span class="text-base font-body font-bold">/мес</span></p>
-      <p class="text-sm mb-6 font-medium">Безлимит WOD + мобильность по воскресеньям. Один пересчёт тела в подарок.</p>
-      <a href="#trial" class="font-display border-b-2 border-dark hover:opacity-70 transition">Выбрать →</a>
-    </div>
-    <div class="bg-panel border-2 border-neutral-800 p-8">
-      <p class="font-bold uppercase text-neutral-400 mb-3">«Разряд»</p>
-      <p class="font-display text-4xl mb-1">10 900 ₽<span class="text-neutral-500 text-base font-body font-medium">/мес</span></p>
-      <p class="text-neutral-400 text-sm mb-6">Безлимит + 4 персональные тренировки + план питания от тренера.</p>
-      <a href="#trial" class="text-primary font-bold border-b-2 border-primary hover:text-white hover:border-white transition">Выбрать →</a>
+
+    <div class="mt-10 bg-[#0D0D0D]/60 border-l-4 border-[#FF5C00] p-5 text-sm text-[#EDE8E0]/70">
+      <p class="plakat text-[#FF5C00] text-xs tracking-widest mb-2">ТАБЛО НЕ ВРЁТ</p>
+      WOD меняется в 00:01 каждого дня. Первый, кто назовёт слово дня (спросите на рецепции),
+      получает протеиновый батончик. Батончики бываемые, но не бесконечные.
     </div>
   </div>
 </section>
 
-<!-- TRIAL FORM -->
-<section id="trial" class="bg-primary py-20">
-  <div class="max-w-xl mx-auto px-4">
-    <h2 class="font-display text-3xl md:text-5xl text-dark mb-3 text-center">БЕСПЛАТНАЯ ПРОБНАЯ ТРЕНИРОВКА</h2>
-    <p class="text-center font-bold text-dark/70 mb-10">Одна тренировка — и ты поймёшь, твоё это или нет. Спорим, твоё?</p>
-    <form id="trialForm" class="bg-dark p-8 space-y-4 border-4 border-dark shadow-[10px_10px_0_#0D0D0D55]">
-      <input required placeholder="Имя" class="w-full bg-panel border-2 border-neutral-700 focus:border-primary px-4 py-3 font-medium focus:outline-none">
-      <input required type="tel" placeholder="Телефон" class="w-full bg-panel border-2 border-neutral-700 focus:border-primary px-4 py-3 font-medium focus:outline-none">
-      <select class="w-full bg-panel border-2 border-neutral-700 focus:border-primary px-4 py-3 font-medium focus:outline-none">
-        <option>Будни утром</option><option>Будни днём</option><option>Будни вечером</option><option>Выходные</option>
-      </select>
-      <button type="submit" class="w-full font-display bg-primary text-dark py-4 text-xl hover:bg-white transition">ПОГНАЛИ ⚡</button>
-      <p id="trialMsg" class="hidden text-center font-display text-primary">Заявка отправлена!</p>
+<div class="divider-orange"></div>
+
+<!-- ===== ПОЛОСА 4: тарифы ===== -->
+<section id="tarif" class="band bg-[#111]">
+  <div class="inner max-w-5xl mx-auto px-6 py-20">
+    <h2 class="plakat text-4xl md:text-6xl mb-10">ТАРИФЫ <span class="stroke">ЧЕСТНЫЕ</span></h2>
+    <div class="cols grid md:grid-cols-3 gap-6">
+      <div class="band-inner bg-[#0D0D0D] border-l-8 border-[#FF5C00] p-8">
+        <p class="plakat text-sm tracking-widest text-[#FF5C00]">РАЗМИНКА</p>
+        <p class="plakat text-5xl my-4">4 900 ₽<span class="text-lg text-[#EDE8E0]/50">/мес</span></p>
+        <ul class="space-y-2 text-sm text-[#EDE8E0]/75">
+          <li>▸ 8 тренировок в месяц</li><li>▸ общее табло</li><li>▸ без заморозки</li>
+        </ul>
+      </div>
+      <div class="band-inner bg-[#FF5C00] text-black p-8 rotate-1">
+        <p class="plakat text-sm tracking-widest">РАБОЧАЯ СМЕНА</p>
+        <p class="plakat text-5xl my-4">7 400 ₽<span class="text-lg opacity-60">/мес</span></p>
+        <ul class="space-y-2 text-sm font-semibold">
+          <li>▸ безлимит тренировок</li><li>▸ разбор техники 1×мес</li><li>▸ гости 2 раза бесплатно</li>
+        </ul>
+      </div>
+      <div class="band-inner bg-[#0D0D0D] border-l-8 border-[#EDE8E0]/30 p-8 -rotate-1">
+        <p class="plakat text-sm tracking-widest text-[#EDE8E0]/60">НОЧНАЯ СМЕНА</p>
+        <p class="plakat text-5xl my-4">9 800 ₽<span class="text-lg text-[#EDE8E0]/50">/мес</span></p>
+        <ul class="space-y-2 text-sm text-[#EDE8E0]/75">
+          <li>▸ безлимит + 3 персональных</li><li>▸ план питания</li><li>▸ свой шкафчик</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider-orange"></div>
+
+<!-- ===== ПОЛОСА: правила ===== -->
+<section class="band bg-[#1C1206]">
+  <div class="inner max-w-5xl mx-auto px-6 py-16">
+    <h2 class="plakat text-3xl md:text-5xl mb-8">ПРАВИЛА ГРОМА</h2>
+    <div class="grid md:grid-cols-2 gap-4 text-sm text-[#EDE8E0]/75">
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Пришёл на первую тренировку — скажи об этом коучу. Всегда. Это не бюрократия, это твои же колени.</p>
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Штанга возвращается на стойки. Гантель — на стойку. Канат — нет, канат нельзя на стойку.</p>
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Мел на полу — нормально. Мел на стенах, потолке и в кофе коуча — не нормально.</p>
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Последний подход всегда добивается. Даже если коуч смотрит в телефон, он не смотрит в телефон.</p>
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Крики одобрения поощряются. Крики боли — тоже, но с уточнением у дежурного.</p>
+      <p class="border-l-2 border-[#FF5C00]/40 pl-4">▸ Мобильный — в шкафчик на время WOD. Рекорд всё равно запишет табло, а не Instagram.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider-orange"></div>
+
+<!-- ===== ПОЛОСА 5: CTA ===== -->
+<section id="zayav" class="band bg-[#161616]">
+  <div class="inner max-w-3xl mx-auto px-6 py-24 text-center">
+    <h2 class="plakat text-4xl md:text-6xl leading-tight">ХВАТИТ СМОТРЕТЬ.<br><span class="stroke">ПРИХОДИ ПОДНИМАТЬ.</span></h2>
+    <form id="leadForm" class="mt-10 flex flex-col md:flex-row gap-3 max-w-xl mx-auto">
+      <input required type="tel" placeholder="+7 (___) ___-__-__"
+        class="flex-1 bg-[#0D0D0D] border-2 border-[#FF5C00]/50 px-5 py-4 text-lg outline-none focus:border-[#FF5C00] placeholder:text-[#EDE8E0]/40">
+      <button class="stamp-btn bg-[#FF5C00] text-black plakat text-lg px-10 py-4 rotate-[-1deg] hover:rotate-0 transition">ЗАБИТЬ МЕСТО</button>
     </form>
+    <p id="leadOk" class="mt-4 text-[#FF5C00] font-semibold hidden">Принято! Позвоним сегодня до 20:00 — ГРОМ ждёт.</p>
+    <p class="mt-6 text-[#EDE8E0]/50 text-sm">Екатеринбург, ул. Малышева, 5 (вход с двора, ищи ржавую вывеску)</p>
   </div>
 </section>
+</main>
 
-<!-- REVIEWS -->
-<section class="max-w-6xl mx-auto px-4 py-20">
-  <h2 class="font-display text-3xl md:text-5xl mb-10 text-primary">ГОВОРЯТ АТЛЕТЫ</h2>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border-l-8 border-primary p-7">
-      <p class="text-neutral-300 mb-4 font-medium">«Пришёл на пробную „просто посмотреть". Через год — минус 14 кг и турник, который я не узнавал. Сергей — машина.»</p>
-      <p class="font-display text-primary">Павел Р. · 36 лет</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border-l-8 border-primary p-7">
-      <p class="text-neutral-300 mb-4 font-medium">«Анна поставила мне строгие подтягивания за два месяца. Всегда думала, что это не для девочек с плечом, как у меня.»</p>
-      <p class="font-display text-primary">Марина К. · 29 лет</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[420px] bg-panel border-l-8 border-primary p-7">
-      <p class="text-neutral-300 mb-4 font-medium">«После травмы колена боялся нагрузок. Дима собрал программу, через полгода вышел на первое соревнование.»</p>
-      <p class="font-display text-primary">Артём Б. · 42 года</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="max-w-3xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-3xl md:text-5xl mb-10 text-primary">FAQ</h2>
-  <div class="divide-y-2 divide-neutral-800 border-y-2 border-neutral-800">
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display text-lg">Я СОВСЕМ НОВИЧОК. НЕ СЛОМАЮСЬ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 font-medium">Первые 4 недели — масштабированные WOD и отдельный вводный курс техники. Нагрузку подбирает тренер, а не геройство.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display text-lg">ЧТО ВЗЯТЬ С СОБОЙ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 font-medium">Кроссовки с плоской подошвой, вода, полотенце. Перчатки и атлетические пояса — по желанию, в зале всё остальное есть.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display text-lg">ЕСТЬ ЛИ ДУШ И РАЗДЕЛКИ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 font-medium">Да: мужские и женские раздевалки с душем, фены, шкафчики с замком. Открытая парковка рядом.</div>
-    </div>
-    <div>
-      <button class="faq-q w-full flex justify-between items-center px-2 py-5 text-left font-display text-lg">А ЕСЛИ НЕ ПОНРАВИТСЯ?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-2 pb-5 text-neutral-400 font-medium">Заморозка абонемента бесплатно на 30 дней. Не понравилось после первой недели — вернём деньги за неиспользованные занятия.</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="border-t-4 border-primary bg-panel">
-  <div class="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm font-medium">
-    <div>
-      <p class="font-display text-2xl text-primary mb-2">ГРОМ⚡</p>
-      <p class="text-neutral-400">Екатеринбург, ул. Малышева, 71<br>Пн–Пт 07:00 — 22:00 · Сб–Вс 10:00 — 18:00</p>
-    </div>
-    <div class="text-neutral-400">
-      <p class="text-neutral-100 font-bold mb-2 uppercase">Контакты</p>
-      <p>📞 <a href="tel:+73432901755" class="hover:text-primary">+7 343 290-17-55</a></p>
-      <p>✈️ <a href="https://t.me/grom_cf" class="hover:text-primary">@grom_cf</a></p>
-    </div>
-    <div class="text-neutral-400">
-      <p class="text-neutral-100 font-bold mb-2 uppercase">Демо</p>
-      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
-    </div>
-  </div>
+<footer class="bg-[#0D0D0D] text-center py-10 plakat text-xs tracking-widest text-[#EDE8E0]/40">
+  ГРОМ · КРОССФИТ-КЛУБ · ЕКБ · <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener" class="text-[#FF5C00]/70">NEONFORGE</a>
 </footer>
 
 <script>
-// Counters with IntersectionObserver
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if (!en.isIntersecting) return;
-    const el = en.target;
-    obs.unobserve(el);
-    const target = parseInt(el.dataset.count, 10);
-    const suffix = el.dataset.suffix || '';
-    let cur = 0;
-    const step = Math.max(1, Math.round(target / 60));
-    const t = setInterval(() => {
-      cur += step;
-      if (cur >= target) { cur = target; clearInterval(t); }
-      el.textContent = cur + suffix;
-    }, 22);
+(function(){
+  var burger=document.getElementById('burger'), menu=document.getElementById('menu');
+  var spans=burger.querySelectorAll('span');
+  var open=false;
+  function toggle(state){
+    open=state;
+    menu.style.clipPath = open?'circle(150% at calc(100% - 45px) 45px)':'circle(0% at calc(100% - 45px) 45px)';
+    spans[0].style.transform=open?'translateY(8px) rotate(45deg)':'';
+    spans[1].style.opacity=open?'0':'1';
+    spans[2].style.transform=open?'translateY(-8px) rotate(-45deg)':'';
+    document.body.style.overflow=open?'hidden':'';
+  }
+  burger.addEventListener('click',function(){toggle(!open)});
+  document.querySelectorAll('.menu-link').forEach(function(a){
+    a.addEventListener('click',function(){toggle(false)});
   });
-}, { threshold: .4 });
-document.querySelectorAll('[data-count]').forEach(el => obs.observe(el));
 
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const a = btn.nextElementSibling;
-    a.classList.toggle('hidden');
-    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var el=e.target, to=+el.dataset.to, t0=performance.now(), dur=1600;
+      (function step(t){
+        var p=Math.min(1,(t-t0)/dur), v=Math.round(to*(1-Math.pow(1-p,3)));
+        el.textContent=v.toLocaleString('ru-RU');
+        if(p<1) requestAnimationFrame(step);
+      })(t0);
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.counter').forEach(function(c){io.observe(c)});
+
+  document.getElementById('leadForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('leadOk').classList.remove('hidden');
+    this.reset();
   });
-});
-document.getElementById('trialForm').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('trialMsg').classList.remove('hidden');
-  e.target.querySelector('button[type=submit]').disabled = true;
-});
+})();
 </script>
 </body>
 </html>

@@ -4,199 +4,416 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Знаниум — образовательный центр, Томск</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: { extend: {
-    colors: { light:'#FDFCFF', vio:'#7C3AED', lime:'#84CC16', inkz:'#2A2440' },
-    fontFamily: { disp:['Manrope','sans-serif'], soft:['Comfortaa','cursive'] }
-  } }
-}
-</script>
+<meta name="description" content="Образовательный центр «Знаниум»: математика, программирование, русский язык. Томск, с 2017 года. Первое занятие бесплатно.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Comfortaa:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  html{scroll-behavior:smooth}
-  body{font-family:Manrope,sans-serif}
-  .blob{border-radius:60% 40% 55% 45%/50% 60% 40% 50%}
+:root{
+  --line:#B9CBE8;
+  --redline:#E86A6A;
+  --violet:#7C3AED;
+  --lime:#84CC16;
+  --ink:#333333;
+  --faint:#7A8494;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',Arial,sans-serif;
+  color:var(--ink);
+  font-size:15.5px;
+  line-height:1.65;
+  background:
+    repeating-linear-gradient(180deg,
+      transparent 0 31px,
+      rgba(185,203,232,.75) 31px 32px),
+    #FDFCF8;
+}
+/* красная вертикальная поля */
+.margin-line{
+  position:absolute;top:0;bottom:0;left:min(56px,12vw);
+  width:2px;background:var(--redline);opacity:.8;
+  pointer-events:none;z-index:0;
+}
+.page{position:relative;max-width:880px;margin:0 auto}
+section.page{padding-left:calc(min(56px,12vw) + 34px);padding-right:24px}
+@media(max-width:560px){
+  section.page{padding-left:calc(min(56px,12vw) + 20px)}
+}
+
+/* рукописные пометки */
+.hand{
+  font-family:'Caveat',cursive;
+  font-size:22px;color:var(--violet);
+  transform:rotate(-2deg);
+  display:inline-block;
+}
+.note-m{
+  position:relative;
+  font-family:'Caveat',cursive;
+  font-size:21px;color:var(--violet);
+  margin:4px 0 12px;
+  display:inline-block;
+}
+.note-m .arr{vertical-align:-6px;margin-left:6px}
+.mark-red{color:#D14D4D}
+.mark-green{color:#4D9E2A}
+
+/* ---------- обложка тетради ---------- */
+.cover{
+  position:relative;
+  padding:56px 24px 30px calc(min(56px,12vw) + 34px);
+}
+.cover .cl-assn{
+  font-family:'Caveat',cursive;font-size:26px;color:var(--faint);
+  transform:rotate(-1.5deg);display:inline-block;
+}
+.cover h1{
+  font-weight:700;
+  font-size:clamp(40px,9vw,74px);
+  letter-spacing:-.03em;
+  line-height:1;
+  margin:8px 0 6px;
+}
+.cover h1 .v{color:var(--violet)}
+.cover h1 .l{color:var(--lime)}
+.cover .sub{font-size:16px;color:var(--faint);max-width:44ch}
+.cover .grade{
+  margin-top:18px;display:inline-block;
+  border:2px dashed var(--violet);
+  border-radius:8px;
+  font-family:'Caveat',cursive;font-size:24px;color:var(--violet);
+  padding:6px 16px;transform:rotate(-2deg);
+}
+
+/* ---------- стикеры-закладки ---------- */
+.tabs{
+  position:sticky;top:0;z-index:40;
+  display:flex;gap:6px;
+  padding:10px 24px 0 calc(min(56px,12vw) + 34px);
+  background:transparent;
+  pointer-events:none;
+}
+@media(max-width:560px){
+  .tabs{padding-left:calc(min(56px,12vw) + 12px);gap:4px}
+}
+.stab{
+  pointer-events:auto;
+  appearance:none;border:none;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-weight:600;font-size:13.5px;
+  color:#fff;
+  padding:9px 18px 26px;
+  transform:translateY(0);
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);
+  transition:transform .2s;
+  white-space:nowrap;
+}
+.stab:nth-child(1){background:var(--violet)}
+.stab:nth-child(2){background:#2FA8C7}
+.stab:nth-child(3){background:#D9822B}
+.stab:nth-child(4){background:var(--lime)}
+.stab:hover{transform:translateY(-4px)}
+.stab.on{transform:translateY(-9px)}
+@media(max-width:560px){.stab{padding:8px 10px 22px;font-size:12px}}
+
+/* ---------- программы: список уроков ---------- */
+.lesson{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:4px 16px;
+  padding:14px 0;
+  border-bottom:1px dashed #D5DEEB;
+  align-items:baseline;
+}
+.lesson:last-child{border-bottom:none}
+.lesson .bage{
+  font-size:11px;font-weight:700;letter-spacing:.04em;
+  color:#fff;background:var(--violet);
+  padding:3px 9px;border-radius:20px;white-space:nowrap;justify-self:start;
+}
+.lesson:nth-child(even) .bage{background:#2FA8C7}
+.lesson .lt{font-weight:700;font-size:16.5px}
+.lesson .ld{grid-column:2;color:var(--faint);font-size:13.5px}
+.lesson .lp{
+  font-weight:700;color:var(--violet);white-space:nowrap;
+  grid-row:1 / span 2;align-self:center;
+}
+@media(max-width:560px){
+  .lesson{grid-template-columns:auto 1fr}
+  .lesson .lp{grid-row:auto;grid-column:2;text-align:left}
+}
+
+/* ---------- преподаватели: страницы с фото ---------- */
+.teachers{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:640px){.teachers{grid-template-columns:1fr}}
+.tcard{
+  background:#fff;
+  border:1px solid #E4E0D4;
+  box-shadow:0 3px 0 rgba(51,51,51,.06);
+  padding:14px;
+  position:relative;
+}
+.tcard .tphoto{
+  height:150px;border-radius:4px;position:relative;overflow:hidden;
+}
+.tphoto.a{background:linear-gradient(135deg,#7C3AED 0%,#B492F5 70%)}
+.tphoto.b{background:linear-gradient(135deg,#84CC16 0%,#C8E88A 70%)}
+.tphoto::after{
+  content:"";position:absolute;left:14px;top:14px;right:14px;bottom:34px;
+  border:2px solid rgba(253,252,248,.4);border-radius:2px;
+}
+.tphoto .tname{
+  position:absolute;left:12px;bottom:8px;color:#fff;font-weight:700;font-size:17px;z-index:2;
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.stamp{
+  position:absolute;right:10px;top:8px;
+  border:2px solid var(--redline);color:var(--redline);
+  border-radius:50%;width:74px;height:74px;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-family:'Caveat',cursive;font-size:14px;line-height:1.1;
+  transform:rotate(12deg);
+  background:rgba(253,252,248,.72);
+  z-index:3;
+}
+.tcard .tdesc{margin-top:10px;font-size:13.5px;color:var(--faint)}
+.tcard .tdesc b{color:var(--ink)}
+
+/* ---------- отзывы: черновики ---------- */
+.draft{
+  position:relative;
+  margin:14px 0 20px;
+  padding:14px 18px 12px 46px;
+  max-width:620px;
+}
+.draft::before{
+  content:"«";
+  position:absolute;left:4px;top:0;
+  font-family:'Caveat',cursive;font-size:54px;color:var(--line);line-height:1;
+}
+.draft .dt{
+  font-family:'Caveat',cursive;
+  font-size:24px;line-height:1.35;color:#3D4451;
+  transform:rotate(-.6deg);
+}
+.draft .ds{
+  font-family:'Caveat',cursive;font-size:17px;color:var(--faint);margin-top:4px;
+  transform:rotate(-1deg);display:inline-block;
+}
+.draft .ds b{color:var(--violet)}
+.strike{text-decoration:line-through;text-decoration-color:#D14D4D;text-decoration-thickness:2px}
+
+/* ---------- запись: страница контрольной ---------- */
+.exam{
+  background:#fff;
+  border:1.5px solid var(--ink);
+  background-image:
+    repeating-linear-gradient(180deg,transparent 0 27px,rgba(185,203,232,.55) 27px 28px),
+    repeating-linear-gradient(90deg,transparent 0 27px,rgba(185,203,232,.4) 27px 28px);
+  padding:22px 22px 24px;
+  max-width:620px;
+  box-shadow:0 4px 0 rgba(51,51,51,.08);
+}
+.exam .et{
+  font-family:'Caveat',cursive;font-size:28px;color:var(--violet);
+  margin-bottom:12px;transform:rotate(-1deg);display:inline-block;
+}
+.frow{margin-bottom:14px}
+.frow label{
+  display:block;font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:3px;
+}
+.frow input,.frow select{
+  width:100%;
+  border:none;border-bottom:2px solid #C9D3E2;
+  background:transparent;
+  font-family:'Manrope',sans-serif;font-size:15.5px;color:var(--ink);
+  padding:6px 2px;
+  transition:border-color .2s;
+}
+.frow input:focus,.frow select:focus{outline:none;border-bottom-color:var(--violet)}
+.frow input::placeholder{color:#B9C1CC}
+.exam .btn{
+  width:100%;margin-top:8px;
+  background:var(--lime);color:#fff;border:none;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-weight:700;font-size:16px;
+  padding:13px;border-radius:6px;
+  transition:background .2s,transform .15s;
+}
+.exam .btn:hover{background:#74B514;transform:translateY(-2px)}
+.exam .btn:disabled{opacity:.6;cursor:default;transform:none}
+.exam .fmsg{
+  font-family:'Caveat',cursive;font-size:20px;color:#4D9E2A;margin-top:10px;
+  display:none;transform:rotate(-1deg);
+}
+.exam .fmsg.show{display:block}
+
+/* поля-подпись внизу */
+.margin-sign{
+  padding:26px 24px 60px calc(min(56px,12vw) + 34px);
+}
+.margin-sign .hand{font-size:20px;color:var(--faint)}
+.margin-sign .hand b{color:var(--violet);font-weight:600}
+.margin-sign .hand a{color:var(--violet);text-decoration:none;border-bottom:1.5px dashed var(--violet)}
+.margin-sign .hand a:hover{color:#5B21B6}
 </style>
 </head>
-<body class="bg-light text-inkz antialiased">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-light/95 backdrop-blur border-b border-vio/15 shadow-sm">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <a href="#about" class="flex items-center gap-2">
-      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M15 4L27 10 15 16 3 10z" fill="#7C3AED"/><path d="M8 13v6c0 2 3.5 4 7 4s7-2 7-4v-6" stroke="#84CC16" stroke-width="2" fill="none"/></svg>
-      <span class="font-soft font-bold text-xl text-vio">Знаниум</span>
-    </a>
-    <nav class="hidden md:flex gap-6 text-sm font-semibold">
-      <a href="#about" class="hover:text-vio transition">О центре</a>
-      <a href="#services" class="hover:text-vio transition">Программы</a>
-      <a href="#projects" class="hover:text-vio transition">Расписание</a>
-      <a href="#jobs" class="hover:text-vio transition">Вакансии</a>
-      <a href="#contacts" class="hover:text-vio transition">Контакты</a>
-    </nav>
-    <button id="burger" class="md:hidden p-2" aria-label="Меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-  </div>
-  <nav id="mobnav" class="hidden md:hidden border-t border-vio/10 bg-light px-5 py-4 flex flex-col gap-4 text-sm font-semibold">
-    <a href="#about">О центре</a><a href="#services">Программы</a><a href="#projects">Расписание</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
-  </nav>
+<div class="margin-line"></div>
+
+<header class="cover">
+  <span class="cl-assn">Образовательный центр · Томск, с 2017 года</span>
+  <h1>Зна<span class="v">ни</span>ум<span class="l">.</span></h1>
+  <p class="sub">Занятия для школьников 1–11 классов: математика, программирование, русский язык.
+  Группы до 8 человек, свои методички, домашки проверяем до конца следующего дня.</p>
+  <span class="grade">первое занятие — бесплатно ↘</span>
 </header>
 
-<!-- HERO -->
-<section id="about" class="relative py-20 overflow-hidden">
-  <div class="absolute -top-16 -right-16 w-72 h-72 bg-vio/10 blob hidden md:block"></div>
-  <div class="absolute bottom-0 left-0 w-48 h-48 bg-lime/15 blob hidden md:block"></div>
-  <div class="max-w-6xl mx-auto px-5 relative">
-    <p class="text-vio font-soft font-bold text-sm mb-4">Образовательный центр · Томск · с 2015 года</p>
-    <h1 class="font-disp text-4xl md:text-5xl font-extrabold leading-tight mb-6">Учим так, чтобы <span class="text-vio">хотелось приходить</span> на занятия</h1>
-    <p class="max-w-xl text-[#6B6580] leading-relaxed mb-8">Подготовка к ОГЭ и ЕГЭ, олимпиадные группы и программирование для детей. Малые группы до 8 человек, первый пробный урок — бесплатный.</p>
-    <div class="grid grid-cols-3 gap-4 max-w-xl mb-8">
-      <div class="bg-white border border-vio/15 rounded-2xl p-4 text-center shadow-sm"><div class="font-disp text-3xl font-extrabold text-vio"><span class="counter" data-to="11">0</span></div><p class="text-xs text-[#9B95B0] mt-1">лет на рынке</p></div>
-      <div class="bg-white border border-vio/15 rounded-2xl p-4 text-center shadow-sm"><div class="font-disp text-3xl font-extrabold text-vio"><span class="counter" data-to="74">0</span></div><p class="text-xs text-[#9B95B0] mt-1">тыс. уроков</p></div>
-      <div class="bg-white border border-vio/15 rounded-2xl p-4 text-center shadow-sm"><div class="font-disp text-3xl font-extrabold text-vio"><span class="counter" data-to="3600">0</span></div><p class="text-xs text-[#9B95B0] mt-1">учеников</p></div>
-    </div>
-    <a href="#contacts" class="inline-block px-7 py-3 bg-vio text-white rounded-full font-bold hover:brightness-110 transition shadow-lg shadow-vio/25">Записаться на пробный урок</a>
-  </div>
-</section>
+<!-- стикеры-закладки -->
+<nav class="tabs" aria-label="Разделы">
+  <button class="stab" data-t="programs">Программы</button>
+  <button class="stab" data-t="teachers">Преподаватели</button>
+  <button class="stab" data-t="reviews">Отзывы</button>
+  <button class="stab" data-t="signup">Запись</button>
+</nav>
 
-<!-- PROGRAMS -->
-<section id="services" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-disp text-3xl md:text-4xl font-extrabold mb-12">Программы</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white rounded-2xl border border-vio/15 p-6 shadow-sm"><p class="text-3xl mb-3">✏️</p><h3 class="font-disp font-extrabold text-lg mb-1">ОГЭ</h3><p class="text-xs font-semibold text-lime mb-2">7–9 классы</p><p class="text-sm text-[#6B6580] leading-relaxed">Русский, математика, физика, информатика. Средний балл выпускников 2025 — 4,4.</p><p class="mt-3 font-bold text-vio">от 6 900 ₽/мес</p></div>
-      <div class="bg-white rounded-2xl border border-vio/15 p-6 shadow-sm"><p class="text-3xl mb-3">🎓</p><h3 class="font-disp font-extrabold text-lg mb-1">ЕГЭ</h3><p class="text-xs font-semibold text-lime mb-2">10–11 классы</p><p class="text-sm text-[#6B6580] leading-relaxed">Математика профиль, физика, информатика, русский. 31 выпускник 2025 — выше 85 баллов.</p><p class="mt-3 font-bold text-vio">от 7 900 ₽/мес</p></div>
-      <div class="bg-white rounded-2xl border border-vio/15 p-6 shadow-sm"><p class="text-3xl mb-3">🏅</p><h3 class="font-disp font-extrabold text-lg mb-1">Олимпиады</h3><p class="text-xs font-semibold text-lime mb-2">5–11 классы</p><p class="text-sm text-[#6B6580] leading-relaxed">Математика и физика: школьный → региональный этап. 12 призёров региона-2025.</p><p class="mt-3 font-bold text-vio">от 8 500 ₽/мес</p></div>
-      <div class="bg-white rounded-2xl border border-vio/15 p-6 shadow-sm"><p class="text-3xl mb-3">💻</p><h3 class="font-disp font-extrabold text-lg mb-1">Программирование</h3><p class="text-xs font-semibold text-lime mb-2">8–14 лет</p><p class="text-sm text-[#6B6580] leading-relaxed">Python и Scratch: первые игры, боты, алгоритмы. Свои проекты на демо-дне каждый семестр.</p><p class="mt-3 font-bold text-vio">от 6 400 ₽/мес</p></div>
-    </div>
-  </div>
-</section>
+<main class="page">
 
-<!-- SCHEDULE -->
-<section id="projects" class="py-20 bg-vio text-white">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-disp text-3xl md:text-4xl font-extrabold mb-3">Расписание потоков</h2>
-    <p class="text-white/70 text-sm mb-10">Набор на поток 2026 года идёт до 20 сентября. Далее — лист ожидания на второй семестр.</p>
-    <div class="grid md:grid-cols-2 gap-5">
-      <div class="bg-white/10 rounded-2xl p-6 backdrop-blur"><div class="flex justify-between items-center mb-3"><h3 class="font-disp font-extrabold text-lg">ЕГЭ · вечерние группы</h3><span class="text-xs bg-lime text-inkz font-bold px-3 py-1 rounded-full">идёт набор</span></div><p class="text-sm text-white/80 leading-relaxed">Пн/Ср или Вт/Чт, 17:00–19:30. Группы от 6 человек, старт 1 сентября. 32 недели, 2 контрольные срезы в семестр.</p></div>
-      <div class="bg-white/10 rounded-2xl p-6 backdrop-blur"><div class="flex justify-between items-center mb-3"><h3 class="font-disp font-extrabold text-lg">Олимпиадная математика</h3><span class="text-xs bg-white/20 px-3 py-1 rounded-full font-bold">осталось 3 места</span></div><p class="text-sm text-white/80 leading-relaxed">Сб 11:00–13:30, тренер — к.ф.-м.н., ТГУ. Вступительный тест перед зачислением.</p></div>
-      <div class="bg-white/10 rounded-2xl p-6 backdrop-blur"><div class="flex justify-between items-center mb-3"><h3 class="font-disp font-extrabold text-lg">Python для школьников</h3><span class="text-xs bg-lime text-inkz font-bold px-3 py-1 rounded-full">идёт набор</span></div><p class="text-sm text-white/80 leading-relaxed">Вс 12:00–14:00, возраст 10–14. Ноутбуки предоставляем, домашние проекты в облаке.</p></div>
-      <div class="bg-white/10 rounded-2xl p-6 backdrop-blur"><div class="flex justify-between items-center mb-3"><h3 class="font-disp font-extrabold text-lg">ОГЭ · интенсификация</h3><span class="text-xs bg-white/20 px-3 py-1 rounded-full font-bold">старт в октябре</span></div><p class="text-sm text-white/80 leading-relaxed">2 раза в неделю + разборы пробников ежемесячно. Личный трекер прогресса для родителей.</p></div>
-    </div>
-  </div>
-</section>
+  <!-- ПРОГРАММЫ -->
+  <section class="page" id="programs">
+    <span class="note-m">важно! группы формируются до 15 сентября <svg class="arr" width="26" height="14" viewBox="0 0 26 14" fill="none"><path d="M2 7h20m0 0-5-5m5 5-5 5" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/></svg></span>
+    <div class="lesson"><span class="bage">1–4 кл.</span><span class="lt">Математика «Считаю легко»</span><span class="lp">4 800 ₽/мес</span><p class="ld">Счёт, задачи, логика — 2 раза в неделю по 60 мин, группы по 6 человек</p></div>
+    <div class="lesson"><span class="bage">5–6 кл.</span><span class="lt">Математика «Выход на 5»</span><span class="lp">5 400 ₽/мес</span><p class="ld">Программа школы + олимпиадные задачи по средам, домашки с разбором</p></div>
+    <div class="lesson"><span class="bage">7–9 кл.</span><span class="lt">Подготовка к ОГЭ (математика)</span><span class="lp">6 200 ₽/мес</span><p class="ld">Два модуля: алгебра и геометрия, 3 пробника за год, средний балл группы 2025 — 4,4</p></div>
+    <div class="lesson"><span class="bage">10–11 кл.</span><span class="lt">Подготовка к ЕГЭ (профиль)</span><span class="lp">7 500 ₽/мес</span><p class="ld">Вторая часть — каждый урок, свой банк задач на 1 200 позиций, 4 пробника</p></div>
+    <div class="lesson"><span class="bage">3–7 кл.</span><span class="lt">Программирование Python</span><span class="lp">5 900 ₽/мес</span><p class="ld">От блоков к коду, свой мини-проект в конце модуля, ноутбуки выдаём</p></div>
+    <div class="lesson"><span class="bage">8–11 кл.</span><span class="lt">Программирование: олимпиады</span><span class="lp">6 800 ₽/мес</span><p class="ld">Алгоритмы, динамическое программирование, 5 наших ребят — призёры региона 2025</p></div>
+    <div class="lesson"><span class="bage">2–6 кл.</span><span class="lt">Русский язык «Грамотей»</span><span class="lp">4 600 ₽/мес</span><p class="ld">Диктанты без страха, разбор ошибок один на один, 2 раза в неделю</p></div>
+  </section>
 
-<!-- TEACHERS + REVIEWS -->
-<section class="py-20">
-  <div class="max-w-6xl mx-auto px-5 grid lg:grid-cols-2 gap-14">
-    <div>
-      <h2 class="font-disp text-3xl font-extrabold mb-8">Преподаватели</h2>
-      <div class="space-y-5">
-        <div class="flex gap-4 items-start"><div class="w-14 h-14 rounded-full bg-vio/10 text-vio flex items-center justify-center font-disp font-extrabold shrink-0">МС</div><div><p class="font-bold">М. Соколова</p><p class="text-xs text-[#6B6580] mt-1">Математика, ЕГЭ-профиль · МГУ им. Ломоносова, 14 лет стажа</p></div></div>
-        <div class="flex gap-4 items-start"><div class="w-14 h-14 rounded-full bg-lime/20 text-[#5A7E0E] flex items-center justify-center font-disp font-extrabold shrink-0">ДТ</div><div><p class="font-bold">Д. Тарасов</p><p class="text-xs text-[#6B6580] mt-1">Физика и олимпиады · ТГУ, к.ф.-м.н., тренер региональной сборной</p></div></div>
-        <div class="flex gap-4 items-start"><div class="w-14 h-14 rounded-full bg-vio/10 text-vio flex items-center justify-center font-disp font-extrabold shrink-0">ЕК</div><div><p class="font-bold">Е. Ковалёва</p><p class="text-xs text-[#6B6580] mt-1">Информатика и Python · ТПУ, ex-разработчик в ИТ-компании</p></div></div>
-      </div>
+  <!-- ПРЕПОДАВАТЕЛИ -->
+  <section class="page" id="teachers">
+    <span class="note-m mark-green">проверено директором ✓</span>
+    <div class="teachers">
+      <article class="tcard">
+        <div class="tphoto a"><span class="tname">Анна Ковалёва</span></div>
+        <div class="stamp">ТГУ<br>мат.<br>фак.</div>
+        <p class="tdesc"><b>Математика, ОГЭ и ЕГЭ.</b> Кандидат физ.-мат. наук, ТГУ, 2014.
+        11 лет практики, 340 выпускников, 27 из них — 90+ баллов. Ведёт также кружок «Число».</p>
+      </article>
+      <article class="tcard">
+        <div class="tphoto b"><span class="tname">Дмитрий Лебедев</span></div>
+        <div class="stamp">ТПУ<br>ИРНТ<br>2020</div>
+        <p class="tdesc"><b>Программирование.</b> Выпускник ТПУ, senior-разработчик в томском офисе
+        продуктовой компании. Ведёт олимпиадный трек, двое его учеников — призёры Всероссийской олимпиады.</p>
+      </article>
     </div>
-    <div>
-      <h2 class="font-disp text-3xl font-extrabold mb-8">Отзывы родителей</h2>
-      <div class="space-y-4">
-        <div class="bg-white border border-vio/15 rounded-2xl p-5 shadow-sm"><p class="text-sm text-[#4A4560] leading-relaxed">«Дочь пошла на Python "за компанию", а теперь сама делает ботов. Группа маленькая, преподаватель знает каждого».</p><p class="text-xs font-semibold text-vio mt-3">— Ирина, мама ученицы 6 класса</p></div>
-        <div class="bg-white border border-vio/15 rounded-2xl p-5 shadow-sm"><p class="text-sm text-[#4A4560] leading-relaxed">«Сдала ЕГЭ по математике на 92 балла. Пробники каждые две недели — к экзамену страха не было».</p><p class="text-xs font-semibold text-vio mt-3">— Сергей, папа выпускницы 2025</p></div>
-        <div class="bg-white border border-vio/15 rounded-2xl p-5 shadow-sm"><p class="text-sm text-[#4A4560] leading-relaxed">«Честно сказали после теста, что олимпиадную группу брать рано, — взяли на базу. Год спустя — призёр региона».</p><p class="text-xs font-semibold text-vio mt-3">— Ольга, мама ученика 8 класса</p></div>
-      </div>
-    </div>
-  </div>
-</section>
+    <p style="margin-top:14px;font-size:13.5px;color:var(--faint)">Всего в центре 14 преподавателей; каждый проходит стажировку у старших коллег перед первой группой.</p>
+  </section>
 
-<!-- CLIENTS/PARTNERS -->
-<section class="py-14 border-y border-vio/15 bg-white">
-  <p class="text-center text-xs uppercase tracking-[0.2em] text-[#9B95B0] mb-6">Партнёры и вузы-соорганизаторы</p>
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 px-5 max-w-5xl mx-auto font-disp font-extrabold text-[#C9C4D8] text-lg">
-    <span>ТГУ</span><span>ТПУ</span><span>Олимпиада Сириус</span><span>Школа №47</span><span>ИТ-куб Томск</span>
-  </div>
-</section>
-
-<!-- VACANCIES -->
-<section id="jobs" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <h2 class="font-disp text-3xl font-extrabold mb-12">Работа у нас</h2>
-    <div class="space-y-4 max-w-4xl">
-      <div class="bg-white border border-vio/15 rounded-2xl shadow-sm">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-bold">Преподаватель математики (ЕГЭ)</span><span class="text-vio font-extrabold whitespace-nowrap">от 85 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6B6580] leading-relaxed">Ставка за академический час 1 400–1 800 ₽ в зависимости от группы. Методические материалы готовим мы, педагог — только учит.</div>
-      </div>
-      <div class="bg-white border border-vio/15 rounded-2xl shadow-sm">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-bold">Преподаватель программирования (дети)</span><span class="text-vio font-extrabold whitespace-nowrap">от 70 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6B6580] leading-relaxed">Python, Scratch, выходные дни 12:00–16:00. Студенты старших курсов ТПУ — приветствуем, наставник прикреплён.</div>
-      </div>
-      <div class="bg-white border border-vio/15 rounded-2xl shadow-sm">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center gap-4"><span class="font-bold">Администратор учебного центра</span><span class="text-vio font-extrabold whitespace-nowrap">48 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#6B6580] leading-relaxed">Запись учеников, коммуникация с родителями, CRM. График 2/2 или пн-пт, центр на пр. Ленина.</div>
-      </div>
+  <!-- ОТЗЫВЫ -->
+  <section class="page" id="reviews">
+    <span class="note-m">писано родителями, без редактуры</span>
+    <div class="draft">
+      <p class="dt">Сын ненавидел математику <span class="strike">до</span> весь прошлый год, а теперь сам садится за задачи. Полгода в «Знаниуме» — четвёрка стала стабильной.</p>
+      <p class="ds">— <b>Ирина, мама ученика 7 класса</b>, октябрь 2025</p>
     </div>
-  </div>
-</section>
-
-<!-- CONTACTS -->
-<section id="contacts" class="py-20 bg-vio text-white">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
-    <div>
-      <h2 class="font-disp text-3xl md:text-4xl font-extrabold mb-6">Запись на пробный урок</h2>
-      <p class="text-sm text-white/80 leading-relaxed mb-6">Первое занятие бесплатно: тест + консультация, после — честный рекомендательный план подготовки.</p>
-      <ul class="space-y-3 text-sm">
-        <li>📍 Томск, просп. Ленина, 62, 3 этаж</li>
-        <li>📞 +7 (3822) 55-33-10</li>
-        <li>✉️ privet@znanium-tsk.ru</li>
-        <li>🕘 Пн–Пт 10:00–20:00, Сб–Вс 10:00–17:00</li>
-      </ul>
+    <div class="draft">
+      <p class="dt">Дочери нравятся преподаватели и то, что домашку разбирают построчно. За год — с 62 до 78 баллов на пробниках ЕГЭ.</p>
+      <p class="ds">— <b>Ольга, мама ученицы 11 класса</b>, декабрь 2025</p>
     </div>
-    <form id="cform" class="bg-white/10 rounded-3xl p-6 backdrop-blur space-y-4">
-      <input required class="w-full bg-white/95 rounded-xl px-4 py-3 text-sm text-inkz outline-none focus:ring-2 focus:ring-lime" placeholder="Имя родителя/ученика">
-      <input required type="tel" class="w-full bg-white/95 rounded-xl px-4 py-3 text-sm text-inkz outline-none focus:ring-2 focus:ring-lime" placeholder="Телефон">
-      <select class="w-full bg-white/95 rounded-xl px-4 py-3 text-sm text-inkz outline-none">
-        <option>Интересующая программа</option><option>ОГЭ</option><option>ЕГЭ</option><option>Олимпиады</option><option>Программирование</option>
-      </select>
-      <button class="w-full py-3 bg-lime text-inkz rounded-xl font-extrabold hover:brightness-105 transition">Записаться</button>
-      <p id="cok" class="hidden text-lime text-sm text-center font-bold">Спасибо! Мы свяжемся.</p>
+    <div class="draft">
+      <p class="dt">Python-группа — лучшее, что случилось с каникулами. Ребёнок сам написал игру и показывает её бабушке.</p>
+      <p class="ds">— <b>Сергей, папа ученика 5 класса</b>, февраль 2026</p>
+    </div>
+  </section>
+
+  <!-- ЗАПИСЬ -->
+  <section class="page" id="signup">
+    <span class="note-m">впишите и оторвите, как листок с контрольной</span>
+    <form class="exam" id="examForm" novalidate>
+      <span class="et">Запись на бесплатное занятие</span>
+      <div class="frow"><label for="f-name">Имя ученика</label><input id="f-name" type="text" placeholder="Например, Маша Петрова" required></div>
+      <div class="frow"><label for="f-phone">Телефон родителя</label><input id="f-phone" type="tel" inputmode="tel" placeholder="+7 ___ ___-__-__" required></div>
+      <div class="frow"><label for="f-class">Класс</label><select id="f-class">
+        <option value="">выберите…</option>
+        <option>1–4 класс</option><option>5–6 класс</option><option>7–9 класс</option><option>10–11 класс</option>
+      </select></div>
+      <div class="frow"><label for="f-subj">Предмет</label><select id="f-subj">
+        <option value="">выберите…</option>
+        <option>Математика</option><option>Программирование</option><option>Русский язык</option>
+      </select></div>
+      <button class="btn" type="submit">Сдать листок — перезвоним за день</button>
+      <p class="fmsg" id="fmsg">Принято! Записала в журнал — перезвоним в течение дня ✓</p>
     </form>
-  </div>
-</section>
+    <p style="margin-top:14px;font-size:13.5px;color:var(--faint)">Адрес: Томск, пр. Ленина, 55, вход со двора, кабинет 305. Телефон: +7 (3822) 51-51-51.</p>
+  </section>
 
-<!-- FOOTER -->
-<footer class="py-10 bg-light border-t border-vio/15">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#9B95B0] leading-relaxed">
-    <div>
-      <p class="text-vio font-soft font-bold text-base mb-3">ООО «Знаниум»</p>
-      <p>ИНН 7017123456 · КПП 701701001 · ОГРН 1157017123456</p>
-      <p>Р/с 40702810200000086420 в АО «Томский Банк», БИК 046902511</p>
-      <p>Адрес: 634050, Томск, просп. Ленина, 62</p>
-    </div>
-    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-vio underline">kokaomefedron.github.io/NEONFORGE</a></p>
-  </div>
-</footer>
+</main>
+
+<div class="margin-sign">
+  <span class="hand">домка: <b>NEONFORGE</b> · <a href="https://kokaomefedron.github.io/NEONFORGE" rel="noopener">kokaomefedron.github.io/NEONFORGE</a></span>
+</div>
 
 <script>
-document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
-document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
-document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) {
-    const el = e.target, to = +el.dataset.to; let n = 0;
-    const step = Math.max(1, Math.round(to / 60));
-    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n.toLocaleString('ru-RU'); }, 25);
-    io.unobserve(el);
-  }
-}), { threshold: .5 });
-document.querySelectorAll('.counter').forEach(c => io.observe(c));
-document.getElementById('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('cok').classList.remove('hidden');
-  e.target.reset();
-});
+(function(){
+  /* стикеры-табы: подсветка + скролл */
+  var stabs = Array.prototype.slice.call(document.querySelectorAll('.stab'));
+  var map = {};
+  stabs.forEach(function(t){ map[t.getAttribute('data-t')] = t; });
+
+  stabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var id = t.getAttribute('data-t');
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+      stabs.forEach(function(x){ x.classList.remove('on'); });
+      t.classList.add('on');
+    });
+  });
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        stabs.forEach(function(x){ x.classList.remove('on'); });
+        var t = map[e.target.id];
+        if (t) t.classList.add('on');
+      }
+    });
+  }, { rootMargin:'-25% 0px -60% 0px', threshold:0 });
+  stabs.forEach(function(t){
+    var s = document.getElementById(t.getAttribute('data-t'));
+    if (s) obs.observe(s);
+  });
+
+  /* форма записи */
+  var form = document.getElementById('examForm');
+  var msg = document.getElementById('fmsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var ok = true;
+    ['f-name','f-phone','f-class','f-subj'].forEach(function(id){
+      var f = document.getElementById(id);
+      var bad = !f.value.trim();
+      f.style.borderBottomColor = bad ? '#D14D4D' : '#C9D3E2';
+      if (bad) ok = false;
+    });
+    if (!ok){
+      msg.textContent = 'не все поля заполнены — проверьте листок!';
+      msg.style.color = '#D14D4D';
+      msg.classList.add('show');
+      return;
+    }
+    msg.textContent = 'Принято! Записала в журнал — перезвоним в течение дня ✓';
+    msg.style.color = '#4D9E2A';
+    msg.classList.add('show');
+    var btn = form.querySelector('.btn');
+    btn.disabled = true;
+    btn.textContent = 'Листок сдан ✓';
+  });
+})();
 </script>
 </body>
 </html>

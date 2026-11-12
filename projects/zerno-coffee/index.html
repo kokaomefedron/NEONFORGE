@@ -3,289 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Зерно — кофейня-обжарщик в Ростове-на-Дону</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Зерно — кофейня-обжарщик, Ростов-на-Дону</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#4B2E1E',
-        accent: '#9FBF3B',
-        craft: '#F5EFE6'
-      },
-      fontFamily: {
-        display: ['Lora', 'serif'],
-        body: ['"Work Sans"', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  html { scroll-behavior: smooth; }
-  body { background: #F5EFE6; }
-  .noise {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  }
-  .bean-tag { transition: background .2s, color .2s; }
+:root{
+  --kraft:#F5EFE6; --coffee:#4B2E1E; --lime:#9FBF3B; --faded:#8a7c6e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--kraft); color:var(--coffee);
+  font-family:'Lora',serif; font-size:16px; line-height:1.65;
+  overflow-x:hidden; position:relative;
+}
+h1,h2,h3,.osw{font-family:'Oswald',sans-serif; text-transform:uppercase}
+::selection{background:var(--lime); color:var(--coffee)}
+
+.page{max-width:1100px; margin:0 auto; padding:34px 28px 60px}
+
+/* ===== мастхед ===== */
+.masthead{position:relative; padding-right:70px}
+.masthead h1{
+  font-size:clamp(52px,11vw,110px); font-weight:600; letter-spacing:.02em; line-height:1;
+  color:var(--coffee);
+}
+.masthead h1 em{font-family:'Lora',serif; font-style:italic; text-transform:none; font-weight:500; font-size:.32em; letter-spacing:.04em; color:var(--faded); display:inline-block; vertical-align:22%}
+.dateline{
+  border-top:3px double var(--coffee); border-bottom:3px double var(--coffee);
+  padding:7px 2px; margin-top:10px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px 18px;
+  font-size:12.5px; letter-spacing:.5px; font-style:italic;
+}
+.dateline b{font-style:normal; font-family:'Oswald',sans-serif; font-weight:500; letter-spacing:1px; text-transform:uppercase; font-size:12px}
+@media(max-width:700px){.masthead{padding-right:0}}
+
+/* ===== закладки справа ===== */
+.marks{position:fixed; right:0; top:180px; z-index:40; display:flex; flex-direction:column; gap:8px; align-items:flex-end}
+.mark{
+  writing-mode:vertical-rl; font-family:'Oswald',sans-serif; text-transform:uppercase;
+  letter-spacing:2px; font-size:12px; padding:16px 7px; background:var(--coffee); color:var(--kraft);
+  text-decoration:none; border-radius:4px 0 0 4px; transform:translateX(0); transition:transform .2s;
+}
+.mark:nth-child(2){background:#6B4430}
+.mark:nth-child(3){background:var(--lime); color:var(--coffee)}
+.mark:hover{transform:translateX(-8px)}
+@media(max-width:700px){
+  .marks{top:auto; bottom:0; right:0; flex-direction:row}
+  .mark{writing-mode:horizontal-tb; padding:7px 12px; border-radius:6px 6px 0 0; font-size:10px}
+}
+
+/* штемпель */
+.stamp{
+  position:absolute; top:6px; right:64px; transform:rotate(-12deg);
+  border:3px double var(--lime); color:var(--lime); font-family:'Oswald',sans-serif;
+  padding:6px 14px; font-size:15px; letter-spacing:3px; opacity:.9; pointer-events:none;
+}
+.stamp small{display:block; font-size:9px; letter-spacing:2px; font-weight:400}
+@media(max-width:700px){.stamp{position:static; display:inline-block; margin:10px 0; transform:rotate(-6deg)}}
+
+/* ===== две колонки ===== */
+.cols{display:flex; gap:44px; margin-top:44px}
+.col-l{flex:2; min-width:0}
+.col-r{flex:1; min-width:0; border-left:1px solid rgba(75,46,30,.25); padding-left:32px}
+@media(max-width:860px){.cols{flex-direction:column}.col-r{border-left:none; padding-left:0; border-top:1px solid rgba(75,46,30,.25); padding-top:26px}}
+
+.sec-h{
+  display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px;
+  border-bottom:1px solid var(--coffee); padding-bottom:6px;
+}
+.sec-h h2{font-size:24px; font-weight:600; letter-spacing:1px}
+.sec-h span{font-family:'Lora',serif; font-style:italic; font-size:12.5px; text-transform:none; color:var(--faded)}
+
+/* лоты зерна как бухгалтерские строки */
+.lot{border-bottom:1px solid rgba(75,46,30,.3)}
+.lot-head{
+  display:grid; grid-template-columns:1.3fr 1fr 1fr auto auto; gap:10px; align-items:baseline;
+  padding:13px 4px; cursor:pointer; font-size:15px;
+}
+.lot-head:hover{background:rgba(75,46,30,.05)}
+.lot-head .name{font-family:'Oswald',sans-serif; text-transform:uppercase; font-weight:500; font-size:14.5px; letter-spacing:.5px}
+.lot-head .origin{font-style:italic; color:var(--faded); font-size:13.5px}
+.lot-head .taste{font-size:13.5px}
+.lot-head .acid{letter-spacing:3px; color:var(--lime); font-size:14px; white-space:nowrap}
+.lot-head .price{font-family:'Oswald',sans-serif; font-weight:600; white-space:nowrap; font-size:15px}
+.lot .more{
+  max-height:0; overflow:hidden; transition:max-height .45s ease;
+  font-size:14px; font-style:italic; color:#6d5646; padding:0 4px;
+}
+.lot.open .more{max-height:160px; padding:0 4px 16px}
+.lot .arrow{transition:transform .3s; font-size:11px; color:var(--faded)}
+.lot.open .arrow{transform:rotate(180deg)}
+@media(max-width:700px){
+  .lot-head{grid-template-columns:1fr auto; row-gap:2px}
+  .lot-head .taste,.lot-head .acid{grid-column:1; font-size:12px}
+}
+
+/* заметки обжарщика */
+.roast-notes{list-style:none}
+.roast-notes li{padding:13px 0; border-bottom:1px dotted rgba(75,46,30,.35)}
+.roast-notes .dt{font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--lime); background:var(--coffee); display:inline-block; padding:1px 8px}
+.roast-notes p{font-style:italic; font-size:14.5px; margin-top:7px}
+.roast-notes .who{text-align:right; font-style:normal; font-size:12.5px; color:var(--faded)}
+
+/* ===== отрывной талон подписки ===== */
+.coupon{
+  margin-top:52px; border:2px dashed var(--coffee); position:relative; padding:26px 26px 30px;
+  max-width:560px;
+}
+.coupon::before{
+  content:"✂"; position:absolute; top:-13px; left:-11px; font-size:22px; color:var(--coffee);
+  background:var(--kraft); padding:0 4px;
+}
+.coupon h3{font-size:18px; letter-spacing:2px; margin-bottom:4px}
+.coupon .hint{font-style:italic; font-size:13px; color:var(--faded); margin-bottom:14px}
+.sub-form{display:flex; gap:10px; flex-wrap:wrap}
+.sub-form input[type=email]{
+  flex:1; min-width:180px; border:1px solid var(--coffee); background:transparent;
+  padding:10px 12px; font-family:'Lora',serif; font-size:15px; color:var(--coffee); outline:none;
+}
+.sub-form input:focus{border-color:var(--lime); box-shadow:0 0 0 2px rgba(159,191,59,.35)}
+.sub-form select{
+  border:1px solid var(--coffee); background:transparent; padding:10px; font-family:'Lora',serif;
+  font-size:15px; color:var(--coffee); outline:none;
+}
+.sub-form button{
+  background:var(--coffee); color:var(--kraft); border:none; font-family:'Oswald',sans-serif;
+  text-transform:uppercase; letter-spacing:2px; padding:10px 22px; cursor:pointer; font-size:13px;
+}
+.sub-form button:hover{background:var(--lime); color:var(--coffee)}
+.coupon .ok{margin-top:12px; font-size:13px; color:#5c7a1e}
+
+/* колонтитул */
+.colophon{
+  margin-top:56px; border-top:3px double var(--coffee); padding-top:12px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 20px;
+  font-size:12px; font-style:italic; color:var(--faded);
+}
+.colophon a{color:var(--coffee); text-decoration:underline dotted var(--lime)}
+.colophon a:hover{color:var(--lime)}
+.colophon .osw{font-style:normal; font-size:11px; letter-spacing:2px}
 </style>
 </head>
-<body class="bg-craft text-primary font-body antialiased noise">
+<body>
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-craft/95 backdrop-blur noise border-b-2 border-primary/20">
-  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="#hero" class="font-display font-semibold text-2xl flex items-center gap-2">☕ Зерно</a>
-    <nav class="hidden md:flex gap-7 font-medium text-sm">
-      <a href="#beans" class="hover:text-accent transition">Зерно</a>
-      <a href="#roast" class="hover:text-accent transition">Обжарка</a>
-      <a href="#bar" class="hover:text-accent transition">Бар</a>
-      <a href="#subscribe" class="hover:text-accent transition">Подписка</a>
-    </nav>
-    <a href="#subscribe" class="bg-primary text-craft font-semibold rounded-full px-5 py-2 text-sm hover:bg-accent transition">Подписка на кофе</a>
-  </div>
-</header>
+<div class="page">
 
-<!-- HERO -->
-<section id="hero" class="max-w-5xl mx-auto px-4 py-20 md:py-28 md:flex md:items-center md:gap-14">
-  <div class="flex-1">
-    <p class="uppercase tracking-[0.25em] text-xs font-semibold text-accent mb-5">Кофейня-обжарщик · Ростов-на-Дону</p>
-    <h1 class="font-display text-4xl md:text-6xl leading-tight mb-6">Обжариваем по вторникам.<br>Молим <em class="text-accent">на пятый день.</em></h1>
-    <p class="text-primary/70 text-lg mb-9 max-w-lg">Микро-обжарка на ростовской пекарне-цехе: сорта из Эфиопии, Колумбии и Бразилии, свежесть без «бу-эффекта». Пейте кофе, а не историю про кофе.</p>
-    <div class="flex flex-col sm:flex-row gap-4">
-      <a href="#beans" class="bg-primary text-craft font-semibold rounded-lg px-8 py-4 hover:bg-accent transition">Зерно в наличии</a>
-      <a href="#subscribe" class="border-2 border-primary text-primary font-semibold rounded-lg px-8 py-4 hover:border-accent hover:text-accent transition">Подписка</a>
-    </div>
-  </div>
-  <div class="mt-12 md:mt-0">
-    <svg width="220" height="220" viewBox="0 0 220 220" fill="none" class="mx-auto">
-      <ellipse cx="110" cy="110" rx="88" ry="60" fill="#4B2E1E"/>
-      <path d="M70 85c-8 22 8 50 40 50s48-28 40-50" stroke="#F5EFE6" stroke-width="4" fill="none"/>
-      <path d="M110 85c0 15 0 35 0 50" stroke="#F5EFE6" stroke-width="4"/>
-      <circle cx="110" cy="110" r="86" stroke="#9FBF3B" stroke-width="3" stroke-dasharray="6 10"/>
-    </svg>
-  </div>
-</section>
+  <!-- закладки -->
+  <nav class="marks" aria-label="закладки">
+    <a class="mark" href="#lots">Лоты</a>
+    <a class="mark" href="#notes">Записки</a>
+    <a class="mark" href="#coupon">Подписка</a>
+  </nav>
 
-<!-- BEANS -->
-<section id="beans" class="max-w-5xl mx-auto px-4 py-16 border-t-2 border-primary/15">
-  <h2 class="font-display text-3xl md:text-5xl mb-3">Зерно в наличии</h2>
-  <p class="text-primary/60 mb-10">Обжарка 04.11, всё на витрине. Цена за 250 г, помол под ваш способ — бесплатно.</p>
-  <div class="grid md:grid-cols-2 gap-6">
-    <div class="bean-tag bg-white rounded-xl p-7 shadow-sm border-l-8 border-accent">
-      <div class="flex justify-between items-start mb-2">
-        <h3 class="font-display text-xl font-semibold">Эфиопия · Йиргачеффе</h3>
-        <p class="font-display text-xl">790 ₽</p>
-      </div>
-      <p class="text-sm text-primary/70 mb-3">Промытая обработка · светлая обжарка</p>
-      <p class="text-sm mb-3">В чашке: жасмин, бергамот, персик. Кислотность яркая, лимонная. Идеален под фильтр (V60, Кемекс).</p>
-      <p class="text-xs uppercase tracking-widest font-semibold text-accent">Кислотность ●●●●○ · Тело ●●○○○</p>
+  <!-- мастхед -->
+  <header class="masthead">
+    <div class="stamp">Обжарка: ВТ<small>и пятница для блендов</small></div>
+    <h1>Зерно <em>кофейня-обжарщик · Ростов</em></h1>
+    <div class="dateline">
+      <span>Владикавказская, 8 · вход со двора, ищите мешок у двери</span>
+      <span><b>Цена зерна дня: 1 150 ₽/кг</b></span>
+      <span>ежедневно 8:00–21:00 · тираж вечный</span>
     </div>
-    <div class="bean-tag bg-white rounded-xl p-7 shadow-sm border-l-8 border-accent">
-      <div class="flex justify-between items-start mb-2">
-        <h3 class="font-display text-xl font-semibold">Колумбия · Уила, Супремо</h3>
-        <p class="font-display text-xl">690 ₽</p>
-      </div>
-      <p class="text-sm text-primary/70 mb-3">Мытая · средняя обжарка</p>
-      <p class="text-sm mb-3">В чашке: карамель, красное яблоко, какао. Кислотность мягкая, яблочная. Всегда хорошо и в фильтре, и в эспрессо.</p>
-      <p class="text-xs uppercase tracking-widest font-semibold text-accent">Кислотность ●●●○○ · Тело ●●●○○</p>
-    </div>
-    <div class="bean-tag bg-white rounded-xl p-7 shadow-sm border-l-8 border-primary/50">
-      <div class="flex justify-between items-start mb-2">
-        <h3 class="font-display text-xl font-semibold">Бразилия · Серрадо, натур</h3>
-        <p class="font-display text-xl">590 ₽</p>
-      </div>
-      <p class="text-sm text-primary/70 mb-3">Натуральная обработка · средне-тёмная</p>
-      <p class="text-sm mb-3">В чашке: фундук, молочный шоколад, чуть виски-бочки. Кислотность низкая. Наш «утренний» эспрессо с молоком.</p>
-      <p class="text-xs uppercase tracking-widest font-semibold text-accent">Кислотность ●●○○○ · Тело ●●●●○</p>
-    </div>
-    <div class="bean-tag bg-white rounded-xl p-7 shadow-sm border-l-8 border-primary/50">
-      <div class="flex justify-between items-start mb-2">
-        <h3 class="font-display text-xl font-semibold">Кения · Ньери, АА</h3>
-        <p class="font-display text-xl">890 ₽</p>
-      </div>
-      <p class="text-sm text-primary/70 mb-3">Промытая · светлая обжарка</p>
-      <p class="text-sm mb-3">В чашке: чёрная смородина, томатная нотка, тростник. Кислотность звонкая, «винная». Для тех, кто ищет громкий вкус.</p>
-      <p class="text-xs uppercase tracking-widest font-semibold text-accent">Кислотность ●●●●● · Тело ●●●○○</p>
-    </div>
-  </div>
-</section>
+  </header>
 
-<!-- ROAST DAY -->
-<section id="roast" class="py-16 bg-primary text-craft noise">
-  <div class="max-w-5xl mx-auto px-4 md:flex md:gap-12 items-center">
-    <div class="flex-1">
-      <p class="uppercase tracking-[0.25em] text-xs font-semibold text-accent mb-4">Каждый вторник</p>
-      <h2 class="font-display text-3xl md:text-4xl mb-5">Обжарочный день</h2>
-      <p class="text-craft/80 mb-6 max-w-xl">По вторникам наш барабан Giesen W6 не выключается с 8 утра. Всё, что куплено до вторника 12:00, уезжает с самой свежей партией недели — на упаковке стоит дата обжарки, не «срок годности».</p>
-      <div class="grid grid-cols-3 gap-4 max-w-md">
-        <div class="border border-craft/30 rounded-lg p-4 text-center">
-          <p class="font-display text-2xl text-accent">Вт</p><p class="text-xs text-craft/70 mt-1">обжарка</p>
+  <div class="cols">
+
+    <!-- левая колонка: лоты -->
+    <div class="col-l" id="lots">
+      <div class="sec-h"><h2>Лоты недели</h2><span>сорт · происхождение · вкус · кислотность · цена</span></div>
+
+      <div class="lot">
+        <div class="lot-head">
+          <span class="name">Эфиопия Гуджи <span class="arrow">▼</span></span>
+          <span class="origin">мытая, 1 950 м</span>
+          <span class="taste">жасмин · персик · чёрный чай</span>
+          <span class="acid">●●●●○</span>
+          <span class="price">1 450 ₽/250 г</span>
         </div>
-        <div class="border border-craft/30 rounded-lg p-4 text-center">
-          <p class="font-display text-2xl text-accent">Ср–Чт</p><p class="text-xs text-craft/70 mt-1">отдых зерна</p>
+        <p class="more">Обжарка 12 ноября, вторник. Светлая. В фильтре раскрывается полностью,
+        в эспрессо дерзко кислая — не бойтесь, это хорошо.</p>
+      </div>
+
+      <div class="lot">
+        <div class="lot-head">
+          <span class="name">Колумбия Уила <span class="arrow">▼</span></span>
+          <span class="origin">хани-процесс, 1 700 м</span>
+          <span class="taste">карамель · красное яблоко</span>
+          <span class="acid">●●●○○</span>
+          <span class="price">1 190 ₽/250 г</span>
         </div>
-        <div class="border border-craft/30 rounded-lg p-4 text-center">
-          <p class="font-display text-2xl text-accent">Пт</p><p class="text-xs text-craft/70 mt-1">пик вкуса</p>
+        <p class="more">Наш «хлебный» лот: подходит всем, молоко любит, лимонад из него тоже делаем.
+        Обжарка — прошлый вторник.</p>
+      </div>
+
+      <div class="lot">
+        <div class="lot-head">
+          <span class="name">Бразилия Серрадо <span class="arrow">▼</span></span>
+          <span class="origin">натур, 1 100 м</span>
+          <span class="taste">арахис · какао · финик</span>
+          <span class="acid">●●○○○</span>
+          <span class="price">990 ₽/250 г</span>
         </div>
+        <p class="more">Основа нашего эспрессо-бленда. Низкая кислотность, плотное тело.
+        Для тех, кто «просто кофе, пожалуйста».</p>
+      </div>
+
+      <div class="lot">
+        <div class="lot-head">
+          <span class="name">Кения Ньери <span class="arrow">▼</span></span>
+          <span class="origin">AA, мытая, 1 800 м</span>
+          <span class="taste">чёрная смородина · томат</span>
+          <span class="acid">●●●●●</span>
+          <span class="price">1 580 ₽/250 г</span>
+        </div>
+        <p class="more">Лот для смелых: кислотность на грани, винная сладость в финише.
+        Готовим только в фильтре, просим не просить «в молоко».</p>
+      </div>
+
+      <div class="lot">
+        <div class="lot-head">
+          <span class="name">Ростов-бленд № 7 <span class="arrow">▼</span></span>
+          <span class="origin">Бразилия + Индия</span>
+          <span class="taste">тёмная карамель · орех</span>
+          <span class="acid">●●○○○</span>
+          <span class="price">1 150 ₽/кг</span>
+        </div>
+        <p class="more">Зерно дня. Эспрессо-бленд, который мы обжариваем по вторникам и пятницам.
+        Свежесть — гарантированно не старше недели.</p>
       </div>
     </div>
-    <div class="mt-10 md:mt-0">
-      <div class="border-2 border-dashed border-craft/40 rounded-2xl p-8 text-center max-w-xs mx-auto">
-        <p class="font-display text-xl mb-2">Купи до вторника —</p>
-        <p class="text-craft/80 text-sm">забери свежайшую партию в пятницу. Напомним в Telegram, когда зерно «дозреет».</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- BAR -->
-<section id="bar" class="max-w-5xl mx-auto px-4 py-16">
-  <h2 class="font-display text-3xl md:text-5xl mb-3">Бар и десерты</h2>
-  <p class="text-primary/60 mb-10">Завариваем на Two Strangers Linea и медленном пуровер-баре. Мука для десертов — из пекарни через стену.</p>
-  <div class="grid md:grid-cols-2 gap-8">
-    <div>
-      <h3 class="font-display text-2xl mb-4 text-accent">Напитки</h3>
-      <ul class="divide-y divide-primary/10 border-y border-primary/10">
-        <li class="flex justify-between py-3"><span>Эспрессо (двойной)</span><span class="font-semibold">190 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Фильтр V60 (сорт на выбор)</span><span class="font-semibold">320 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Капучино на пекарском молоке</span><span class="font-semibold">260 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Раф «кедр-мёд»</span><span class="font-semibold">340 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Колд брю 12 часов</span><span class="font-semibold">300 ₽</span></li>
+    <!-- правая колонка: записки обжарщика -->
+    <aside class="col-r" id="notes">
+      <div class="sec-h"><h2>Записки</h2><span>из-за ростера</span></div>
+      <ul class="roast-notes">
+        <li><span class="dt">10.11</span>
+          <p>Кению взяли меньше, чем просили: у плотвы на пристани снова отменяли партию.
+          Кто ждал — извините, к пятнице довезут ещё 40 кг.</p>
+          <p class="who">— Дима, обжарщик</p></li>
+        <li><span class="dt">08.11</span>
+          <p>Суббота. Обжарили 62 кг, продали 61, последний кг оставили себе на выходные.
+          Так и живём.</p>
+          <p class="who">— Маша, ростер № 2</p></li>
+        <li><span class="dt">03.11</span>
+          <p>Новый кул-бокс наконец заработал: зерно остывает за 4 минуты вместо 10.
+          Вкус чище — заметно даже во вторую чашку.</p>
+          <p class="who">— Дима</p></li>
+        <li><span class="dt">29.10</span>
+          <p>Постоялец Сергей сдал нам 14 кг жёлтой сливы с дачи. Сварили из неё компот
+          и сеньор-лемонад. Бартер жив.</p>
+          <p class="who">— вся команда</p></li>
       </ul>
-    </div>
-    <div>
-      <h3 class="font-display text-2xl mb-4 text-accent">Десерты</h3>
-      <ul class="divide-y divide-primary/10 border-y border-primary/10">
-        <li class="flex justify-between py-3"><span>Морковный торт со сливочным сыром</span><span class="font-semibold">280 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Веганский шоколадный брауни</span><span class="font-semibold">240 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Круассан с миндальным кремом</span><span class="font-semibold">220 ₽</span></li>
-        <li class="flex justify-between py-3"><span>Сырник из печи (по выходным)</span><span class="font-semibold">310 ₽</span></li>
-      </ul>
-    </div>
+    </aside>
   </div>
-</section>
 
-<!-- SUBSCRIBE -->
-<section id="subscribe" class="py-16 bg-white border-y-2 border-primary/15 noise">
-  <div class="max-w-4xl mx-auto px-4 md:grid md:grid-cols-2 md:gap-12 items-center">
-    <div>
-      <h2 class="font-display text-3xl md:text-4xl mb-4">Подписка на кофе</h2>
-      <p class="text-primary/70 mb-6">Раз в 2 недели привозим 250 или 500 г свежеобжаренного зерна. Сорт можно оставить на усмотрение обжарщика — так вкуснее всего.</p>
-      <ul class="space-y-2 text-sm">
-        <li class="flex gap-2"><span class="text-accent">✔</span> Доставка по Ростову бесплатно, по России — СДЭК</li>
-        <li class="flex gap-2"><span class="text-accent">✔</span> Пауза или смена состава — в любой момент</li>
-        <li class="flex gap-2"><span class="text-accent">✔</span> Первая коробка — с открыткой-дегустацией из 4 образцов</li>
-      </ul>
-    </div>
-    <form id="subForm" class="bg-craft rounded-xl p-7 shadow-md border-2 border-primary/15 mt-10 md:mt-0">
-      <input required placeholder="Имя" class="w-full bg-white border border-primary/20 rounded-lg px-4 py-3 mb-3 focus:outline-none focus:border-accent">
-      <input required type="tel" placeholder="Телефон" class="w-full bg-white border border-primary/20 rounded-lg px-4 py-3 mb-3 focus:outline-none focus:border-accent">
-      <select class="w-full bg-white border border-primary/20 rounded-lg px-4 py-3 mb-3 focus:outline-none focus:border-accent">
-        <option>250 г раз в 2 недели — 1 400 ₽/мес</option>
-        <option>500 г раз в 2 недели — 2 600 ₽/мес</option>
-        <option>250 г раз в неделю — 2 500 ₽/мес</option>
+  <!-- отрывной талон -->
+  <section class="coupon" id="coupon">
+    <h3>Отрывной талон подписки</h3>
+    <p class="hint">Заполните и оторвите мысленно: свежее зерно — почтой, курьером по Ростову или самовывозом по вторникам.</p>
+    <form class="sub-form" id="subForm">
+      <input type="email" id="subMail" placeholder="ваша почта" required>
+      <select id="subPer">
+        <option>каждую неделю · 1 кг</option>
+        <option>раз в 2 недели · 1 кг</option>
+        <option>раз в месяц · 2 кг</option>
       </select>
-      <select class="w-full bg-white border border-primary/20 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:border-accent">
-        <option>В зерне</option><option>Помол под эспрессо</option><option>Помол под фильтр</option><option>Помол под турку</option>
-      </select>
-      <button type="submit" class="w-full bg-primary text-craft font-semibold rounded-lg py-4 hover:bg-accent transition">Оформить подписку ☕</button>
-      <p id="subMsg" class="hidden text-center text-accent font-semibold mt-3">Заявка отправлена!</p>
+      <button type="submit">Подписаться</button>
     </form>
-  </div>
-</section>
+    <p class="ok" id="subOk"></p>
+  </section>
 
-<!-- DIRECTIONS -->
-<section class="max-w-5xl mx-auto px-4 py-16">
-  <h2 class="font-display text-3xl md:text-4xl mb-6">Как нас найти 📍</h2>
-  <div class="bg-white rounded-xl p-7 border-l-8 border-accent shadow-sm max-w-2xl">
-    <p class="mb-3">Ростов-на-Дону, ул. Пушкинская, 82 — цех у пекарни «Брат». Вход со двора, ищите деревянную дверь с трафаретом зерна.</p>
-    <ul class="text-sm text-primary/70 space-y-2">
-      <li>🚇 Метро «Пушкинская» — 7 минут пешком вверх по Пушкинской</li>
-      <li>🚌 Автобусы 3, 70, 77 — остановка «Театральный проспект»</li>
-      <li>🚗 Парковка во дворе, 4 места с табличкой «Зерно» — обычно есть</li>
-      <li>🕐 Ежедневно 8:00 — 21:00, обжарка по вторникам — приезжайте посмотреть!</li>
-    </ul>
-  </div>
-</section>
+  <footer class="colophon">
+    <span class="osw">«ЗЕРНО» · РОСТОВ-НА-ДОНУ · ВЛАДИКАВКАЗСКАЯ, 8</span>
+    <span>набрано в <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener">NEONFORGE</a> · kokaomefedron.github.io/NEONFORGE</span>
+  </footer>
 
-<!-- REVIEWS -->
-<section class="max-w-5xl mx-auto px-4 pb-16">
-  <h2 class="font-display text-3xl md:text-4xl mb-10 text-center">Отзывы</h2>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-xl p-7 border-l-4 border-accent shadow-sm">
-      <p class="text-primary/80 mb-4">«Взял подписку на Йиргачеффе — впервые понял, что такое „жасмин в кофе“. До этого пил „просто кофе“ восемь лет.»</p>
-      <p class="font-semibold">— Кирилл, всегда забирает 500 г 🔁</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-xl p-7 border-l-4 border-accent shadow-sm">
-      <p class="text-primary/80 mb-4">«Пришла на вторник посмотреть обжарку — осталась на три часа. Рассказывают про ферменты так, что хочется лекции записывать.»</p>
-      <p class="font-semibold">— Ната, фильтр под V60 🌱</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-white rounded-xl p-7 border-l-4 border-accent shadow-sm">
-      <p class="text-primary/80 mb-4">«Работаю из их зала полгода: Wi-Fi крепкий, раф „кедр-мёд“ — лучшее, что случилось с моим октябрём.»</p>
-      <p class="font-semibold">— Денис, удалёнщик 💻</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="max-w-2xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-3xl md:text-4xl mb-10">FAQ</h2>
-  <div class="space-y-3">
-    <div class="bg-white rounded-lg border border-primary/15 overflow-hidden">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Зерно молоть заранее?<span class="text-accent">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 text-primary/70 text-sm">Можно, но лучше в зерне и молоть перед заваркой. Если нет кофемолки — смолем под ваш способ, это входит в цену.</div>
-    </div>
-    <div class="bg-white rounded-lg border border-primary/15 overflow-hidden">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Сколько хранится обжаренное зерно?<span class="text-accent">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 text-primary/70 text-sm">Пик вкуса — с 5-го по 21-й день после обжарки. В клапанной упаковке зерно спокойно живёт 2 месяца, но вкус «устаёт».</div>
-    </div>
-    <div class="bg-white rounded-lg border border-primary/15 overflow-hidden">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Можно прийти со своим стаканом?<span class="text-accent">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 text-primary/70 text-sm">Обязательно приходите — минус 20 ₽ и ноль одноразового пластика. У нас почти половина гостей со своими термокружками.</div>
-    </div>
-    <div class="bg-white rounded-lg border border-primary/15 overflow-hidden">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-semibold">Есть кофе без кофеина?<span class="text-accent">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 text-primary/70 text-sm">Да, декаф из Колумбии на водном процессе (без химии). Вкус почти не отличить от обычной Уилы — проверяли вслепую.</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-primary text-craft noise">
-  <div class="max-w-5xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 text-sm">
-    <div>
-      <p class="font-display text-2xl mb-2">☕ Зерно</p>
-      <p class="text-craft/75">Ростов-на-Дону, ул. Пушкинская, 82<br>Ежедневно 8:00 — 21:00</p>
-    </div>
-    <div class="text-craft/75">
-      <p class="text-craft font-semibold mb-2">Контакты</p>
-      <p>📞 <a href="tel:+78632041355" class="hover:text-accent">+7 863 204-13-55</a></p>
-      <p>✈️ <a href="https://t.me/zerno_rostov" class="hover:text-accent">@zerno_rostov</a></p>
-    </div>
-    <div class="text-craft/75">
-      <p class="text-craft font-semibold mb-2">Демо</p>
-      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-accent hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
-    </div>
-  </div>
-</footer>
+</div>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const a = btn.nextElementSibling;
-    a.classList.toggle('hidden');
-    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+(function(){
+  document.querySelectorAll('.lot').forEach(function(l){
+    l.querySelector('.lot-head').addEventListener('click',function(){l.classList.toggle('open')});
   });
-});
-document.getElementById('subForm').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('subMsg').classList.remove('hidden');
-  e.target.querySelector('button[type=submit]').disabled = true;
-});
+  document.getElementById('subForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('subOk').textContent='Записали в гроссбух. Первая партия придёт в ближайший вторник.';
+    this.reset();
+  });
+})();
 </script>
 </body>
 </html>

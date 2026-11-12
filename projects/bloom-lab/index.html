@@ -3,212 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Bloom Lab — уходовая косметика</title>
+<title>Bloom Lab — выпуск № 7. Кожа любит спокойствие</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        blush: '#FFF5F7',
-        rose: '#E8608A',
-        plum: '#5D2A42',
-        mist: '#F4E3E8'
-      },
-      fontFamily: {
-        playfair: ['"Playfair Display"', 'serif'],
-        jost: ['Jost', 'sans-serif']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Jost:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#E8608A; color:#FFF5F7; }
-  .hairline { border: 1px solid rgba(93,42,66,.15); }
+  :root{--cream:#F8F4EF;--beige:#EAD9C9;--rose:#B4685F;--ink:#2E2A26;}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font-family:'Jost',sans-serif;font-weight:300}
+  .fr{font-family:'Fraunces',serif}
+  .masthead{border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;padding:14px 24px;font-size:11px;letter-spacing:.25em;text-transform:uppercase}
+  .hero{padding:36px 24px 26px;border-bottom:1px solid rgba(46,42,38,.2)}
+  .hero h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(44px,11vw,104px);line-height:.98;letter-spacing:-.02em;margin:10px 0 16px}
+  .hero h1 em{font-style:italic;color:var(--rose)}
+  .rubrics{display:flex;gap:18px;flex-wrap:wrap;padding:14px 24px;border-bottom:1px solid rgba(46,42,38,.2);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .rub{display:flex;align-items:center;gap:7px;cursor:pointer;opacity:.55;transition:.2s;user-select:none}
+  .rub:hover{opacity:.85}
+  .rub.on{opacity:1;font-weight:500}
+  .dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);background:transparent;flex-shrink:0}
+  .rub.on .dot{background:var(--rose);border-color:var(--rose)}
+  .rub[data-f="сухая"] .dot{border-color:#C9A227}
+  .rub[data-f="жирная"] .dot{border-color:#5C7A99}
+  .rub[data-f="чувствительная"] .dot{border-color:#B4685F}
+  /* строки-врезки */
+  .entry{display:grid;grid-template-columns:34px 1fr auto auto;gap:0 14px;align-items:baseline;
+    padding:18px 24px;border-bottom:1px solid rgba(46,42,38,.18);cursor:default;
+    transition:transform .22s,background .22s;position:relative}
+  .entry::after{content:'';position:absolute;left:24px;right:24px;bottom:-1px;height:1px;background:var(--rose);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+  .entry:hover{background:rgba(180,104,95,.06);transform:translateX(6px)}
+  .entry:hover::after{transform:scaleX(1)}
+  .e-num{font-size:11px;letter-spacing:.1em;color:var(--rose);font-weight:400}
+  .e-name{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(20px,4.6vw,30px);line-height:1.05}
+  .e-tags{font-size:11px;letter-spacing:.06em;color:rgba(46,42,38,.55);margin-top:3px}
+  .e-vol{font-size:11px;letter-spacing:.08em;white-space:nowrap;color:rgba(46,42,38,.6)}
+  .e-price{font-family:'Fraunces',serif;font-size:18px;text-align:right;white-space:nowrap}
+  .e-add{grid-column:1 / -1;justify-self:end;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    border:1px solid var(--ink);background:transparent;padding:5px 16px;margin-top:8px;cursor:pointer;transition:.2s;font-family:'Jost'}
+  .e-add:hover{background:var(--ink);color:var(--cream)}
+  .e-add.done{background:var(--rose);border-color:var(--rose);color:#fff}
+  @media(max-width:560px){
+    .entry{grid-template-columns:28px 1fr auto}
+    .e-vol{display:none}
+  }
+  /* ритуал */
+  .ritual{padding:40px 24px;border-bottom:1px solid rgba(46,42,38,.2)}
+  .ritual blockquote{font-family:'Fraunces',serif;font-style:italic;font-size:19px;line-height:1.5;max-width:520px;margin:22px 0 0}
+  .ritual .who{font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:10px;color:rgba(46,42,38,.6)}
+  .ritual .step{display:flex;gap:14px;margin-top:26px}
+  .step .init{font-family:'Fraunces',serif;font-size:44px;line-height:1;color:var(--beige);-webkit-text-stroke:1px var(--rose);flex-shrink:0}
+  /* закладка-корзина */
+  .booktab{position:fixed;right:0;top:30%;writing-mode:vertical-rl;background:var(--rose);color:#fff;
+    padding:18px 9px;font-size:12px;letter-spacing:.2em;cursor:pointer;z-index:60;
+    border-radius:6px 0 0 6px;box-shadow:-4px 4px 14px rgba(46,42,38,.25)}
+  .panel{position:fixed;top:0;right:0;bottom:0;width:min(360px,92vw);background:var(--cream);
+    border-left:1px solid var(--ink);transform:translateX(100%);transition:transform .3s;z-index:70;
+    display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(46,42,38,.2)}
+  .panel.open{transform:none}
+  .panel h2{font-family:'Fraunces',serif;font-weight:300;font-size:22px;padding:18px 20px 12px;border-bottom:1px solid rgba(46,42,38,.2);margin:0}
+  .plist{flex:1;overflow-y:auto;padding:8px 20px}
+  .prow{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px dotted rgba(46,42,38,.25);font-size:13px}
+  .prow .rm{cursor:pointer;color:var(--rose);background:none;border:0;font-size:15px}
+  .checkout{border-top:1px solid var(--ink);padding:16px 20px 20px;background:var(--beige)}
+  .checkout label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin:10px 0 2px}
+  .checkout input{width:100%;border:0;border-bottom:1px solid var(--ink);background:transparent;font-family:'Jost';font-size:14px;padding:5px 0;outline:none}
+  .promo-row{display:flex;gap:8px;align-items:baseline}
+  .submit{width:100%;margin-top:14px;background:var(--ink);color:var(--cream);border:0;padding:12px;
+    letter-spacing:.25em;text-transform:uppercase;font-size:11px;cursor:pointer;font-family:'Jost'}
+  .okmsg{display:none;text-align:center;font-family:'Fraunces',serif;font-style:italic;font-size:17px;margin-top:12px;color:var(--rose)}
+  .colophon{padding:22px 24px 90px;font-size:11px;letter-spacing:.08em;color:rgba(46,42,38,.55)}
+  .colophon a{color:var(--rose)}
 </style>
 </head>
-<body class="bg-blush text-plum font-jost min-h-screen">
+<body>
 
-<header class="sticky top-0 z-40 bg-blush/90 backdrop-blur border-b hairline">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center gap-3">
-    <a href="#" class="font-playfair text-2xl tracking-wide">Bloom <span class="font-light italic text-rose">Lab</span></a>
-    <input id="search" type="search" placeholder="Найти: сыворотка, SPF, ниацинамид…"
-      class="flex-1 min-w-0 bg-transparent border-b hairline px-2 py-2 text-sm outline-none focus:border-rose transition placeholder:text-plum/40">
-    <button id="cartBtn" class="relative shrink-0 border border-plum font-light tracking-widest uppercase text-xs px-5 py-2.5 hover:bg-plum hover:text-blush transition">
-      Корзина <span id="cartCount" class="absolute -top-2 -right-2 bg-rose text-white text-xs rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
-  </div>
+<div class="masthead">
+  <span>BLOOM LAB</span><span>выпуск № 7 · ноябрь 2026</span>
+</div>
+
+<header class="hero">
+  <p style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--rose)">Уход · барьер · спокойствие</p>
+  <h1>Кожа любит <em>спокойствие</em></h1>
+  <p style="max-width:420px;font-size:15px;line-height:1.6">Восемь формул без агрессии: pH 5.5, минимум отдушек, максимум эффекта. Соберите свой набор прямо из врезок — как из журнала.</p>
 </header>
 
-<section class="border-b hairline bg-gradient-to-b from-blush to-mist/60">
-  <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
-    <p class="text-xs tracking-[0.35em] uppercase text-rose mb-5">Уход, проверенный лабораторно</p>
-    <h1 class="font-playfair text-4xl md:text-6xl leading-tight max-w-3xl mx-auto">Кожа любит<br><span class="italic font-light">спокойствие</span> и ритм</h1>
-    <p class="mt-5 text-plum/70 max-w-lg mx-auto font-light">Сыворотки, кремы и SPF с активами в рабочих концентрациях. Без пафоса — только формула и результат.</p>
-    <a href="#catalog" class="inline-block mt-8 border-b border-rose text-rose tracking-widest uppercase text-sm pb-1 hover:text-plum hover:border-plum transition">К коллекции ↓</a>
+<nav class="rubrics" id="rubrics">
+  <span class="rub on" data-f="все"><span class="dot"></span>все строки</span>
+  <span class="rub" data-f="сухая"><span class="dot"></span>сухая</span>
+  <span class="rub" data-f="жирная"><span class="dot"></span>жирная</span>
+  <span class="rub" data-f="чувствительная"><span class="dot"></span>чувствительная</span>
+</nav>
+
+<main id="entries"></main>
+
+<section class="ritual">
+  <p style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--rose)">Ритуал недели</p>
+  <div class="step">
+    <span class="init">Л</span>
+    <div><blockquote>«Умойтесь за 30 секунд. Дольше — уже не очищение, а срыв барьера».</blockquote><p class="who">— Лиана, косметолог-эстетист</p></div>
+  </div>
+  <div class="step">
+    <span class="init">С</span>
+    <div><blockquote>«Сыворотку — на влажную кожу. Так ниацинамид не щиплет».</blockquote><p class="who">— Софья, технолог формул</p></div>
+  </div>
+  <div class="step">
+    <span class="init">Н</span>
+    <div><blockquote>«Ночью кожа чинит сама. Крем должен просто не мешать».</blockquote><p class="who">— Нина, врач-дерматолог</p></div>
   </div>
 </section>
 
-<main class="max-w-6xl mx-auto px-4 py-12">
-  <div class="flex flex-wrap items-center gap-2 mb-10">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-transparent hairline rounded-full px-4 py-2 text-sm outline-none focus:border-rose">
-      <option value="pop">По умолчанию</option>
-      <option value="asc">Цена ↑</option>
-      <option value="desc">Цена ↓</option>
-    </select>
-  </div>
-  <div id="grid" class="grid gap-6" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-plum/50 py-16 font-playfair italic">Пока не нашли — но уход в пути.</p>
-
-  <div class="mt-16 border-y hairline py-6 text-center font-playfair italic text-plum/70">
-    «Кожа — орган, а не презентация. Ухаживайте за ней системно.»
-  </div>
-</main>
-
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="hairline rounded-3xl p-6 md:p-10 bg-white/60">
-    <h2 class="font-playfair text-2xl mb-1">Оформить заказ</h2>
-    <p class="text-plum/60 text-sm mb-6 font-light">Бесплатная доставка от 3 000 ₽ · примерка и возврат 14 дней</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Имя" class="bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
-      <input required type="tel" placeholder="Телефон" class="bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
-      <input required placeholder="Адрес доставки" class="sm:col-span-2 bg-transparent border-b hairline px-2 py-3 text-sm outline-none focus:border-rose">
-      <button type="submit" class="sm:col-span-2 bg-plum text-blush tracking-widest uppercase text-sm py-4 rounded-full hover:bg-rose transition">Оформить</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-rose font-playfair text-center"></p>
-  </div>
-</section>
-
-<footer class="border-t hairline py-10">
-  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-plum/70 font-light">
-    <div>
-      <p class="font-playfair text-plum text-lg mb-2">Bloom Lab</p>
-      <p>Москва, Столешников пер., 7<br>Ежедневно 10:00–20:00</p>
-    </div>
-    <div>
-      <p class="text-plum font-normal mb-2">Контакты</p>
-      <p>+7 (495) 120-30-40<br>care@bloomlab.ru</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-plum/40 text-xs leading-relaxed">© 2026 Bloom Lab<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-rose underline hover:text-plum">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
-  </div>
+<footer class="colophon">
+  Выпуск № 7 · страницу свёрстано <a href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> · kokaomefedron.github.io/NEONFORGE
 </footer>
 
-<div id="cartOverlay" class="fixed inset-0 bg-plum/30 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-blush border-l hairline z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-5 border-b hairline">
-    <p class="font-playfair text-lg">Ваш ритуал</p>
-    <button id="cartClose" class="text-plum/50 hover:text-rose text-2xl leading-none">×</button>
-  </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
-  <div class="p-5 border-t hairline">
-    <div class="flex justify-between font-playfair text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-rose">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-plum text-blush tracking-widest uppercase text-sm py-3.5 rounded-full hover:bg-rose transition">К оформлению</button>
+<button class="booktab" id="booktab">в корзине · <span id="bc">0</span></button>
+
+<aside class="panel" id="panel" aria-label="Корзина">
+  <h2>Ваш набор <button id="closePanel" style="float:right;font-family:'Jost';font-size:18px;background:none;border:0;cursor:pointer">×</button></h2>
+  <div class="plist" id="plist"></div>
+  <div class="checkout">
+    <div style="display:flex;justify-content:space-between;font-family:'Fraunces',serif;font-size:20px;margin-bottom:6px">
+      <span>Итого</span><span id="ptotal">0 ₽</span>
+    </div>
+    <form id="form">
+      <label>Имя</label><input name="name" required placeholder="Анна">
+      <label>Адрес доставки</label><input name="addr" required placeholder="ул. Липовая, 8, кв. 21">
+      <label>Промокод</label>
+      <div class="promo-row"><input name="promo" placeholder="BLOOM7" style="flex:1"><span id="promoHint" style="font-size:10px;letter-spacing:.1em;color:var(--rose)"></span></div>
+      <button class="submit" type="submit">Оформить выпуск →</button>
+      <p class="okmsg" id="okmsg">Ваш набор собран. Курьер уже в пути.</p>
+    </form>
   </div>
 </aside>
 
 <script>
-const products = [
-  { id:1, name:'Сыворотка с ниацинамидом 10%', cat:'Сыворотки', price:1890, vol:'30 мл', tags:['ниацинамид','цинк'], emoji:'💧', grad:'linear-gradient(135deg,#F4E3E8,#E8608A)' },
-  { id:2, name:'Сыворотка с ретинолом 0,3%', cat:'Сыворотки', price:2490, vol:'30 мл', tags:['ретинол','сквалан'], emoji:'🌙', grad:'linear-gradient(135deg,#5D2A42,#a04a6e)' },
-  { id:3, name:'Крем-барьер с керамидами', cat:'Кремы', price:2190, vol:'50 мл', tags:['керамиды','пантенол'], emoji:'🧴', grad:'linear-gradient(135deg,#FFF5F7,#d8a8b8)' },
-  { id:4, name:'Гель-крем с AHA-кислотами', cat:'Кремы', price:1690, vol:'50 мл', tags:['гликолевая','молочная'], emoji:'🍋', grad:'linear-gradient(135deg,#fdf0d5,#E8608A)' },
-  { id:5, name:'Ночная маска с центеллой', cat:'Маски', price:1390, vol:'75 мл', tags:['центелла','аллантоин'], emoji:'🌿', grad:'linear-gradient(135deg,#e3efe0,#8fbf8f)' },
-  { id:6, name:'Глиняная маска «Кларифай»', cat:'Маски', price:1190, vol:'60 мл', tags:['белая глина','салициловая'], emoji:'🌋', grad:'linear-gradient(135deg,#efe8e0,#b8a396)' },
-  { id:7, name:'SPF 50+ невидимая защита', cat:'SPF', price:1590, vol:'50 мл', tags:['SPF 50+','фотоупоры'], emoji:'☀️', grad:'linear-gradient(135deg,#fff9e3,#f2c94c)' },
-  { id:8, name:'SPF 30 флюид для города', cat:'SPF', price:1290, vol:'40 мл', tags:['SPF 30','витамин Е'], emoji:'🕶', grad:'linear-gradient(135deg,#e8f0fa,#7aa5d8)' },
-  { id:9, name:'Мицеллярная вода с ромашкой', cat:'Сыворотки', price:890, vol:'200 мл', tags:['ромашка','без спирта'], emoji:'🌼', grad:'linear-gradient(135deg,#FFF5F7,#f0d5dc)' },
-  { id:10, name:'Тоник-эссенция с PHA', cat:'Сыворотки', price:1450, vol:'150 мл', tags:['PHA','гиалурон'], emoji:'🪞', grad:'linear-gradient(135deg,#f3e8f5,#c9a0d8)' }
+const products=[
+  {id:1,n:'Молоко «Тихий рассвет»',t:'очищение · овёс · без сульфатов',skin:'сухая',v:'200 мл',p:1290},
+  {id:2,n:'Тоник «Липовая вода»',t:'pH 5.5 · без спирта',skin:'чувствительная',v:'250 мл',p:990},
+  {id:3,n:'Сыворотка «10% ниацинамид»',t:'поры · жирная кожа',skin:'жирная',v:'30 мл',p:1890},
+  {id:4,n:'Крем «Овсяное молочко»',t:'барьер · церамиды',skin:'сухая',v:'50 мл',p:1690},
+  {id:5,n:'Гель «Роса»',t:'AHA 5% · мягкий пилинг',skin:'жирная',v:'150 мл',p:1450},
+  {id:6,n:'Бальзам «Центелла»',t:'успокоить · пантенол 5%',skin:'чувствительная',v:'80 мл',p:1590},
+  {id:7,n:'Масло «Вечерний примула»',t:'ночь · восстанавление',skin:'сухая',v:'30 мл',p:2190},
+  {id:8,n:'SPF-флюид «Занавес»',t:'SPF 50 · не белит',skin:'все',v:'50 мл',p:1990},
 ];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*9000)+1000;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+let filter='все', cart=[];
+const main=document.getElementById('entries');
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-5 py-1.5 rounded-full text-xs tracking-widest uppercase transition ${c===activeCat?'bg-rose text-white':'hairline text-plum/60 hover:text-rose hover:border-rose'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
 function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="hairline bg-white/50 rounded-2xl overflow-hidden hover:border-rose hover:bg-white transition flex flex-col group">
-      <div class="h-40 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:scale-110 transition-transform duration-300">${p.emoji}</span>
-      </div>
-      <div class="p-5 flex flex-col flex-1">
-        <p class="text-[10px] tracking-[0.25em] uppercase text-plum/50 mb-1.5">${p.cat} · ${p.vol}</p>
-        <h3 class="font-playfair text-base leading-snug flex-1">${p.name}</h3>
-        <div class="flex flex-wrap gap-1 mt-2">
-          ${p.tags.map(t=>`<span class="text-[10px] text-rose border border-rose/30 rounded-full px-2 py-0.5">${t}</span>`).join('')}
-        </div>
-        <div class="mt-4 flex items-end justify-between gap-2">
-          <p class="font-playfair font-semibold text-lg">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="hairline text-xs tracking-widest uppercase px-4 py-2 hover:bg-rose hover:text-white hover:border-rose transition">+ В корзину</button>
-        </div>
-      </div>
-    </article>`).join('');
+  main.innerHTML='';
+  let i=0;
+  products.filter(p=>filter==='все'||p.skin===filter||p.skin==='все').forEach(p=>{
+    i++;
+    const d=document.createElement('article'); d.className='entry';
+    d.innerHTML=`
+      <span class="e-num">${String(i).padStart(2,'0')}</span>
+      <div><h3 class="e-name">${p.n}</h3><p class="e-tags">${p.t}</p></div>
+      <div style="text-align:right"><span class="e-vol">${p.v}</span><div class="e-price">${p.p.toLocaleString('ru')} ₽</div></div>
+      <button class="e-add" data-id="${p.id}">+</button>`;
+    main.appendChild(d);
+  });
 }
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 hairline rounded-xl p-3 bg-white/70">
-      <div class="w-11 h-11 rounded-lg flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm truncate">${p.name}</p>
-        <p class="text-xs text-rose">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 hairline rounded-full hover:border-rose hover:text-rose">−</button>
-        <span class="w-6 text-center text-sm">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 hairline rounded-full hover:border-rose hover:text-rose">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-plum/30 hover:text-rose ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-plum/40 py-10 text-sm font-playfair italic">Корзина ждёт первый ритуал.</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
+render();
+
+document.getElementById('rubrics').addEventListener('click',e=>{
+  const r=e.target.closest('.rub'); if(!r)return;
+  document.querySelectorAll('.rub').forEach(x=>x.classList.remove('on'));
+  r.classList.add('on'); filter=r.dataset.f; render();
 });
-document.getElementById('orderForm').onsubmit = e=>{
+
+main.addEventListener('click',e=>{
+  const b=e.target.closest('.e-add'); if(!b)return;
+  const p=products.find(x=>x.id==b.dataset.id);
+  const row=cart.find(c=>c.id===p.id);
+  row?row.q++:cart.push({id:p.id,n:p.n,p:p.p,q:1});
+  b.textContent='✓ в корзине'; b.classList.add('done');
+  setTimeout(()=>{b.textContent='+';b.classList.remove('done');},900);
+  renderCart();
+});
+
+function renderCart(){
+  document.getElementById('bc').textContent=cart.reduce((s,c)=>s+c.q,0);
+  document.getElementById('ptotal').textContent=cart.reduce((s,c)=>s+c.p*c.q,0).toLocaleString('ru')+' ₽';
+  const box=document.getElementById('plist'); box.innerHTML='';
+  cart.forEach(c=>{
+    const d=document.createElement('div'); d.className='prow';
+    d.innerHTML=`<div>${c.n}${c.q>1?' <span style="opacity:.6">×'+c.q+'</span>':''}</div>
+      <span>${(c.p*c.q).toLocaleString('ru')} ₽ <button class="rm" data-id="${c.id}">✕</button></span>`;
+    box.appendChild(d);
+  });
+  if(!cart.length) box.innerHTML='<p style="font-family:\'Fraunces\',serif;font-style:italic;color:rgba(46,42,38,.5);padding:20px 0">пока ни одной врезки…</p>';
+}
+document.getElementById('plist').addEventListener('click',e=>{
+  if(e.target.dataset.id){cart=cart.filter(c=>c.id!=e.target.dataset.id);renderCart();}
+});
+
+const panel=document.getElementById('panel');
+document.getElementById('booktab').onclick=()=>panel.classList.add('open');
+document.getElementById('closePanel').onclick=()=>panel.classList.remove('open');
+
+document.getElementById('form').addEventListener('submit',e=>{
   e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  e.target.reset(); cart=[]; renderCart();
+  document.getElementById('promoHint').textContent='';
+  const m=document.getElementById('okmsg'); m.style.display='block';
+  setTimeout(()=>{m.style.display='none';panel.classList.remove('open');},2800);
+});
 </script>
 </body>
 </html>

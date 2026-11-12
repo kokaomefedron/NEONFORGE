@@ -3,317 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Метрика LIVE — дашборд аналитики | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+<title>Метрика LIVE — дашборд</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { ink:'#0B0E17', panel:'#141926', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D', pink:'#FF5CA8' },
-  fontFamily: { man:['Manrope','system-ui','sans-serif'], mono:['JetBrains Mono','monospace'] }
-}}};
-</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  html{-webkit-tap-highlight-color:transparent}
-  .kpi{transition:border-color .3s}
+  body{font-family:'IBM Plex Sans',sans-serif;background:#F6F8FB;color:#1B2333;overflow-x:hidden}
+  .num{font-variant-numeric:tabular-nums}
+  .blob{position:fixed;filter:blur(90px);opacity:.5;border-radius:9999px;pointer-events:none;z-index:-1}
+  .glass{background:rgba(255,255,255,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 30px rgba(27,35,51,.06)}
+  .per-btn{min-height:40px;transition:all .2s}
+  .per-btn.on{background:#1B2333;color:#fff}
+  .per-btn:not(.on):hover{background:rgba(255,255,255,.8)}
+  .kpi{transition:transform .2s}
+  .kpi:hover{transform:translateY(-2px)}
+  .up{color:#0E9F6E}.down{color:#E02424}
+  @keyframes rowIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  .feed-row{animation:rowIn .4s ease}
+  .feed-dot{width:8px;height:8px;border-radius:9999px;flex-shrink:0}
+  .goal-bar{height:8px;border-radius:9999px;background:rgba(27,35,51,.08);overflow:hidden}
+  .goal-fill{height:100%;border-radius:9999px;transition:width .8s ease;
+    background:linear-gradient(90deg,#6366F1,#22D3EE)}
+  .paused-badge{display:none}
+  body.paused .paused-badge{display:inline-flex}
+  body.paused #live-dot{background:#F59E0B}
   canvas{display:block;width:100%}
-  #tip{position:absolute;pointer-events:none;background:#0B0E17;border:1px solid rgba(124,92,255,.5);
-    border-radius:8px;padding:4px 8px;font-size:11px;white-space:nowrap;transform:translate(-50%,-115%);z-index:5}
 </style>
 </head>
-<body class="bg-ink text-white font-man min-h-screen flex flex-col">
-<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
-  <h1 class="text-lg md:text-xl font-extrabold tracking-wide">Метрика <span class="text-lime">LIVE</span></h1>
-  <div class="flex items-center gap-2 text-[11px] text-white/40">
-    <span id="liveDot" class="w-2 h-2 rounded-full bg-lime inline-block animate-pulse"></span>
-    <span id="liveTxt">обновлено только что</span>
-  </div>
-</header>
+<body class="min-h-screen">
+<div class="blob" style="width:420px;height:420px;background:#6366F1;top:-120px;left:-100px"></div>
+<div class="blob" style="width:380px;height:380px;background:#22D3EE;top:20%;right:-140px"></div>
+<div class="blob" style="width:340px;height:340px;background:#F97316;bottom:-100px;left:30%"></div>
 
-<main id="dash" class="flex-1 w-full max-w-6xl mx-auto px-3 py-5 space-y-4">
+<div class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+  <header class="flex flex-wrap items-end justify-between gap-4 mb-8">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Метрика <span style="color:#6366F1">LIVE</span></h1>
+      <p class="text-sm mt-1" style="color:#5B6474">Состояние магазина — обновляется в реальном времени</p>
+    </div>
+    <div class="glass rounded-full px-4 py-2 text-xs font-semibold flex items-center gap-2">
+      <span id="live-dot" class="w-2.5 h-2.5 rounded-full bg-green-500" style="box-shadow:0 0 0 0 rgba(16,185,129,.6)"></span>
+      <span id="live-time" class="num">—</span>
+      <span class="paused-badge items-center gap-1 px-2 py-0.5 rounded-full" style="background:rgba(245,158,11,.15);color:#B45309">
+        ⏸ пауза — вкладка скрыта
+      </span>
+    </div>
+  </header>
 
   <!-- KPI -->
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
-      <div class="text-[11px] uppercase tracking-wider text-white/50">Визиты</div>
-      <div id="kVisits" class="font-mono font-extrabold text-2xl text-blu mt-1">0</div>
-      <div id="kVisitsD" class="text-[11px] text-lime mt-1">+2,4% за сутки</div>
-    </div>
-    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
-      <div class="text-[11px] uppercase tracking-wider text-white/50">Конверсия</div>
-      <div id="kConv" class="font-mono font-extrabold text-2xl text-lime mt-1">0%</div>
-      <div id="kConvD" class="text-[11px] text-lime mt-1">+0,3 п.п.</div>
-    </div>
-    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
-      <div class="text-[11px] uppercase tracking-wider text-white/50">Средний чек</div>
-      <div id="kCheck" class="font-mono font-extrabold text-2xl text-vio mt-1">0 ₽</div>
-      <div id="kCheckD" class="text-[11px] text-pink mt-1">−410 ₽</div>
-    </div>
-    <div class="kpi rounded-2xl bg-panel border border-white/10 p-4">
-      <div class="text-[11px] uppercase tracking-wider text-white/50">Отток</div>
-      <div id="kChurn" class="font-mono font-extrabold text-2xl text-pink mt-1">0%</div>
-      <div id="kChurnD" class="text-[11px] text-lime mt-1">−0,8 п.п.</div>
-    </div>
-  </div>
+  <section id="kpis" class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6"></section>
 
-  <!-- графики -->
-  <div class="grid lg:grid-cols-3 gap-3">
-    <div class="rounded-2xl bg-panel border border-white/10 p-4 lg:col-span-2 relative">
-      <div class="flex justify-between items-baseline mb-2">
-        <h2 class="text-sm font-bold">Визиты за 14 дней</h2>
-        <div class="flex gap-3 text-[11px] text-white/50">
-          <span><i class="inline-block w-2.5 h-2.5 rounded-full bg-blu align-middle mr-1"></i>визиты</span>
-          <span><i class="inline-block w-2.5 h-2.5 rounded-full bg-vio align-middle mr-1"></i>заказы</span>
+  <!-- Графики -->
+  <section class="grid lg:grid-cols-[1fr_320px] gap-4 mb-6">
+    <div class="glass rounded-2xl p-4 md:p-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h2 class="font-bold text-lg">Выручка</h2>
+        <div class="flex gap-1 glass rounded-full p-1">
+          <button class="per-btn on rounded-full px-4 text-xs font-semibold" data-p="7">7д</button>
+          <button class="per-btn rounded-full px-4 text-xs font-semibold" data-p="30">30д</button>
+          <button class="per-btn rounded-full px-4 text-xs font-semibold" data-p="90">90д</button>
         </div>
       </div>
-      <div class="relative"><canvas id="line" height="220"></canvas><div id="tip" class="hidden"></div></div>
+      <canvas id="rev-chart" height="240"></canvas>
+      <div class="flex justify-between text-xs mt-2 num" style="color:#5B6474"><span id="rev-min"></span><span id="rev-max"></span></div>
     </div>
-    <div class="rounded-2xl bg-panel border border-white/10 p-4">
-      <h2 class="text-sm font-bold mb-2">Визиты по дням недели</h2>
-      <canvas id="bars" height="220"></canvas>
+    <div class="glass rounded-2xl p-4 md:p-6">
+      <h2 class="font-bold text-lg mb-4">Каналы</h2>
+      <canvas id="donut" height="200"></canvas>
+      <div id="donut-legend" class="mt-4 space-y-2 text-sm"></div>
     </div>
-  </div>
+  </section>
 
-  <!-- донат + таблица -->
-  <div class="grid lg:grid-cols-3 gap-3">
-    <div class="rounded-2xl bg-panel border border-white/10 p-4">
-      <h2 class="text-sm font-bold mb-3">Источники трафика</h2>
-      <div class="flex items-center gap-4">
-        <svg id="donut" viewBox="0 0 140 140" class="w-32 h-32 shrink-0">
-          <circle cx="70" cy="70" r="54" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="18"/>
-          <g id="donutSegs" transform="rotate(-90 70 70)"></g>
-          <text id="donutCtr" x="70" y="75" text-anchor="middle" class="fill-white font-mono" font-size="17" font-weight="800">100%</text>
-        </svg>
-        <div id="donutLegend" class="text-xs space-y-1.5 flex-1"></div>
-      </div>
+  <!-- Цель месяца -->
+  <section class="glass rounded-2xl p-4 md:p-6 mb-6">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+      <h2 class="font-bold text-lg">Цель месяца</h2>
+      <span class="text-xs num" style="color:#5B6474">план 1 200 000 ₽ · осталось <b id="goal-days" class="num">—</b> дн.</span>
     </div>
-    <div class="rounded-2xl bg-panel border border-white/10 p-4 lg:col-span-2">
-      <h2 class="text-sm font-bold mb-3">Топ страниц</h2>
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm min-w-[420px]">
-          <thead><tr class="text-left text-[11px] uppercase tracking-wider text-white/40 border-b border-white/10">
-            <th class="py-2">Страница</th><th class="py-2 text-right">Визиты</th>
-            <th class="py-2 text-right">Конверсия</th><th class="py-2 text-right">Доход</th>
-          </tr></thead>
-          <tbody id="pages"></tbody>
-        </table>
-      </div>
+    <div class="goal-bar"><div class="goal-fill" id="goal-fill" style="width:0%"></div></div>
+    <div class="flex justify-between text-xs mt-2 num" style="color:#5B6474">
+      <span id="goal-now">—</span><span>1 200 000 ₽</span>
     </div>
-  </div>
+  </section>
 
-  <p class="text-center text-[11px] text-white/30">Данные демонстрационные и обновляются автоматически каждые 3 секунды.</p>
-</main>
+  <!-- Лента + таблица -->
+  <section class="grid lg:grid-cols-2 gap-4">
+    <div class="glass rounded-2xl p-4 md:p-6">
+      <h2 class="font-bold text-lg mb-3 flex items-center gap-2">
+        Живая лента
+        <span class="w-2 h-2 rounded-full bg-orange-400" style="animation:pulse 1.6s infinite"></span>
+      </h2>
+      <div id="feed" class="space-y-1"></div>
+    </div>
+    <div class="glass rounded-2xl p-4 md:p-6">
+      <h2 class="font-bold text-lg mb-3">Топ страниц</h2>
+      <table class="w-full text-sm">
+        <thead><tr class="text-left text-xs" style="color:#5B6474"><th class="pb-2">Страница</th><th class="pb-2 text-right">Визиты</th><th class="pb-2 text-right">CR</th></tr></thead>
+        <tbody id="pages"></tbody>
+      </table>
+    </div>
+  </section>
 
-<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
-  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+  <footer class="mt-10 text-center text-xs" style="color:#8A93A6">
+    панель от NEONFORGE — <a class="underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+  </footer>
+</div>
 
 <script>
-(function(){
-  // ---------- данные ----------
-  const rnd=(a,b)=>a+Math.random()*(b-a);
-  const DAYS=14;
-  const dayLabels=[], visits=[], orders=[];
-  for(let i=DAYS-1;i>=0;i--){
-    const d=new Date(Date.now()-i*864e5);
-    dayLabels.push(String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'));
-    const base=rnd(1200,2200)*(i<DAYS-2?1:1.06);
-    visits.push(Math.round(base));
-    orders.push(Math.round(base*rnd(0.03,0.06)));
-  }
-  const KPI={
-    visits:{el:'kVisits',val:visits.reduce((a,b)=>a+b,0),shown:0,f:v=>Math.round(v).toLocaleString('ru-RU'),fmt:'int'},
-    conv:{el:'kConv',val:3.7,shown:0,f:v=>v.toFixed(1)+'%',fmt:'f1'},
-    check:{el:'kCheck',val:4280,shown:0,f:v=>Math.round(v).toLocaleString('ru-RU')+' ₽',fmt:'int'},
-    churn:{el:'kChurn',val:5.2,shown:0,f:v=>v.toFixed(1)+'%',fmt:'f1'}
-  };
-  const week=[{d:'Пн',v:1620},{d:'Вт',v:1780},{d:'Ср',v:1930},{d:'Чт',v:1710},{d:'Пт',v:2240},{d:'Сб',v:1380},{d:'Вс',v:1150}];
-  let sources=[{n:'Поиск',v:42,c:'#5B8CFF'},{n:'Соцсети',v:23,c:'#7C5CFF'},{n:'Прямые',v:20,c:'#C6FF4D'},{n:'Рассылка',v:15,c:'#FF5CA8'}];
-  let pages=[
-    {p:'/catalog',v:8420,c:'2,8%',r:'96 400 ₽'},
-    {p:'/promo/osen',v:5310,c:'4,1%',r:'142 100 ₽'},
-    {p:'/product/top-12',v:3980,c:'3,3%',r:'88 900 ₽'},
-    {p:'/blog/guide',v:2760,c:'1,2%',r:'21 500 ₽'},
-    {p:'/cart',v:1930,c:'9,4%',r:'201 800 ₽'}
-  ];
+'use strict';
+const DPR=Math.min(window.devicePixelRatio||1,2);
 
-  // ---------- KPI анимация ----------
-  for(const k in KPI) KPI[k].shown=KPI[k].val*rnd(0.75,0.9);
-  function paintKPI(){
-    for(const k in KPI){
-      const o=KPI[k];
-      o.shown+=(o.val-o.shown)*0.12;
-      if(Math.abs(o.val-o.shown)<0.05) o.shown=o.val;
-      document.getElementById(o.el).textContent=o.f(o.shown);
-    }
+/* --- KPI --- */
+const KPI=[
+  {label:'Визиты', base:12480, fmt:v=>Math.round(v).toLocaleString('ru-RU'), d:3.2},
+  {label:'Конверсия', base:3.4, fmt:v=>v.toFixed(1)+' %', d:-0.6},
+  {label:'Средний чек', base:7900, fmt:v=>Math.round(v).toLocaleString('ru-RU')+' ₽', d:1.8},
+  {label:'Выручка', base:987000, fmt:v=>Math.round(v).toLocaleString('ru-RU')+' ₽', d:5.4}
+];
+const kpiState=KPI.map(()=>({cur:0}));
+function renderKpis(dt){
+  const el=document.getElementById('kpis');
+  if(!el.children.length){
+    el.innerHTML=KPI.map(k=>`
+      <div class="kpi glass rounded-2xl p-4">
+        <div class="text-xs font-medium" style="color:#5B6474">${k.label}</div>
+        <div class="text-xl md:text-2xl font-bold num mt-1" data-v>—</div>
+        <div class="text-xs font-semibold mt-1 num" data-d></div>
+      </div>`).join('');
   }
-
-  // ---------- линейный график ----------
-  const lineCv=document.getElementById('line'), lctx=lineCv.getContext('2d'),
-        tip=document.getElementById('tip'), lineBox=lineCv.parentElement;
-  function fitCanvas(cv){
-    const DPR=Math.min(2,devicePixelRatio||1), w=cv.parentElement.clientWidth;
-    cv.width=w*DPR; cv.height=220*DPR; cv.style.height='220px';
-    cv.getContext('2d').setTransform(DPR,0,0,DPR,0,0);
-    return w;
-  }
-  function drawLine(){
-    const w=fitCanvas(lineCv), h=220, padL=44, padR=10, padT=14, padB=26;
-    lctx.clearRect(0,0,w,h);
-    const all=visits.concat(orders), max=Math.max.apply(null,all)*1.15, min=0;
-    const X=i=>padL+(w-padL-padR)*i/(DAYS-1), Y=v=>h-padB-(h-padB-padT)*(v-min)/(max-min);
-    lctx.strokeStyle='rgba(255,255,255,.08)'; lctx.fillStyle='rgba(255,255,255,.4)'; lctx.font='10px Manrope';
-    lctx.beginPath();
-    for(let g=0;g<=4;g++){
-      const v=max*g/4, y=Y(v);
-      lctx.moveTo(padL,y); lctx.lineTo(w-padR,y);
-      lctx.fillText(Math.round(v/1000)+'к', 4, y+3);
-    }
-    lctx.stroke();
-    lctx.textAlign='center';
-    for(let i=0;i<DAYS;i+=2) lctx.fillText(dayLabels[i], X(i), h-8);
-    lctx.textAlign='left';
-    const series=(data,color,glow)=>{
-      lctx.beginPath();
-      for(let i=0;i<DAYS;i++){
-        const x=X(i), y=Y(data[i]);
-        if(i===0) lctx.moveTo(x,y);
-        else{
-          const px=X(i-1), py=Y(data[i-1]), cx=(px+x)/2;
-          lctx.bezierCurveTo(cx,py,cx,y,x,y);
-        }
-      }
-      const grad=lctx.createLinearGradient(0,padT,0,h);
-      grad.addColorStop(0,color+'55'); grad.addColorStop(1,color+'00');
-      lctx.save();
-      lctx.lineTo(X(DAYS-1),h-padB); lctx.lineTo(padL,h-padB); lctx.closePath();
-      lctx.fillStyle=grad; lctx.fill(); lctx.restore();
-      lctx.beginPath();
-      for(let i=0;i<DAYS;i++){
-        const x=X(i), y=Y(data[i]);
-        if(i===0) lctx.moveTo(x,y);
-        else{ const px=X(i-1),py=Y(data[i-1]),cx=(px+x)/2; lctx.bezierCurveTo(cx,py,cx,y,x,y); }
-      }
-      lctx.strokeStyle=color; lctx.lineWidth=2; lctx.shadowColor=color; lctx.shadowBlur=glow; lctx.stroke(); lctx.shadowBlur=0;
-    };
-    series(visits,'#5B8CFF',10);
-    series(orders,'#7C5CFF',8);
-  }
-  lineCv.addEventListener('mousemove',e=>{
-    const r=lineCv.getBoundingClientRect(), x=e.clientX-r.left;
-    const padL=44, padR=10;
-    const i=Math.max(0,Math.min(DAYS-1, Math.round((x-padL)/((r.width-padL-padR)/(DAYS-1)))));
-    const px=padL+(r.width-padL-padR)*i/(DAYS-1);
-    tip.classList.remove('hidden');
-    tip.style.left=px+'px';
-    tip.style.top=(40)+'px';
-    tip.innerHTML='<b>'+dayLabels[i]+'</b> · визиты: <b class="text-blu">'+visits[i].toLocaleString('ru-RU')+'</b> · заказы: <b class="text-vio">'+orders[i]+'</b>';
+  [...el.children].forEach((card,i)=>{
+    const target=KPI[i].base*(1+Math.sin(performance.now()/9000+i)*0.015);
+    kpiState[i].cur+=(target-kpiState[i].cur)*Math.min(1,dt*3);
+    card.querySelector('[data-v]').textContent=KPI[i].fmt(kpiState[i].cur);
+    const d=KPI[i].d, de=card.querySelector('[data-d]');
+    de.textContent=(d>=0?'▲ ':'▼ ')+Math.abs(d).toFixed(1)+' %';
+    de.className='text-xs font-semibold mt-1 num '+(d>=0?'up':'down');
   });
-  lineCv.addEventListener('mouseleave',()=>tip.classList.add('hidden'));
+}
 
-  // ---------- столбчатый график ----------
-  const barCv=document.getElementById('bars'), bctx=barCv.getContext('2d');
-  function drawBars(){
-    const w=fitCanvas(barCv), h=220, padB=24, padT=10;
-    bctx.clearRect(0,0,w,h);
-    const max=Math.max.apply(null,week.map(w2=>w2.v))*1.15;
-    const bw=w/7;
-    week.forEach((d,i)=>{
-      const bh=(h-padB-padT)*d.v/max;
-      const x=i*bw+bw*0.18, y=h-padB-bh, rw=bw*0.64;
-      const grad=bctx.createLinearGradient(0,y,0,h-padB);
-      grad.addColorStop(0,'#5B8CFF'); grad.addColorStop(1,'rgba(124,92,255,.25)');
-      bctx.fillStyle=grad;
-      bctx.beginPath();
-      if(bctx.roundRect) bctx.roundRect(x,y,rw,bh,5); else bctx.rect(x,y,rw,bh);
-      bctx.fill();
-      bctx.fillStyle='rgba(255,255,255,.5)'; bctx.font='10px Manrope'; bctx.textAlign='center';
-      bctx.fillText(d.d, i*bw+bw/2, h-7);
-      bctx.fillStyle='rgba(255,255,255,.75)';
-      bctx.fillText(d.v.toLocaleString('ru-RU'), i*bw+bw/2, y-4);
-    });
+/* --- График выручки --- */
+const revChart=document.getElementById('rev-chart');
+let period=7, revData=[], revProg=0;
+function genData(n){
+  let v=70000, arr=[];
+  for(let i=0;i<n;i++){v+= (Math.sin(i*1.7)*0.25+Math.random()-0.45)*14000; v=Math.max(28000,v); arr.push(v);}
+  return arr;
+}
+function setPeriod(p){
+  period=p; revData=genData(p); revProg=0;
+  document.querySelectorAll('.per-btn').forEach(b=>b.classList.toggle('on',+b.dataset.p===p));
+}
+document.querySelectorAll('.per-btn').forEach(b=>b.addEventListener('click',()=>setPeriod(+b.dataset.p)));
+
+function sizeCanvas(c){
+  const r=c.getBoundingClientRect();
+  c.width=Math.round(r.width*DPR); c.height=Math.round(+c.getAttribute('height')*DPR);
+  c.style.height=c.getAttribute('height')+'px';
+}
+function drawRev(){
+  const ctx=revChart.getContext('2d'), W=revChart.width, H=revChart.height;
+  ctx.clearRect(0,0,W,H);
+  if(!revData.length) return;
+  revProg=Math.min(1,revProg+0.02);
+  const min=Math.min(...revData), max=Math.max(...revData), pad=20*DPR;
+  const X=i=>pad+i*(W-pad*2)/(revData.length-1), Y=v=>H-pad-(v-min)/(max-min)*(H-pad*2.4);
+  ctx.strokeStyle='rgba(27,35,51,.07)';ctx.lineWidth=1;
+  for(let g=0;g<=4;g++){const y=pad+g*(H-pad*2)/4;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();}
+  const n=Math.max(2,Math.floor(revData.length*revProg));
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(99,102,241,.30)');grad.addColorStop(1,'rgba(99,102,241,0)');
+  ctx.beginPath();ctx.moveTo(X(0),Y(revData[0]));
+  for(let i=1;i<n;i++)ctx.lineTo(X(i),Y(revData[i]));
+  ctx.strokeStyle='#6366F1';ctx.lineWidth=2.5*DPR;ctx.lineJoin='round';ctx.stroke();
+  ctx.lineTo(X(n-1),H-pad);ctx.lineTo(X(0),H-pad);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  const lx=X(n-1),ly=Y(revData[n-1]);
+  ctx.beginPath();ctx.arc(lx,ly,4*DPR,0,7);ctx.fillStyle='#6366F1';ctx.fill();
+  ctx.beginPath();ctx.arc(lx,ly,7*DPR,0,7);ctx.strokeStyle='rgba(99,102,241,.35)';ctx.lineWidth=2*DPR;ctx.stroke();
+  document.getElementById('rev-min').textContent=Math.round(min).toLocaleString('ru-RU')+' ₽';
+  document.getElementById('rev-max').textContent=Math.round(max).toLocaleString('ru-RU')+' ₽';
+}
+
+/* --- Донат --- */
+const CHANNELS=[['Органика',46,'#6366F1'],['Реклама',27,'#22D3EE'],['Соцсети',18,'#F97316'],['Прямые',9,'#1B2333']];
+const donut=document.getElementById('donut'); let donutProg=0;
+function drawDonut(dt){
+  donutProg=Math.min(1,donutProg+dt*1.2);
+  const ctx=donut.getContext('2d'), W=donut.width, H=donut.height, cx=W/2, cy=H/2, R=Math.min(W,H)/2-8*DPR, ir=R*0.62;
+  ctx.clearRect(0,0,W,H);
+  let a=-Math.PI/2;
+  CHANNELS.forEach(([name,pct,color])=>{
+    const span=pct/100*Math.PI*2*donutProg;
+    ctx.beginPath();ctx.arc(cx,cy,R,a,a+span);ctx.arc(cx,cy,ir,a+span,a,true);ctx.closePath();
+    ctx.fillStyle=color;ctx.fill();
+    a+=pct/100*Math.PI*2*donutProg;
+  });
+  ctx.fillStyle='#1B2333';ctx.textAlign='center';
+  ctx.font=`700 ${20*DPR}px "IBM Plex Sans"`;
+  ctx.fillText('100 %',cx,cy+4*DPR);
+  document.getElementById('donut-legend').innerHTML=CHANNELS.map(([n,p,c])=>
+    `<div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${c}"></span><span class="flex-1">${n}</span><b class="num">${p} %</b></div>`).join('');
+}
+
+/* --- Лента --- */
+const ITEMS=[
+  ()=>'покупка · MacBook · 89 900 ₽', ()=>'покупка · Кроссовки · 7 490 ₽',
+  ()=>'корзина · Наушники · 12 300 ₽', ()=>'визит · страница /sale',
+  ()=>'покупка · Кофемашина · 34 900 ₽', ()=>'лид · заявка на звонок',
+  ()=>'покупка · Футболка · 2 990 ₽', ()=>'возврат · заказ №4021'
+];
+const FEED_COLORS={0:'#10B981',3:'#6366F1',5:'#22D3EE',7:'#E02424'};
+let feedTimer=0;
+function pushFeed(){
+  const feed=document.getElementById('feed');
+  const i=Math.floor(Math.random()*ITEMS.length);
+  const row=document.createElement('div');
+  row.className='feed-row flex items-center gap-3 px-3 py-2 rounded-xl text-sm';
+  row.style.background='rgba(255,255,255,.55)';
+  row.innerHTML=`<span class="feed-dot" style="background:${FEED_COLORS[i]||'#F59E0B'}"></span><span class="flex-1">${ITEMS[i]()}</span><span class="text-xs num" style="color:#8A93A6">${new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</span>`;
+  feed.prepend(row);
+  while(feed.children.length>6) feed.lastChild.remove();
+}
+
+/* --- Топ страниц --- */
+document.getElementById('pages').innerHTML=[
+  ['/',4820,'3,1 %'],['/catalog',3610,'2,4 %'],['/sale',2940,'5,8 %'],['/product/macbook',2100,'6,2 %'],['/blog',890,'0,9 %']
+].map(([u,v,c])=>`<tr class="border-t" style="border-color:rgba(27,35,51,.08)"><td class="py-2.5 font-medium">${u}</td><td class="py-2.5 text-right num">${v.toLocaleString('ru-RU')}</td><td class="py-2.5 text-right num">${c}</td></tr>`).join('');
+
+/* --- Пульс live-точки --- */
+const pulseKeyframes=document.createElement('style');
+pulseKeyframes.textContent='@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}';
+document.head.appendChild(pulseKeyframes);
+
+/* --- Цель месяца --- */
+function renderGoal(){
+  const now=new Date(), y=now.getFullYear(), m=now.getMonth();
+  const total=(30+((y*12+m)%3))// мягкая вариация прогресса
+    , day=now.getDate();
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const plan=1200000;
+  const done=Math.round(plan*(day/daysInMonth)*(0.9+Math.sin(m+day)*0.08));
+  const pct=Math.min(100,Math.round(done/plan*100));
+  document.getElementById('goal-fill').style.width=pct+'%';
+  document.getElementById('goal-now').textContent=done.toLocaleString('ru-RU')+' ₽ · '+pct+' %';
+  document.getElementById('goal-days').textContent=Math.max(0,daysInMonth-day);
+}
+renderGoal();setInterval(renderGoal,30000);
+
+/* --- Пауза при скрытии вкладки --- */
+document.addEventListener('visibilitychange',()=>{
+  document.body.classList.toggle('paused',document.hidden);
+});
+
+/* --- Цикл --- */
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  if(!document.hidden){
+    renderKpis(dt);
+    drawRev();
+    drawDonut(dt);
+    feedTimer+=dt;
+    if(feedTimer>4){feedTimer=0;pushFeed();}
+    document.getElementById('live-time').textContent=new Date().toLocaleTimeString('ru-RU');
   }
+  requestAnimationFrame(loop);
+}
+function resize(){sizeCanvas(revChart);sizeCanvas(donut);}
+window.addEventListener('resize',resize);
 
-  // ---------- донат ----------
-  const segsG=document.getElementById('donutSegs'), legend=document.getElementById('donutLegend'),
-        donutCtr=document.getElementById('donutCtr');
-  const CIRC=2*Math.PI*54;
-  function drawDonut(){
-    segsG.innerHTML=''; legend.innerHTML='';
-    let off=0;
-    for(const s of sources){
-      const len=CIRC*s.v/100;
-      const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-      c.setAttribute('cx',70); c.setAttribute('cy',70); c.setAttribute('r',54);
-      c.setAttribute('fill','none'); c.setAttribute('stroke',s.c); c.setAttribute('stroke-width',18);
-      c.setAttribute('stroke-dasharray',Math.max(0,len-3)+' '+(CIRC-Math.max(0,len-3)));
-      c.setAttribute('stroke-dashoffset',-off);
-      c.style.transition='stroke-dasharray .6s, stroke-dashoffset .6s';
-      const t=document.createElementNS('http://www.w3.org/2000/svg','title');
-      t.textContent=s.n+': '+s.v.toFixed(0)+'%'; c.appendChild(t);
-      segsG.appendChild(c);
-      off+=len;
-      const li=document.createElement('div');
-      li.innerHTML='<span class="inline-block w-2.5 h-2.5 rounded-sm align-middle mr-1.5" style="background:'+s.c+'"></span>'+s.n+' <b class="font-mono">'+s.v.toFixed(0)+'%</b>';
-      legend.appendChild(li);
-    }
-    donutCtr.textContent=sources.reduce((a,s)=>a+s.v,0).toFixed(0)+'%';
-  }
-
-  // ---------- таблица ----------
-  const pagesEl=document.getElementById('pages');
-  function drawPages(){
-    pagesEl.innerHTML='';
-    for(const p of pages){
-      const tr=document.createElement('tr');
-      tr.className='border-b border-white/5 last:border-0';
-      tr.innerHTML='<td class="py-2 font-mono text-blu text-xs">'+p.p+'</td>'+
-        '<td class="py-2 text-right font-mono">'+p.v.toLocaleString('ru-RU')+'</td>'+
-        '<td class="py-2 text-right font-mono text-lime">'+p.c+'</td>'+
-        '<td class="py-2 text-right font-mono text-white/70">'+p.r+'</td>';
-      pagesEl.appendChild(tr);
-    }
-  }
-
-  // ---------- «живые» обновления ----------
-  let inView=true;
-  new IntersectionObserver(en=>{ inView=en[0].isIntersecting; },{threshold:0.1}).observe(document.getElementById('dash'));
-  const liveTxt=document.getElementById('liveTxt'), liveDot=document.getElementById('liveDot');
-  let lastUpd=Date.now();
-  setInterval(()=>{
-    liveTxt.textContent=Math.round((Date.now()-lastUpd)/1000)+' сек назад';
-    if(document.hidden||!inView) return;
-    lastUpd=Date.now();
-    // KPI лёгкий дрейф
-    KPI.conv.val=Math.max(2.5,Math.min(5.5,KPI.conv.val+rnd(-0.15,0.18)));
-    KPI.check.val=Math.max(3200,Math.min(5600,KPI.check.val+rnd(-90,110)));
-    KPI.churn.val=Math.max(3.8,Math.min(7,KPI.churn.val+rnd(-0.12,0.1)));
-    // линия: сдвиг на новый день
-    visits.shift(); orders.shift();
-    const nv=Math.round(visits[visits.length-1]*rnd(0.94,1.07));
-    visits.push(nv); orders.push(Math.round(nv*rnd(0.03,0.06)));
-    KPI.visits.val=visits.reduce((a,b)=>a+b,0);
-    const d=new Date(); dayLabels.shift();
-    dayLabels.push(String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0'));
-    // дни недели
-    week.forEach(w2=>{ w2.v=Math.max(700,Math.round(w2.v*rnd(0.94,1.06))); });
-    // источники перенормируем
-    let sum=sources.reduce((a,s)=>a+s.v,0);
-    sources.forEach(s=>{ s.v=Math.max(6,s.v*rnd(0.92,1.08)); });
-    sum=sources.reduce((a,s)=>a+s.v,0);
-    sources.forEach(s=>{ s.v=s.v/sum*100; });
-    // страницы
-    pages.forEach(p=>{ p.v=Math.max(500,Math.round(p.v*rnd(0.95,1.05))); });
-    pages.sort((a,b)=>b.v-a.v);
-    drawLine(); drawBars(); drawDonut(); drawPages();
-    liveTxt.textContent='обновлено только что';
-  },3000);
-
-  addEventListener('resize',()=>{ drawLine(); drawBars(); });
-  drawLine(); drawBars(); drawDonut(); drawPages();
-  (function anim(){ paintKPI(); requestAnimationFrame(anim); })();
-})();
+resize(); setPeriod(7); pushFeed(); pushFeed(); pushFeed();
+requestAnimationFrame(loop);
 </script>
 </body>
 </html>

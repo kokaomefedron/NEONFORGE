@@ -3,194 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Аня + Максим — приглашение на свадьбу | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Marck+Script&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { cream:'#FFF9F0', gold:'#B98D4F', ink:'#4A3F2E', deep:'#2E2A24' },
-  fontFamily: { cg:['"Cormorant Garamond"','serif'], script:['"Marck Script"','cursive'] }
-}}};
-</script>
+<title>Аня + Максим — приглашение</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
-  html{-webkit-tap-highlight-color:transparent}
-  .envelope{perspective:900px}
-  .flap{transform-origin:top center;transition:transform .7s cubic-bezier(.6,0,.3,1);z-index:3}
+  :root{
+    --ivory:#FBF7EF;--gold:#A67C3D;--sage:#5F6F52;--ink:#3A332C;--wax:#7B2D26;
+    --paper:#FDFAF4;--line:rgba(166,124,61,.3)
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ivory);color:var(--ink);font-family:'Marcellus',serif;min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;padding:24px 16px 40px}
+  a{color:inherit}
+  .script{font-family:'Great Vibes',cursive}
+  .small{font-size:12px;letter-spacing:.25em;text-transform:uppercase}
+
+  /* ===== Конверт ===== */
+  .envelope-scene{position:relative;width:min(340px,86vw);height:220px;margin:12vh auto 0;perspective:900px}
+  .envelope{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+  .env-back{position:absolute;inset:0;background:#F3EBDD;border:1px solid var(--line);border-radius:4px}
+  .card-peek{position:absolute;left:6%;right:6%;bottom:10px;height:150px;background:var(--paper);
+    border:1px solid var(--line);border-radius:3px;
+    box-shadow:0 2px 10px rgba(58,51,44,.12);
+    transition:transform 1s cubic-bezier(.3,.9,.3,1) .45s}
+  .env-front{position:absolute;inset:0;background:#F6EFE2;border-radius:4px;z-index:3;
+    clip-path:polygon(0 0,100% 0,50% 58%,0 100%,0 100%,100% 100%,0 100%);
+    border:1px solid var(--line);
+    clip-path:polygon(0 18%,50% 62%,100% 18%,100% 100%,0 100%)}
+  .flap{position:absolute;top:0;left:0;right:0;height:62%;background:#EFE6D4;z-index:4;
+    border:1px solid var(--line);border-bottom:none;border-radius:4px 4px 0 0;
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top;transition:transform .8s cubic-bezier(.6,0,.3,1);backface-visibility:hidden}
   .open .flap{transform:rotateX(178deg);z-index:1}
-  .letter{transition:transform .8s .35s cubic-bezier(.3,.8,.3,1), opacity .5s .5s;z-index:2}
-  .open .letter{transform:translateY(-72%);opacity:1}
-  .pocket{z-index:4;transition:opacity .4s .9s}
-  .open .pocket{opacity:0;pointer-events:none}
-  .pin{animation:bounce 2s ease-in-out infinite}
-  @keyframes bounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-9px)}}
+  .open .card-peek{transform:translateY(-135px)}
+  .seal{position:absolute;left:50%;top:52%;width:74px;height:74px;margin:-37px 0 0 -37px;z-index:5;
+    border-radius:50%;cursor:pointer;border:none;outline:none;
+    background:radial-gradient(circle at 34% 30%,#A34438,var(--wax) 58%,#5C1F1A);
+    box-shadow:0 4px 14px rgba(123,45,38,.45),inset 0 2px 6px rgba(255,255,255,.25),inset 0 -4px 10px rgba(0,0,0,.3);
+    color:var(--ivory);font-family:'Great Vibes',cursive;font-size:26px;line-height:74px;text-align:center;
+    animation:breathe 2.6s ease-in-out infinite;transition:transform .3s,opacity .3s}
+  .seal:hover{transform:scale(1.06)}
+  .open .seal{animation:none;opacity:0;pointer-events:none;transform:scale(.8)}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .hint{margin-top:26px;text-align:center;transition:opacity .4s}
+  .hint .small{color:var(--gold)}
+  .open~.hint{opacity:0;pointer-events:none}
+
+  /* ===== Карточка ===== */
+  .invite{max-width:620px;width:100%;background:var(--paper);border:1px solid var(--line);
+    padding:clamp(28px,6vw,56px) clamp(20px,5vw,48px);margin-top:48px;position:relative;
+    box-shadow:0 10px 40px rgba(58,51,44,.1);display:none}
+  .invite.show{display:block;animation:rise .9s ease}
+  @keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  .invite::before{content:'';position:absolute;inset:10px;border:1px solid var(--line);pointer-events:none}
+  .invite h1{font-family:'Great Vibes',cursive;font-size:clamp(52px,12vw,92px);text-align:center;
+    color:var(--ink);font-weight:400;line-height:1.1}
+  .invite h1 span{color:var(--gold)}
+  .date-line{text-align:center;margin:18px 0 6px}
+  .date-line .big{font-size:clamp(22px,4.5vw,30px);letter-spacing:.12em}
+  .divider{width:90px;height:1px;background:var(--gold);margin:22px auto;position:relative}
+  .divider::after{content:'❦';position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--paper);padding:0 10px;color:var(--gold);font-size:13px}
+  .place{text-align:center;font-size:15px;color:var(--sage)}
+
+  /* Отсчёт */
+  .count{display:flex;justify-content:center;gap:clamp(10px,3vw,22px);margin:30px 0 8px}
+  .cell{text-align:center;min-width:64px}
+  .cell b{display:block;font-size:clamp(30px,7vw,46px);color:var(--wax);font-variant-numeric:tabular-nums}
+  .cell span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+
+  /* Таймлайн */
+  .timeline{margin:34px auto 0;max-width:340px}
+  .tl-row{display:flex;gap:16px;padding:10px 0;position:relative}
+  .tl-row::before{content:'';position:absolute;left:70px;top:0;bottom:0;width:1px;background:var(--line)}
+  .tl-row:first-child::before{top:50%}
+  .tl-row:last-child::before{bottom:50%}
+  .tl-time{width:56px;text-align:right;color:var(--gold);font-variant-numeric:tabular-nums;flex-shrink:0}
+  .tl-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0;align-self:center;
+    margin-left:-4px;box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--line)}
+  .tl-what{padding-left:8px}
+
+  /* Дресс-код */
+  .dress{margin-top:30px;text-align:center}
+  .dots{display:flex;justify-content:center;gap:14px;margin-top:12px}
+  .dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--paper);
+    box-shadow:0 0 0 1px var(--line)}
+  .dress p{font-size:13px;color:var(--sage);margin-top:10px}
+
+  /* RSVP */
+  .rsvp{margin-top:36px}
+  .rsvp h2{text-align:center;font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .rsvp form{max-width:360px;margin:18px auto 0;display:flex;flex-direction:column;gap:12px}
+  .rsvp input[type=text],.rsvp input[type=number]{min-height:46px;padding:0 14px;background:var(--ivory);
+    border:1px solid var(--line);font-family:'Marcellus',serif;font-size:15px;color:var(--ink)}
+  .rsvp input:focus{outline:none;border-color:var(--gold)}
+  .radios{display:flex;gap:10px}
+  .radios label{flex:1;min-height:46px;display:flex;align-items:center;justify-content:center;gap:8px;
+    border:1px solid var(--line);cursor:pointer;font-size:14px;background:var(--ivory)}
+  .radios input{accent-color:var(--wax)}
+  .stamp-btn{min-height:48px;background:var(--wax);color:var(--ivory);border:none;cursor:pointer;
+    font-family:'Marcellus',serif;font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+    box-shadow:0 3px 10px rgba(123,45,38,.3);transition:transform .2s}
+  .stamp-btn:hover{transform:translateY(-2px)}
+  .stamped{position:relative;overflow:hidden}
+  .stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-9deg) scale(3);
+    border:3px solid var(--sage);color:var(--sage);padding:6px 22px;font-size:20px;letter-spacing:.25em;
+    text-transform:uppercase;opacity:0;transition:all .35s cubic-bezier(.2,1.4,.4,1);background:rgba(251,247,239,.85)}
+  .stamped .stamp{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}
+  .stamped .stamp-btn{opacity:.35;pointer-events:none}
+
+  /* Детали дня */
+  .details{margin-top:34px;border:1px solid var(--line);padding:20px 22px;background:var(--ivory)}
+  .details h2{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+    text-align:center;margin-bottom:14px}
+  .detail-row{display:flex;gap:12px;padding:9px 0;border-top:1px solid rgba(166,124,61,.15);font-size:14px}
+  .detail-row:first-of-type{border-top:none}
+  .detail-row .ic{flex-shrink:0;width:22px;text-align:center;color:var(--sage)}
+  .detail-row b{color:var(--ink)}
+  .detail-row p{color:#6B6156;font-size:13px}
+
+  /* Монограмма-виньетка */
+  .monogram{width:54px;height:54px;margin:26px auto 0;border:1px solid var(--gold);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Great Vibes',cursive;font-size:20px;color:var(--gold);transform:rotate(-6deg)}
+
+  /* Плейлист вечера */
+  .playlist{margin-top:28px}
+  .playlist h2{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:12px}
+  .track{display:flex;align-items:center;gap:12px;padding:8px 14px;border:1px solid rgba(166,124,61,.18);
+    margin-bottom:8px;font-size:13px;color:#6B6156;background:var(--ivory)}
+  .track i{font-style:normal;color:var(--sage)}
+  .track b{color:var(--ink);font-weight:400}
+  .track .note{margin-left:auto;font-size:11px;color:var(--gold)}
+
+  .credit{text-align:center;margin-top:60px;font-size:12px;color:var(--gold)}
+  .credit a{text-decoration:none}
 </style>
 </head>
-<body class="bg-cream text-ink font-cg min-h-screen flex flex-col">
-<header class="px-4 py-3 flex items-center justify-between border-b border-gold/25">
-  <h1 class="font-script text-xl md:text-2xl text-gold">Аня + Максим</h1>
-  <span class="text-[11px] uppercase tracking-widest text-ink/40 font-sans">приглашение · демо</span>
-</header>
+<body>
 
-<main class="flex-1 w-full max-w-2xl mx-auto px-4 py-8">
-
-  <!-- Конверт -->
-  <div id="envStage" class="envelope relative mx-auto my-6 w-[320px] h-[210px] md:w-[380px] md:h-[250px]">
-    <!-- письмо -->
-    <div class="letter absolute left-[6%] right-[6%] top-[12%] bottom-[8%] bg-white rounded-md shadow-lg border border-gold/20 flex flex-col items-center justify-center text-center px-4">
-      <div class="font-script text-2xl text-gold">Аня &amp; Максим</div>
-      <div class="text-sm mt-1 text-ink/70">25 июля 2027 · усадьба «Лебяжий берег»</div>
-    </div>
-    <!-- карман конверта -->
-    <div class="pocket absolute inset-0 rounded-md bg-[#F3EADA] border border-gold/30 shadow-md" style="clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 12%,50% 52%,100% 12%)"></div>
-    <div class="pocket absolute inset-x-0 bottom-0 h-1/2 rounded-b-md bg-[#EFE3CF] border-x border-b border-gold/30"></div>
-    <!-- клапан -->
-    <div class="flap absolute inset-x-0 top-0 h-1/2" style="clip-path:polygon(0 0,100% 0,50% 100%)">
-      <div class="w-full h-full bg-[#E9D9BC] border-b border-gold/30"></div>
-    </div>
-    <!-- лента -->
-    <div id="ribbon" class="absolute inset-0 z-[5] flex items-center justify-center cursor-pointer">
-      <div class="absolute inset-x-0 top-1/2 h-6 -translate-y-1/2 bg-gold/85 shadow"></div>
-      <div class="relative font-cg tracking-[.3em] text-white text-sm bg-deep/70 rounded px-4 py-2 hover:bg-deep transition">Открыть</div>
+  <div class="envelope-scene" id="scene">
+    <div class="envelope" id="envelope">
+      <div class="env-back"></div>
+      <div class="card-peek">
+        <div style="text-align:center;padding-top:34px">
+          <div class="small" style="color:var(--gold)">12 · 09 · 2027</div>
+        </div>
+      </div>
+      <div class="env-front"></div>
+      <div class="flap"></div>
+      <button class="seal" id="seal" aria-label="Открыть конверт">А&amp;М</button>
     </div>
   </div>
+  <div class="hint" id="hint">
+    <div class="small">Нажмите на печать, чтобы открыть приглашение</div>
+  </div>
 
-  <p id="hint" class="text-center text-sm text-ink/50 italic">Нажмите на конверт, чтобы открыть приглашение</p>
+  <article class="invite" id="invite">
+    <h1>Аня <span>&amp;</span> Максим</h1>
 
-  <!-- Приглашение -->
-  <section id="invite" class="hidden mt-8 bg-white rounded-2xl border border-gold/30 shadow-lg p-6 md:p-10 text-center">
-    <div class="font-script text-3xl md:text-4xl text-gold">Дорогие гости!</div>
-    <p class="mt-4 text-lg leading-relaxed">
-      Мы женимся — и очень хотим разделить этот день с самыми близкими людьми.
-      Приглашаем вас на наше торжество: тёплая церемония у воды, ужин под открытым небом и танцы до самой ночи.
-    </p>
-
-    <div class="mt-8 grid sm:grid-cols-3 gap-4 text-left">
-      <div class="rounded-xl border border-gold/25 bg-cream/60 p-4">
-        <div class="text-[11px] uppercase tracking-widest text-gold font-sans">15:30 — Сбор гостей</div>
-        <p class="text-sm mt-1">Приветственные напитки и лимонады на террасе, фото на память.</p>
-      </div>
-      <div class="rounded-xl border border-gold/25 bg-cream/60 p-4">
-        <div class="text-[11px] uppercase tracking-widest text-gold font-sans">16:00 — Церемония</div>
-        <p class="text-sm mt-1">Выездная регистрация на берегу пруда. Не забудьте панаму — будет солнечно.</p>
-      </div>
-      <div class="rounded-xl border border-gold/25 bg-cream/60 p-4">
-        <div class="text-[11px] uppercase tracking-widest text-gold font-sans">17:30 — Банкет</div>
-        <p class="text-sm mt-1">Ужин, первый танец, торт и финальный салют в 23:00.</p>
-      </div>
+    <div class="date-line">
+      <div class="small" style="color:var(--sage)">приглашаем на нашу свадьбу</div>
+      <div class="big">12 сентября 2027</div>
+      <div class="place">усадьба «Кленовый двор», Подмосковье</div>
     </div>
 
-    <!-- обратный отсчёт -->
-    <div class="mt-8">
-      <div class="text-[11px] uppercase tracking-widest text-ink/50 font-sans">до встречи осталось</div>
-      <div id="cd" class="flex justify-center gap-3 md:gap-5 mt-3 font-cg font-bold">
-        <div><div id="cdD" class="text-3xl md:text-4xl text-gold">—</div><div class="text-[11px] text-ink/50 font-sans uppercase tracking-wider">дней</div></div>
-        <div><div id="cdH" class="text-3xl md:text-4xl text-gold">—</div><div class="text-[11px] text-ink/50 font-sans uppercase tracking-wider">часов</div></div>
-        <div><div id="cdM" class="text-3xl md:text-4xl text-gold">—</div><div class="text-[11px] text-ink/50 font-sans uppercase tracking-wider">минут</div></div>
-        <div><div id="cdS" class="text-3xl md:text-4xl text-gold">—</div><div class="text-[11px] text-ink/50 font-sans uppercase tracking-wider">секунд</div></div>
+    <div class="divider"></div>
+
+    <div class="count" id="count" aria-label="обратный отсчёт"></div>
+
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-time">14:00</div><div class="tl-dot"></div><div class="tl-what">Сбор гостей</div></div>
+      <div class="tl-row"><div class="tl-time">16:00</div><div class="tl-dot"></div><div class="tl-what">Церемония</div></div>
+      <div class="tl-row"><div class="tl-time">17:30</div><div class="tl-dot"></div><div class="tl-what">Банкет</div></div>
+    </div>
+
+    <div class="dress">
+      <div class="small" style="color:var(--gold)">Дресс-код</div>
+      <div class="dots">
+        <div class="dot" style="background:#D8CDB8"></div>
+        <div class="dot" style="background:var(--sage)"></div>
+        <div class="dot" style="background:var(--gold)"></div>
       </div>
+      <p>Будем рады бежевому, шалфейному и золотому.<br>Только, пожалуйста, не в белом — он в тот день наш.</p>
     </div>
 
-    <!-- адрес + карта-заглушка -->
-    <div class="mt-8 text-left">
-      <div class="text-[11px] uppercase tracking-widest text-gold font-sans">Как добраться</div>
-      <p class="text-sm mt-1">Усадьба «Лебяжий берег», Московская область, Дмитровский район, пос. Лебединый, 12. Бесплатная парковка у ворот, трансфер от ж/д станции «Яхромская» каждый час.</p>
-      <div class="relative mt-3 h-44 rounded-xl overflow-hidden border border-gold/30" style="background:linear-gradient(135deg,#EAF2E6 0%,#DCEBD8 55%,#CBDFD2 100%)">
-        <div class="absolute inset-x-0 top-10 h-3 bg-[#E8DCC4] rotate-3"></div>
-        <div class="absolute inset-x-0 bottom-12 h-2 bg-[#F0E6D2] -rotate-2"></div>
-        <div class="absolute left-0 right-0 top-1/2 h-4 bg-[#B9D3E8]/70 -rotate-1"></div>
-        <div class="absolute w-10 h-14 bg-[#A8C8A0] rounded-full left-8 top-8 opacity-80"></div>
-        <div class="absolute w-14 h-10 bg-[#A8C8A0] rounded-full right-10 bottom-8 opacity-80"></div>
-        <div class="pin absolute left-1/2 top-[42%] text-3xl">📍</div>
-        <div class="absolute bottom-2 left-3 bg-white/85 rounded-md px-2 py-1 text-[11px] font-sans">усадьба «Лебяжий берег»</div>
-      </div>
+    <div class="rsvp">
+      <h2>Ответьте до 1 августа</h2>
+      <form id="rsvp-form">
+        <input type="text" id="r-name" placeholder="Ваше имя" required>
+        <input type="number" id="r-guests" placeholder="Сколько гостей с вами" min="0" max="5">
+        <div class="radios">
+          <label><input type="radio" name="come" value="yes" checked> Приду</label>
+          <label><input type="radio" name="come" value="no"> Не смогу</label>
+        </div>
+        <div class="stamped" style="position:relative">
+          <button type="submit" class="stamp-btn" style="width:100%">Отправить ответ</button>
+          <div class="stamp" id="stamp-text">Принято</div>
+        </div>
+        <p id="rsvp-note" style="text-align:center;font-size:13px;color:var(--sage);min-height:18px"></p>
+      </form>
+    </div>
+    <div class="details">
+      <h2>Детали дня</h2>
+      <div class="detail-row"><div class="ic">🚗</div><div><b>Трансфер</b><p>От метро «Октябрьская» в 13:30 отойдёт автобус с ленточкой. Не опаздывайте — уедет без нас.</p></div></div>
+      <div class="detail-row"><div class="ic">🎁</div><div><b>Подарки</b><p>Лучший подарок — конверт на медовый месяц или книга для нашей домашней библиотеки.</p></div></div>
+      <div class="detail-row"><div class="ic">📸</div><div><b>Фото</b><p>Фотографируйтесь смело и отмечайте нас: #анямаксим2027. Кадры со стилей — на телефон организатора.</p></div></div>
+      <div class="detail-row"><div class="ic">🌙</div><div><b>Финал вечера</b><p>Окончание — в 23:00. Для иногородних забронированы номера в усадьбе.</p></div></div>
     </div>
 
-    <!-- RSVP -->
-    <div id="rsvp" class="mt-8">
-      <button id="rsvpBtn" class="px-10 py-4 rounded-full bg-gold text-white font-cg text-xl tracking-wide hover:brightness-110 active:scale-95 transition shadow-md">Буду!</button>
-      <p class="text-xs text-ink/45 mt-2 font-sans">Пожалуйста, подтвердите участие до 1 июля 2027</p>
+    <div class="playlist">
+      <h2>Первая песня вечера</h2>
+      <div class="track"><i>♪</i><b>Father &amp; Son — Cat Stevens</b><span class="note">вход</span></div>
+      <div class="track"><i>♪</i><b>All of Me — John Legend</b><span class="note">первый танец</span></div>
+      <div class="track"><i>♪</i><b>Feeling Good — Nina Simone</b><span class="note">банкет</span></div>
+      <p style="text-align:center;font-size:12px;color:#8A7B68;margin-top:10px">Заказать диджею свою песню можно в RSVP-комментарии</p>
     </div>
 
-    <form id="rsvpForm" class="hidden mt-6 text-left space-y-3 max-w-sm mx-auto">
-      <label class="block text-sm">Ваше имя и фамилия
-        <input id="rName" required class="mt-1 w-full px-4 py-3 rounded-lg bg-cream border border-gold/40 outline-none focus:border-gold text-base">
-      </label>
-      <label class="block text-sm">Количество гостей
-        <select id="rGuests" class="mt-1 w-full px-4 py-3 rounded-lg bg-cream border border-gold/40 outline-none focus:border-gold text-base">
-          <option>1</option><option>2</option><option>3</option><option>4</option>
-        </select>
-      </label>
-      <div class="text-sm">Предпочтения по напиткам</div>
-      <div class="flex gap-4 text-sm">
-        <label class="flex items-center gap-2"><input type="radio" name="alc" value="Всё в ассортименте" checked class="accent-gold"> Всё в ассортименте</label>
-        <label class="flex items-center gap-2"><input type="radio" name="alc" value="Безалкогольный" class="accent-gold"> Безалкогольный</label>
-      </div>
-      <button type="submit" class="w-full py-3.5 rounded-xl bg-gold text-white font-cg text-lg hover:brightness-110 transition">Отправить ответ</button>
-    </form>
+    <div class="monogram">А&amp;М</div>
+  </article>
 
-    <div id="rsvpDone" class="hidden mt-6 text-center">
-      <div class="text-4xl">💐</div>
-      <div class="font-script text-2xl text-gold mt-2">Спасибо! Мы всё записали</div>
-      <p class="text-sm text-ink/60 mt-1">До встречи 25 июля 2027 года.</p>
-    </div>
-  </section>
-</main>
-
-<footer class="px-4 py-5 text-center text-xs text-ink/40 border-t border-gold/20">
-  Демо-проект студии <a class="text-gold hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-gold hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+  <div class="credit">
+    приглашение от NEONFORGE — <a href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
+  </div>
 
 <script>
-(function(){
-  const stage=document.getElementById('envStage'), invite=document.getElementById('invite'),
-        hint=document.getElementById('hint'), ribbon=document.getElementById('ribbon');
+'use strict';
+/* Открытие конверта */
+const scene=document.getElementById('scene');
+document.getElementById('seal').addEventListener('click',()=>{
+  scene.classList.add('open');
+  document.getElementById('hint').style.opacity='0';
+  setTimeout(()=>{
+    document.getElementById('invite').classList.add('show');
+    scene.style.transition='all .8s';scene.style.opacity='0';scene.style.maxHeight='0';scene.style.margin='0';scene.style.overflow='hidden';
+    document.getElementById('invite').scrollIntoView({behavior:'smooth',block:'start'});
+  },1100);
+});
 
-  ribbon.addEventListener('click',()=>{
-    stage.classList.add('open');
-    hint.textContent='Приглашение открыто';
-    setTimeout(()=>{ invite.classList.remove('hidden'); invite.scrollIntoView({behavior:'smooth',block:'start'}); },800);
+/* Отсчёт до 12 сентября 2027 14:00 МСК */
+const TARGET=new Date(2027,8,12,14,0,0);
+const UNITS=[['дней',86400000],['часов',3600000],['минут',60000],['секунд',1000]];
+const count=document.getElementById('count');
+count.innerHTML=UNITS.map(([n])=>`<div class="cell"><b data-u="${n}">—</b><span>${n}</span></div>`).join('');
+function tick(){
+  if(document.hidden) return;
+  let d=Math.max(0,TARGET-Date.now());
+  count.querySelectorAll('[data-u]').forEach(el=>{
+    const ms=UNITS.find(([n])=>n===el.dataset.u)[1];
+    el.textContent=String(Math.floor(d/ms)).padStart(2,'0');
+    d%=ms;
   });
+}
+tick();setInterval(tick,1000);
 
-  // обратный отсчёт до 25 июля 2027, 16:00
-  const target=new Date(2027,6,25,16,0,0).getTime();
-  const D=document.getElementById('cdD'),H=document.getElementById('cdH'),
-        M=document.getElementById('cdM'),S=document.getElementById('cdS');
-  function tick(){
-    if(document.hidden) return;
-    let diff=Math.max(0,target-Date.now());
-    const d=Math.floor(diff/864e5); diff-=d*864e5;
-    const h=Math.floor(diff/36e5); diff-=h*36e5;
-    const m=Math.floor(diff/6e4); diff-=m*6e4;
-    const s=Math.floor(diff/1e3);
-    D.textContent=d; H.textContent=h; M.textContent=m; S.textContent=s;
-  }
-  tick();
-  setInterval(tick,1000);
-  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tick(); });
-
-  // RSVP
-  const btn=document.getElementById('rsvpBtn'), form=document.getElementById('rsvpForm'),
-        done=document.getElementById('rsvpDone');
-  btn.addEventListener('click',()=>{
-    btn.classList.add('hidden');
-    form.classList.remove('hidden');
-    form.scrollIntoView({behavior:'smooth',block:'center'});
-  });
-  form.addEventListener('submit',e=>{
-    e.preventDefault();
-    const name=document.getElementById('rName').value.trim();
-    if(!name) return;
-    const data={name:name,
-      guests:document.getElementById('rGuests').value,
-      drinks:new FormData(form).get('alc'), ts:Date.now()};
-    try{ localStorage.setItem('nf_svadba_rsvp', JSON.stringify(data)); }catch(ex){}
-    form.classList.add('hidden');
-    done.classList.remove('hidden');
-    done.scrollIntoView({behavior:'smooth',block:'center'});
-  });
-})();
+/* RSVP */
+document.getElementById('rsvp-form').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('r-name').value.trim()||'Гость';
+  const come=document.querySelector('input[name=come]:checked').value==='yes';
+  const stamp=document.getElementById('stamp-text');
+  stamp.textContent=come?'Принято':'Сожалеем';
+  e.target.querySelector('.stamped').classList.add('stamped');
+  document.getElementById('rsvp-note').textContent=
+    come?`${name}, ждём вас 12 сентября! Детали пришлём ближе к дате.`
+        :`${name}, спасибо за ответ — будем скучать.`;
+  try{localStorage.setItem('nf_wedding_rsvp',JSON.stringify({name,come}));}catch(err){}
+});
 </script>
 </body>
 </html>

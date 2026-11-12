@@ -3,247 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Марципан — кондитерская в Москве</title>
+<title>Марципан — торты на заказ в Москве</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#FF7BA9',
-        choco: '#6B3F2A',
-        cream: '#FFF6F0'
-      },
-      fontFamily: {
-        display: ['Pacifico', 'cursive'],
-        body: ['Nunito', 'sans-serif']
-      }
-    }
-  }
-}
+tailwind.config={theme:{extend:{colors:{
+  cream:'#FFF6F0', pink:'#FF7BA9', choco:'#6B3F2A', pinksoft:'#FFE4EC'
+},fontFamily:{pac:['Pacifico','cursive'], nun:['Nunito','sans-serif']}}}}
 </script>
 <style>
-  html { scroll-behavior: smooth; }
-  body { background: #FFF6F0; }
-  .confetti {
-    background-image:
-      radial-gradient(#FF7BA9 2px, transparent 2px),
-      radial-gradient(#FFD166 2px, transparent 2px),
-      radial-gradient(#8AD5C3 2px, transparent 2px);
-    background-size: 90px 90px, 120px 120px, 150px 150px;
-    background-position: 0 0, 30px 50px, 60px 20px;
-  }
-  .wobble { transition: transform .25s ease; }
-  .wobble:hover { transform: rotate(-2deg) scale(1.03); }
+body{
+  background-color:#FFF6F0;
+  background-image:radial-gradient(rgba(107,63,42,.14) 1.3px, transparent 1.3px);
+  background-size:26px 26px;
+}
+.font-pac{font-family:'Pacifico',cursive}
+html{scroll-behavior:smooth}
 </style>
 </head>
-<body class="bg-cream text-choco font-body antialiased">
+<body class="font-nun text-choco" style="font-family:'Nunito',sans-serif">
 
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur border-b-4 border-primary/40">
-  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-    <a href="#hero" class="font-display text-2xl text-primary">Марципан 🎂</a>
-    <nav class="hidden md:flex gap-7 font-bold text-sm">
-      <a href="#cakes" class="hover:text-primary transition">Торты</a>
-      <a href="#steps" class="hover:text-primary transition">Как заказать</a>
-      <a href="#calc" class="hover:text-primary transition">Калькулятор</a>
-      <a href="#delivery" class="hover:text-primary transition">Доставка</a>
-    </nav>
-    <a href="#calc" class="bg-primary text-white font-extrabold rounded-full px-5 py-2 text-sm hover:bg-choco transition">Рассчитать торт</a>
-  </div>
-</header>
+<main class="max-w-3xl mx-auto px-5 pb-32" style="font-family:'Nunito',sans-serif">
 
-<!-- HERO -->
-<section id="hero" class="relative confetti">
-  <div class="max-w-4xl mx-auto px-4 py-24 md:py-32 text-center">
-    <div class="text-6xl mb-6">🎂✨</div>
-    <h1 class="font-display text-5xl md:text-7xl text-primary mb-6 leading-snug">Торты, от которых<br> Ахают гости</h1>
-    <p class="text-lg md:text-xl font-semibold text-choco/80 max-w-xl mx-auto mb-10">Кондитерская «Марципан» — свадебные, детские и корпоративные торты под ключ. Готовим в день заказа, доставляем по Москве.</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#calc" class="bg-primary text-white font-extrabold text-lg rounded-full px-10 py-4 shadow-lg shadow-primary/40 hover:bg-choco transition">Сколько мой торт? 🧮</a>
-      <a href="#cakes" class="bg-white text-choco font-extrabold text-lg rounded-full px-10 py-4 border-2 border-choco/20 hover:border-primary hover:text-primary transition">Смотреть торты</a>
-    </div>
-  </div>
-</section>
+  <!-- шаг 0: шапка -->
+  <header class="pt-16 pb-10 text-center">
+    <p class="font-pac text-4xl md:text-5xl text-pink mb-4">Марципан</p>
+    <p class="text-choco/80 text-base max-w-md mx-auto">кондитерская-мастерская в Москве · торты на заказ ·
+    ул. Малая Бронная, 12 · работаем с 2017 года</p>
+    <p class="mt-3 text-sm text-choco/60">каждый торт печём под ваш заказ — ничего с витрины «на сдачу»</p>
+  </header>
 
-<!-- CAKES -->
-<section id="cakes" class="max-w-5xl mx-auto px-4 py-20">
-  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Торты на заказ</h2>
-  <div class="grid md:grid-cols-3 gap-8">
-    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
-      <div class="text-7xl mb-4">💍</div>
-      <h3 class="font-display text-3xl text-primary mb-3">Свадебные</h3>
-      <p class="font-semibold text-choco/70 mb-4">Многоярусные, с живыми цветами или макарунами. Шоколад-малина, ваниль-мусс, лимон-чиз.</p>
-      <p class="font-extrabold text-2xl">от 4 500 ₽/кг</p>
-    </div>
-    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
-      <div class="text-7xl mb-4">🦄</div>
-      <h3 class="font-display text-3xl text-primary mb-3">Детские</h3>
-      <p class="font-semibold text-choco/70 mb-4">Единороги, динозавры, дрип-торты с конфетти. Отдельное детское бисквитное тесто без орехов.</p>
-      <p class="font-extrabold text-2xl">от 3 200 ₽/кг</p>
-    </div>
-    <div class="wobble bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 border-2 border-primary/20 text-center">
-      <div class="text-7xl mb-4">🏢</div>
-      <h3 class="font-display text-3xl text-primary mb-3">Корпоративные</h3>
-      <p class="font-semibold text-choco/70 mb-4">С логотипом компании в ростерах, порционные капкейки и тарталетки на 50+ человек.</p>
-      <p class="font-extrabold text-2xl">от 2 800 ₽/кг</p>
-    </div>
-  </div>
-</section>
-
-<!-- STEPS -->
-<section id="steps" class="py-20 bg-primary/10">
-  <div class="max-w-4xl mx-auto px-4">
-    <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Как заказать — 3 шага</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
-        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">1</p>
-        <h3 class="font-extrabold text-xl mb-2">Пишете идею</h3>
-        <p class="text-sm font-semibold text-choco/70">Фото-референс, повод, дата и число гостей — в Telegram или по телефону.</p>
+  <!-- ШАГ 1 -->
+  <section id="torty" class="relative pt-10">
+    <div class="flex items-start gap-6">
+      <div class="shrink-0 w-20 h-20 rounded-full bg-pinksoft border-2 border-dashed border-pink flex items-center justify-center">
+        <span class="font-pac text-3xl text-pink">1</span>
       </div>
-      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
-        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">2</p>
-        <h3 class="font-extrabold text-xl mb-2">Дизайн и предоплата</h3>
-        <p class="text-sm font-semibold text-choco/70">За час присылаем эскиз и точную цену. Предоплата 50% закрепляет дату.</p>
+      <h2 class="font-pac text-3xl md:text-4xl pt-4">Торты на заказ</h2>
+    </div>
+    <svg class="mx-auto my-6" width="4" height="52" viewBox="0 0 4 52"><line x1="2" y1="0" x2="2" y2="52" stroke="#FF7BA9" stroke-width="3" stroke-dasharray="6 6"/></svg>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="bg-white/80 rounded-3xl p-7 text-center shadow-[0_10px_30px_rgba(107,63,42,0.08)] border-2 border-pinksoft">
+        <div class="text-6xl mb-3">🍓</div>
+        <h3 class="font-pac text-2xl text-choco">«Летний сад»</h3>
+        <p class="text-sm text-choco/70 mt-2">бисквит, мусс из клубники, свежие ягоды сверху. Любимый у детей и бабушек одинаково.</p>
+        <p class="mt-4 text-lg font-extrabold text-pink">от 3 200 ₽/кг</p>
+      </article>
+      <article class="bg-white/80 rounded-3xl p-7 text-center shadow-[0_10px_30px_rgba(107,63,42,0.08)] border-2 border-pinksoft -rotate-1">
+        <div class="text-6xl mb-3">🍫</div>
+        <h3 class="font-pac text-2xl text-choco">«Тёмная комната»</h3>
+        <p class="text-sm text-choco/70 mt-2">шоколадный брауни, солёная карамель, ганаш 70%. Для тех, кто не любит сладко.</p>
+        <p class="mt-4 text-lg font-extrabold text-pink">от 3 600 ₽/кг</p>
+      </article>
+      <article class="bg-white/80 rounded-3xl p-7 text-center shadow-[0_10px_30px_rgba(107,63,42,0.08)] border-2 border-pinksoft rotate-1">
+        <div class="text-6xl mb-3">🥥</div>
+        <h3 class="font-pac text-2xl text-choco">«Бали»</h3>
+        <p class="text-sm text-choco/70 mt-2">кокосовый бисквит, ананасовый курд, крем-чиз. Вкус отпуска, который не заканчивается.</p>
+        <p class="mt-4 text-lg font-extrabold text-pink">от 3 400 ₽/кг</p>
+      </article>
+    </div>
+    <p class="text-center text-sm text-choco/60 mt-6">ещё 14 вкусов в меню — пришлём в WhatsApp по запросу 🍰</p>
+
+    <div class="mt-8 bg-pinksoft/60 rounded-3xl p-6 md:p-8 grid md:grid-cols-3 gap-4 text-sm text-choco/80">
+      <p>🥚 Яйца — с фермы в Подмосковье, каждую среду свежая партия.</p>
+      <p>🌾 Мука и сахар — без «улучшителей»; состав каждого торта напишем по запросу.</p>
+      <p>🎂 Весь декор съедобный: мастика, шоколад, живые цветы — отдельно на тарелочке, если не хочется есть пионы.</p>
+    </div>
+    <p class="text-center text-xs text-choco/50 mt-4">аллергены: глютен, яйца, молоко, орехи — предупредите заранее, найдём обходной рецепт</p>
+  </section>
+
+  <!-- ШАГ 2 -->
+  <section id="kak" class="relative pt-16">
+    <div class="flex items-start gap-6">
+      <div class="shrink-0 w-20 h-20 rounded-full bg-pinksoft border-2 border-dashed border-pink flex items-center justify-center">
+        <span class="font-pac text-3xl text-pink">2</span>
       </div>
-      <div class="bg-white rounded-[2rem] p-8 text-center shadow-lg shadow-primary/10">
-        <p class="w-12 h-12 mx-auto mb-4 rounded-full bg-primary text-white font-extrabold text-xl flex items-center justify-center">3</p>
-        <h3 class="font-extrabold text-xl mb-3">Получаете торт</h3>
-        <p class="text-sm font-semibold text-choco/70">Курьер в день праздника или самовывоз с Садового. Оставшиеся 50% — при получении.</p>
+      <h2 class="font-pac text-3xl md:text-4xl pt-4">Как заказать</h2>
+    </div>
+    <svg class="mx-auto my-6" width="4" height="52" viewBox="0 0 4 52"><line x1="2" y1="0" x2="2" y2="52" stroke="#FF7BA9" stroke-width="3" stroke-dasharray="6 6"/></svg>
+
+    <ol class="space-y-6 max-w-xl mx-auto">
+      <li class="flex gap-5 items-start">
+        <span class="shrink-0 w-12 h-12 rounded-full bg-pink text-white flex items-center justify-center font-extrabold">01</span>
+        <p class="pt-2 text-choco/90"><b>Выбираете вкус и вес</b> — посчитайте на весах ниже, они честные.</p>
+      </li>
+      <li class="flex gap-5 items-start">
+        <span class="shrink-0 w-12 h-12 rounded-full bg-pink text-white flex items-center justify-center font-extrabold">02</span>
+        <p class="pt-2 text-choco/90"><b>Оставляете заявку</b> — пишем вам в течение часа, обсуждаем надпись и декор.</p>
+      </li>
+      <li class="flex gap-5 items-start">
+        <span class="shrink-0 w-12 h-12 rounded-full bg-pink text-white flex items-center justify-center font-extrabold">03</span>
+        <p class="pt-2 text-choco/90"><b>Вносите предоплату 50%</b> — бронируем дату на кухне. Остаток при получении.</p>
+      </li>
+      <li class="flex gap-5 items-start">
+        <span class="shrink-0 w-12 h-12 rounded-full bg-pink text-white flex items-center justify-center font-extrabold">04</span>
+        <p class="pt-2 text-choco/90"><b>Забираете или ждёте курьера</b> — доставка по Москве 600 ₽, по ЦАО бесплатно.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ШАГ 3: весы -->
+  <section id="vesy" class="relative pt-16">
+    <div class="flex items-start gap-6">
+      <div class="shrink-0 w-20 h-20 rounded-full bg-pinksoft border-2 border-dashed border-pink flex items-center justify-center">
+        <span class="font-pac text-3xl text-pink">3</span>
+      </div>
+      <h2 class="font-pac text-3xl md:text-4xl pt-4">Весы торта</h2>
+    </div>
+    <svg class="mx-auto my-6" width="4" height="52" viewBox="0 0 4 52"><line x1="2" y1="0" x2="2" y2="52" stroke="#FF7BA9" stroke-width="3" stroke-dasharray="6 6"/></svg>
+
+    <div class="bg-white/85 rounded-3xl p-8 md:p-10 shadow-[0_14px_40px_rgba(107,63,42,0.1)] border-2 border-pinksoft">
+      <label class="block text-center text-choco/70 font-semibold mb-4">Сколько будет гостей? 🎈 <span id="gnum" class="text-pink font-extrabold text-xl">12</span></label>
+      <input id="guests" type="range" min="6" max="60" value="12" step="1"
+        class="w-full appearance-none h-3 rounded-full bg-pinksoft accent-pink cursor-pointer"
+        style="-webkit-appearance:none; background:#FFE4EC; height:12px; border-radius:8px; outline:none;">
+      <style>
+        #guests::-webkit-slider-thumb{-webkit-appearance:none; width:30px; height:30px; border-radius:50%;
+          background:#FF7BA9; border:4px solid #fff; box-shadow:0 3px 10px rgba(255,123,169,.5); cursor:grab;}
+        #guests::-moz-range-thumb{width:30px; height:30px; border-radius:50%;
+          background:#FF7BA9; border:4px solid #fff; box-shadow:0 3px 10px rgba(255,123,169,.5); cursor:grab;}
+      </style>
+      <div class="flex justify-between text-xs text-choco/50 mt-2 px-1"><span>6</span><span>20</span><span>40</span><span>60</span></div>
+
+      <div class="text-center mt-8">
+        <p class="text-choco/60 text-sm">примерный вес</p>
+        <p id="kg" class="font-pac text-4xl md:text-5xl text-choco my-1">~ 2 кг</p>
+        <p class="text-choco/60 text-sm">стоимость «Летнего сада»</p>
+        <p id="price" class="text-3xl font-extrabold text-pink mb-6">7 680 ₽</p>
+        <button id="openOrder" class="bg-pink text-white font-extrabold px-10 py-4 rounded-full text-lg shadow-[0_10px_24px_rgba(255,123,169,0.45)] hover:scale-105 transition">
+          💌 Оставить заявку
+        </button>
+        <p class="text-xs text-choco/50 mt-3">точную цену скажем после согласования декора</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CALCULATOR -->
-<section id="calc" class="max-w-2xl mx-auto px-4 py-20">
-  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-3">Калькулятор торта</h2>
-  <p class="text-center font-semibold text-choco/70 mb-10">Считаем вес и цену за 5 секунд 🍰</p>
-  <form id="calcForm" class="bg-white rounded-[2.5rem] p-8 shadow-xl shadow-primary/10 space-y-6">
-    <div>
-      <label class="block font-extrabold mb-2" for="guests">Сколько гостей?</label>
-      <input id="guests" type="number" min="5" max="300" value="20" class="w-full border-2 border-choco/20 rounded-full px-6 py-3 focus:outline-none focus:border-primary">
+  <!-- ШАГ 4: отзывы -->
+  <section id="otzyvy" class="relative pt-16">
+    <div class="flex items-start gap-6">
+      <div class="shrink-0 w-20 h-20 rounded-full bg-pinksoft border-2 border-dashed border-pink flex items-center justify-center">
+        <span class="font-pac text-3xl text-pink">4</span>
+      </div>
+      <h2 class="font-pac text-3xl md:text-4xl pt-4">Отзывы</h2>
     </div>
-    <div>
-      <label class="block font-extrabold mb-2" for="tier">Начинка</label>
-      <select id="tier" class="w-full border-2 border-choco/20 rounded-full px-6 py-3 focus:outline-none focus:border-primary">
-        <option value="3200">Детская — 3 200 ₽/кг</option>
-        <option value="2800">Корпоративная — 2 800 ₽/кг</option>
-        <option value="4500">Свадебная — 4 500 ₽/кг</option>
-      </select>
-    </div>
-    <button type="submit" class="w-full bg-primary text-white font-extrabold text-lg rounded-full py-4 hover:bg-choco transition">Посчитать 🧁</button>
-    <div id="calcResult" class="hidden text-center bg-primary/10 rounded-[1.5rem] p-6">
-      <p class="font-extrabold text-2xl mb-1" id="calcWeight"></p>
-      <p class="font-extrabold text-3xl text-primary" id="calcPrice"></p>
-      <p class="text-sm font-semibold text-choco/60 mt-2">Расчёт ориентировочный: 150 г на гостя. Точная цена — после эскиза.</p>
-    </div>
-  </form>
-</section>
+    <svg class="mx-auto my-6" width="4" height="52" viewBox="0 0 4 52"><line x1="2" y1="0" x2="2" y2="52" stroke="#FF7BA9" stroke-width="3" stroke-dasharray="6 6"/></svg>
 
-<!-- REVIEWS -->
-<section class="max-w-5xl mx-auto px-4 py-20 bg-white/70 rounded-t-[4rem]">
-  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-12">Отзывы мам 💐</h2>
-  <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4">
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
-      <p class="font-semibold text-choco/80 mb-4">«Заказывали единорога на 6 лет дочке — дети визжали от восторга, взрослые разобрали бисквит за 10 минут. Малина-шоколад, 10/10.»</p>
-      <p class="font-extrabold">— Оля, мама Веры 🦄</p>
+    <div class="grid md:grid-cols-3 gap-6 max-w-2xl mx-auto">
+      <figure class="bg-white p-6 shadow-[0_8px_24px_rgba(107,63,42,0.12)] rotate-2">
+        <p class="text-sm text-choco/85">«Заказывала торт на 30 лет маме — надпись сахарная, ягоды живые, съели за вечер. Спасибо!»</p>
+        <figcaption class="mt-3 text-xs text-choco/60">— Оля, Хамовники</figcaption>
+      </figure>
+      <figure class="bg-white p-6 shadow-[0_8px_24px_rgba(107,63,42,0.12)] -rotate-2 mt-6">
+        <p class="text-sm text-choco/85">«Тёмная комната» — лучший шоколадный торт, что я ел в Москве. Заказал уже третий раз.</p>
+        <figcaption class="mt-3 text-xs text-choco/60">— Дима, Арбат</figcaption>
+      </figure>
+      <figure class="bg-white p-6 shadow-[0_8px_24px_rgba(107,63,42,0.12)] rotate-1 mt-3">
+        <p class="text-sm text-choco/85">«Курьер приехал ровно к празднику, торт целёхонький. Дочь сказала: как из мультика.»</p>
+        <figcaption class="mt-3 text-xs text-choco/60">— Ирина, Пресня</figcaption>
+      </figure>
     </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
-      <p class="font-semibold text-choco/80 mb-4">«Свадебный торт на 60 человек: эскиз прислали за вечер, вес сошлись до грамма. Курьер привёз охлаждённым, ровно к банкету.»</p>
-      <p class="font-extrabold">— Настя и Сергей 💍</p>
-    </div>
-    <div class="snap-center shrink-0 w-[85%] sm:w-[400px] bg-cream rounded-[2rem] p-8 shadow-md">
-      <p class="font-semibold text-choco/80 mb-4">«Корпоративный торт с нашим логотипом из ростеров — коллеги сначала фотографировали, потом ели. Улетело за обед.»</p>
-      <p class="font-extrabold">— Ирина, HR 🏢</p>
-    </div>
-  </div>
-</section>
 
-<!-- DELIVERY -->
-<section id="delivery" class="max-w-5xl mx-auto px-4 py-20">
-  <h2 class="font-display text-4xl md:text-5xl text-center text-primary mb-10">Доставка 🚚</h2>
-  <div class="grid md:grid-cols-3 gap-6 text-center">
-    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
-      <div class="text-4xl mb-3">🛵</div>
-      <h3 class="font-extrabold text-lg mb-2">Курьер по Москве</h3>
-      <p class="font-semibold text-sm text-choco/70">В пределах МКАД — 600 ₽, за МКАД — 600 ₽ + 30 ₽/км. Везём в термобоксе.</p>
+    <div class="max-w-2xl mx-auto mt-10 space-y-3 text-sm">
+      <p class="bg-white/70 rounded-2xl px-5 py-3"><b>Скольких дней ждать?</b> — 3–4 дня на обычный торт, 7–10 на ярусный или с лепкой.</p>
+      <p class="bg-white/70 rounded-2xl px-5 py-3"><b>А если дети не любят мусс?</b> — скажите в заявке, сделаем бисквитный вариант без кремовых прослоек.</p>
+      <p class="bg-white/70 rounded-2xl px-5 py-3"><b>Декретный вопрос: вес по числу гостей верный?</b> — да: 100–120 г на человека, весы выше считают ровно так.</p>
+      <p class="bg-white/70 rounded-2xl px-5 py-3"><b>Можно без сахара вообще?</b> — есть эритрит-вариант «Летнего сада», +400 ₽ к цене за кг, вкус чуть взрослее.</p>
     </div>
-    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
-      <div class="text-4xl mb-3">⏰</div>
-      <h3 class="font-extrabold text-lg mb-2">Точно к сроку</h3>
-      <p class="font-semibold text-sm text-choco/70">Привозим за час до начала праздника. Ранний слот с 9:00 — по запросу.</p>
-    </div>
-    <div class="border-2 border-primary/30 rounded-[2rem] p-7">
-      <div class="text-4xl mb-3">🏠</div>
-      <h3 class="font-extrabold text-lg mb-2">Самовывоз</h3>
-      <p class="font-semibold text-sm text-choco/70">Садовая-Спасская, 18 — бесплатно, ежедневно с 10:00 до 20:00. Торт уже в коробке!</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- FAQ -->
-<section class="max-w-2xl mx-auto px-4 pb-20">
-  <h2 class="font-display text-4xl text-center text-primary mb-10">Вопросы</h2>
-  <div class="space-y-4">
-    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">За сколько дней заказывать торт?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Стандартно — за 3 дня. Свадебные многоярусные — за 7–10 дней. Есть «экспресс» за сутки (+20% к цене, если есть окно).</div>
+  <!-- ШАГ 5: доставка и контакты -->
+  <section id="dostavka" class="relative pt-16">
+    <div class="flex items-start gap-6">
+      <div class="shrink-0 w-20 h-20 rounded-full bg-pinksoft border-2 border-dashed border-pink flex items-center justify-center">
+        <span class="font-pac text-3xl text-pink">5</span>
+      </div>
+      <h2 class="font-pac text-3xl md:text-4xl pt-4">Доставка и самовывоз</h2>
     </div>
-    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Можно без сахара или без глютена?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Да: делаем на эритрите, безглютеновые бисквиты и ореховое молоко вместо сливок. Уточните в заказе.</div>
-    </div>
-    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Сколько хранится торт?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">В холодильнике — 72 часа, муссовые — 48. Не замораживаем повторно: лучше съесть в первые дни 🙂</div>
-    </div>
-    <div class="bg-white rounded-[1.5rem] shadow-sm border-2 border-primary/20">
-      <button class="faq-q w-full flex justify-between items-center px-6 py-4 text-left font-extrabold">Точно ли попадёте в цвет по фото?<span class="text-primary">+</span></button>
-      <div class="faq-a hidden px-6 pb-5 font-semibold text-choco/70 text-sm">Подбираем оттенки по палитре и присылаем фото похожей работы. Бежевый «с фото в тёплом свете» всегда уточняем отдельно 😉</div>
-    </div>
-  </div>
-</section>
+    <svg class="mx-auto my-6" width="4" height="52" viewBox="0 0 4 52"><line x1="2" y1="0" x2="2" y2="52" stroke="#FF7BA9" stroke-width="3" stroke-dasharray="6 6"/></svg>
 
-<!-- FOOTER -->
-<footer class="bg-choco text-cream">
-  <div class="max-w-5xl mx-auto px-4 py-12 grid md:grid-cols-3 gap-8 text-sm">
-    <div>
-      <p class="font-display text-3xl text-primary mb-2">Марципан 🎂</p>
-      <p class="text-cream/80">Москва, Садовая-Спасская, 18<br>Ежедневно 10:00 — 20:00</p>
+    <div class="grid md:grid-cols-2 gap-6 max-w-2xl">
+      <div class="bg-white/80 rounded-3xl p-6 border-2 border-pinksoft">
+        <p class="font-pac text-xl mb-2">Самовывоз 🚶</p>
+        <p class="text-sm text-choco/75">ул. Малая Бронная, 12, ежедневно 10:00–20:00.
+        Торт ждёт в холодильной витрине с табличкой вашего имени — фотогенично и без очереди.</p>
+      </div>
+      <div class="bg-white/80 rounded-3xl p-6 border-2 border-pinksoft">
+        <p class="font-pac text-xl mb-2">Курьер 🛵</p>
+        <p class="text-sm text-choco/75">по Москве 600 ₽, по ЦАО бесплатно.
+        Везём в термосумке, к часу праздника — не «с 9 до 18», а честно к назначенному.</p>
+      </div>
     </div>
-    <div class="text-cream/80">
-      <p class="text-cream font-extrabold mb-2">Контакты</p>
-      <p>📞 <a href="tel:+74952831144" class="hover:text-primary">+7 495 283-11-44</a></p>
-      <p>✈️ <a href="https://t.me/marzipan_cake" class="hover:text-primary">@marzipan_cake</a></p>
+
+    <div class="mt-10 max-w-xl">
+      <p class="text-choco/80 text-sm leading-relaxed">
+        📍 Москва, ул. Малая Бронная, 12 (вход через арку)<br>
+        ☎️ +7 (495) 640-18-72 — если срочно и без интернета<br>
+        🕐 Пекарня открыта 10:00–20:00, заявки принимаем до 22:00<br>
+        ⏳ Торт за 24 часа — возможно, но за наценку 15% и при везении: звоните сразу
+      </p>
     </div>
-    <div class="text-cream/80">
-      <p class="text-cream font-extrabold mb-2">Демо</p>
-      <p>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-primary hover:underline">NEONFORGE</a> — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="hover:underline">kokaomefedron.github.io/NEONFORGE</a></p>
+  </section>
+
+</main>
+
+<!-- модалка заявки -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-choco/50 px-4">
+  <div class="bg-cream rounded-3xl p-8 max-w-md w-full border-4 border-dashed border-pink">
+    <div class="flex justify-between items-start mb-4">
+      <h3 class="font-pac text-2xl text-pink">Заявка на торт</h3>
+      <button id="closeOrder" class="text-choco/50 text-2xl leading-none hover:text-pink">✕</button>
     </div>
+    <form id="orderForm" class="space-y-4">
+      <input required placeholder="Ваше имя" class="w-full px-4 py-3 rounded-xl border-2 border-pinksoft focus:border-pink outline-none bg-white">
+      <input required type="tel" placeholder="Телефон" class="w-full px-4 py-3 rounded-xl border-2 border-pinksoft focus:border-pink outline-none bg-white">
+      <input required placeholder="Дата праздника" class="w-full px-4 py-3 rounded-xl border-2 border-pinksoft focus:border-pink outline-none bg-white">
+      <textarea placeholder="Вкус, вес, надпись…" class="w-full px-4 py-3 rounded-xl border-2 border-pinksoft focus:border-pink outline-none bg-white h-24"></textarea>
+      <button class="w-full bg-pink text-white font-extrabold py-4 rounded-full hover:scale-[1.02] transition">Отправить 🧁</button>
+    </form>
+    <p id="orderOk" class="text-center text-sm text-choco mt-3 hidden">Заявка улетела! Перезвоним в течение часа 💛</p>
   </div>
-</footer>
+</div>
+
+<!-- плавающие кнопки-формочки -->
+<nav class="fixed bottom-5 right-4 z-40 flex flex-col gap-3">
+  <a href="#torty" title="Торты" class="w-14 h-14 rounded-full bg-white border-4 border-dashed border-pink flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition">🎂</a>
+  <a href="#kak" title="Как заказать" class="w-14 h-14 rounded-full bg-white border-4 border-dashed border-pink flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition">📝</a>
+  <a href="#vesy" title="Весы" class="w-14 h-14 rounded-full bg-white border-4 border-dashed border-pink flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition">⚖️</a>
+  <a href="#otzyvy" title="Отзывы" class="w-14 h-14 rounded-full bg-white border-4 border-dashed border-pink flex items-center justify-center text-2xl shadow-lg hover:scale-110 transition">💬</a>
+</nav>
+
+<!-- стикер -->
+<a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener"
+   class="fixed bottom-5 left-4 z-40 bg-yellow-200 px-4 py-2 text-xs font-bold text-choco rounded shadow-md -rotate-3 hover:rotate-0 transition">
+  Испечено с ❤ NEONFORGE — kokaomefedron.github.io/NEONFORGE
+</a>
 
 <script>
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const a = btn.nextElementSibling;
-    a.classList.toggle('hidden');
-    btn.querySelector('span').textContent = a.classList.contains('hidden') ? '+' : '−';
+(function(){
+  var g=document.getElementById('guests'), kg=document.getElementById('kg'), pr=document.getElementById('price'), gn=document.getElementById('gnum');
+  var RATE=3200;
+  function calc(){
+    var n=+g.value; gn.textContent=n;
+    var w=Math.max(1,Math.round(n/6*10)/10);
+    kg.textContent='~ '+w+' кг';
+    pr.textContent=(Math.round(w*RATE/10)*10).toLocaleString('ru-RU')+' ₽';
+  }
+  g.addEventListener('input',calc); calc();
+
+  var m=document.getElementById('modal');
+  document.getElementById('openOrder').addEventListener('click',function(){
+    m.classList.remove('hidden'); m.classList.add('flex');
   });
-});
-document.getElementById('calcForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const guests = parseInt(document.getElementById('guests').value, 10) || 20;
-  const rate = parseInt(document.getElementById('tier').value, 10);
-  const kg = Math.max(1, Math.ceil(guests * 0.15 * 2) / 2); // округление к 0.5
-  const price = kg * rate;
-  document.getElementById('calcWeight').textContent = 'Вес торта: ~' + kg.toFixed(1).replace('.', ',') + ' кг';
-  document.getElementById('calcPrice').textContent = price.toLocaleString('ru-RU') + ' ₽';
-  document.getElementById('calcResult').classList.remove('hidden');
-});
+  document.getElementById('closeOrder').addEventListener('click',function(){
+    m.classList.add('hidden'); m.classList.remove('flex');
+  });
+  m.addEventListener('click',function(e){if(e.target===m){m.classList.add('hidden');m.classList.remove('flex')}});
+  document.getElementById('orderForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    document.getElementById('orderOk').classList.remove('hidden');
+    this.reset();
+    setTimeout(function(){m.classList.add('hidden');m.classList.remove('flex');document.getElementById('orderOk').classList.add('hidden')},2200);
+  });
+})();
 </script>
 </body>
 </html>

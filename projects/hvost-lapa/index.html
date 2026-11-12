@@ -3,216 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Хвост и Лапа — зоомагазин</title>
+<title>Хвост и Лапа — зоомагазин с доставкой в день заказа</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        sunny: '#FFFBEA',
-        beep: '#FFC93C',
-        aqua: '#2EC4B6',
-        choco: '#4A3728',
-        coral: '#FF6B6B'
-      },
-      fontFamily: {
-        nunito: ['Nunito', 'sans-serif'],
-        baloo: ['"Baloo 2"', 'cursive']
-      }
-    }
-  }
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  ::selection { background:#2EC4B6; color:#FFFBEA; }
-  .wobbly { border-radius: 24px 20px 26px 18px / 20px 26px 18px 24px; }
-  .paw-bg { background-image: radial-gradient(circle at 10px 10px, rgba(255,201,60,.25) 6px, transparent 7px); background-size: 60px 60px; }
+  :root{--yellow:#FFD84D;--sky:#7BD3F7;--pink:#FF9ED2;--ink:#2B2B3A}
+  body{margin:0;font-family:'Baloo 2',cursive;color:var(--ink);background-color:#FFFDF4;
+    background-image:radial-gradient(rgba(123,211,247,.16) 7px,transparent 8px),
+                     radial-gradient(rgba(255,158,210,.14) 6px,transparent 7px);
+    background-size:120px 120px,90px 90px;background-position:0 0,60px 60px}
+  /* бегущая строка-поводок */
+  .leash{background:var(--yellow);border-bottom:3px solid var(--ink);overflow:hidden;white-space:nowrap;padding:6px 0}
+  .leash-inner{display:inline-block;animation:leash 16s linear infinite;font-weight:700;font-size:.9rem}
+  @keyframes leash{to{transform:translateX(-50%)}}
+  /* стикеры */
+  .sticker{background:#fff;border:6px solid #fff;border-radius:22px;box-shadow:0 8px 20px rgba(43,43,58,.16);
+    padding:14px 12px 16px;text-align:center;cursor:default;transition:transform .18s}
+  .r1{--w:-3deg;transform:rotate(-3deg)} .r2{--w:2.5deg;transform:rotate(2.5deg)} .r3{--w:-1.5deg;transform:rotate(-1.5deg)}
+  .emoji{font-size:52px;line-height:1.1;filter:drop-shadow(0 4px 6px rgba(43,43,58,.15))}
+  .bubble{display:inline-block;background:var(--sky);color:#fff;font-weight:800;border-radius:999px;padding:3px 14px;margin-top:6px}
+  .paw-btn{background:#fff;border:3px solid var(--ink);border-radius:999px;padding:8px 18px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 0 var(--ink)}
+  .paw-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+  /* жетоны-фильтры */
+  .token{position:relative;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:7px 16px 7px 30px;
+    font-weight:800;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+  .token::before{content:"";position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    width:9px;height:9px;border-radius:50%;border:2px solid var(--ink);background:#FFFDF4}
+  .token.on{background:var(--pink);color:#fff;border-color:var(--ink)}
+  .token.on::before{background:#fff}
+  /* миска-корзина */
+  .bowl{position:fixed;right:16px;bottom:18px;z-index:60;width:66px;height:66px;border-radius:50%;
+    background:var(--yellow);border:4px solid var(--ink);font-size:30px;cursor:pointer;
+    box-shadow:0 6px 0 var(--ink);display:flex;align-items:center;justify-content:center}
+  .bowl:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+  .bowl-badge{position:absolute;top:-6px;right:-6px;background:var(--pink);color:#fff;border:3px solid #fff;
+    border-radius:999px;min-width:26px;font-size:13px;font-weight:800;padding:1px 5px}
+  /* панель — лист в клетку */
+  .sheet{position:fixed;inset:0;z-index:70;background:rgba(43,43,58,.35)}
+  .sheet-inner{position:absolute;right:0;top:0;bottom:0;width:min(380px,100%);
+    background-color:#fff;
+    background-image:linear-gradient(rgba(123,211,247,.4) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(123,211,247,.4) 1px,transparent 1px);
+    background-size:26px 26px;border-left:4px solid var(--ink);padding:18px;overflow-y:auto}
+  .cart-row{background:rgba(255,255,255,.92);border:2px dashed var(--ink);border-radius:14px;padding:8px 12px;
+    margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+  .order input{width:100%;border:3px solid var(--ink);border-radius:16px;padding:10px 14px;margin-top:8px;
+    font-family:inherit;font-weight:700;background:#fff;box-sizing:border-box}
+  .go{width:100%;margin-top:12px;background:var(--yellow);border:3px solid var(--ink);border-radius:999px;
+    padding:12px;font-family:inherit;font-weight:800;font-size:1.05rem;cursor:pointer;box-shadow:0 5px 0 var(--ink)}
+  .go:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  .go:hover{background:#ffe36b}
+  .sticker-link{display:inline-block;background:#fff;border:6px solid #fff;border-radius:20px;
+    box-shadow:0 8px 18px rgba(43,43,58,.18);padding:12px 20px;transform:rotate(-4deg);font-weight:700}
+  @keyframes wiggle{0%,100%{transform:rotate(var(--w,0deg))}50%{transform:rotate(calc(var(--w,0deg) + 2deg)) scale(1.02)}}
+  .sticker:hover{animation:wiggle .5s ease-in-out infinite}
+  ::selection{background:var(--yellow);color:var(--ink)}
+  .token:hover{transform:translateY(-2px);transition:.15s}
+  .sticker .bubble{transition:transform .15s}
+  .sticker:hover .bubble{transform:scale(1.08)}
+  .order input:focus{border-color:var(--pink);outline:none}
+  @media(max-width:390px){
+    .emoji{font-size:42px}
+    .bowl{width:58px;height:58px;font-size:26px}
+    .sticker{padding:10px 8px 12px}
+  }
 </style>
 </head>
-<body class="bg-sunny text-choco font-nunito min-h-screen paw-bg">
+<body>
 
-<header class="sticky top-0 z-40 bg-sunny/95 backdrop-blur border-b-4 border-beep/60">
-  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-    <a href="#" class="font-baloo font-bold text-2xl flex items-center gap-1">🐾 Хвост <span class="text-aqua">& Лапа</span></a>
-    <input id="search" type="search" placeholder="Найти: корм, мячик, лежанка…"
-      class="flex-1 min-w-0 bg-white border-2 border-beep/60 rounded-full px-4 py-2 text-sm outline-none focus:border-aqua transition">
-    <button id="cartBtn" class="relative shrink-0 bg-aqua text-white font-baloo font-bold px-4 py-2 rounded-full hover:bg-coral transition">
-      🛒 <span id="cartCount" class="absolute -top-2 -right-2 bg-coral text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-0 transition-transform">0</span>
-    </button>
+<div class="leash"><div class="leash-inner">
+  доставка в день заказа 🐾 одобрено хвостами 🐾 возврат 30 дней 🐾 доставка в день заказа 🐾 одобрено хвостами 🐾 возврат 30 дней 🐾&nbsp;
+</div></div>
+
+<header class="text-center pt-8 pb-2 px-4">
+  <div style="font-size:56px">🐾</div>
+  <h1 class="text-4xl font-extrabold" style="color:var(--ink)">Хвост и Лапа</h1>
+  <p class="font-bold" style="color:#7d7d90">магазин для тех, кто ходит на четырёх</p>
+  <div class="flex flex-wrap justify-center gap-3 mt-4">
+    <button class="paw-btn" onclick="document.getElementById('shop').scrollIntoView()">🦴 Каталог</button>
+    <button class="paw-btn" onclick="document.getElementById('cartBtn').click()">🥣 Корзина</button>
+    <button class="paw-btn" onclick="document.getElementById('shop').scrollIntoView()">🚚 Доставка</button>
   </div>
 </header>
 
-<section class="border-b-4 border-beep/60 bg-gradient-to-br from-beep/40 via-sunny to-aqua/20">
-  <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 text-center">
-    <p class="font-baloo text-aqua text-lg mb-2">🐕 Одобрено хвостами · Утверждено мурлыканьем 🐈</p>
-    <h1 class="font-baloo text-4xl md:text-6xl leading-tight">Мурчалку — в ленту!<br><span class="text-coral">Скидки на всё</span> хвостатое</h1>
-    <p class="mt-4 text-choco/80 max-w-xl mx-auto">Корм, игрушки и лежанки, которые переживут и кота-разбойника, и щенка-пылесоса. Доставка за день, а лакомство — в подарок.</p>
-    <div class="mt-7 flex flex-wrap justify-center gap-3">
-      <a href="#catalog" class="bg-coral text-white font-baloo font-bold px-7 py-3 rounded-full hover:bg-aqua transition shadow-lg shadow-coral/30">Выбрать радость ↓</a>
-      <span class="bg-white px-4 py-3 rounded-full font-bold text-sm border-2 border-beep">🎁 При заказе от 2000 ₽ — печение бесплатно!</span>
+<main class="max-w-4xl mx-auto px-4 pb-28" id="shop">
+  <div class="flex flex-wrap justify-center gap-2 my-6" id="filters">
+    <button class="token on" data-pet="all">Все друзья</button>
+    <button class="token" data-pet="dog">🐶 Собаки</button>
+    <button class="token" data-pet="cat">🐱 Кошки</button>
+    <button class="token" data-pet="bird">🦜 Птицы</button>
+    <button class="token" data-pet="rod">🐹 Грызуны</button>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5" id="grid">
+    <div class="sticker r1" data-pet="dog"><div class="emoji">🐕</div><b>Корм «Мясное ассорти»</b><p class="text-xs font-bold" style="color:#7d7d90">2 кг · для больших собак</p><div class="bubble">2 190 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p1" data-name="Корм «Мясное ассорти»" data-price="2190">в список</button></div>
+    <div class="sticker r2" data-pet="cat"><div class="emoji">🐈</div><b>Домик-лежанка</b><p class="text-xs font-bold" style="color:#7d7d90">мягкая, круглая</p><div class="bubble">3 490 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p2" data-name="Домик-лежанка" data-price="3490">в список</button></div>
+    <div class="sticker r3" data-pet="dog"><div class="emoji">🦮</div><b>Поводок-рулетка</b><p class="text-xs font-bold" style="color:#7d7d90">лента 5 м</p><div class="bubble">890 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p3" data-name="Поводок-рулетка" data-price="890">в список</button></div>
+    <div class="sticker r1" data-pet="cat"><div class="emoji">🐟</div><b>Корм «Рыбный день»</b><p class="text-xs font-bold" style="color:#7d7d90">1,5 кг · лосось</p><div class="bubble">1 890 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p4" data-name="Корм «Рыбный день»" data-price="1890">в список</button></div>
+    <div class="sticker r2" data-pet="bird"><div class="emoji">🦜</div><b>Зерновая смесь</b><p class="text-xs font-bold" style="color:#7d7d90">для попугаев, 900 г</p><div class="bubble">590 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p5" data-name="Зерновая смесь" data-price="590">в список</button></div>
+    <div class="sticker r3" data-pet="rod"><div class="emoji">🐹</div><b>Сено луговое</b><p class="text-xs font-bold" style="color:#7d7d90">прессованное, 500 г</p><div class="bubble">390 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p6" data-name="Сено луговое" data-price="390">в список</button></div>
+    <div class="sticker r1" data-pet="cat"><div class="emoji">🐱</div><b>Когтеточка-столбик</b><p class="text-xs font-bold" style="color:#7d7d90">сизаль + мяч</p><div class="bubble">1 590 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p7" data-name="Когтеточка-столбик" data-price="1590">в список</button></div>
+    <div class="sticker r2" data-pet="dog"><div class="emoji">🦴</div><b>Кость-лакомство</b><p class="text-xs font-bold" style="color:#7d7d90">жвачка, говядина</p><div class="bubble">290 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p8" data-name="Кость-лакомство" data-price="290">в список</button></div>
+    <div class="sticker r3" data-pet="bird"><div class="emoji">🐤</div><b>Качелька для клетки</b><p class="text-xs font-bold" style="color:#7d7d90">дерево, колокольчик</p><div class="bubble">490 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p9" data-name="Качелька для клетки" data-price="490">в список</button></div>
+    <div class="sticker r1" data-pet="rod"><div class="emoji">🐭</div><b>Мини-домик «Норка»</b><p class="text-xs font-bold" style="color:#7d7d90">для хомяков и мышей</p><div class="bubble">890 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p10" data-name="Мини-домик «Норка»" data-price="890">в список</button></div>
+    <div class="sticker r2" data-pet="dog"><div class="emoji">🐩</div><b>Дождевик «Булька»</b><p class="text-xs font-bold" style="color:#7d7d90">для ливней, светоотражающий</p><div class="bubble">1 290 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p11" data-name="Дождевик «Булька»" data-price="1290">в список</button></div>
+    <div class="sticker r3" data-pet="dog"><div class="emoji">🐕‍🦺</div><b>Ошейник-светоотражатель</b><p class="text-xs font-bold" style="color:#7d7d90">для вечерних прогулок</p><div class="bubble">640 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p12" data-name="Ошейник-светоотражатель" data-price="640">в список</button></div>
+    <div class="sticker r1" data-pet="cat"><div class="emoji">🥫</div><b>Паштет «Мурр» ×24</b><p class="text-xs font-bold" style="color:#7d7d90">паучи, тунец и креветка</p><div class="bubble">1 140 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p13" data-name="Паштет «Мурр» ×24" data-price="1140">в список</button></div>
+    <div class="sticker r2" data-pet="bird"><div class="emoji">🪵</div><b>Жёрдочка дубовая</b><p class="text-xs font-bold" style="color:#7d7d90">для клеток всех размеров</p><div class="bubble">690 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p14" data-name="Жёрдочка дубовая" data-price="690">в список</button></div>
+    <div class="sticker r3" data-pet="rod"><div class="emoji">⚙️</div><b>Колесо бесшумное</b><p class="text-xs font-bold" style="color:#7d7d90">диаметр 21 см, подшипник</p><div class="bubble">540 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p15" data-name="Колесо бесшумное" data-price="540">в список</button></div>
+    <div class="sticker r1" data-pet="cat"><div class="emoji">🎾</div><b>Набор мячиков «Поймай»</b><p class="text-xs font-bold" style="color:#7d7d90">3 шт, с колокольчиком</p><div class="bubble">390 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p16" data-name="Набор мячиков «Поймай»" data-price="390">в список</button></div>
+    <div class="sticker r2" data-pet="dog"><div class="emoji">🦷</div><b>Зубочистка-жгутик</b><p class="text-xs font-bold" style="color:#7d7d90">мятая верёвка, для клыков</p><div class="bubble">340 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p17" data-name="Зубочистка-жгутик" data-price="340">в список</button></div>
+    <div class="sticker r3" data-pet="rod"><div class="emoji">🍎</div><b>Лакомство «Сушёное яблоко»</b><p class="text-xs font-bold" style="color:#7d7d90">без сахара, 100 г</p><div class="bubble">260 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p18" data-name="Лакомство «Сушёное яблоко»" data-price="260">в список</button></div>
+    <div class="sticker r1" data-pet="bird"><div class="emoji">🪞</div><b>Зеркальце на присаде</b><p class="text-xs font-bold" style="color:#7d7d90">попугай найдёт друга</p><div class="bubble">320 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p19" data-name="Зеркальце на присаде" data-price="320">в список</button></div>
+    <div class="sticker r2" data-pet="cat"><div class="emoji">🐾</div><b>Коврик для туалета</b><p class="text-xs font-bold" style="color:#7d7d90">ловит песок с лап</p><div class="bubble">740 ₽</div><button class="paw-btn mt-2 text-sm add" data-id="p20" data-name="Коврик для туалета" data-price="740">в список</button></div>
+  </div>
+
+  <section class="mt-12">
+    <h2 class="text-center text-2xl font-extrabold">🎁 Подарочные наборы</h2>
+    <p class="text-center font-bold" style="color:#7d7d90">для тех, кому впервые принесли хвостатого друга</p>
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+      <div class="sticker r2 text-left"><div class="text-4xl">🐶</div><b>Набор «Щенок в дом»</b><p class="text-sm font-bold" style="color:#7d7d90">корм, лежанка, игрушка, щётка — со скидкой набора</p><div class="bubble">3 490 ₽</div></div>
+      <div class="sticker r1 text-left"><div class="text-4xl">🐱</div><b>Набор «Котенок в дом»</b><p class="text-sm font-bold" style="color:#7d7d90">паучи, домик, когтеточка и совок</p><div class="bubble">2 990 ₽</div></div>
+      <div class="sticker r3 text-left"><div class="text-4xl">🐹</div><b>Набор «Грызун в дом»</b><p class="text-sm font-bold" style="color:#7d7d90">клетка, сено, колесо и минеральный камень</p><div class="bubble">2 190 ₽</div></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<main class="max-w-6xl mx-auto px-4 py-10">
-  <div class="flex flex-wrap items-center gap-2 mb-8">
-    <div id="catTabs" class="flex flex-wrap gap-2 flex-1 min-w-0"></div>
-    <select id="sortSel" class="bg-white border-2 border-beep/60 rounded-full px-4 py-2 text-sm font-bold outline-none focus:border-aqua">
-      <option value="pop">Популярные</option>
-      <option value="asc">Дешевле сначала</option>
-      <option value="desc">Дороже сначала</option>
-    </select>
-  </div>
-  <div id="grid" class="grid gap-5" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));"></div>
-  <p id="empty" class="hidden text-center text-choco/50 py-16 font-baloo">Арам-зам-зам… ничего не нашлось!</p>
+  <section class="mt-14">
+    <h2 class="text-center text-2xl font-extrabold">🚚 Доставка в день заказа</h2>
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+      <div class="sticker r1 text-left"><div class="text-4xl">🕐</div><b>Заказ до 15:00</b><p class="text-sm font-bold" style="color:#7d7d90">собираем и вывозим со склада в этот же день</p></div>
+      <div class="sticker r2 text-left"><div class="text-4xl">🛴</div><b>Курьер-поводырь</b><p class="text-sm font-bold" style="color:#7d7d90">звонит за 30 минут, вносит корм до квартиры</p></div>
+      <div class="sticker r3 text-left"><div class="text-4xl">🧾</div><b>Возврат 30 дней</b><p class="text-sm font-bold" style="color:#7d7d90">если хвост не одобрил — вернём деньги без вопросов</p></div>
+    </div>
+  </section>
 
-  <div class="mt-12 bg-white wobbly p-6 text-center font-baloo text-xl text-aqua border-2 border-beep/40">
-    «Мой кот съел упаковку быстрее корма. 10/10, куплю ещё» — Оксана и кот Барсик 😹
-  </div>
+  <section class="mt-12">
+    <h2 class="text-center text-2xl font-extrabold">Одобрено хвостами 🐾</h2>
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+      <div class="sticker r3 text-left"><b>Марина и такса Чипс</b><p class="text-sm font-bold" style="color:#7d7d90">«Корм приехал через два часа после заказа. Чипс теперь охраняет дверь от курьера».</p></div>
+      <div class="sticker r1 text-left"><b>Андрей и кот Барсик</b><p class="text-sm font-bold" style="color:#7d7d90">«Когтеточка выдержала три недели осады. Диван, наконец, цел».</p></div>
+      <div class="sticker r2 text-left"><b>Оля и волнистый Кеша</b><p class="text-sm font-bold" style="color:#7d7d90">«Зерновая смесь как в хороших зоомагазинах, только дешевле и без очередей».</p></div>
+    </div>
+  </section>
+
+  <p class="text-center mt-8 font-bold" style="color:#7d7d90">Тыкай на стикер — и в список покупок! 🐾</p>
+  <section class="mt-12">
+    <h2 class="text-center text-2xl font-extrabold">Наши консультанты</h2>
+    <p class="text-center font-bold" style="color:#7d7d90">сами выросли в зоомагазине, знают всё</p>
+    <div class="grid md:grid-cols-3 gap-4 mt-5">
+      <div class="sticker r2 text-left"><div class="emoji">🐕</div><b>Шарик, менеджер по кормам</b><p class="text-sm font-bold" style="color:#7d7d90">разберёт состав любой пачки и подскажет порцию</p></div>
+      <div class="sticker r1 text-left"><div class="emoji">🐈</div><b>Мурка, эксперт по домикам</b><p class="text-sm font-bold" style="color:#7d7d90">лично тестировала все лежанки — дважды</p></div>
+      <div class="sticker r3 text-left"><div class="emoji">🦜</div><b>Кеша, голос поддержки</b><p class="text-sm font-bold" style="color:#7d7d90">напомнит о заказе, если вы засмотрелись на жёрдочки</p></div>
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-center text-2xl font-extrabold">Вопросы хвостатых родителей</h2>
+    <div class="grid md:grid-cols-2 gap-4 mt-5">
+      <div class="sticker r1 text-left"><b>Когда привезёте?</b><p class="text-sm font-bold" style="color:#7d7d90">Заказ до 15:00 — привезём сегодня же, после 15:00 — завтра к утру.</p></div>
+      <div class="sticker r2 text-left"><b>А если не подойдёт?</b><p class="text-sm font-bold" style="color:#7d7d90">30 дней на возврат. Размер не тот, вкус не тот — заберём без споров.</p></div>
+      <div class="sticker r3 text-left"><b>Можно копить баллы?</b><p class="text-sm font-bold" style="color:#7d7d90">Да, хвостатая карта: каждый пятый заказ — скидка 15%.</p></div>
+      <div class="sticker r1 text-left"><b>Корм какой фирмы?</b><p class="text-sm font-bold" style="color:#7d7d90">Только то, что берём для своих: без красителей и «мясных субпродуктов вообще».</p></div>
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-center text-2xl font-extrabold">Откуда мы</h2>
+    <div class="sticker r1 text-left max-w-xl mx-auto">
+      <b class="text-lg">Зоомагазин «Хвост и Лапа»</b>
+      <p class="text-sm font-bold mt-1" style="color:#7d7d90">
+        Начались с частного заказа для соседского дога Рекса в 2019 году. Теперь это склад на Ленинградском шоссе,
+        шесть курьеров-поводырей и главный консультант — всё тот же Рекс, уже седой и очень важный.
+        Мы не продаём то, что не прошли наши хвосты: каждый корм, лежанка и жёрдочка дожили до витрины
+        после испытаний в практике. Если продукт не подошёл нашим — он не дойдёт и до ваших.</p>
+    </div>
+  </section>
+
 </main>
 
-<section class="max-w-2xl mx-auto px-4 pb-16">
-  <div class="bg-white wobbly border-2 border-beep/60 p-6 md:p-8 shadow-lg shadow-beep/20">
-    <h2 class="font-baloo text-2xl mb-1">Оформить заказ</h2>
-    <p class="text-choco/60 text-sm mb-5">Хвостатый курьер не входит в штат, поэтому доставка — обычная 🚚</p>
-    <form id="orderForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <input required placeholder="Ваше имя" class="bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
-      <input required type="tel" placeholder="Телефон" class="bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
-      <input required placeholder="Адрес (и кличка питомца)" class="sm:col-span-2 bg-sunny border-2 border-beep/50 rounded-2xl px-4 py-3 text-sm outline-none focus:border-aqua">
-      <button type="submit" class="sm:col-span-2 bg-aqua text-white font-baloo font-bold text-lg py-4 rounded-2xl hover:bg-coral transition">Урони лапу на кнопку!</button>
-    </form>
-    <p id="orderMsg" class="hidden mt-4 text-coral font-baloo font-bold text-center"></p>
-  </div>
-</section>
-
-<footer class="border-t-4 border-beep/60 py-10 bg-aqua/10">
-  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-choco/80">
-    <div>
-      <p class="font-baloo font-bold text-choco text-lg mb-2">🐾 Хвост и Лапа</p>
-      <p>Москва, ул. Пёсья, 9<br>Ежедневно 10:00–21:00</p>
-    </div>
-    <div>
-      <p class="text-choco font-bold mb-2">Связь</p>
-      <p>+7 (499) 335-22-88<br>gav@hvostilapa.ru · tg: @hvostilapa</p>
-    </div>
-    <div class="sm:text-right">
-      <p class="text-choco/50 text-xs leading-relaxed">© 2026 «Хвост и Лапа» · Гав!<br>Демо-проект студии <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-aqua underline hover:text-coral">NEONFORGE</a> — закажите свой магазин.</p>
-    </div>
+<footer class="text-center pb-32 px-4">
+  <div class="sticker-link">
+    хвостатая работа <a href="https://kokaomefedron.github.io/NEONFORGE" style="color:var(--ink)">NEONFORGE</a><br>
+    <span class="text-xs">kokaomefedron.github.io/NEONFORGE</span>
   </div>
 </footer>
 
-<div id="cartOverlay" class="fixed inset-0 bg-choco/40 z-40 opacity-0 pointer-events-none transition-opacity"></div>
-<aside id="cartPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-sunny border-l-4 border-beep z-50 translate-x-full transition-transform duration-300 flex flex-col">
-  <div class="flex items-center justify-between p-4 border-b-2 border-beep/50">
-    <p class="font-baloo font-bold text-lg">Собрано хвостиками</p>
-    <button id="cartClose" class="text-choco/50 hover:text-coral text-2xl leading-none">×</button>
+<button class="bowl" id="cartBtn" onclick="toggleCart()">🥣<span class="bowl-badge" id="badge">0</span></button>
+
+<div class="sheet" id="sheet" style="display:none">
+  <div class="sheet-inner">
+    <div class="flex items-center justify-between">
+      <b class="text-xl">Список покупок</b>
+      <button class="paw-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <div id="cartBody" class="mt-4"></div>
+    <div class="cart-row" style="background:var(--yellow)"><span>ИТОГО</span><b id="total">0 ₽</b></div>
+    <form class="order" id="orderForm">
+      <b class="text-lg">Кому доставить? ✍️</b>
+      <input name="name" placeholder="Ваше имя" required>
+      <input name="phone" placeholder="Телефон" required pattern="[0-9+()\-\s]{6,}">
+      <input name="pet" placeholder="Кличка питомца (необязательно)">
+      <button class="go" type="submit">Отправить за кормом! 🚀</button>
+    </form>
   </div>
-  <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
-  <div class="p-4 border-t-2 border-beep/50">
-    <div class="flex justify-between font-baloo font-bold text-lg mb-3"><span>Итого</span><span id="cartTotal" class="text-coral">0 ₽</span></div>
-    <button id="checkout" class="w-full bg-aqua text-white font-baloo font-bold py-3 rounded-2xl hover:bg-coral transition">К оформлению 🐕</button>
-  </div>
-</aside>
+</div>
 
 <script>
-const products = [
-  { id:1, name:'Корм «Мур-Мияс» для котов, 2 кг', cat:'Корма 🐱', pet:'🐱', price:1290, emoji:'🐟', desc:'Лосось + рис. Кот одобрил, тарелка вылизана', grad:'linear-gradient(135deg,#2EC4B6,#a8e6e1)' },
-  { id:2, name:'Корм «Хвост-Гурман» малый, 1 кг', cat:'Корма 🐶', pet:'🐶', price:990, emoji:'🍖', desc:'Курица для приверед. Съедают за 4 минуты', grad:'linear-gradient(135deg,#FFC93C,#ffe29a)' },
-  { id:3, name:'Корм для хомяков «Норка-Ном», 500 г', cat:'Корма 🐹', pet:'🐹', price:390, emoji:'🌻', desc:'Семечки без соли, курага, мини-крекеры', grad:'linear-gradient(135deg,#FFC93C,#FF6B6B)' },
-  { id:4, name:'Корм попугайный «Клюй-Клюй», 800 г', cat:'Корма 🦜', pet:'🦜', price:560, emoji:'🥭', desc:'Просо, манго, хлопья. Щебечет от счастья', grad:'linear-gradient(135deg,#2EC4B6,#FFC93C)' },
-  { id:5, name:'Мячик-пищалка «Сqueeк!», резина', cat:'Игрушки 🐶', pet:'🐶', price:290, emoji:'🎾', desc:'Пищит на 3 тонах. Собака happy, соседи not', grad:'linear-gradient(135deg,#FF6B6B,#ffc2c2)' },
-  { id:6, name:'Когтеточка-домик «Мяу-Мансион»', cat:'Игрушки 🐱', pet:'🐱', price:2190, emoji:'🏠', desc:'Сизаль + полка-трон. Кот станет королём', grad:'linear-gradient(135deg,#beige,#e8d5b7)'.replace('beige','#F5DEB3') },
-  { id:7, name:'Лежанка «Пух-облачко» XL', cat:'Лежанки 🐶', pet:'🐶', price:2490, emoji:'☁️', desc:'Съёмный чехол, машинная стирка. Сон богов', grad:'linear-gradient(135deg,#fff,#cfe8f7)' },
-  { id:8, name:'Гамак для хомяка «Летучая мышь»', cat:'Лежанки 🐹', pet:'🐹', price:340, emoji:'🪝', desc:'Вешается в клетку, качается, хомяк доволен', grad:'linear-gradient(135deg,#FFC93C,#f9e4b7)' },
-  { id:9, name:'Лоток закрытый «Туалет-Люкс»', cat:'Лотки 🐱', pet:'🐱', price:1890, emoji:'🚪', desc:'С фильтром запаха и дверцей. Соседи не узнают', grad:'linear-gradient(135deg,#9aa8b8,#d8e0ea)' },
-  { id:10, name:'Лоток-совок + наполнитель 5 л', cat:'Лотки 🐱', pet:'🐱', price:520, emoji:'🧹', desc:'Комкуется, не пылит, держит 3 дня', grad:'linear-gradient(135deg,#2EC4B6,#7fd6cf)' }
-];
-const cats = ['Все', ...new Set(products.map(p=>p.cat))];
-let activeCat = 'Все', query = '', sortMode = 'pop', orderNo = Math.floor(Math.random()*900)+100;
-const cart = {};
-const grid = document.getElementById('grid'), catTabs = document.getElementById('catTabs');
+  const cart=[], fmt=n=>n.toLocaleString('ru-RU')+' ₽';
+  document.querySelectorAll('.add').forEach(b=>b.addEventListener('click',()=>{
+    const f=cart.find(i=>i.id===b.dataset.id);
+    f?f.qty++:cart.push({id:b.dataset.id,name:b.dataset.name,price:+b.dataset.price,qty:1});
+    b.textContent='добавлено ✓'; setTimeout(()=>b.textContent='в список',900);
+    render();
+  }));
+  function qtyRow(i){
+    return `<span class="flex items-center gap-2">
+      <button class="paw-btn text-xs" onclick="chQty('${i.id}',-1)">−</button>${i.qty}
+      <button class="paw-btn text-xs" onclick="chQty('${i.id}',1)">+</button></span>`;
+  }
+  function chQty(id,d){
+    const i=cart.find(x=>x.id===id); if(!i)return;
+    i.qty+=d; if(i.qty<=0)cart.splice(cart.indexOf(i),1); render();
+  }
+  function render(){
+    document.getElementById('badge').textContent=cart.reduce((s,i)=>s+i.qty,0);
+    document.getElementById('cartBody').innerHTML=cart.length
+      ?cart.map(i=>`<div class="cart-row"><span>${i.name}<br><small style="color:#7d7d90">${fmt(i.price)} × ${i.qty}</small></span>${qtyRow(i)}</div>`).join('')
+      :'<div class="cart-row"><span>Пусто, как миска в 6 утра 😿</span></div>';
+    document.getElementById('total').textContent=fmt(cart.reduce((s,i)=>s+i.price*i.qty,0));
+  }
+  function toggleCart(){const s=document.getElementById('sheet');s.style.display=s.style.display==='none'?'block':'none';}
 
-function renderTabs(){
-  catTabs.innerHTML = cats.map(c =>
-    `<button data-c="${c}" class="cat-btn px-4 py-2 rounded-full text-sm font-bold border-2 transition ${c===activeCat?'bg-beep text-choco border-beep':'border-beep/50 text-choco/70 hover:border-aqua hover:text-aqua'}">${c}</button>`).join('');
-}
-function visible(){
-  let list = products.filter(p => (activeCat==='Все'||p.cat===activeCat) && p.name.toLowerCase().includes(query));
-  if(sortMode==='asc') list.sort((a,b)=>a.price-b.price);
-  if(sortMode==='desc') list.sort((a,b)=>b.price-a.price);
-  return list;
-}
-function render(){
-  const list = visible();
-  document.getElementById('empty').classList.toggle('hidden', list.length>0);
-  grid.innerHTML = list.map(p=>`
-    <article class="bg-white wobbly border-2 border-beep/40 overflow-hidden hover:border-aqua hover:-translate-y-1 transition flex flex-col group">
-      <div class="h-36 flex items-center justify-center text-6xl" style="background:${p.grad}">
-        <span class="group-hover:rotate-12 transition-transform duration-300">${p.emoji}</span>
-        <span class="absolute translate-x-16 -translate-y-12 text-3xl">${p.pet}</span>
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <p class="text-[10px] font-bold uppercase tracking-wider text-aqua mb-1">${p.cat}</p>
-        <h3 class="font-bold text-sm leading-snug flex-1">${p.name}</h3>
-        <p class="text-xs text-choco/60 mt-1 font-nunito">${p.desc}</p>
-        <div class="mt-3 flex items-end justify-between gap-2">
-          <p class="font-baloo font-bold text-xl text-coral">${p.price.toLocaleString('ru-RU')} ₽</p>
-          <button onclick="add(${p.id})" class="bg-beep text-choco text-sm font-bold px-3 py-2 rounded-full hover:bg-aqua hover:text-white transition">+ Гуф!</button>
-        </div>
-      </div>
-    </article>`).join('');
-}
-function add(id){
-  cart[id] = (cart[id]||0)+1; renderCart();
-  document.getElementById('cartCount').animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:200});
-}
-function removeItem(id){ delete cart[id]; renderCart(); }
-function dec(id){ if(--cart[id]<=0) delete cart[id]; renderCart(); }
-function renderCart(){
-  const ids = Object.keys(cart);
-  const count = ids.reduce((s,id)=>s+cart[id],0);
-  document.getElementById('cartCount').style.transform = count? 'scale(1)':'scale(0)';
-  document.getElementById('cartItems').innerHTML = ids.length ? ids.map(id=>{
-    const p = products.find(x=>x.id==id);
-    return `<div class="flex items-center gap-3 border-2 border-beep/40 rounded-2xl p-3 bg-white">
-      <div class="w-11 h-11 rounded-full flex items-center justify-center text-2xl shrink-0" style="background:${p.grad}">${p.emoji}</div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-bold truncate">${p.name}</p>
-        <p class="text-xs text-coral font-bold">${(p.price*cart[id]).toLocaleString('ru-RU')} ₽</p>
-      </div>
-      <div class="flex items-center gap-1">
-        <button onclick="dec(${p.id})" class="w-7 h-7 border-2 border-beep/50 rounded-full hover:border-coral hover:text-coral">−</button>
-        <span class="w-6 text-center text-sm font-bold">${cart[id]}</span>
-        <button onclick="add(${p.id})" class="w-7 h-7 border-2 border-beep/50 rounded-full hover:border-coral hover:text-coral">+</button>
-      </div>
-      <button onclick="removeItem(${p.id})" class="text-choco/40 hover:text-coral ml-1">🗑</button>
-    </div>`;
-  }).join('') : '<p class="text-center text-choco/50 py-10 text-sm font-baloo">Хвост пустой. Питомец недоволен 🐾</p>';
-  document.getElementById('cartTotal').textContent = ids.reduce((s,id)=>s+products.find(x=>x.id==id).price*cart[id],0).toLocaleString('ru-RU')+' ₽';
-}
-const panel = document.getElementById('cartPanel'), overlay = document.getElementById('cartOverlay');
-function openCart(){ panel.classList.remove('translate-x-full'); overlay.classList.remove('opacity-0','pointer-events-none'); }
-function closeCart(){ panel.classList.add('translate-x-full'); overlay.classList.add('opacity-0','pointer-events-none'); }
-document.getElementById('cartBtn').onclick = openCart;
-document.getElementById('cartClose').onclick = closeCart;
-overlay.onclick = closeCart;
-document.getElementById('checkout').onclick = ()=>{ closeCart(); document.getElementById('orderForm').scrollIntoView({behavior:'smooth'}); };
-document.getElementById('sortSel').onchange = e=>{ sortMode = e.target.value; render(); };
-document.getElementById('search').oninput = e=>{ query = e.target.value.toLowerCase(); render(); };
-catTabs.addEventListener('click', e=>{
-  const b = e.target.closest('.cat-btn'); if(!b) return;
-  activeCat = b.dataset.c; renderTabs(); render();
-});
-document.getElementById('orderForm').onsubmit = e=>{
-  e.preventDefault();
-  document.getElementById('orderMsg').textContent = `Заказ №${orderNo} оформлен!`;
-  document.getElementById('orderMsg').classList.remove('hidden');
-  e.target.reset();
-};
-renderTabs(); render(); renderCart();
+  document.getElementById('orderForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    document.querySelector('.sheet-inner').innerHTML=`<div class="text-center pt-16">
+      <div style="font-size:64px">🐾</div><b class="text-2xl">Заказ улетел за кормом!</b>
+      <p class="mt-3 font-bold" style="color:#7d7d90">Курьер-поводырь уже надел кеды.<br>Ждите звонок в течение 15 минут.</p>
+      <button class="go" onclick="location.reload()">Погладить ещё раз</button></div>`;
+  });
+
+  document.querySelectorAll('#filters .token').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('#filters .token').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    const p=t.dataset.pet;
+    document.querySelectorAll('#grid .sticker').forEach(s=>s.style.display=(p==='all'||s.dataset.pet===p)?'':'none');
+  }));
 </script>
 </body>
 </html>

@@ -3,198 +3,479 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Вектор Права — юридическая фирма, Москва</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: { extend: {
-    colors: { navy:'#0E1526', navy2:'#141D33', brass:'#B08D57', brassl:'#D8BE92' },
-    fontFamily: { serif:['"Playfair Display"','serif'], sans:['Inter','sans-serif'] }
-  } }
-}
-</script>
+<title>Вектор Права — юридическая практика, Москва</title>
+<meta name="description" content="Юридическая фирма «Вектор Права». Корпоративное право, арбитраж, налоги, банкротство. Москва, основана в 2009 году.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  html{scroll-behavior:smooth}
-  body{font-family:Inter,sans-serif}
-  .rule{height:1px;background:linear-gradient(90deg,#B08D57,transparent)}
-  .case-card{background:linear-gradient(160deg,#141D33 0%,#0E1526 100%);border:1px solid rgba(176,141,87,.25)}
-  .avatar{background:linear-gradient(135deg,#B08D57,#5A4322)}
+:root{
+  --paper:#FBFAF7;
+  --ink:#1B2432;
+  --brass:#B08D57;
+  --brass-soft:rgba(176,141,87,.35);
+  --rule:#C9C4B8;
+  --muted:#5A5F6B;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'PT Serif',Georgia,serif;
+  font-size:16px;
+  line-height:1.75;
+  text-align:justify;
+  hyphens:auto;
+}
+h1,h2,h3,.pf{font-family:'Playfair Display',Georgia,serif;text-align:left;hyphens:none}
+
+/* ---------- бланк-шапка ---------- */
+.letterhead{
+  max-width:760px;
+  margin:0 auto;
+  padding:64px 24px 40px;
+  text-align:center;
+}
+.letterhead .firm{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:clamp(34px,6vw,54px);
+  letter-spacing:.06em;
+  line-height:1.15;
+}
+.letterhead .firm small{
+  display:block;
+  font-weight:500;
+  font-size:.38em;
+  letter-spacing:.5em;
+  text-transform:uppercase;
+  color:var(--brass);
+  margin-bottom:14px;
+}
+.letterhead .rule{
+  height:1px;
+  background:var(--ink);
+  position:relative;
+  margin:22px 0 0;
+}
+.letterhead .rule::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:3px;
+  height:1px;
+  background:var(--brass);
+}
+.letterhead .subline{
+  font-size:13px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:14px 0 12px;
+  text-align:center;
+}
+.letterhead .subline i{font-style:normal;color:var(--brass);padding:0 .7em}
+.letterhead .rule.bottom{margin:0 0 0}
+.letterhead .rule.bottom::after{top:-3px}
+
+/* ---------- оглавление (только ≥1024px) ---------- */
+.toc{
+  display:none;
+}
+@media(min-width:1024px){
+  .toc{
+    display:block;
+    position:fixed;
+    top:110px;
+    left:calc(50% - 520px);
+    width:230px;
+    font-family:'PT Serif',serif;
+    font-size:13.5px;
+    text-align:left;
+    hyphens:none;
+  }
+  .toc .toc-title{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .toc a{
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    color:var(--muted);
+    text-decoration:none;
+    padding:3.5px 0;
+    transition:color .2s;
+  }
+  .toc a .dots{
+    flex:1;
+    border-bottom:1px dotted var(--brass-soft);
+    transform:translateY(-4px);
+  }
+  .toc a.active{color:var(--ink)}
+  .toc a.active .num{color:var(--brass)}
+  .toc a:hover{color:var(--ink)}
+}
+
+/* ---------- тело документа ---------- */
+.body{
+  max-width:760px;
+  margin:0 auto;
+  padding:8px 24px 40px;
+}
+@media(min-width:1024px){
+  .body{margin-left:calc(50% - 235px)}
+}
+section{padding:34px 0 6px}
+.doc-no{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,3.4vw,32px);
+  font-weight:600;
+  margin-bottom:6px;
+  counter-reset:none;
+}
+.doc-no::after{
+  content:"";
+  display:block;
+  width:64px;height:2px;
+  background:var(--brass);
+  margin-top:10px;
+}
+section p{margin:14px 0}
+section p.lead{font-size:17.5px}
+strong{font-weight:700}
+
+/* перечни а) б) в) */
+ul.letters{list-style:none;margin:12px 0 14px}
+ul.letters li{
+  position:relative;
+  padding-left:34px;
+  margin-bottom:8px;
+}
+ul.letters li::before{
+  content:attr(data-l);
+  position:absolute;
+  left:0;
+  font-family:'Playfair Display',serif;
+  font-weight:600;
+  color:var(--brass);
+  font-size:15px;
+}
+ul.letters li:hover{color:var(--ink)}
+ul.letters li{
+  border-bottom:1px solid transparent;
+  transition:border-color .25s;
+}
+ul.letters li:hover{border-bottom-color:var(--brass)}
+
+/* цитата-определение */
+.def{
+  border-left:2px solid var(--brass);
+  padding:4px 0 4px 18px;
+  margin:18px 0;
+  font-style:italic;
+  color:var(--muted);
+}
+
+/* ---------- приложения (кейсы) ---------- */
+.appendix{
+  border:1px solid var(--ink);
+  outline:1px solid var(--ink);
+  outline-offset:3px;
+  margin:30px 0 10px;
+  padding:22px 24px 20px;
+  text-align:left;
+  hyphens:none;
+  background:var(--paper);
+}
+.appendix .app-no{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--brass);
+  margin-bottom:4px;
+}
+.appendix .app-title{
+  font-family:'Playfair Display',serif;
+  font-size:19px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+.appendix table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14.5px;
+  text-align:left;
+}
+.appendix table td{
+  padding:6px 0;
+  border-bottom:1px dotted var(--rule);
+  vertical-align:top;
+}
+.appendix table td:last-child{text-align:right;white-space:nowrap;color:var(--ink)}
+.appendix .verdict{
+  margin-top:12px;
+  font-size:14.5px;
+}
+.appendix .verdict b{color:var(--brass)}
+
+/* ---------- партнёры ---------- */
+.partners{list-style:none;margin:16px 0;text-align:left;hyphens:none}
+.partners li{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:12px 0;
+  border-bottom:1px solid var(--rule);
+}
+.partners li:last-child{border-bottom:none}
+.mono{
+  width:52px;height:52px;
+  border:1px solid var(--brass);
+  border-radius:50%;
+  flex:0 0 52px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-weight:600;
+  font-size:17px;
+  letter-spacing:.05em;
+  color:var(--brass);
+}
+.partners .who b{
+  display:block;
+  font-family:'Playfair Display',serif;
+  font-weight:600;
+  font-size:16.5px;
+  text-align:left;
+}
+.partners .who span{
+  font-size:13.5px;
+  color:var(--muted);
+  font-style:italic;
+}
+
+/* ---------- реквизиты ---------- */
+.requisites{
+  margin-top:10px;
+  text-align:left;
+  hyphens:none;
+}
+.requisites .row{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  padding:9px 0;
+  border-bottom:1px solid var(--rule);
+  font-size:15px;
+}
+.requisites .row .lbl{
+  width:150px;
+  flex:0 0 150px;
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--brass);
+}
+.requisites .row .val{flex:1}
+.requisites a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--brass)}
+.requisites a:hover{color:var(--brass)}
+
+/* ---------- сноска ---------- */
+.footnote{
+  max-width:760px;
+  margin:0 auto;
+  padding:10px 24px 46px;
+  border-top:1px solid var(--rule);
+  font-size:12.5px;
+  color:var(--muted);
+  text-align:left;
+  hyphens:none;
+}
+.footnote sup{
+  color:var(--brass);
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  margin-right:4px;
+}
+.footnote a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.footnote a:hover{color:var(--brass)}
+
+@media(max-width:640px){
+  body{font-size:15px}
+  .letterhead{padding:44px 20px 30px}
+  .appendix{padding:16px 14px 14px;outline-offset:2px}
+  .requisites .row{flex-wrap:wrap}
+  .requisites .row .lbl{width:auto;flex:none}
+}
 </style>
 </head>
-<body class="bg-navy text-[#E7E3DA] antialiased">
+<body>
 
-<!-- HEADER -->
-<header class="fixed top-0 inset-x-0 z-50 bg-navy/95 backdrop-blur border-b border-brass/30">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <a href="#about" class="flex items-center gap-3">
-      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect x="1" y="1" width="28" height="28" stroke="#B08D57" stroke-width="1.5"/><path d="M8 22 L15 8 L22 22" stroke="#B08D57" stroke-width="1.5" fill="none"/></svg>
-      <span class="font-serif text-lg tracking-wide text-brassl">Вектор Права</span>
-    </a>
-    <nav class="hidden md:flex gap-7 text-[13px] uppercase tracking-widest text-[#B9B4A8]">
-      <a href="#about" class="hover:text-brassl transition">О компании</a>
-      <a href="#services" class="hover:text-brassl transition">Услуги</a>
-      <a href="#projects" class="hover:text-brassl transition">Практика</a>
-      <a href="#jobs" class="hover:text-brassl transition">Вакансии</a>
-      <a href="#contacts" class="hover:text-brassl transition">Контакты</a>
-    </nav>
-    <button id="burger" class="md:hidden p-2" aria-label="Меню">
-      <svg width="24" height="24" viewBox="0 0 24 24" stroke="#B08D57" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-    </button>
-  </div>
-  <nav id="mobnav" class="hidden md:hidden border-t border-brass/20 bg-navy px-5 py-4 flex flex-col gap-4 text-[13px] uppercase tracking-widest text-[#B9B4A8]">
-    <a href="#about">О компании</a><a href="#services">Услуги</a><a href="#projects">Практика</a><a href="#jobs">Вакансии</a><a href="#contacts">Контакты</a>
-  </nav>
+<header class="letterhead">
+  <div class="firm"><small>адвокатское бюро</small>ВЕКТОР ПРАВА</div>
+  <div class="rule"></div>
+  <div class="subline">юридическая практика<i>·</i>Москва<i>·</i>осн. 2009</div>
+  <div class="rule bottom"></div>
 </header>
 
-<!-- HERO -->
-<section id="about" class="pt-32 pb-20 relative overflow-hidden">
-  <div class="absolute -top-40 right-0 w-[500px] h-[500px] rounded-full opacity-20" style="background:radial-gradient(circle,#B08D57 0%,transparent 70%)"></div>
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-[1.2fr_1fr] gap-12 items-center">
-    <div>
-      <p class="text-brass text-xs uppercase tracking-[0.3em] mb-5">Юридическая фирма · Москва · с 2008 года</p>
-      <h1 class="font-serif text-4xl md:text-6xl leading-tight text-white mb-6">Правовая защита бизнеса <span class="text-brass">федерального масштаба</span></h1>
-      <p class="text-[#B9B4A8] max-w-lg leading-relaxed mb-8">Мы работаем с крупным корпоративным бизнесом: арбитражные споры, сделки M&amp;A, банкротство и комплексное сопровождение. 14 партнёров, 78 юристов, офисы в Москве и Санкт-Петербурге.</p>
-      <div class="flex flex-wrap gap-4">
-        <a href="#contacts" class="px-7 py-3 bg-brass text-navy font-semibold text-sm uppercase tracking-widest hover:bg-brassl transition">Бесплатная консультация</a>
-        <a href="#services" class="px-7 py-3 border border-brass/50 text-brassl text-sm uppercase tracking-widest hover:border-brass transition">Услуги</a>
-      </div>
-    </div>
-    <div class="grid grid-cols-3 gap-4 text-center">
-      <div class="border border-brass/30 p-5"><div class="font-serif text-4xl text-brassl"><span class="counter" data-to="18">0</span></div><p class="text-[11px] uppercase tracking-widest text-[#8B8579] mt-2">лет на рынке</p></div>
-      <div class="border border-brass/30 p-5"><div class="font-serif text-4xl text-brassl"><span class="counter" data-to="640">0</span></div><p class="text-[11px] uppercase tracking-widest text-[#8B8579] mt-2">проектов</p></div>
-      <div class="border border-brass/30 p-5"><div class="font-serif text-4xl text-brassl"><span class="counter" data-to="310">0</span></div><p class="text-[11px] uppercase tracking-widest text-[#8B8579] mt-2">клиентов</p></div>
-    </div>
-  </div>
-</section>
+<nav class="toc" id="toc" aria-label="Оглавление">
+  <div class="toc-title">Оглавление</div>
+  <a href="#s1" data-sec="s1"><span class="num">§ 1.</span> Практики <span class="dots"></span><span>03</span></a>
+  <a href="#s2" data-sec="s2"><span class="num">§ 2.</span> Приложения <span class="dots"></span><span>11</span></a>
+  <a href="#s3" data-sec="s3"><span class="num">§ 3.</span> Партнёры <span class="dots"></span><span>19</span></a>
+  <a href="#s4" data-sec="s4"><span class="num">§ 4.</span> Тарифы <span class="dots"></span><span>24</span></a>
+  <a href="#s5" data-sec="s5"><span class="num">§ 5.</span> Реквизиты <span class="dots"></span><span>28</span></a>
+  <a href="#s6" data-sec="s6"><span class="num">§ 6.</span> Контакты <span class="dots"></span><span>31</span></a>
+</nav>
 
-<!-- SERVICES -->
-<section id="services" class="py-20 bg-navy2 border-y border-brass/20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-brass text-xs uppercase tracking-[0.3em] mb-3">Практики</p>
-    <h2 class="font-serif text-3xl md:text-4xl text-white mb-12">Услуги фирмы</h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="case-card p-7"><div class="rule w-14 mb-4"></div><h3 class="font-serif text-xl text-brassl mb-2">Арбитражные споры</h3><p class="text-sm text-[#A8A296] leading-relaxed">Представительство в арбитражных судах всех инстанций. В 2024 году — 87% дел завершены в пользу доверителей. Суммы споров от 10 млн ₽.</p></div>
-      <div class="case-card p-7"><div class="rule w-14 mb-4"></div><h3 class="font-serif text-xl text-brassl mb-2">Сопровождение сделок M&amp;A</h3><p class="text-sm text-[#A8A296] leading-relaxed">Due diligence, структурирование сделок, корпоративные реструктуризации. За 2024 год — сделки на общую сумму 9,4 млрд ₽.</p></div>
-      <div class="case-card p-7"><div class="rule w-14 mb-4"></div><h3 class="font-serif text-xl text-brassl mb-2">Банкротство и реструктуризация</h3><p class="text-sm text-[#A8A296] leading-relaxed">Защита активов кредиторов и должников, субсидиарная ответственность, санация. Работаем по 127-ФЗ и с иностранными элементами.</p></div>
-      <div class="case-card p-7"><div class="rule w-14 mb-4"></div><h3 class="font-serif text-xl text-brassl mb-2">Комплексное сопровождение</h3><p class="text-sm text-[#A8A296] leading-relaxed">Абонентское юридическое обслуживание, налоговое консультирование, комплаенс и договорная работа под ключ.</p></div>
-    </div>
-  </div>
-</section>
+<main class="body">
 
-<!-- CASES -->
-<section id="projects" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-brass text-xs uppercase tracking-[0.3em] mb-3">Практика</p>
-    <h2 class="font-serif text-3xl md:text-4xl text-white mb-12">Ключевые кейсы</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="case-card p-7"><p class="text-brass font-serif text-3xl mb-3">1,2 млрд ₽</p><h3 class="text-white font-medium mb-2">Защита производственного холдинга</h3><p class="text-sm text-[#A8A296] leading-relaxed">Сопровождение банкротства контрагента: сохранили производственные активы холдинга и вывели их из конкурсной массы.</p></div>
-      <div class="case-card p-7"><p class="text-brass font-serif text-3xl mb-3">870 млн ₽</p><h3 class="text-white font-medium mb-2">Сделка M&amp;A в ритейле</h3><p class="text-sm text-[#A8A296] leading-relaxed">Полное юридическое сопровождение продажи федеральной розничной сети: due diligence 214 объектов, 5 месяцев до закрытия.</p></div>
-      <div class="case-card p-7"><p class="text-brass font-serif text-3xl mb-3">340 млн ₽</p><h3 class="text-white font-medium mb-2">Налоговый спор</h3><p class="text-sm text-[#A8A296] leading-relaxed">Оспаривание доначислений по итогам выездной проверки производственного предприятия. Снижение требований на 92%.</p></div>
-    </div>
-  </div>
-</section>
+  <section id="s1">
+    <h2 class="doc-no">§ 1. Практики</h2>
+    <p class="lead">Бюро «Вектор Права» работает с 2009 года и сопровождает бизнес в трёх
+    юрисдикциях. За пятнадцать лет практики мы подготовили более 1&nbsp;200 заключений,
+    из которых 87&nbsp;% были приняты судами и контрагентами без существенных правок.</p>
+    <p>Основные направления работы бюро распределены по шести подразделениям:</p>
+    <ul class="letters">
+      <li data-l="а)"><strong>Корпоративное право.</strong> Структурирование сделок M&A, корпоративные конфликты, соглашения акционеров. Средний размер сделки — 340 млн ₽.</li>
+      <li data-l="б)"><strong>Арбитраж и суды.</strong> Представительство в АС города Москвы и кассационных инстанциях. Доля выигранных дел — 74 %.</li>
+      <li data-l="в)"><strong>Налоговая практика.</strong> Сопровождение проверок ФНС, споры о доначислениях. За 2024 год защищено 1,2 млрд ₽ налоговой базы.</li>
+      <li data-l="г)"><strong>Банкротство и реструктуризация.</strong> Работа на стороне кредиторов и должников, субсидиарная ответственность.</li>
+      <li data-l="д)"><strong>Интеллектуальная собственность.</strong> Регистрация товарных знаков в Роспатенте, патентные споры, лицензионные договоры.</li>
+      <li data-l="е)"><strong>Compliance и Due Diligence.</strong> Правовой аудит компаний перед сделками, антикоррупционные программы.</li>
+    </ul>
+    <div class="def">«Мы не обещаем результат — мы его рассчитываем. Каждое заключение
+    проходит внутреннюю коллегию из трёх партнёров до передачи клиенту».</div>
+  </section>
 
-<!-- PARTNERS -->
-<section class="py-20 bg-navy2 border-y border-brass/20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-brass text-xs uppercase tracking-[0.3em] mb-3">Команда</p>
-    <h2 class="font-serif text-3xl md:text-4xl text-white mb-12">Партнёры фирмы</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div class="text-center"><div class="avatar w-20 h-20 mx-auto rounded-full flex items-center justify-center font-serif text-2xl text-white">АС</div><p class="mt-3 text-white font-medium">А. Соколов</p><p class="text-xs text-[#8B8579]">Управляющий партнёр</p></div>
-      <div class="text-center"><div class="avatar w-20 h-20 mx-auto rounded-full flex items-center justify-center font-serif text-2xl text-white" style="background:linear-gradient(135deg,#7A6238,#2E2414)">МВ</div><p class="mt-3 text-white font-medium">М. Волкова</p><p class="text-xs text-[#8B8579]">Партнёр, арбитраж</p></div>
-      <div class="text-center"><div class="avatar w-20 h-20 mx-auto rounded-full flex items-center justify-center font-serif text-2xl text-white" style="background:linear-gradient(135deg,#9C7C4B,#3B2E18)">ДК</div><p class="mt-3 text-white font-medium">Д. Ковалёв</p><p class="text-xs text-[#8B8579]">Партнёр, M&amp;A</p></div>
-      <div class="text-center"><div class="avatar w-20 h-20 mx-auto rounded-full flex items-center justify-center font-serif text-2xl text-white" style="background:linear-gradient(135deg,#6B5533,#241C0E)">ЕР</div><p class="mt-3 text-white font-medium">Е. Романова</p><p class="text-xs text-[#8B8579]">Партнёр, банкротство</p></div>
-    </div>
-  </div>
-</section>
+  <section id="s2">
+    <h2 class="doc-no">§ 2. Приложения</h2>
+    <p>Ниже приведены выдержки из дел, завершённых в 2023–2025 годах. Детали
+    раскрыты с согласия доверителей; наименования компаний изменены.</p>
 
-<!-- CLIENTS -->
-<section class="py-14 overflow-hidden border-b border-brass/20">
-  <p class="text-center text-xs uppercase tracking-[0.3em] text-[#8B8579] mb-6">Нам доверяют</p>
-  <div class="flex flex-wrap justify-center gap-x-10 gap-y-4 px-5 max-w-5xl mx-auto text-[#6E6858] font-serif text-lg uppercase tracking-widest">
-    <span>МеталлИнвест</span><span>СтройКорп</span><span>РусАгро-Х</span><span>ТэкноПром</span><span>Севергаз</span><span>ФинЛайн</span>
-  </div>
-</section>
-
-<!-- VACANCIES -->
-<section id="jobs" class="py-20">
-  <div class="max-w-6xl mx-auto px-5">
-    <p class="text-brass text-xs uppercase tracking-[0.3em] mb-3">Карьера</p>
-    <h2 class="font-serif text-3xl md:text-4xl text-white mb-12">Вакансии</h2>
-    <div class="space-y-4">
-      <div class="case-card">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center"><span class="text-white font-medium">Юрист арбитражной практики</span><span class="text-brass font-serif text-xl">от 180 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A8A296] leading-relaxed">Опыт от 3 лет в арбитражных спорах, ведение дел самостоятельно от иска до исполнения. Офис в центре Москвы, ДМС, обучение в профессиональных программах.</div>
-      </div>
-      <div class="case-card">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center"><span class="text-white font-medium">Юрист M&amp;A / корпоративная практика</span><span class="text-brass font-serif text-xl">от 220 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A8A296] leading-relaxed">Опыт сделок от 2 лет, английский язык B2+, работа с due diligence и SPA. Приветствуется опыт в международных командах.</div>
-      </div>
-      <div class="case-card">
-        <button class="acc-btn w-full text-left px-6 py-5 flex justify-between items-center"><span class="text-white font-medium">Помощник юриста (банкротство)</span><span class="text-brass font-serif text-xl">от 90 000 ₽</span></button>
-        <div class="acc-panel hidden px-6 pb-5 text-sm text-[#A8A296] leading-relaxed">Выпускник юридического вуза, аналитика по делам, подготовка процессуальных документов. Наставничество партнёров.</div>
-      </div>
+    <div class="appendix">
+      <div class="app-no">Приложение № 1</div>
+      <div class="app-title">Спор с ФНС по вычетам НДС</div>
+      <table>
+        <tr><td>Заказчик</td><td>производственный холдинг</td></tr>
+        <tr><td>Предмет спора</td><td>доначисления 96 млн ₽</td></tr>
+        <tr><td>Инстанции</td><td>3 судебных акта</td></tr>
+      </table>
+      <p class="verdict">Результат: <b>доначисления снижены до 7 млн ₽</b>, уголовная
+      оценка исключена. Срок — 11 месяцев.</p>
     </div>
-  </div>
-</section>
 
-<!-- CONTACTS -->
-<section id="contacts" class="py-20 bg-navy2 border-t border-brass/20">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12">
-    <div>
-      <p class="text-brass text-xs uppercase tracking-[0.3em] mb-3">Контакты</p>
-      <h2 class="font-serif text-3xl text-white mb-6">Свяжитесь с нами</h2>
-      <p class="text-sm text-[#A8A296] leading-relaxed mb-6">Первичная консультация по телефону — бесплатно. Отвечаем в течение рабочего дня.</p>
-      <ul class="space-y-3 text-sm text-[#C9C3B6]">
-        <li>📍 Москва, Пресненская наб., 12, башня «Федерация», 41 эт.</li>
-        <li>📞 +7 (495) 214-08-70</li>
-        <li>✉️ info@vektor-prava.ru</li>
-        <li>🕘 Пн–Пт 9:00–20:00</li>
-      </ul>
+    <div class="appendix">
+      <div class="app-no">Приложение № 2</div>
+      <div class="app-title">Продажа доли в девелоперском проекте</div>
+      <table>
+        <tr><td>Заказчик</td><td>группа частных инвесторов</td></tr>
+        <tr><td>Структура</td><td>сплит через три ООО</td></tr>
+        <tr><td>Сумма сделки</td><td>780 млн ₽</td></tr>
+      </table>
+      <p class="verdict">Результат: <b>сделка закрыта за 9 недель</b>, налоговая
+      нагрузка снижена на 22 % относительно базового сценария.</p>
     </div>
-    <form id="cform" class="space-y-4">
-      <input required class="w-full bg-navy border border-brass/30 px-4 py-3 text-sm text-white outline-none focus:border-brass" placeholder="Ваше имя">
-      <input required type="tel" class="w-full bg-navy border border-brass/30 px-4 py-3 text-sm text-white outline-none focus:border-brass" placeholder="Телефон">
-      <textarea class="w-full bg-navy border border-brass/30 px-4 py-3 text-sm text-white outline-none focus:border-brass" rows="4" placeholder="Опишите ситуацию"></textarea>
-      <button class="w-full py-3 bg-brass text-navy font-semibold uppercase tracking-widest text-sm hover:bg-brassl transition">Отправить заявку</button>
-      <p id="cok" class="hidden text-brassl text-sm text-center">Спасибо! Мы свяжемся с вами в течение рабочего дня.</p>
-    </form>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="py-10 border-t border-brass/20">
-  <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-6 text-xs text-[#6E6858] leading-relaxed">
-    <div>
-      <p class="text-brassl font-serif text-base mb-3">ООО «Вектор Права»</p>
-      <p>ИНН 7702345618 · КПП 770201001 · ОГРН 1087746512345</p>
-      <p>Р/с 40702810400000012345 в АО «Альфа-Банк», БИК 044525593</p>
-      <p>Адрес: 123112, Москва, Пресненская наб., 12</p>
+    <div class="appendix">
+      <div class="app-no">Приложение № 3</div>
+      <div class="app-title">Взыскание долга по поставке</div>
+      <table>
+        <tr><td>Заказчик</td><td>оптовый поставщик оборудования</td></tr>
+        <tr><td>Требование</td><td>42 млн ₽ + неустойка</td></tr>
+        <tr><td>Обеспечение</td><td>арест 14 объектов лизинга</td></tr>
+      </table>
+      <p class="verdict">Результат: <b>взыскано 39,6 млн ₽</b> в первую инстанцию,
+      исполнительное производство закрыто за 5 месяцев.</p>
     </div>
-    <p class="md:text-right md:self-end">Демо-проект студии NEONFORGE — закажите свой сайт: <a href="https://kokaomefedron.github.io/NEONFORGE" class="text-brass underline">kokaomefedron.github.io/NEONFORGE</a></p>
-  </div>
+  </section>
+
+  <section id="s3">
+    <h2 class="doc-no">§ 3. Партнёры</h2>
+    <p>Бюро возглавляют четыре партнёра; каждый ведёт собственное направление
+    и лично отвечает за качество заключений своего департамента.</p>
+    <ul class="partners">
+      <li><span class="mono">А.К.</span><span class="who"><b>Ковалёв Артём Игоревич</b><span>управляющий партнёр · корпоративное право · с 2009</span></span></li>
+      <li><span class="mono">М.Д.</span><span class="who"><b>Демина Марина Викторовна</b><span>партнёр · налоговая практика · с 2011</span></span></li>
+      <li><span class="mono">С.П.</span><span class="who"><b>Прохоров Сергей Александрович</b><span>партнёр · арбитраж · с 2013</span></span></li>
+      <li><span class="mono">Е.Л.</span><span class="who"><b>Лебедева Елена Юрьевна</b><span>партнёр · банкротство · с 2016</span></span></li>
+    </ul>
+    <p>Штат бюро — 26 юристов, из них 9 — с учёной степенью, 5 владеют
+    английским на уровне юридического перевода договоров.</p>
+  </section>
+
+  <section id="s4">
+    <h2 class="doc-no">§ 4. Тарифы</h2>
+    <p>Мы применяем три модели вознаграждения. Подавляющее большинство клиентов
+    выбирает вторую — с фиксированной стоимостью этапа.</p>
+    <ul class="letters">
+      <li data-l="а)"><strong>Почасовая.</strong> От 9 000 ₽ за час партнёра, от 4 500 ₽ за час юриста. Тайкбилль с детализацией до 6 минут.</li>
+      <li data-l="б)"><strong>Фикс за этап.</strong> Правовое заключение — от 120 000 ₽, сопровождение проверки ФНС — от 210 000 ₽, сделка M&A — от 1,5 % суммы.</li>
+      <li data-l="в)"><strong>Абонемент.</strong> От 180 000 ₽ в месяц: неограниченные консультации, договоры в течение 48 часов, дежурный юрист.</li>
+    </ul>
+    <p>Первичная консультация по корпоративному спору — 6 000 ₽ и засчитывается
+    в счёт дальнейшей работы при заключении договора в течение 30 дней.</p>
+  </section>
+
+  <section id="s5">
+    <h2 class="doc-no">§ 5. Реквизиты</h2>
+    <div class="requisites">
+      <div class="row"><span class="lbl">Наименование</span><span class="val">АБ «Вектор Права», ООО</span></div>
+      <div class="row"><span class="lbl">ИНН / КПП</span><span class="val">7704123456 / 770401001</span></div>
+      <div class="row"><span class="lbl">ОГРН</span><span class="val">1097746543210</span></div>
+      <div class="row"><span class="lbl">Адрес</span><span class="val">121099, Москва, ул. Новый Арбат, д. 21, офис 1408</span></div>
+      <div class="row"><span class="lbl">Банк</span><span class="val">ПАО «Сбербанк», р/с 40702810123450000123</span></div>
+    </div>
+  </section>
+
+  <section id="s6">
+    <h2 class="doc-no">§ 6. Контакты</h2>
+    <div class="requisites">
+      <div class="row"><span class="lbl">Телефон</span><span class="val"><a href="tel:+74951234567">+7 (495) 123-45-67</a></span></div>
+      <div class="row"><span class="lbl">Электронная почта</span><span class="val"><a href="mailto:info@vektor-prava.ru">info@vektor-prava.ru</a></span></div>
+      <div class="row"><span class="lbl">Приём в офисе</span><span class="val">пн–пт, 09:00–19:00, по записи</span></div>
+      <div class="row"><span class="lbl">Экстренная линия</span><span class="val"><a href="tel:+79031234567">+7 (903) 123-45-67</a> — задержания и обыски, круглосуточно</span></div>
+    </div>
+    <p>Мы отвечаем на письма в течение одного рабочего дня. По срочным
+    вопросам — линия дежурного партнёра, указанная выше.</p>
+  </section>
+
+</main>
+
+<footer class="footnote">
+  <p><sup>1</sup> вёрстка — <a href="https://kokaomefedron.github.io/NEONFORGE" rel="noopener">NEONFORGE</a>,
+  kokaomefedron.github.io/NEONFORGE. Все совпадения с реальными делами — с разрешения доверителей.</p>
 </footer>
 
 <script>
-document.getElementById('burger').onclick = () => document.getElementById('mobnav').classList.toggle('hidden');
-document.querySelectorAll('#mobnav a').forEach(a => a.onclick = () => document.getElementById('mobnav').classList.add('hidden'));
-document.querySelectorAll('.acc-btn').forEach(b => b.onclick = () => b.nextElementSibling.classList.toggle('hidden'));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) {
-    const el = e.target, to = +el.dataset.to; let n = 0;
-    const step = Math.max(1, Math.round(to / 60));
-    const t = setInterval(() => { n += step; if (n >= to) { n = to; clearInterval(t); } el.textContent = n; }, 25);
-    io.unobserve(el);
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('#toc a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('data-sec')] = a; });
+  var sections = links.map(function(a){ return document.getElementById(a.getAttribute('data-sec')); });
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var y = window.scrollY + 160;
+    var current = sections[0];
+    for (var i = 0; i < sections.length; i++){
+      if (sections[i].offsetTop <= y) current = sections[i];
+    }
+    links.forEach(function(a){ a.classList.remove('active'); });
+    if (current) map[current.id].classList.add('active');
   }
-}), { threshold: .5 });
-document.querySelectorAll('.counter').forEach(c => io.observe(c));
-document.getElementById('cform').addEventListener('submit', e => {
-  e.preventDefault();
-  document.getElementById('cok').classList.remove('hidden');
-  e.target.reset();
-});
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(update); }
+  }, { passive:true });
+  update();
+})();
 </script>
 </body>
 </html>

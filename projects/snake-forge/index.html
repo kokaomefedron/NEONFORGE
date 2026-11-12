@@ -3,239 +3,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Змейка NEONFORGE — аркада | демо NEONFORGE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  colors: { ink:'#05050A', vio:'#7C5CFF', blu:'#5B8CFF', lime:'#C6FF4D' },
-  fontFamily: { rub:['Rubik','system-ui','sans-serif'] }
-}}};
-</script>
+<title>Змейка NEONFORGE — LCD консоль</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  html,body{-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-  #cv{touch-action:none}
-  .dpad{width:64px;height:64px;border-radius:16px;background:rgba(124,92,255,.14);
-    border:1px solid rgba(124,92,255,.5);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;
-    user-select:none;-webkit-user-select:none;touch-action:manipulation}
-  .dpad:active{background:rgba(124,92,255,.4)}
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    background:#3a3a3e;
+    background-image:radial-gradient(ellipse at 50% 20%, #55555a, #3a3a3e 70%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Pixelify Sans', sans-serif;
+    overflow:hidden; -webkit-tap-highlight-color:transparent;
+  }
+  .console {
+    width:min(360px, 94vw);
+    background:linear-gradient(180deg,#C8C8C8 0%, #B5B5B5 55%, #9E9E9E 100%);
+    border-radius:22px;
+    border:1px solid #8a8a8a;
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,.65),
+      inset 0 -3px 6px rgba(0,0,0,.18),
+      0 22px 50px rgba(0,0,0,.5);
+    padding:18px 16px 16px;
+    position:relative;
+    user-select:none;
+  }
+  .brand-row {
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:10px; padding:0 4px;
+  }
+  .brand { font-size:16px; color:#4a4a4a; letter-spacing:1px; }
+  .brand small { font-size:11px; color:#8a8a8a; }
+  .engrave {
+    font-size:9px; color:#7c7c7c; text-align:center;
+    letter-spacing:.5px; margin-top:10px;
+  }
+  .engrave a { color:#6b6b6b; text-decoration:none; border-bottom:1px solid #a5a5a5; }
+  /* LCD экран */
+  .lcd {
+    background:#B8C4A8;
+    border-radius:10px;
+    border:3px solid #5a5a52;
+    box-shadow:inset 0 3px 12px rgba(40,50,30,.4), 0 1px 0 rgba(255,255,255,.4);
+    padding:8px;
+    position:relative;
+  }
+  #lcdScore {
+    font-family:'Courier New', monospace; font-weight:700;
+    font-size:26px; letter-spacing:4px; text-align:center;
+    color:#3A4436; line-height:1;
+    background:repeating-linear-gradient(0deg, transparent 0 2px, rgba(58,68,54,.08) 2px 3px);
+    margin-bottom:6px;
+  }
+  #game { display:block; width:100%; height:auto; border-radius:4px; }
+  .lcd-overlay {
+    position:absolute; inset:8px; top:44px;
+    display:flex; align-items:center; justify-content:center;
+    pointer-events:none;
+    font-family:'Courier New', monospace; font-weight:700;
+    color:#3A4436;
+  }
+  #bigMsg { font-size:22px; letter-spacing:2px; display:none; text-align:center; }
+  #bigMsg.on { display:block; animation:lcdflash 1s steps(2) infinite; }
+  @keyframes lcdflash { 50% { opacity:.1; } }
+  /* кнопки */
+  .controls {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:14px; gap:10px;
+  }
+  .dpad {
+    width:132px; height:132px; flex:none; position:relative;
+  }
+  .dbtn {
+    position:absolute; width:44px; height:44px;
+    background:linear-gradient(180deg,#3a3a3a,#2a2a2a);
+    border:none; cursor:pointer;
+    color:#cfcfcf; font-size:16px;
+    box-shadow:0 3px 0 #1a1a1a, inset 0 1px 0 rgba(255,255,255,.2);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .dbtn:active { transform:translateY(2px); box-shadow:0 1px 0 #1a1a1a; }
+  .d-up { left:44px; top:0; border-radius:8px 8px 0 0; }
+  .d-down { left:44px; top:88px; border-radius:0 0 8px 8px; }
+  .d-left { left:0; top:44px; border-radius:8px 0 0 8px; }
+  .d-right { left:88px; top:44px; border-radius:0 8px 8px 0; }
+  .d-mid { left:44px; top:44px; background:#333; box-shadow:inset 0 2px 4px rgba(0,0,0,.5); }
+  .right-btns {
+    display:flex; flex-direction:column; gap:12px; align-items:flex-end;
+  }
+  .rbtn {
+    min-width:84px; min-height:44px; padding:0 14px;
+    border-radius:22px; border:none; cursor:pointer;
+    font-family:'Pixelify Sans', sans-serif; font-size:14px;
+    color:#fff;
+    box-shadow:0 4px 0 rgba(0,0,0,.4), inset 0 2px 0 rgba(255,255,255,.25);
+  }
+  .rbtn:active { transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,.4); }
+  .rbtn.red { background:linear-gradient(180deg,#e04a3f,#B92B21); }
+  .rbtn.gray { background:linear-gradient(180deg,#8f8f8f,#6d6d6d); color:#f2f2f2; }
+  .ab-row { display:flex; gap:8px; align-items:center; }
+  .ab-label { font-size:10px; color:#4a4a4a; }
+  .ab-label b { display:block; font-size:13px; color:#3a3a3a; }
+  .mode-on { outline:2px solid #B92B21; outline-offset:2px; }
+  /* мобильная крестовина под экраном не нужна: controls уже снизу */
+  @media (max-width:380px){
+    .dpad { width:120px; height:120px; }
+    .d-up,.d-down { left:38px; } .d-left,.d-right { top:38px; }
+    .d-up{ top:0; } .d-down{ top:76px; } .d-left{ left:0; } .d-right{ left:76px; }
+    .d-mid { left:38px; top:38px; }
+    .rbtn { min-width:72px; font-size:12px; }
+  }
 </style>
 </head>
-<body class="bg-ink text-white font-rub min-h-screen flex flex-col select-none">
-<header class="px-4 py-3 flex items-center justify-between border-b border-white/10">
-  <h1 class="text-lg md:text-xl font-extrabold tracking-widest text-lime" style="text-shadow:0 0 18px rgba(198,255,77,.45)">ЗМЕЙКА NEONFORGE</h1>
-  <span class="text-[11px] uppercase tracking-widest text-white/40">аркада · демо</span>
-</header>
-
-<main class="flex-1 w-full max-w-lg mx-auto px-3 py-4 flex flex-col items-center">
-  <div class="w-full flex justify-between text-sm mb-2 px-1">
-    <div>СЧЁТ: <span id="score" class="text-lime font-bold">0</span></div>
-    <div>РЕКОРД: <span id="best" class="text-blu font-bold">0</span></div>
-    <button id="pauseBtn" class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/15 text-xs hover:border-vio transition">Пауза (P)</button>
+<body>
+<div class="console">
+  <div class="brand-row">
+    <div class="brand">NEONFORGE <small>electronic games</small></div>
+    <div class="brand small" style="font-size:11px;color:#8a8a8a;">SNAKE·FORGE</div>
   </div>
-
-  <div id="wrap" class="relative w-full rounded-2xl overflow-hidden border border-vio/40 shadow-[0_0_40px_rgba(124,92,255,.2)]">
-    <canvas id="cv" class="block w-full" style="aspect-ratio:1/1"></canvas>
-    <div id="start" class="absolute inset-0 bg-ink/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-center px-6">
-      <div class="text-2xl font-extrabold text-blu">Собери неон!</div>
-      <div class="text-white/70 text-sm">Стрелки / свайп / кнопки — старт</div>
+  <div class="lcd">
+    <div id="lcdScore">0</div>
+    <canvas id="game"></canvas>
+    <div class="lcd-overlay"><div id="bigMsg">GAME<br>OVER</div></div>
+  </div>
+  <div class="controls">
+    <div class="dpad" aria-hidden="false">
+      <button class="dbtn d-up" data-dir="0,-1" aria-label="вверх">▲</button>
+      <button class="dbtn d-down" data-dir="0,1" aria-label="вниз">▼</button>
+      <button class="dbtn d-left" data-dir="-1,0" aria-label="влево">◀</button>
+      <button class="dbtn d-right" data-dir="1,0" aria-label="вправо">▶</button>
+      <div class="dbtn d-mid" aria-hidden="true"></div>
     </div>
-    <div id="pause" class="hidden absolute inset-0 bg-ink/75 backdrop-blur-sm flex flex-col items-center justify-center gap-2">
-      <div class="text-2xl font-extrabold text-vio">ПАУЗА</div>
-      <div class="text-white/60 text-sm">P или кнопка «Пауза» — продолжить</div>
-    </div>
-    <div id="over" class="hidden absolute inset-0 bg-ink/85 backdrop-blur-sm flex flex-col items-center justify-center gap-3 text-center px-6">
-      <div class="text-3xl font-extrabold text-lime">ХВОСТ ЗАЖАЛИ!</div>
-      <div id="final" class="text-white/80 text-sm"></div>
-      <button id="restart" class="mt-1 px-8 py-3 rounded-xl bg-lime text-ink font-extrabold tracking-wider hover:brightness-110 active:scale-95 transition">ЗАНОВО</button>
+    <div class="right-btns">
+      <div class="ab-row">
+        <button class="rbtn gray mode-on" id="btnA" type="button">GAME A</button>
+        <button class="rbtn gray" id="btnB" type="button">GAME B</button>
+      </div>
+      <button class="rbtn red" id="btnPause" type="button">ПАУЗА</button>
     </div>
   </div>
-
-  <!-- экранный D-pad -->
-  <div class="mt-4 grid grid-cols-3 gap-2" style="width:216px">
-    <div></div><button class="dpad" data-dir="up">▲</button><div></div>
-    <button class="dpad" data-dir="left">◀</button>
-    <div class="flex items-center justify-center text-white/25 text-xs">D-pad</div>
-    <button class="dpad" data-dir="right">▶</button>
-    <div></div><button class="dpad" data-dir="down">▼</button><div></div>
-  </div>
-
-  <section class="mt-5 w-full text-sm text-white/60 leading-relaxed">
-    <h2 class="text-white font-semibold mb-1">Как играть</h2>
-    <ul class="list-disc list-inside space-y-0.5">
-      <li>Компьютер: <b class="text-lime">стрелки</b> или <b class="text-lime">WASD</b>, пауза — <b class="text-lime">P</b>.</li>
-      <li>Телефон: <b class="text-lime">свайпы по полю</b> или экранный D-pad ниже.</li>
-      <li>Собирай светящиеся точки — змейка растёт и ускоряется.</li>
-      <li>Не врезайся в стены и в собственный хвост.</li>
-    </ul>
-  </section>
-</main>
-
-<footer class="px-4 py-5 text-center text-xs text-white/40 border-t border-white/10">
-  Демо-проект студии <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">NEONFORGE</a> — закажите свой проект: <a class="text-blu hover:underline" href="https://kokaomefedron.github.io/NEONFORGE">kokaomefedron.github.io/NEONFORGE</a>
-</footer>
+  <div class="engrave">NEONFORGE · <a href="https://kokaomefedron.github.io/NEONFORGE" target="_blank" rel="noopener">kokaomefedron.github.io/NEONFORGE</a></div>
+</div>
 
 <script>
 (function(){
-  const cv=document.getElementById('cv'), ctx=cv.getContext('2d'),
-        wrap=document.getElementById('wrap'), startEl=document.getElementById('start'),
-        pauseEl=document.getElementById('pause'), overEl=document.getElementById('over'),
-        scoreEl=document.getElementById('score'), bestEl=document.getElementById('best'),
-        finalEl=document.getElementById('final'), restartBtn=document.getElementById('restart'),
-        pauseBtn=document.getElementById('pauseBtn');
+  "use strict";
+  var cv = document.getElementById('game'), ctx = cv.getContext('2d');
+  var COLS = 17, ROWS = 15, CELL = 16;
+  var W = COLS*CELL, H = ROWS*CELL;
+  var dpr = Math.min(window.devicePixelRatio||1, 2);
+  cv.width = W*dpr; cv.height = H*dpr;
+  cv.style.aspectRatio = W+'/'+H;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 
-  const N=21;
-  let W=0, cell=0, DPR=1;
-  function resize(){
-    DPR=Math.min(2, window.devicePixelRatio||1);
-    W=wrap.clientWidth;
-    cv.width=Math.round(W*DPR); cv.height=Math.round(W*DPR);
-    ctx.setTransform(DPR,0,0,DPR,0,0);
-    cell=W/N;
-  }
-  resize(); addEventListener('resize',resize);
+  var LCD_BG = '#B8C4A8', PIX = '#3A4436', GHOST = 'rgba(58,68,54,.13)';
+  var mode = 'A'; // A | B
+  var SPEED = { A: 0.16, B: 0.107 }; // сек на шаг (B быстрее ×1.5)
 
-  let best=0;
-  try{ best=parseInt(localStorage.getItem('nf_snake_forge_best'),10)||0; }catch(e){}
-  bestEl.textContent=best;
+  var snake, dir, nextDir, food, acc, dead, paused, score;
+  var bestA = 0, bestB = 0;
+  try {
+    bestA = parseInt(localStorage.getItem('nf_snake_A')||'0',10)||0;
+    bestB = parseInt(localStorage.getItem('nf_snake_B')||'0',10)||0;
+  } catch(e){}
 
-  let snake=[], dir={x:1,y:0}, queue=[], food=null, score=0,
-      state='ready', acc=0, tPrev=0, pulse=0;
+  var bigMsg = document.getElementById('bigMsg');
+  var lcdScore = document.getElementById('lcdScore');
 
   function reset(){
-    snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
-    dir={x:1,y:0}; queue=[]; score=0; acc=0;
-    scoreEl.textContent='0';
+    snake = [{x:8,y:7},{x:7,y:7},{x:6,y:7}];
+    dir = {x:1,y:0}; nextDir = dir;
+    acc = 0; dead = false; paused = false; score = 0;
     placeFood();
-    state='run';
-    startEl.classList.add('hidden'); overEl.classList.add('hidden'); pauseEl.classList.add('hidden');
-    tPrev=performance.now();
+    bigMsg.classList.remove('on');
+    lcdScore.textContent = '0';
   }
-  function stepTime(){ return Math.max(70, 150-score*2); }
-
   function placeFood(){
-    let p;
-    do{ p={x:Math.floor(Math.random()*N), y:Math.floor(Math.random()*N)}; }
-    while(snake.some(s=>s.x===p.x&&s.y===p.y));
-    food=p;
+    var free = [];
+    var occ = {};
+    snake.forEach(function(s){ occ[s.x+','+s.y] = 1; });
+    for (var x=0;x<COLS;x++) for (var y=0;y<ROWS;y++)
+      if (!occ[x+','+y]) free.push({x:x,y:y});
+    food = free[Math.floor(Math.random()*free.length)];
   }
-
-  function setDir(d){
-    const m={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}}[d];
-    if(!m) return;
-    const last=queue.length?queue[queue.length-1]:dir;
-    if(m.x===-last.x&&m.y===-last.y) return;   // нельзя развернуться
-    if(m.x===last.x&&m.y===last.y) return;
-    if(queue.length<2) queue.push(m);
-    if(state==='ready') reset();
-    if(state==='paused') togglePause();
+  function step(){
+    dir = nextDir;
+    var h = { x: snake[0].x+dir.x, y: snake[0].y+dir.y };
+    // стены = смерть
+    if (h.x < 0 || h.x >= COLS || h.y < 0 || h.y >= ROWS) return die();
+    for (var i=0;i<snake.length;i++)
+      if (snake[i].x === h.x && snake[i].y === h.y) return die();
+    snake.unshift(h);
+    if (h.x === food.x && h.y === food.y){
+      score++;
+      lcdScore.textContent = score;
+      placeFood();
+    } else {
+      snake.pop();
+    }
   }
-
-  function tick(){
-    if(queue.length) dir=queue.shift();
-    const h=snake[0], nh={x:h.x+dir.x, y:h.y+dir.y};
-    if(nh.x<0||nh.y<0||nh.x>=N||nh.y>=N||snake.some(s=>s.x===nh.x&&s.y===nh.y)){ die(); return; }
-    snake.unshift(nh);
-    if(nh.x===food.x&&nh.y===food.y){
-      score++; scoreEl.textContent=score; placeFood();
-    } else snake.pop();
-  }
-
   function die(){
-    state='dead';
-    if(score>best){ best=score; try{ localStorage.setItem('nf_snake_forge_best',String(best)); }catch(e){} bestEl.textContent=best; }
-    finalEl.innerHTML='Счёт: <b class="text-lime">'+score+'</b> &nbsp;·&nbsp; Рекорд: <b class="text-blu">'+best+'</b>';
-    overEl.classList.remove('hidden');
+    dead = true;
+    var best = mode==='A' ? bestA : bestB;
+    if (score > best){
+      if (mode==='A') bestA = score; else bestB = score;
+      try { localStorage.setItem('nf_snake_'+mode, String(score)); } catch(e){}
+    }
+    bigMsg.innerHTML = 'GAME<br>OVER';
+    bigMsg.classList.add('on');
+  }
+  function setDir(x,y){
+    if (dir.x === -x && dir.y === -y) return; // разворот запрещён
+    nextDir = {x:x, y:y};
   }
 
+  // управление: кнопки крестовины
+  document.querySelectorAll('.dbtn[data-dir]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (dead || paused) return;
+      var d = this.getAttribute('data-dir').split(',');
+      setDir(parseInt(d[0],10), parseInt(d[1],10));
+    });
+  });
+  window.addEventListener('keydown', function(e){
+    var m = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0],
+              w:[0,-1], s:[0,1], a:[-1,0], d:[1,0] };
+    if (e.key in m){ e.preventDefault(); if (!dead && !paused) setDir(m[e.key][0], m[e.key][1]); }
+    if (e.key === 'p' || e.key === 'P' || e.key === 'з' || e.key === 'З') togglePause();
+  });
+  // свайпы по экрану
+  var tsx=0, tsy=0;
+  cv.addEventListener('touchstart', function(e){
+    var t = e.touches[0]; tsx=t.clientX; tsy=t.clientY;
+  }, {passive:true});
+  cv.addEventListener('touchend', function(e){
+    if (dead || paused) return;
+    var t = e.changedTouches[0], dx=t.clientX-tsx, dy=t.clientY-tsy;
+    if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return;
+    if (Math.abs(dx) > Math.abs(dy)) setDir(dx>0?1:-1, 0);
+    else setDir(0, dy>0?1:-1);
+  }, {passive:true});
+
+  var pauseBtn = document.getElementById('btnPause');
   function togglePause(){
-    if(state==='run'){ state='paused'; pauseEl.classList.remove('hidden'); }
-    else if(state==='paused'){ state='run'; pauseEl.classList.add('hidden'); tPrev=performance.now(); }
+    if (dead) return;
+    paused = !paused;
+    pauseBtn.textContent = paused ? 'ДАЛЕЕ' : 'ПАУЗА';
+    if (paused){ bigMsg.innerHTML = 'PAUSE'; bigMsg.classList.add('on'); }
+    else bigMsg.classList.remove('on');
   }
+  pauseBtn.addEventListener('click', togglePause);
 
-  function draw(time){
-    ctx.clearRect(0,0,W,W);
-    // фон и сетка
-    ctx.fillStyle='#07070F'; ctx.fillRect(0,0,W,W);
-    ctx.strokeStyle='rgba(124,92,255,.09)'; ctx.lineWidth=1;
-    ctx.beginPath();
-    for(let i=1;i<N;i++){ ctx.moveTo(i*cell,0); ctx.lineTo(i*cell,W); ctx.moveTo(0,i*cell); ctx.lineTo(W,i*cell); }
-    ctx.stroke();
-    // еда — пульсирующий неон
-    if(food){
-      const r=cell*0.34+Math.sin(time*6)*cell*0.06;
-      ctx.shadowColor='#C6FF4D'; ctx.shadowBlur=16;
-      ctx.fillStyle='#C6FF4D';
-      ctx.beginPath(); ctx.arc(food.x*cell+cell/2, food.y*cell+cell/2, r, 0, Math.PI*2); ctx.fill();
-      ctx.shadowBlur=0;
+  var btnA = document.getElementById('btnA'), btnB = document.getElementById('btnB');
+  function setMode(m){
+    mode = m;
+    btnA.classList.toggle('mode-on', m==='A');
+    btnB.classList.toggle('mode-on', m==='B');
+    reset();
+  }
+  btnA.addEventListener('click', function(){ setMode('A'); });
+  btnB.addEventListener('click', function(){ setMode('B'); });
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden && !dead && !paused) togglePause();
+  });
+
+  function draw(){
+    // фон LCD
+    ctx.fillStyle = LCD_BG; ctx.fillRect(0,0,W,H);
+    // призрачные сегменты — вся сетка
+    ctx.fillStyle = GHOST;
+    for (var x=0;x<COLS;x++) for (var y=0;y<ROWS;y++){
+      ctx.fillRect(x*CELL+2, y*CELL+2, CELL-4, CELL-4);
     }
+    // рамка поля (тонкая, наследие LCD)
+    ctx.strokeStyle = 'rgba(58,68,54,.3)'; ctx.lineWidth = 1;
+    ctx.strokeRect(.5,.5,W-1,H-1);
+    // еда
+    ctx.fillStyle = PIX;
+    ctx.fillRect(food.x*CELL+2, food.y*CELL+2, CELL-4, CELL-4);
     // змейка
-    for(let i=snake.length-1;i>=0;i--){
-      const s=snake[i], k=i/Math.max(1,snake.length-1);
-      const col=i===0?'#C6FF4D':'rgb('+Math.round(91+49*(1-k))+','+Math.round(140-48*(1-k))+','+Math.round(255)+')';
-      ctx.shadowColor=col; ctx.shadowBlur=i===0?14:8;
-      ctx.fillStyle=col;
-      const pad=cell*0.1;
-      ctx.beginPath();
-      if(ctx.roundRect) ctx.roundRect(s.x*cell+pad, s.y*cell+pad, cell-pad*2, cell-pad*2, cell*0.28);
-      else ctx.rect(s.x*cell+pad, s.y*cell+pad, cell-pad*2, cell-pad*2);
-      ctx.fill();
-    }
-    ctx.shadowBlur=0;
-    // глаза
-    if(snake.length){
-      const h=snake[0];
-      ctx.fillStyle='#05050A';
-      const cx=h.x*cell+cell/2, cy=h.y*cell+cell/2, e=cell*0.12;
-      const ox=dir.y!==0?cell*0.18:0, oy=dir.x!==0?cell*0.18:0;
-      ctx.beginPath(); ctx.arc(cx-dir.x*cell*0.15+ox, cy-dir.y*cell*0.15+oy, e, 0, Math.PI*2);
-      ctx.arc(cx-dir.x*cell*0.15-ox, cy-dir.y*cell*0.15-oy, e, 0, Math.PI*2); ctx.fill();
+    for (var i=0;i<snake.length;i++){
+      var s = snake[i];
+      ctx.fillRect(s.x*CELL+1, s.y*CELL+1, CELL-2, CELL-2);
+      if (i===0){ // глаза-прорези как на LCD
+        ctx.fillStyle = LCD_BG;
+        ctx.fillRect(s.x*CELL+4, s.y*CELL+5, 3, 3);
+        ctx.fillRect(s.x*CELL+CELL-7, s.y*CELL+5, 3, 3);
+        ctx.fillStyle = PIX;
+      }
     }
   }
 
-  function loop(t){
+  var last = performance.now();
+  function loop(now){
     requestAnimationFrame(loop);
-    if(document.hidden){ tPrev=t; return; }
-    let dt=(t-tPrev)/1000; tPrev=t;
-    if(dt>0.1) dt=0.1;
-    pulse=t/1000;
-    if(state==='run'){
-      acc+=dt*1000;
-      let guard=0;
-      while(acc>=stepTime()&&state==='run'&&guard++<4){ acc-=stepTime(); tick(); }
+    var dt = Math.min(.1, (now-last)/1000); last = now;
+    if (document.hidden) return;
+    if (!dead && !paused){
+      acc += dt;
+      var stepTime = SPEED[mode];
+      while (acc >= stepTime){ acc -= stepTime; if (!dead) step(); }
     }
-    draw(pulse);
+    draw();
   }
-
-  addEventListener('keydown',e=>{
-    const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
-               KeyW:'up',KeyS:'down',KeyA:'left',KeyD:'right'};
-    if(map[e.code]){ e.preventDefault(); setDir(map[e.code]); }
-    if(e.code==='KeyP'){ e.preventDefault(); if(state==='run'||state==='paused') togglePause(); }
-    if(e.code==='Space'&&state==='dead'){ e.preventDefault(); reset(); }
-  });
-
-  document.querySelectorAll('.dpad').forEach(b=>{
-    b.addEventListener('pointerdown',e=>{ e.preventDefault(); setDir(b.dataset.dir); });
-  });
-
-  // свайпы по полю
-  let sx=0, sy=0;
-  cv.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
-  cv.addEventListener('touchend',e=>{
-    const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
-    if(Math.abs(dx)<24&&Math.abs(dy)<24){ if(state==='ready') reset(); return; }
-    setDir(Math.abs(dx)>Math.abs(dy) ? (dx>0?'right':'left') : (dy>0?'down':'up'));
-  },{passive:true});
-  cv.addEventListener('pointerdown',()=>{ if(state==='ready') reset(); });
-
-  pauseBtn.addEventListener('click',()=>{ if(state==='run'||state==='paused') togglePause(); });
-  restartBtn.addEventListener('click',reset);
-  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tPrev=performance.now(); });
-
-  draw(0);
+  reset();
   requestAnimationFrame(loop);
 })();
 </script>
