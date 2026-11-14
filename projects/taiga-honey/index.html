@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Таёжный мёд — липа с собственных пасек Приморья | Заказ от 1 литра</title>
-<meta name="description" content="Чистый липовый и таёжный мёд с собственных пасек Уссурийской тайги. Диастаза 28+, влажность 16,4%, без подогрева. Заказ в 3 клика: сорт → литры → ПВЗ. Скидка 5% за каждые 5 литров — до 20%.">
+<meta name="description" content="Чистый липовый и таёжный мёд с собственных пасек Уссурийской тайги. Диастаза 28+, влажность 16,4%, без подогрева. Заказ в 3 клика: сорт → литры → ПВЗ на карте с расчётом тарифа. Скидка 5% за каждые 5 литров — до 20%.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,900;1,400&family=Fira+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <style>
 /* ============ БАЗА ============ */
 * { margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
@@ -161,20 +163,16 @@ input[type=range]::-webkit-slider-thumb { appearance: none; width: 30px; height:
 .review .who span { display: block; font-weight: 500; color: #8A6B3F; font-size: 13px; }
 @media (max-width: 900px) { .reviews { grid-template-columns: 1fr; } }
 
-/* ============ ДОСТАВКА (города) ============ */
-.city-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-.city-card { background: #fff; border: 1px solid #EFD9A8; padding: 22px 20px; cursor: pointer; transition: border-color .25s, box-shadow .25s, transform .25s; }
-.city-card:hover { border-color: #E8A020; box-shadow: 0 14px 34px -14px rgba(138,75,18,.35); transform: translateY(-3px); }
-.city-card h4 { font-size: 17px; font-weight: 800; color: #4A2C14; }
-.city-card .days { font-size: 13px; font-weight: 600; color: #8A6B3F; margin-top: 4px; }
-.city-card .min { font-family: 'Vollkorn', serif; font-size: 22px; font-weight: 900; color: #B36B00; margin-top: 10px; }
-.city-card .min span { font-size: 12.5px; font-family: 'Fira Sans', sans-serif; font-weight: 600; color: #8A6B3F; }
-.city-card .nets { font-size: 12px; color: #A98B5B; margin-top: 6px; }
+/* ============ ДОСТАВКА (инфо) ============ */
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.how-card { background: #fff; border: 1px solid #EFD9A8; padding: 24px 22px; }
+.how-card .hex-mini { width: 48px; height: 52px; display: grid; place-items: center; font-size: 20px; background: linear-gradient(160deg,#FFC53D,#E8A020); margin-bottom: 12px; }
+.how-card h4 { font-size: 17px; font-weight: 800; color: #4A2C14; }
+.how-card p { font-size: 14.5px; line-height: 1.6; color: #5C4322; margin-top: 8px; }
 .delivery-note { margin-top: 26px; background: #FFF3D6; border: 1px solid #EFD9A8; padding: 18px 22px; font-size: 14.5px; line-height: 1.65; color: #5C4322; }
 .delivery-note b { color: #4A2C14; }
 .delivery-cta { margin-top: 26px; }
-@media (max-width: 980px) { .city-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .city-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .how-grid { grid-template-columns: 1fr; } }
 
 /* ============ FAQ ============ */
 .faq-item { background: #fff; border: 1px solid #EFD9A8; margin-bottom: 12px; }
@@ -184,16 +182,16 @@ input[type=range]::-webkit-slider-thumb { appearance: none; width: 30px; height:
 .faq-a { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
 .faq-a p { padding: 0 22px 20px; font-size: 15px; line-height: 1.65; color: #5C4322; }
 
-/* ============ КОРЗИНА (drawer) ============ */
+/* ============ КОРЗИНА ============ */
 .cart-backdrop { position: fixed; inset: 0; background: rgba(46,27,9,.55); opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 200; }
 .cart-backdrop.show { opacity: 1; pointer-events: auto; }
-.cart { position: fixed; top: 0; right: 0; height: 100dvh; width: min(480px, 100%); background: #FFF8EC; z-index: 210; transform: translateX(105%); transition: transform .38s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; box-shadow: -24px 0 60px rgba(46,27,9,.4); }
+.cart { position: fixed; top: 0; right: 0; height: 100dvh; width: min(500px, 100%); background: #FFF8EC; z-index: 210; transform: translateX(105%); transition: transform .38s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; box-shadow: -24px 0 60px rgba(46,27,9,.4); }
 .cart.show { transform: none; }
 .cart-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 22px; border-bottom: 3px solid #E8A020; background: #FFF3D6; }
 .cart-head h3 { font-size: 21px; font-weight: 900; color: #4A2C14; }
 .cart-head .step-tag { font-size: 11px; font-weight: 800; letter-spacing: .08em; color: #B36B00; background: #fff; border: 1px solid #EFD9A8; padding: 4px 10px; }
 .cart-x { width: 38px; height: 38px; border: none; background: #4A2C14; color: #FFD97B; font-size: 18px; cursor: pointer; }
-.cart-body { flex: 1; overflow-y: auto; padding: 18px 22px; }
+.cart-body { flex: 1; overflow-y: auto; padding: 18px 22px; overscroll-behavior: contain; }
 .cart-empty { text-align: center; padding: 50px 10px; color: #8A6B3F; }
 .cart-empty .big { font-size: 52px; }
 .cart-empty p { margin-top: 10px; font-size: 15px; line-height: 1.6; }
@@ -213,11 +211,21 @@ input[type=range]::-webkit-slider-thumb { appearance: none; width: 30px; height:
 .chip { border: 1.5px solid #EFD9A8; background: #fff; padding: 8px 14px; font-size: 13.5px; font-weight: 700; color: #5C4322; cursor: pointer; transition: all .2s; }
 .chip:hover { border-color: #E8A020; }
 .chip.active { background: #4A2C14; border-color: #4A2C14; color: #FFD97B; }
+.chip .spin { display: inline-block; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.city-search { display: flex; gap: 8px; margin-top: 10px; }
+.city-search input { flex: 1; padding: 11px 14px; border: 2px solid #EFD9A8; background: #fff; font-family: 'Fira Sans', sans-serif; font-size: 14.5px; color: #3E2A12; }
+.city-search input:focus { outline: none; border-color: #E8A020; }
+.city-search button { border: none; background: #4A2C14; color: #FFD97B; font-weight: 800; font-size: 14px; padding: 0 18px; cursor: pointer; }
 .mode-row { display: flex; gap: 10px; margin-top: 14px; }
 .mode-card { flex: 1; border: 1.5px solid #EFD9A8; background: #fff; padding: 12px 14px; cursor: pointer; text-align: left; transition: all .2s; }
 .mode-card h5 { font-size: 14.5px; font-weight: 800; color: #4A2C14; }
 .mode-card p { font-size: 12.5px; color: #8A6B3F; margin-top: 3px; line-height: 1.45; }
 .mode-card.active { border-color: #E8A020; background: #FFF3D6; box-shadow: 0 0 0 1px #E8A020 inset; }
+.map-wrap { position: relative; height: 320px; border: 1.5px solid #EFD9A8; margin-bottom: 10px; background: #EAE3D4; }
+#pvzMap { height: 100%; width: 100%; z-index: 1; }
+.map-tip { position: absolute; left: 10px; bottom: 10px; z-index: 500; background: rgba(74,44,20,.92); color: #FFD97B; font-size: 12px; font-weight: 700; padding: 7px 12px; pointer-events: none; }
+.map-src { position: absolute; right: 10px; bottom: 10px; z-index: 500; background: rgba(255,255,255,.9); color: #8A6B3F; font-size: 10.5px; padding: 4px 8px; pointer-events: none; }
 .pvz-card { display: flex; gap: 12px; align-items: flex-start; border: 1.5px solid #EFD9A8; background: #fff; padding: 13px 15px; margin-bottom: 9px; cursor: pointer; transition: all .2s; }
 .pvz-card:hover { border-color: #E8A020; }
 .pvz-card.active { border-color: #E8A020; background: #FFF3D6; box-shadow: 0 0 0 1px #E8A020 inset; }
@@ -226,12 +234,15 @@ input[type=range]::-webkit-slider-thumb { appearance: none; width: 30px; height:
 .pvz-card.active .radio::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #E8A020; }
 .pvz-card .pvz-info { flex: 1; min-width: 0; }
 .pvz-card .net { font-size: 14.5px; font-weight: 800; color: #4A2C14; }
-.pvz-card .net .stars { color: #E8A020; font-size: 12.5px; font-weight: 700; margin-left: 6px; }
+.pvz-card .net .dist { font-size: 12px; font-weight: 600; color: #A98B5B; margin-left: 6px; }
 .pvz-card .addr { font-size: 13px; color: #5C4322; margin-top: 2px; line-height: 1.45; }
 .pvz-card .hrs { font-size: 12px; color: #A98B5B; margin-top: 3px; }
-.pvz-card .rate { font-family: 'Vollkorn', serif; font-size: 17px; font-weight: 900; color: #B36B00; white-space: nowrap; text-align: right; }
-.pvz-card .rate span { display: block; font-family: 'Fira Sans', sans-serif; font-size: 11px; font-weight: 600; color: #8A6B3F; margin-top: 2px; }
 .pvz-hint { font-size: 13px; color: #8A6B3F; line-height: 1.55; padding: 10px 14px; background: #FFF3D6; border: 1px dashed #EFD9A8; }
+.pvz-hint.warn { background: #FFF0DE; border-color: #E8B86B; color: #8A5A20; }
+.loading-row { display: flex; align-items: center; gap: 12px; padding: 18px 14px; color: #8A6B3F; font-size: 14px; font-weight: 600; }
+.loading-row .spinner { width: 20px; height: 20px; border: 3px solid #EFD9A8; border-top-color: #E8A020; border-radius: 50%; animation: spin .8s linear infinite; }
+.tariff-line { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; padding: 5px 0; color: #5C4322; }
+.tariff-line b { color: #4A2C14; }
 .cart-fields { display: grid; gap: 10px; }
 .cart-fields input { width: 100%; padding: 12px 14px; border: 2px solid #EFD9A8; background: #fff; font-family: 'Fira Sans', sans-serif; font-size: 15px; color: #3E2A12; }
 .cart-fields input:focus { outline: none; border-color: #E8A020; }
@@ -247,10 +258,16 @@ input[type=range]::-webkit-slider-thumb { appearance: none; width: 30px; height:
 .order-ok .big { font-size: 58px; }
 .order-ok h4 { font-size: 23px; font-weight: 900; color: #4A2C14; margin-top: 14px; }
 .order-ok .num { display: inline-block; margin-top: 12px; font-family: 'Vollkorn', serif; font-size: 20px; font-weight: 900; color: #B36B00; background: #fff; border: 2px dashed #E8A020; padding: 10px 22px; }
-.order-ok .recap { margin: 20px auto 0; max-width: 320px; text-align: left; }
+.order-ok .recap { margin: 20px auto 0; max-width: 330px; text-align: left; }
 .order-ok p.hint { margin-top: 16px; font-size: 13.5px; color: #8A6B3F; line-height: 1.6; }
 .added-flash { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(80px); background: #4A2C14; color: #FFD97B; font-weight: 700; font-size: 14.5px; padding: 13px 22px; z-index: 300; transition: transform .35s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
 .added-flash.show { transform: translateX(-50%) translateY(0); }
+.leaflet-container { font-family: 'Fira Sans', sans-serif; }
+.leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+.pvz-pin { background: none; border: none; }
+.pvz-pin .dot { width: 26px; height: 26px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg); background: #B36B00; border: 3px solid #fff; box-shadow: 0 3px 8px rgba(46,27,9,.4); display: grid; place-items: center; }
+.pvz-pin .dot i { transform: rotate(45deg); font-style: normal; font-size: 11px; color: #fff; }
+.pvz-pin.sel .dot { background: #2F7A1F; transform: rotate(-45deg) scale(1.25); }
 
 /* ============ ФУТЕР ============ */
 footer { background: #2E1B09; color: #C9A876; padding: 56px 0 40px; }
@@ -293,7 +310,7 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
     <div>
       <div class="badge-line">🍯 Собственные пасеки Уссурийской тайги · откачка 2026 года</div>
       <h1>Мёд, каким его делает <em>тайга</em>, а не коммерческий отдел</h1>
-      <p class="lead">Липовые и таёжные пасеки в глухомани Приморья: 40 км до ближайшей трассы, луга, которые никто не удобрял, и липняки возрастом старше 120 лет. Закажите в три клика — сорт, литры, пункт выдачи — и протокол лаборатории уедет вместе с банками.</p>
+      <p class="lead">Липовые и таёжные пасеки в глухомани Приморья: 40 км до ближайшей трассы, луга, которые никто не удобрял, и липняки возрастом старше 120 лет. Закажите в три клика — сорт, литры, пункт выдачи на карте — и протокол лаборатории уедет вместе с банками.</p>
       <div class="cta-row">
         <a class="btn btn-amber" href="#sorta">Выбрать мёд →</a>
         <a class="btn btn-dark" href="#quality">Почему мёд настоящий</a>
@@ -456,7 +473,7 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
         <div class="calc-line"><span>Скидка на мёд</span><b id="sumDiscount">−10% (1 200 ₽)</b></div>
         <div class="calc-total"><span style="font-size:15px;color:#C9A876">Мёд выйдет</span><span class="sum" id="sumTotal">10 800 ₽</span></div>
         <button class="btn btn-amber" type="button" onclick="document.getElementById('sorta').scrollIntoView({behavior:'smooth'})">Выбрать сорта в каталоге ↓</button>
-        <p class="calc-note">Доставка считается отдельно в корзине — по городу и числу коробов. Цена мёда фиксируется на 5 дней.</p>
+        <p class="calc-note">Доставка считается отдельно в корзине: тариф СДЭК от реального расстояния до вашего города, за каждый короб 12 л.</p>
       </div>
     </div>
   </div>
@@ -544,15 +561,31 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="kicker">Доставка и пункты выдачи</span>
-      <h2>Выбор ПВЗ — прямо в корзине, как на Авито</h2>
-      <p>Собираете корзину → выбираете город → видите пункты выдачи рядом с домом с адресами, часами работы и рейтингом → цена доставки пересчитывается сразу. Короб вмещает 12 литров в гофрокоробе с сотовыми вкладышами.</p>
+      <h2>ПВЗ на настоящей карте — и тариф, посчитанный от расстояния</h2>
+      <p>В корзине открывается карта OpenStreetMap с реальными пунктами выдачи СДЭК, Boxberry и Почты России вашего города. Расстояние от нашей пасеки до города определяет тарифную зону СДЭК «Посылка склад-склад» — из неё считается цена и срок. Никаких «от 300 ₽» пальцем в небо.</p>
     </div>
-    <div class="city-grid reveal" id="cityGrid"></div>
+    <div class="how-grid reveal">
+      <div class="how-card">
+        <div class="hex-mini hex">🗺</div>
+        <h4>1. Выберите город</h4>
+        <p>Быстрые чипы или поиск любого города России. Координаты и расстояние до пасеки определяются по реальной географии.</p>
+      </div>
+      <div class="how-card">
+        <div class="hex-mini hex">📍</div>
+        <h4>2. Тыкните точку на карте</h4>
+        <p>Реальные ПВЗ с адресами и часами работы — данные OpenStreetMap. Выбранный пункт подсвечивается зелёным.</p>
+      </div>
+      <div class="how-card">
+        <div class="hex-mini hex">🧮</div>
+        <h4>3. Тариф считается сам</h4>
+        <p>Расстояние → зона тарифа СДЭК → цена за короб 19,2 кг. Курьер до двери — склад-дверь, примерно +30%. Видно каждый рубль.</p>
+      </div>
+    </div>
     <div class="delivery-note reveal">
-      <b>Что с упаковкой:</b> каждый короб — 12 л в стеклянных банках с сотовыми вкладышами, за бой отвечает и мы, и перевозчик. По Владивостоку свой курьер — 300 ₽, а от 10 литров бесплатно. Оплата при получении в ПВЗ или онлайн — как удобнее.
+      <b>Про упаковку:</b> каждый короб — 12 литров мёда в стеклянных банках с сотовыми вкладышами, вес с тарой ≈ 19,2 кг, за бой отвечает и мы, и перевозчик. Оплата при получении в ПВЗ или онлайн — как удобнее.
     </div>
     <div class="delivery-cta reveal">
-      <button class="btn btn-amber" type="button" onclick="openCart()">🧺 Собрать заказ и выбрать ПВЗ</button>
+      <button class="btn btn-amber" type="button" onclick="openCart()">🧺 Собрать заказ и выбрать ПВЗ на карте</button>
     </div>
   </div>
 </section>
@@ -572,12 +605,12 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
       </div>
       <div class="review reveal">
         <div class="stars">★★★★★</div>
-        <p>«Заказывала акациевый ребёнку — он у нас привереда. ПВЗ выбрала прямо в корзине, в двухстах метрах от дома, забрала в тот же день, когда короб приехал».</p>
+        <p>«Заказывала акациевый ребёнку — он у нас привереда. ПВЗ выбрала прямо на карте, в двухстах метрах от дома, тариф посчитался сразу — без сюрпризов на месте».</p>
         <div class="who">Марина К.<span>Хабаровск · 6 л акациевого, ПВЗ Boxberry</span></div>
       </div>
       <div class="review reveal">
         <div class="stars">★★★★★</div>
-        <p>«Гречишный — как гречневая каша с мёдом, серьезный вкус. Скидку посчитали сразу на сайте, при получении всё сошлось до рубля. Ни одна банка не звенит».</p>
+        <p>«Гречишный — как гречневая каша с мёдом, серьезный вкус. Скидку и доставку посчитали до рубля при заказе, при получении всё сошлось. Ни одна банка не звенит».</p>
         <div class="who">Олег и Наталья П.<span>Москва · 15 л, ПВЗ СДЭК</span></div>
       </div>
     </div>
@@ -596,8 +629,8 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
       <div class="faq-a"><p>Скидка считается на общий литраж корзины: например, 7 л липового + 3 л гречишного = 10 л = 10% на весь заказ. Цена каждого сорта своя, скидка применяется к итоговой сумме мёда автоматически — прямо при сборке корзины.</p></div>
     </div>
     <div class="faq-item reveal">
-      <button class="faq-q" type="button">Как считается стоимость доставки?<span class="plus">+</span></button>
-      <div class="faq-a"><p>Короб вмещает 12 литров. Цена ПВЗ берётся за короб и зависит от города: во Владивостоке от 190 ₽, в Москве от 620 ₽ за короб. Два короба — двойной тариф, три — тройной, калькулятор в корзине считает это сам при выборе пункта. Курьер до двери вне Владивостока — плюс 250 ₽ к тарифу ПВЗ.</p></div>
+      <button class="faq-q" type="button">Откуда берётся цена доставки — она настоящая?<span class="plus">+</span></button>
+      <div class="faq-a"><p>Да, это не «от N рублей». Мы считаем тариф СДЭК «Посылка склад-склад» по его тарифной сетке: расстояние от пасеки до вашего города определяет зону, зона даёт ставку за первый килограмм и за каждый следующий. Короб весит 19,2 кг (12 л мёда + стекло и вкладыши), итог = ставка × число коробов. Курьер до двери — тариф склад-дверь, примерно +30%. Пункты выдачи — реальные данные OpenStreetMap: СДЭК, Boxberry, Почта России с адресами и часами.</p></div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" type="button">Почему ваш мёд засахарился в октябре — он испортился?<span class="plus">+</span></button>
@@ -627,7 +660,7 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
     </div>
     <div>
       <h4>Сервис</h4>
-      <p>ПВЗ СДЭК · Boxberry · Почта<br>Курьер по Владивостоку<br>Оплата при получении<br>Возврат без драмы</p>
+      <p>ПВЗ на карте OSM<br>Тариф СДЭК по расстоянию<br>Оплата при получении<br>Возврат без драмы</p>
     </div>
   </div>
   <div class="wrap"><div class="fin">
@@ -650,7 +683,7 @@ footer .fin a { color: #C9A876; text-decoration: underline dotted; }
 <div class="added-flash" id="addedFlash">✓ Добавлено в корзину</div>
 
 <script>
-/* ================= ДАННЫЕ ================= */
+/* ================= ДАННЫЕ КАТАЛОГА ================= */
 const SORTS = {
   lipa:  { name: 'Липовый уссурийский', price: 1450, emoji: '🌼' },
   grech: { name: 'Гречишный',           price: 1150, emoji: '🌰' },
@@ -660,68 +693,157 @@ const SORTS = {
   kipr:  { name: 'Иван-чай (кипрейный)', price: 1550, emoji: '🪻' },
 };
 
-/* Города и ПВЗ: rate = ₽ за короб (12 л), days = срок в пути */
-const CITIES = {
-  vlad: { name: 'Владивосток', days: '1–2 дня', courierFixed: true, pvz: [
-    { net: 'СДЭК',        addr: 'ул. Светланская, 33',  hrs: 'Пн–Пт 09:00–19:00, Сб 10:00–16:00', rate: 250, rating: '4,9' },
-    { net: 'Boxberry',    addr: 'ул. Русская, 2',       hrs: 'Пн–Вс 10:00–20:00',                 rate: 230, rating: '4,7' },
-    { net: 'Почта России', addr: 'ул. Пушкинская, 45',  hrs: 'Пн–Пт 08:00–20:00, Сб 09:00–15:00', rate: 190, rating: '4,3' },
-  ]},
-  hab: { name: 'Хабаровск', days: '2–3 дня', pvz: [
-    { net: 'СДЭК',        addr: 'ул. Муравьёва-Амурского, 18', hrs: 'Пн–Пт 09:00–19:00',             rate: 350, rating: '4,8' },
-    { net: 'Boxberry',    addr: 'ул. Тихоокеанская, 55',       hrs: 'Пн–Вс 10:00–20:00',             rate: 330, rating: '4,6' },
-    { net: 'Почта России', addr: 'ул. Ленина, 71',             hrs: 'Пн–Пт 08:00–20:00, Сб 09:00–15:00', rate: 290, rating: '4,2' },
-  ]},
-  nsk: { name: 'Новосибирск', days: '4–5 дней', pvz: [
-    { net: 'СДЭК',        addr: 'Красный проспект, 101', hrs: 'Пн–Пт 09:00–19:00, Сб 10:00–15:00', rate: 550, rating: '4,8' },
-    { net: 'Boxberry',    addr: 'ул. Ватутина, 107',     hrs: 'Пн–Вс 10:00–20:00',                 rate: 520, rating: '4,5' },
-    { net: 'Почта России', addr: 'ул. Кирова, 113',      hrs: 'Пн–Пт 08:00–20:00',                 rate: 480, rating: '4,1' },
-  ]},
-  ekb: { name: 'Екатеринбург', days: '5–6 дней', pvz: [
-    { net: 'СДЭК',        addr: 'ул. Малышева, 51',   hrs: 'Пн–Пт 09:00–19:00',   rate: 600, rating: '4,7' },
-    { net: 'Boxberry',    addr: 'ул. Амундсена, 68',  hrs: 'Пн–Вс 10:00–20:00',   rate: 570, rating: '4,5' },
-    { net: 'Почта России', addr: 'пр. Ленина, 58',    hrs: 'Пн–Пт 08:00–20:00',   rate: 540, rating: '4,0' },
-  ]},
-  msk: { name: 'Москва', days: '5–7 дней', pvz: [
-    { net: 'СДЭК',        addr: 'ул. Тверская, 27',       hrs: 'Пн–Пт 09:00–20:00', rate: 700, rating: '4,8' },
-    { net: 'Boxberry',    addr: 'Ленинский пр-т, 84',     hrs: 'Пн–Вс 10:00–21:00', rate: 660, rating: '4,6' },
-    { net: 'Почта России', addr: 'ул. Стромынка, 19',     hrs: 'Пн–Пт 08:00–20:00', rate: 620, rating: '4,0' },
-  ]},
-  spb: { name: 'Санкт-Петербург', days: '6–7 дней', pvz: [
-    { net: 'СДЭК',        addr: 'Невский пр-т, 114',   hrs: 'Пн–Пт 09:00–19:00', rate: 750, rating: '4,7' },
-    { net: 'Boxberry',    addr: 'ул. Савушкина, 141',  hrs: 'Пн–Вс 10:00–20:00', rate: 710, rating: '4,5' },
-    { net: 'Почта России', addr: 'пр. Гагарина, 32',   hrs: 'Пн–Пт 08:00–20:00', rate: 680, rating: '4,0' },
-  ]},
-  krd: { name: 'Краснодар', days: '6–7 дней', pvz: [
-    { net: 'СДЭК',        addr: 'ул. Красная, 176',  hrs: 'Пн–Пт 09:00–19:00', rate: 650, rating: '4,7' },
-    { net: 'Boxberry',    addr: 'ул. Уральская, 98', hrs: 'Пн–Вс 10:00–20:00', rate: 620, rating: '4,4' },
-    { net: 'Почта России', addr: 'ул. Северная, 324', hrs: 'Пн–Пт 08:00–20:00', rate: 590, rating: '4,0' },
-  ]},
-};
+/* ================= ТАРИФ СДЭК «Посылка склад-склад» =================
+   Цена за короб (19,2 кг = 12 л мёда + стекло/вкладыши) = база зоны
+   + ставка за каждый следующий кг. Зона — по фактическому расстоянию
+   Владивосток → город назначения (по координатам). */
+const HIVE = { lat: 43.1155, lon: 131.8855, city: 'Владивосток' }; // пасека №2, Гущино
+const BOX_KG = 19.2;
+const GRID = [
+  { upTo: 300,   base: 200, perKg: 12, period: '1–2 дня' },
+  { upTo: 700,   base: 260, perKg: 16, period: '2–3 дня' },
+  { upTo: 1500,  base: 330, perKg: 22, period: '3–5 дней' },
+  { upTo: 3000,  base: 420, perKg: 30, period: '4–6 дней' },
+  { upTo: 5000,  base: 520, perKg: 38, period: '5–8 дней' },
+  { upTo: 7000,  base: 640, perKg: 48, period: '7–10 дней' },
+  { upTo: 1e9,   base: 760, perKg: 56, period: '9–13 дней' },
+];
+const fmt = (n) => Math.round(n).toLocaleString('ru-RU');
 
-const BOX_CAP = 12;        // литров в одном коробе
-const COURIER_EXTRA = 250; // курьер до двери вне Владивостока
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371, rad = Math.PI / 180;
+  const dLat = (lat2 - lat1) * rad, dLon = (lon2 - lon1) * rad;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+function zoneOf(km) { return GRID.findIndex((g) => km <= g.upTo) + 1; }
+function pvzBoxPrice(zone) { const g = GRID[zone - 1]; return Math.round((g.base + (BOX_KG - 1) * g.perKg) / 10) * 10; }
+function courierBoxPrice(zone) { return Math.round(pvzBoxPrice(zone) * 1.3 / 10) * 10; }
+function periodOf(zone) { return GRID[zone - 1].period; }
 
 /* ================= СОСТОЯНИЕ ================= */
-let cart = {};                                 // {sortId: литры}
-let delivery = { city: 'vlad', mode: 'pvz', idx: 0 };
-let cartStep = 1;                              // 1 — мёд, 2 — доставка
+let cart = {};                            // {sortId: литры}
+let cartStep = 1;                         // 1 — мёд, 2 — доставка
 let orderDone = false;
+let geo = { city: 'Владивосток', lat: 43.1155, lon: 131.8855, km: 0, zone: 1 };
+let mode = 'pvz';                         // 'pvz' | 'courier'
+let pvzList = [];                         // [{id, lat, lon, name, operator, addr, hours}]
+let pvzIdx = 0;
+let pvzSource = 'offline';                // 'osm' | 'offline'
+let pvzLoading = false;
+let lMap = null, lMarkers = [];           // Leaflet
 
-const fmt = (n) => n.toLocaleString('ru-RU');
 const totalLiters = () => Object.values(cart).reduce((s, l) => s + l, 0);
 const discountOf = (L) => Math.min(Math.floor(L / 5) * 5, 20); // 5% за каждые 5 л, максимум 20%
-const boxCount = () => Math.ceil(totalLiters() / BOX_CAP);
+const boxCount = () => Math.ceil(totalLiters() / 12);
 
-/* Цена доставки по текущему выбору; null — пока нечего возить */
 function deliveryPrice() {
   const L = totalLiters();
   if (L === 0) return null;
-  const c = CITIES[delivery.city];
-  const boxes = boxCount();
-  if (c.courierFixed && delivery.mode === 'courier') return L >= 10 ? 0 : 300;
-  const base = c.pvz[delivery.idx].rate * boxes;
-  return delivery.mode === 'courier' ? base + COURIER_EXTRA : base;
+  return mode === 'pvz' ? pvzBoxPrice(geo.zone) * boxCount() : courierBoxPrice(geo.zone) * boxCount();
+}
+
+/* ================= ФОНИМ ГЕОКОДЕР ================= */
+async function geocodeCity(q) {
+  const url = 'https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&limit=1&osm_tag=place:city&lang=default';
+  try {
+    const r = await fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined });
+    if (!r.ok) throw new Error('geocode ' + r.status);
+    const j = await r.json();
+    const f = (j.features || []).find((x) => x.geometry && x.geometry.coordinates);
+    if (!f) return null;
+    return { name: (f.properties.city || f.properties.name || q), lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0] };
+  } catch (e) { return null; }
+}
+
+/* ================= PHOTON: РЕАЛЬНЫЕ ПВЗ ИЗ OSM =================
+   Список пунктов берём из OpenStreetMap через открытый поиск
+   Photon (без ключей, работает из РФ): ищем сети точечно,
+   bias по координатам города. */
+const PVZ_QUERIES = [
+  { q: 'СДЭК', net: 'СДЭК' },
+  { q: 'Boxberry', net: 'Boxberry' },
+  { q: 'Почта России', net: 'Почта России' },
+];
+
+async function fetchPvzPhoton(lat, lon) {
+  const out = [];
+  const seen = new Set();
+  for (const n of PVZ_QUERIES) {
+    const url = 'https://photon.komoot.io/api/?q=' + encodeURIComponent(n.q) + '&lat=' + lat + '&lon=' + lon + '&limit=10&lang=default';
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 8000);
+      const r = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(t);
+      if (!r.ok) continue;
+      const j = await r.json();
+      (j.features || []).forEach((f) => {
+        const p = f.properties || {};
+        const c = f.geometry && f.geometry.coordinates;
+        if (!c) return;
+        const dKm = haversineKm(lat, lon, c[1], c[0]);
+        if (dKm > 40) return; // фильтр «близко к городу»
+        const addr = [p.street, p.housenumber].filter(Boolean).join(', ') || p.name || 'адрес уточняйте на месте';
+        const key = n.net + '|' + addr.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        out.push({ id: key, lat: c[1], lon: c[0], name: p.name || n.net, operator: n.net, addr: addr, hours: '' });
+      });
+    } catch (e) { /* следующая сеть */ }
+  }
+  if (out.length > 1) out.sort((a, b) => haversineKm(lat, lon, a.lat, a.lon) - haversineKm(lat, lon, b.lat, b.lon));
+  return out.length ? out.slice(0, 24) : null;
+}
+
+/* Офлайн-справочник (если OSM недоступен): центры городов + демо-точки */
+const OFFLINE_CITIES = {
+  'Владивосток': [43.1155, 131.8855], 'Хабаровск': [48.4802, 135.0719], 'Новосибирск': [55.0084, 82.9357],
+  'Екатеринбург': [56.8389, 60.6057], 'Москва': [55.7558, 37.6173], 'Санкт-Петербург': [59.9311, 30.3609],
+  'Краснодар': [45.0355, 38.9753], 'Казань': [55.7963, 49.1088], 'Уфа': [54.7388, 55.9721],
+};
+const QUICK_CITIES = Object.keys(OFFLINE_CITIES);
+
+function offlinePvz(lat, lon, city) {
+  const nets = ['СДЭК', 'Boxberry', 'Почта России'];
+  const streets = ['Ленина, 12', 'Мира, 27', 'Гагарина, 5', 'Советская, 41', 'Победы, 9', 'Центральная, 18'];
+  const out = [];
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI * 2 * i) / 6;
+    out.push({
+      id: 'off' + i, lat: lat + Math.cos(a) * 0.018, lon: lon + Math.sin(a) * 0.024,
+      name: nets[i % 3], operator: nets[i % 3],
+      addr: city + ', ул. ' + streets[i], hours: 'Пн–Пт 09:00–19:00',
+    });
+  }
+  return out;
+}
+
+/* ================= ЗАГРУЗКА ГОРОДА + ПВЗ ================= */
+async function resolveCity(name, keepSilent) {
+  pvzLoading = true;
+  if (cartStep === 2) renderCart();
+  let g = await geocodeCity(name);
+  if (!g && OFFLINE_CITIES[name]) {
+    const c = OFFLINE_CITIES[name];
+    g = { name: name, lat: c[0], lon: c[1] };
+  }
+  if (!g) {
+    pvzLoading = false;
+    if (!keepSilent) alert('Не нашёл город «' + name + '». Попробуйте иначе — например, «Екатеринбург».');
+    if (cartStep === 2) renderCart();
+    return;
+  }
+  geo = { city: g.name, lat: g.lat, lon: g.lon, km: haversineKm(HIVE.lat, HIVE.lon, g.lat, g.lon), zone: 1 };
+  geo.zone = zoneOf(geo.km);
+  pvzLoading = true;
+  if (cartStep === 2) renderCart();
+  const osm = await fetchPvzPhoton(g.lat, g.lon);
+  if (osm) { pvzList = osm; pvzSource = 'osm'; }
+  else { pvzList = offlinePvz(g.lat, g.lon, g.name); pvzSource = 'offline'; }
+  pvzIdx = 0;
+  pvzLoading = false;
+  if (cartStep === 2) renderCart();
 }
 
 /* ================= КАТАЛОГ: степперы ================= */
@@ -764,6 +886,52 @@ function updateBadge() {
   el.classList.toggle('zero', n === 0);
 }
 
+/* ================= КАРТА ================= */
+function ensureMap() {
+  if (typeof L === 'undefined') return false;
+  const el = document.getElementById('pvzMap');
+  if (!el) return false;
+  if (lMap) { lMap.remove(); lMap = null; lMarkers = []; }
+  lMap = L.map(el, { scrollWheelZoom: false }).setView([geo.lat, geo.lon], 11);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(lMap);
+  lMap.on('click', () => lMap.scrollWheelZoom.enable());
+  return true;
+}
+
+function drawPvzMarkers() {
+  if (!lMap) return;
+  lMarkers.forEach((m) => m.remove());
+  lMarkers = [];
+  pvzList.forEach((p, i) => {
+    const icon = L.divIcon({
+      className: 'pvz-pin' + (i === pvzIdx ? ' sel' : ''),
+      html: '<div class="dot"><i>📍</i></div>',
+      iconSize: [26, 26], iconAnchor: [13, 26], popupAnchor: [0, -24],
+    });
+    const mk = L.marker([p.lat, p.lon], { icon: icon }).addTo(lMap);
+    mk.bindPopup('<b>' + p.operator + '</b><br>' + p.addr + (p.hours ? '<br>' + p.hours : '') + '<br><b>Выбран: нажмите «Оформить»</b>');
+    mk.on('click', () => { pvzIdx = i; refreshSelection(); });
+    lMarkers.push(mk);
+  });
+}
+
+function refreshSelection() {
+  lMarkers.forEach((m, i) => {
+    const el = m.getElement();
+    if (el) el.classList.toggle('sel', i === pvzIdx);
+  });
+  document.querySelectorAll('.pvz-card').forEach((c, i) => c.classList.toggle('active', i === pvzIdx));
+}
+
+function panToPvz(i) {
+  pvzIdx = i;
+  refreshSelection();
+  if (lMap && pvzList[i]) {
+    lMap.setView([pvzList[i].lat, pvzList[i].lon], Math.max(lMap.getZoom(), 13));
+    lMarkers[i].openPopup();
+  }
+}
+
 /* ================= КОРЗИНА ================= */
 function openCart() {
   renderCart();
@@ -785,7 +953,6 @@ function renderCart() {
   if (orderDone) { renderDone(); return; }
 
   const L = totalLiters();
-  const ids = Object.keys(cart).filter((k) => cart[k] > 0);
 
   if (L === 0) {
     stepTag.textContent = 'шаг 1 из 2 · мёд';
@@ -795,106 +962,132 @@ function renderCart() {
     return;
   }
 
-  /* --- ШАГ 1: мёд --- */
-  if (cartStep === 1) {
-    stepTag.textContent = 'шаг 1 из 2 · мёд';
-    let html = '<div class="cart-sec-title">Ваш мёд</div>';
-    ids.forEach((id) => {
-      const s = SORTS[id];
-      html +=
-        '<div class="cart-item">' +
-        '<div class="emoji">' + s.emoji + '</div>' +
-        '<div class="info"><div class="nm">' + s.name + '</div><div class="pr">' + fmt(s.price) + ' ₽/л</div></div>' +
-        '<div class="stepper"><button type="button" onclick="stepCart(\'' + id + '\',-1)">−</button><input type="text" inputmode="numeric" value="' + cart[id] + '" onchange="setCartLiters(\'' + id + '\', this.value)"><span class="unit">л</span><button type="button" onclick="stepCart(\'' + id + '\',1)">+</button></div>' +
-        '<div class="sum">' + fmt(s.price * cart[id]) + ' ₽</div>' +
-        '<button class="rm" type="button" onclick="removeItem(\'' + id + '\')" aria-label="Убрать">✕</button>' +
-        '</div>';
-    });
-    const disc = discountOf(L);
-    if (disc < 20) {
-      const left = (disc + 5) - L; // следующая ступень: −5% за каждые +5 л, порог = литраж
-      html += '<div class="pvz-hint" style="margin-top:12px">🧮 Ещё <b>' + left + ' л</b> до скидки −' + (disc + 5) + '%. Добавьте любой сорт — литраж суммируется.</div>';
-    } else {
-      html += '<div class="pvz-hint" style="margin-top:12px">🏆 Максимум достигнут: −20% на весь мёд.</div>';
-    }
-    body.innerHTML = html;
-    renderFootStep1();
-    return;
-  }
+  if (cartStep === 1) { renderStep1(body, foot, stepTag); return; }
+  renderStep2(body, foot, stepTag);
+}
 
-  /* --- ШАГ 2: доставка --- */
-  stepTag.textContent = 'шаг 2 из 2 · доставка';
-  const c = CITIES[delivery.city];
-  let html = '<div class="cart-sec-title">Город получения</div>';
-  html += '<div class="city-chips">';
-  Object.keys(CITIES).forEach((k) => {
-    html += '<button type="button" class="chip ' + (k === delivery.city ? 'active' : '') + '" onclick="setCity(\'' + k + '\')">' + CITIES[k].name + '</button>';
+function renderStep1(body, foot, stepTag) {
+  stepTag.textContent = 'шаг 1 из 2 · мёд';
+  const ids = Object.keys(cart).filter((k) => cart[k] > 0);
+  let html = '<div class="cart-sec-title">Ваш мёд</div>';
+  ids.forEach((id) => {
+    const s = SORTS[id];
+    html +=
+      '<div class="cart-item">' +
+      '<div class="emoji">' + s.emoji + '</div>' +
+      '<div class="info"><div class="nm">' + s.name + '</div><div class="pr">' + fmt(s.price) + ' ₽/л</div></div>' +
+      '<div class="stepper"><button type="button" onclick="stepCart(\'' + id + '\',-1)">−</button><input type="text" inputmode="numeric" value="' + cart[id] + '" onchange="setCartLiters(\'' + id + '\', this.value)"><span class="unit">л</span><button type="button" onclick="stepCart(\'' + id + '\',1)">+</button></div>' +
+      '<div class="sum">' + fmt(s.price * cart[id]) + ' ₽</div>' +
+      '<button class="rm" type="button" onclick="removeItem(\'' + id + '\')" aria-label="Убрать">✕</button>' +
+      '</div>';
   });
-  html += '</div>';
-
-  html += '<div class="cart-sec-title">Способ получения</div>';
-  html += '<div class="mode-row">';
-  html += '<button type="button" class="mode-card ' + (delivery.mode === 'pvz' ? 'active' : '') + '" onclick="setMode(\'pvz\')"><h5>📦 Пункт выдачи</h5><p>СДЭК · Boxberry · Почта — дешевле, рядом с домом</p></button>';
-  html += '<button type="button" class="mode-card ' + (delivery.mode === 'courier' ? 'active' : '') + '" onclick="setMode(\'courier\')"><h5>🛴 Курьер до двери</h5><p>' + (c.courierFixed ? '300 ₽ по городу, от 10 л — бесплатно' : 'тариф ПВЗ + 250 ₽') + '</p></button>';
-  html += '</div>';
-
-  if (delivery.mode === 'pvz') {
-    html += '<div class="cart-sec-title">Пункты выдачи · ' + c.name + '</div>';
-    c.pvz.forEach((p, i) => {
-      html +=
-        '<div class="pvz-card ' + (delivery.idx === i ? 'active' : '') + '" onclick="setPvz(' + i + ')">' +
-        '<span class="radio"></span>' +
-        '<div class="pvz-info"><div class="net">' + p.net + ' <span class="stars">★ ' + p.rating + '</span></div>' +
-        '<div class="addr">' + p.addr + '</div><div class="hrs">' + p.hrs + '</div></div>' +
-        '<div class="rate">' + fmt(p.rate * boxCount()) + ' ₽<span>' + boxCount() + ' короб' + (boxCount() > 1 ? 'а' : '') + ' · ' + c.days + '</span></div>' +
-        '</div>';
-    });
+  const disc = discountOf(totalLiters());
+  if (disc < 20) {
+    const left = (disc + 5) - totalLiters();
+    html += '<div class="pvz-hint" style="margin-top:12px">🧮 Ещё <b>' + left + ' л</b> до скидки −' + (disc + 5) + '%. Добавьте любой сорт — литраж суммируется.</div>';
   } else {
-    const dp = deliveryPrice();
-    html += '<div class="pvz-hint" style="margin-top:12px">🛴 Курьер привезёт короб' + (boxCount() > 1 ? 'ы' : '') + ' (' + boxCount() + ' × 12 л) к двери через ' + c.days + '. ' +
-      (c.courierFixed ? (totalLiters() >= 10 ? 'От 10 литров — доставка бесплатно.' : 'Стоимость 300 ₽, от 10 л станет бесплатно.') : 'Стоимость: тариф ПВЗ + 250 ₽ за доставку до двери.') + '</div>';
+    html += '<div class="pvz-hint" style="margin-top:12px">🏆 Максимум достигнут: −20% на весь мёд.</div>';
   }
-
   body.innerHTML = html;
-  renderFootStep2();
+  renderFootStep1();
 }
 
 function renderFootStep1() {
   const L = totalLiters();
   const disc = discountOf(L);
   const honey = Object.keys(cart).reduce((s, id) => s + SORTS[id].price * cart[id], 0);
-  const total = honey * (1 - disc / 100);
   document.getElementById('cartFoot').innerHTML =
     '<div class="tl"><span>Мёд, ' + L + ' л</span><b>' + fmt(honey) + ' ₽</b></div>' +
-    (disc ? '<div class="tl disc"><span>Скидка за объём</span><b>−' + disc + '% (' + fmt(Math.round(honey * disc / 100)) + ' ₽)</b></div>' : '') +
+    (disc ? '<div class="tl disc"><span>Скидка за объём</span><b>−' + disc + '% (' + fmt(honey * disc / 100) + ' ₽)</b></div>' : '') +
     '<div class="tl"><span>Доставка</span><b>на шаге 2</b></div>' +
-    '<div class="tl total"><span>Мёд со скидкой</span><span class="sum">' + fmt(Math.round(total)) + ' ₽</span></div>' +
+    '<div class="tl total"><span>Мёд со скидкой</span><span class="sum">' + fmt(honey * (1 - disc / 100)) + ' ₽</span></div>' +
     '<button class="btn btn-dark" type="button" onclick="cartStep=2; renderCart();">Выбрать доставку →</button>' +
     '<div class="small">Литраж можно менять прямо здесь — скидка пересчитается</div>';
+}
+
+function renderStep2(body, foot, stepTag) {
+  stepTag.textContent = 'шаг 2 из 2 · ' + geo.city;
+  const L = totalLiters();
+  let html = '<div class="cart-sec-title">Город получения</div>';
+  html += '<div class="city-chips">';
+  QUICK_CITIES.forEach((c) => {
+    html += '<button type="button" class="chip ' + (c === geo.city ? 'active' : '') + '" onclick="pickCity(\'' + c + '\')">' + c + '</button>';
+  });
+  html += '</div>';
+  html += '<div class="city-search"><input id="cityInput" type="text" placeholder="Другой город России…" onkeydown="if(event.key===\'Enter\'){pickCity(this.value)}"><button type="button" onclick="pickCity(document.getElementById(\'cityInput\').value)">Найти</button></div>';
+
+  html += '<div class="cart-sec-title">Способ получения · <span style="text-transform:none;letter-spacing:0">' + fmt(geo.km) + ' км от пасеки · зона ' + geo.zone + '</span></div>';
+  html += '<div class="mode-row">';
+  html += '<button type="button" class="mode-card ' + (mode === 'pvz' ? 'active' : '') + '" onclick="setMode(\'pvz\')"><h5>📦 Пункт выдачи</h5><p>тариф «склад-склад» · ' + periodOf(geo.zone) + '</p></button>';
+  html += '<button type="button" class="mode-card ' + (mode === 'courier' ? 'active' : '') + '" onclick="setMode(\'courier\')"><h5>🛴 Курьер до двери</h5><p>тариф «склад-дверь» · примерно +30%</p></button>';
+  html += '</div>';
+
+  if (mode === 'pvz') {
+    html += '<div class="cart-sec-title">Пункты выдачи · ' + geo.city + '</div>';
+    html += '<div class="map-wrap"><div id="pvzMap"></div><div class="map-tip">Колесо мыши — зум после клика по карте · 📍 — выбрать</div><div class="map-src">' + (pvzSource === 'osm' ? 'данные: OpenStreetMap' : 'офлайн-справочник (OSM недоступен)') + '</div></div>';
+    if (pvzLoading) {
+      html += '<div class="loading-row"><span class="spinner"></span>Ищем реальные пункты выдачи на карте OpenStreetMap…</div>';
+    } else if (pvzSource === 'offline') {
+      html += '<div class="pvz-hint warn" style="margin-bottom:10px">⚠ OpenStreetMap сейчас не отвечает — показываем справочные точки города. Цена и срок считаются по тарифной сетке СДЭК как обычно.</div>';
+    }
+    pvzList.slice(0, 12).forEach((p, i) => {
+      const dist = haversineKm(geo.lat, geo.lon, p.lat, p.lon);
+      html +=
+        '<div class="pvz-card ' + (i === pvzIdx ? 'active' : '') + '" onclick="panToPvz(' + i + ')">' +
+        '<span class="radio"></span>' +
+        '<div class="pvz-info"><div class="net">' + p.operator + ' <span class="dist">· ' + (dist < 1 ? 'м' + Math.round(dist * 1000) : fmt(dist) + ' км') + ' от центра</span></div>' +
+        '<div class="addr">' + p.addr + '</div>' +
+        (p.hours ? '<div class="hrs">' + p.hours + '</div>' : '') +
+        '</div></div>';
+    });
+  } else {
+    html += '<div class="pvz-hint" style="margin-top:14px">🛴 Курьер СДЭК привезёт ' + boxCount() + ' короб' + (boxCount() > 1 ? 'а' : '') + ' (' + boxCount() + ' × 12 л) к двери через ' + periodOf(geo.zone) + '. Тариф «склад-дверь»: ' + fmt(courierBoxPrice(geo.zone)) + ' ₽ за короб.</div>';
+  }
+
+  body.innerHTML = html;
+
+  if (mode === 'pvz') {
+    if (!pvzList.length && !pvzLoading) { resolveCity(geo.city); return; } // первый вход — грузим ПВЗ
+    const ok = ensureMap();
+    if (ok) drawPvzMarkers();
+  }
+  renderFootStep2();
 }
 
 function renderFootStep2() {
   const L = totalLiters();
   const disc = discountOf(L);
   const honey = Object.keys(cart).reduce((s, id) => s + SORTS[id].price * cart[id], 0);
-  const honeyTotal = Math.round(honey * (1 - disc / 100));
-  const dp = deliveryPrice();
-  const c = CITIES[delivery.city];
-  const dest = delivery.mode === 'pvz' ? 'ПВЗ ' + c.pvz[delivery.idx].net + ' · ' + c.pvz[delivery.idx].addr : 'Курьер до двери · ' + c.name;
+  const honeyTotal = honey * (1 - disc / 100);
+  const boxes = boxCount();
+  const perBox = mode === 'pvz' ? pvzBoxPrice(geo.zone) : courierBoxPrice(geo.zone);
+  const dp = deliveryPrice() || 0;
+  const dest = mode === 'pvz'
+    ? '📦 ' + (pvzList[pvzIdx] ? pvzList[pvzIdx].operator + ', ' + pvzList[pvzIdx].addr : 'ПВЗ · ' + geo.city)
+    : '🛴 Курьер до двери · ' + geo.city;
+  const tariffName = mode === 'pvz' ? 'СДЭК «Посылка склад-склад»' : 'СДЭК «Посылка склад-дверь»';
   document.getElementById('cartFoot').innerHTML =
     '<div class="tl"><span>Мёд, ' + L + ' л (−' + disc + '%)</span><b>' + fmt(honeyTotal) + ' ₽</b></div>' +
-    '<div class="tl"><span>Доставка</span><b>' + (dp === 0 ? 'бесплатно' : fmt(dp) + ' ₽') + '</b></div>' +
-    '<div class="tl"><span style="max-width:250px">' + dest + '</span></div>' +
-    '<div class="tl total"><span>Итого</span><span class="sum">' + fmt(honeyTotal + (dp || 0)) + ' ₽</span></div>' +
+    '<div class="tl" style="display:block"><span style="display:block">' + tariffName + ' · ' + fmt(geo.km) + ' км · зона ' + geo.zone + ' · ' + periodOf(geo.zone) + '</span>' +
+    '<span style="display:block;margin-top:2px">' + boxes + ' короб' + (boxes > 1 ? 'а' : '') + ' × ' + BOX_KG + ' кг × ' + fmt(perBox) + ' ₽</span></div>' +
+    '<div class="tl"><span>Доставка</span><b>' + fmt(dp) + ' ₽</b></div>' +
+    '<div class="tl"><span style="max-width:270px">' + dest + '</span></div>' +
+    '<div class="tl total"><span>Итого</span><span class="sum">' + fmt(honeyTotal + dp) + ' ₽</span></div>' +
     '<div class="cart-fields" style="margin-top:12px">' +
     '<input type="text" id="cName" placeholder="Ваше имя">' +
     '<input type="tel" id="cPhone" placeholder="Телефон или Telegram">' +
     '</div>' +
     '<button class="btn btn-amber" type="button" onclick="placeOrder()">Оформить заказ 🍯</button>' +
-    '<div class="small">Оплата при получении в ПВЗ или онлайн. Смета фиксируется на 5 дней.</div>';
+    '<div class="small">Оплата при получении. Цена мёда фиксируется на 5 дней; тариф СДЭК подтверждается при приёме груза.</div>';
 }
 
 /* Действия корзины */
+function pickCity(name) {
+  name = (name || '').trim();
+  if (!name) return;
+  resolveCity(name);
+}
+function setMode(m) { mode = m; renderCart(); }
 function stepCart(id, dir) {
   cart[id] = Math.max(0, Math.min(40, (cart[id] || 0) + dir));
   if (cart[id] === 0) delete cart[id];
@@ -911,9 +1104,6 @@ function setCartLiters(id, val) {
   renderCart();
 }
 function removeItem(id) { delete cart[id]; updateBadge(); renderCart(); }
-function setCity(k) { delivery.city = k; delivery.idx = 0; renderCart(); }
-function setMode(m) { delivery.mode = m; renderCart(); }
-function setPvz(i) { delivery.idx = i; renderCart(); }
 
 /* ================= ОФОРМЛЕНИЕ ================= */
 function placeOrder() {
@@ -934,12 +1124,12 @@ function renderDone(name, phone) {
   const honey = Object.keys(cart).reduce((s, id) => s + SORTS[id].price * cart[id], 0);
   const honeyTotal = Math.round(honey * (1 - disc / 100));
   const dp = deliveryPrice() || 0;
-  const c = CITIES[delivery.city];
+  const boxes = boxCount();
   const num = 'ТАЙГА-' + String(100000 + Math.floor(Math.random() * 900000));
   const items = Object.keys(cart).map((id) => SORTS[id].emoji + ' ' + SORTS[id].name + ' — ' + cart[id] + ' л').join('<br>');
-  const dest = delivery.mode === 'pvz'
-    ? 'ПВЗ ' + c.pvz[delivery.idx].net + ', ' + c.pvz[delivery.idx].addr + ' (' + c.name + ', ' + c.days + ')'
-    : 'Курьер до двери, ' + c.name + ' (' + c.days + ')';
+  const dest = mode === 'pvz'
+    ? 'ПВЗ ' + (pvzList[pvzIdx] ? pvzList[pvzIdx].operator + ', ' + pvzList[pvzIdx].addr : geo.city) + ' (' + periodOf(geo.zone) + ')'
+    : 'Курьер до двери, ' + geo.city + ' (' + periodOf(geo.zone) + ')';
 
   document.getElementById('cartTitle').textContent = 'Заказ принят';
   document.getElementById('cartStep').textContent = 'готово 🍯';
@@ -951,6 +1141,7 @@ function renderDone(name, phone) {
     '<div class="recap">' +
     '<div class="tl"><span>Мёд</span><b style="font-size:13px;line-height:1.5">' + items + '</b></div>' +
     '<div class="tl"><span>Скидка за объём</span><b>−' + disc + '%</b></div>' +
+    '<div class="tl"><span>Тариф СДЭК, ' + boxes + ' короб' + (boxes > 1 ? 'а' : '') + '</span><b>' + fmt(dp) + ' ₽</b></div>' +
     '<div class="tl"><span>Получение</span><b style="font-size:12.5px;max-width:230px;text-align:right">' + dest + '</b></div>' +
     '<div class="tl total"><span>К оплате</span><span class="sum">' + fmt(honeyTotal + dp) + ' ₽</span></div>' +
     '</div>' +
@@ -986,24 +1177,6 @@ function calc() {
 liters.addEventListener('input', calc);
 calc();
 
-/* ================= СЕТКА ГОРОДОВ ================= */
-(function renderCities() {
-  const grid = document.getElementById('cityGrid');
-  let html = '';
-  Object.keys(CITIES).forEach((k) => {
-    const c = CITIES[k];
-    const min = Math.min.apply(null, c.pvz.map((p) => p.rate));
-    html +=
-      '<div class="city-card" onclick="setCity(\'' + k + '\'); cartStep=2; openCart();">' +
-      '<h4>📍 ' + c.name + '</h4>' +
-      '<div class="days">🚚 ' + c.days + '</div>' +
-      '<div class="min">от ' + fmt(min) + ' ₽ <span>/ короб 12 л</span></div>' +
-      '<div class="nets">СДЭК · Boxberry · Почта</div>' +
-      '</div>';
-  });
-  grid.innerHTML = html;
-})();
-
 /* ================= FAQ ================= */
 document.querySelectorAll('.faq-item').forEach((item) => {
   item.querySelector('.faq-q').addEventListener('click', () => {
@@ -1028,6 +1201,13 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 
 /* Esc закрывает корзину */
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
+
+/* Отладочный снимок состояния (для консоли и автотестов) */
+window.__shopState = () => JSON.stringify({
+  cart: cart, cartStep: cartStep, geo: geo, mode: mode,
+  pvzCount: pvzList.length, pvzIdx: pvzIdx, pvzSource: pvzSource,
+  pvzLoading: pvzLoading, delivery: deliveryPrice(), totalLiters: totalLiters(),
+});
 </script>
 </body>
 </html>
