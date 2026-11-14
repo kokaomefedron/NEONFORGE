@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="green">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Pro Screener — живой скринер Binance в реальном времени</title>
+    <meta name="description" content="Криптовалютный скринер в реальном времени: свечные графики по WebSocket, детектор объёмных всплесков, momentum, фильтры и пресеты. Данные Binance REST + WebSocket.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Lightweight Charts v5 (зафиксирована версия — в v5 API series через addSeries) -->
+    <script src="https://unpkg.com/lightweight-charts@5.3.0/dist/lightweight-charts.standalone.production.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== БАННЕР СЕТИ ==================== -->
+    <div class="net-banner" id="net-banner">
+        <span>⚠ Binance API недоступен — проверьте сеть. Показаны последние данные.</span>
+        <button id="net-retry" type="button">↻ Повторить</button>
+    </div>
+
+    <!-- ==================== TOP MOVERS ==================== -->
+    <div class="top-movers-bar">
+        <div class="movers-label">🔥 TOP MOVERS:</div>
+        <div class="movers-tape" id="top-movers-tape">
+            <span class="mover-item">Загрузка...</span>
+        </div>
+    </div>
+
+    <!-- ==================== ШАПКА ==================== -->
+    <header class="crypto-header">
+        <div class="logo">
+            <img src="logo.png" alt="Crypto Pro" class="logo-img"> CRYPTO<span class="highlight">PRO</span>
+        </div>
+
+        <div class="header-center">
+            <div class="presets-bar" id="presets-bar">
+                <button class="preset-btn" data-preset="pumps">🚀 Пампы TF</button>
+                <button class="preset-btn" data-preset="accum">📊 Накопление</button>
+                <button class="preset-btn" data-preset="volatile">⚡ Волатильность</button>
+                <button class="preset-btn" data-preset="fav">⭐ Избранное</button>
+                <button class="preset-btn active" data-preset="all">Все</button>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <!-- ПЕРЕКЛЮЧАТЕЛЬ ТЕМ -->
+            <div class="theme-selector">
+                <label>Тема:</label>
+                <select id="theme-select" class="theme-dropdown">
+                    <option value="green">🟢 Зелёный</option>
+                    <option value="purple">💜 Фиолетовый</option>
+                    <option value="cyan">🩵 Голубой</option>
+                    <option value="red">🔴 Красный</option>
+                    <option value="amber">💛 Янтарный</option>
+                    <option value="pink">🩷 Розовый</option>
+                </select>
+            </div>
+
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">⊞ Сетка</button>
+                <button class="view-btn" data-view="table">📋 Таблица</button>
+            </div>
+
+            <div class="alert-settings">
+                <label for="spike-threshold">VOL порог:</label>
+                <select id="spike-threshold" class="settings-select">
+                    <option value="2.0">2.0x</option>
+                    <option value="3.0" selected>3.0x</option>
+                    <option value="4.0">4.0x</option>
+                    <option value="5.0">5.0x</option>
+                </select>
+                <button id="audio-toggle-btn" class="audio-btn" title="Вкл/выкл звук алертов">
+                    🔊 <span id="audio-status-text">ON</span>
+                </button>
+            </div>
+
+            <div class="connection-status">
+                <span id="status-dot" class="status-dot"></span>
+                <span id="status-text" class="status-text">WS: --ms</span>
+            </div>
+
+            <button id="add-chart-btn" class="add-chart-btn">+ Добавить график</button>
+        </div>
+    </header>
+
+    <!-- ==================== ФИЛЬТРЫ ==================== -->
+    <div class="filters-bar" id="filters-bar">
+        <div class="filter-group">
+            <label>Изм. %:</label>
+            <select id="filter-change">
+                <option value="all">Все</option>
+                <option value="up">Только рост ▲</option>
+                <option value="down">Только падение ▼</option>
+                <option value="pump5">Памп > 5%</option>
+                <option value="dump5">Дамп > 5%</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Объём:</label>
+            <select id="filter-volume">
+                <option value="all">Все</option>
+                <option value="high">Высокий (> $1M)</option>
+                <option value="spike">VOL Spike активен</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Волатильность:</label>
+            <select id="filter-volatility">
+                <option value="all">Все</option>
+                <option value="high">Высокая (> 3%)</option>
+                <option value="extreme">Экстремальная (> 10%)</option>
+            </select>
+        </div>
+        <div class="filter-group rows-shown">
+            <span id="rows-shown">— монет</span>
+        </div>
+    </div>
+
+    <!-- ==================== СЕТКА ==================== -->
+    <main class="screener-grid active" id="grid-view"></main>
+
+    <!-- ==================== ТАБЛИЦА ==================== -->
+    <div class="table-view" id="table-view">
+        <div class="table-scroll">
+        <table class="screener-table">
+            <thead>
+                <tr>
+                    <th class="sortable" data-sort="symbol">Монета ⇅</th>
+                    <th class="sortable" data-sort="price">Цена ⇅</th>
+                    <th class="sortable" data-sort="change24">24h % ⇅</th>
+                    <th class="sortable" data-sort="changeTf">TF % ⇅</th>
+                    <th class="sortable" data-sort="volume24">Объём 24h ⇅</th>
+                    <th class="sortable" data-sort="volRatio">VOL Ratio ⇅</th>
+                    <th>Momentum</th>
+                    <th>Тренд 2.5ч</th>
+                    <th class="sortable" data-sort="trades24">Сделки ⇅</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+        </div>
+    </div>
+
+    <!-- ==================== ФУТЕР ==================== -->
+    <footer class="screener-footer">
+        <span>Данные: <b>Binance REST + WebSocket</b> · обновление метрик каждые 12 сек · свечи в реальном времени</span>
+        <span>Клик по строке таблицы или монете — график · <b>Esc</b> — закрыть окно</span>
+    </footer>
+
+    <!-- ==================== МОДАЛКА ВЫБОРА МОНЕТЫ ==================== -->
+    <div class="modal-overlay" id="coin-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Выберите монету</h3>
+                <button class="close-modal-btn" id="close-modal">&times;</button>
+            </div>
+            <input type="text" id="coin-search-input" placeholder="Поиск из всех пар USDT: BTC, TON, PEPE, WIF..." autocomplete="off">
+            <div class="coin-list" id="coin-list"></div>
+        </div>
+    </div>
+
+    <!-- ==================== ПРЕВЬЮ ГРАФИКА ==================== -->
+    <div class="chart-preview" id="chart-preview">
+        <div class="preview-header">
+            <span id="preview-title">BTC/USDT</span>
+            <div class="preview-tf" id="preview-tf">
+                <button data-tf="1m">1m</button><button data-tf="5m" class="active">5m</button><button data-tf="15m">15m</button><button data-tf="1h">1h</button><button data-tf="4h">4h</button>
+            </div>
+            <button id="preview-close">&times;</button>
+        </div>
+        <div class="preview-chart" id="preview-chart"></div>
+    </div>
+
+    <!-- ==================== ТОСТЫ АЛЕРТОВ ==================== -->
+    <div class="toast-stack" id="toast-stack"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
